@@ -47,7 +47,7 @@ jobs:
           rm -f assets/teacher-ref-recording.mp4
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add assets/audio assets/teacher-ref-recording.mp4
+          git add assets/audio
           git commit -m "feat: add OmniVoice teacher samples"
           git push origin HEAD:main
 
