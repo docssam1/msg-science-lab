@@ -1,0 +1,39 @@
+name: Import Science Lab once
+
+on:
+  push:
+    paths:
+      - ".github/workflows/import-science-lab.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  import:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out target repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Fetch Science Lab source
+        run: |
+          git clone --depth 1 https://github.com/docssam1/lete-on.git /tmp/lete-on
+
+      - name: Replace repository root with Science Lab product
+        run: |
+          find . -mindepth 1 -maxdepth 1 ! -name '.git' ! -name '.github' -exec rm -rf {} +
+          cp -a /tmp/lete-on/science-lab/. ./
+
+      - name: Commit imported product
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "No changes to import."
+            exit 0
+          fi
+          git commit -m "Import Science Lab product from lete-on"
+          git push origin HEAD:main
