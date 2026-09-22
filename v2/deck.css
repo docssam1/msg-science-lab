@@ -1,0 +1,117 @@
+/* 화면 수업 자료(가르치기·스스로 공부하기). 넓은 화면은 16:9 한 장, 좁은 화면은 한 줄로 읽기. */
+.dk { word-break: keep-all; overflow-wrap: anywhere; --t: #2F7D4F; --o: #EE8A23; --n: #1E3A78; --r: #E23B2E; min-height: 100vh; background: #16233d; color: #222; display: flex; flex-direction: column; }
+.dk-top { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; padding: 8px 16px; color: #dfe7f5; font-size: 14px; }
+.dk-top a { color: #dfe7f5; text-decoration: none; } .dk-top b { color: #fff; }
+.dk-mode { background: var(--o); color: #fff; border-radius: 12px; padding: 2px 10px; font-size: 12px; font-weight: 700; }
+.dk-self .dk-mode { background: var(--t); }
+.dk-phases { margin-left: auto; display: flex; gap: 4px; flex-wrap: wrap; }
+.dk-phases span { font-size: 12px; padding: 2px 8px; border-radius: 10px; background: rgba(255, 255, 255, .08); color: #b7c3d9; }
+.dk-phases span.on { background: #fff; color: var(--n); font-weight: 700; }
+.dk-stage-wrap { flex: 1; display: grid; place-items: center; padding: 4px 12px; min-height: 0; }
+.dk-stage { position: relative; background: #fff; width: min(100%, calc((100vh - 150px) * 16 / 9)); aspect-ratio: 16 / 9; container-type: inline-size; border-radius: 8px; overflow: hidden;
+  display: flex; flex-direction: column; padding: 3cqw 4.5cqw 2.2cqw; font-size: 1.9cqw; line-height: 1.55; box-shadow: 0 10px 40px rgba(0, 0, 0, .35); }
+.dk-stage::before { content: ''; position: absolute; left: 0; top: 0; right: 0; height: .9cqw; background: linear-gradient(90deg, var(--t) 0 70%, var(--o) 70%); }
+.dk-h { margin: 0 0 1.4cqw; font: 700 2.9cqw/1.2 var(--disp, sans-serif); color: var(--n); display: flex; align-items: center; gap: 1cqw; }
+.dk-h::before { content: ''; width: 1cqw; height: 2.6cqw; background: var(--o); border-radius: .3cqw; }
+.dk-body { flex: 1; min-height: 0; overflow: auto; }
+.dk-foot { display: flex; justify-content: space-between; font-size: 1.1cqw; color: #8a94a6; margin-top: 1cqw; }
+.dk-cover { display: flex; flex-direction: column; justify-content: center; height: 100%; }
+.dk-stage.cover { background: linear-gradient(120deg, var(--t) 0 55%, #fff 55%); }
+.dk-stage.cover .dk-body { display: grid; grid-template-columns: 1fr 1fr; gap: 3cqw; align-items: center; color: #fff; }
+.dk-stage.cover .dk-body:has(.dk-points) { grid-template-columns: 1fr; color: #222; }
+.dk-stage.cover:has(.dk-points) { background: #fff; }
+.dk-kick { margin: 0; font-size: 1.6cqw; opacity: .9; }
+.dk-bign { width: 9cqw; height: 9cqw; border-radius: 50%; background: #fff; color: var(--t); font: 700 5cqw/9cqw var(--disp, sans-serif); text-align: center; margin: 1.5cqw 0; }
+.dk-cover h1 { margin: 0; font: 700 5.4cqw/1.1 var(--disp, sans-serif); }
+.dk-stage.cover:has(.dk-points) h1 { color: var(--n); font-size: 3.6cqw; margin-bottom: 2cqw; }
+.dk-link { font-size: 1.7cqw; } .dk-link b { background: rgba(255, 255, 255, .2); padding: .2cqw .8cqw; border-radius: .5cqw; }
+.dk-art svg { width: 100%; height: auto; display: block; border-radius: .8cqw; }
+.dk-art.cover { box-shadow: 0 1cqw 3cqw rgba(0, 0, 0, .25); border-radius: 1cqw; overflow: hidden; }
+.dk-art.mid { max-width: 45cqw; margin: 0 auto 1cqw; }
+.dk-two { display: grid; grid-template-columns: 1fr 1fr; gap: 3cqw; align-items: center; }
+.dk-two.wide-art { grid-template-columns: 1.15fr 1fr; }
+.dk-q { font-size: 2.3cqw; font-weight: 600; margin: 0 0 1.5cqw; }
+.dk-big { font-size: 2.3cqw; }
+.dk-goal { font-size: 2.6cqw; font-weight: 700; color: var(--n); border-left: .8cqw solid var(--o); padding-left: 1.2cqw; }
+.dk-card { background: #EEF6F0; border-radius: 1cqw; padding: 1.5cqw 2cqw; } .dk-card h3 { margin: 0 0 .5cqw; color: var(--t); }
+.dk-sub { color: #5B6577; font-size: 1.6cqw; }
+.dk-tip { color: #1E6B8F; font-size: 1.8cqw; }
+.dk-ans { color: var(--r); font-weight: 700; font-size: 2.1cqw; background: #fff4f2; border-left: .6cqw solid var(--r); padding: .8cqw 1.4cqw; border-radius: .6cqw; margin: 1cqw 0; }
+.dk-teach .rv { visibility: hidden; } .dk-teach .rv.on { visibility: visible; animation: dkIn .35s ease-out; }
+@keyframes dkIn { from { opacity: 0; transform: translateY(.6cqw); } }
+.dk-tbl { width: 100%; border-collapse: collapse; font-size: 1.8cqw; margin: .5cqw 0; }
+.dk-tbl th, .dk-tbl td { border: 1px solid #b9c3d3; padding: .7cqw 1.1cqw; vertical-align: middle; }
+.dk-tbl th { background: #EEF6F0; white-space: nowrap; }
+.dk-tbl td .dk-ans { margin: 0; font-size: 1.8cqw; }
+.dk-tbl.note td { text-align: center; } .dk-tbl.note td span.rv.on { color: var(--r); font-weight: 700; }
+.dk-plan { list-style: none; padding: 0; margin: 0; counter-reset: p; }
+.dk-plan li { display: grid; grid-template-columns: 12cqw 6cqw 1fr; gap: 1.5cqw; align-items: center; padding: .7cqw 0; border-bottom: 1px dashed #cfd8e6; font-size: 1.8cqw; }
+.dk-plan b { background: var(--t); color: #fff; border-radius: .6cqw; text-align: center; padding: .3cqw 0; } .dk-plan span { color: var(--o); font-weight: 700; } .dk-plan em { font-style: normal; color: #445; }
+.dk-list { padding-left: 1.3em; margin: 0; } .dk-list p { margin: 0; font-weight: 600; }
+.dk-points { padding-left: 1.3em; } .dk-points li { margin: .6cqw 0; } .dk-points.big li { font-size: 2.4cqw; }
+.dk-teach .dk-points li.rv:not(.on) { visibility: hidden; }
+.dk-caution { border: 2px dashed var(--r); background: #fff6f5; border-radius: 1cqw; padding: 1cqw 2cqw; margin-top: 1.5cqw; font-size: 1.7cqw; }
+.dk-caution h3 { margin: 0; color: var(--r); font-size: 1.9cqw; } .dk-caution ul { margin: .3cqw 0 0; }
+.dk-rubric { font-size: 1.5cqw; color: var(--r); margin-top: 1cqw; }
+.dk-given { border: 1px solid #b9c3d3; border-radius: .6cqw; padding: .6cqw 1.2cqw; margin: .6cqw 0; font-size: 1.8cqw; }
+.dk-choices { list-style: none; padding: 0; margin: 1cqw 0; display: grid; gap: .6cqw; }
+.dk-choices button { all: unset; box-sizing: border-box; width: 100%; display: flex; gap: 1cqw; padding: .7cqw 1.2cqw; border: 1.5px solid #d6deea; border-radius: .8cqw; font-size: 1.9cqw; cursor: pointer; }
+.dk-self .dk-choices button:hover:not(:disabled) { border-color: var(--t); background: #f3faf5; }
+.dk-choices button.pick { border-color: var(--n); background: #eef2fb; }
+.dk-choices button.ok { border-color: var(--t); background: #e7f5ec; font-weight: 700; }
+.dk-choices button.no { border-color: var(--r); background: #fff0ee; text-decoration: line-through; }
+.dk-right { color: var(--t); } .dk-wrong { color: var(--r); }
+.dk-3d { height: 100%; min-height: 30cqw; }
+.dk-3d .stage3d { height: 100%; } .dk-3d canvas { max-height: 34cqw; }
+.dk-in { width: 100%; box-sizing: border-box; font: inherit; font-size: 1.9cqw; border: 1.5px solid #cfd8e6; border-radius: .8cqw; padding: .8cqw 1.2cqw; resize: vertical; }
+.dk-chk { margin: .8cqw 0; font: inherit; font-size: 1.6cqw; background: var(--t); color: #fff; border: 0; border-radius: .8cqw; padding: .6cqw 1.6cqw; cursor: pointer; }
+.dk-bar { display: flex; gap: 8px; align-items: center; justify-content: center; padding: 8px 12px; flex-wrap: wrap; }
+.dk-bar .btn { min-height: 44px; }
+.dk-count { color: #dfe7f5; font-size: 14px; min-width: 110px; text-align: center; }
+.dk-notes { background: #fffbe8; border-top: 4px solid var(--o); padding: 10px 16px; font-size: 15px; line-height: 1.5; }
+.dk-notes p { margin: 4px 0; font-weight: 600; color: #6b3d00; } .dk-notes small { color: #7a6a3a; }
+:fullscreen .dk-top, :fullscreen .dk-notes { display: none; }
+:fullscreen .dk-stage { width: min(100%, calc((100vh - 70px) * 16 / 9)); }
+/* 좁은 화면(휴대폰): 16:9 틀을 풀고 글자를 읽기 좋은 크기로 */
+@media (max-width: 760px) {
+  .dk-stage { width: 100%; aspect-ratio: auto; min-height: 60vh; font-size: 16px; padding: 22px 16px 12px; container-type: normal; }
+  .dk-stage * { font-size: inherit; }
+  .dk-h { font-size: 21px; margin-bottom: 12px; } .dk-h::before { width: 6px; height: 20px; }
+  .dk-q, .dk-big, .dk-goal { font-size: 17px; }
+  .dk-two, .dk-two.wide-art, .dk-stage.cover .dk-body { grid-template-columns: 1fr; gap: 14px; }
+  .dk-stage.cover { background: var(--t); } .dk-cover h1 { font-size: 30px; } .dk-bign { width: 60px; height: 60px; font: 700 28px/60px var(--disp, sans-serif); }
+  .dk-plan li { grid-template-columns: 70px 40px 1fr; } .dk-ans, .dk-in, .dk-chk, .dk-choices button, .dk-tbl { font-size: 15px; }
+  .dk-ans { padding: 8px 12px; border-left-width: 4px; } .dk-choices button { padding: 10px 12px; min-height: 44px; }
+  .dk-3d { min-height: 320px; } .dk-3d canvas { max-height: none; }
+  .dk-foot { font-size: 12px; } .dk-phases { display: none; }
+}
+.dk-stage.media .dk-body { overflow: hidden; }
+.dk-stage.media canvas { height: 25cqw !important; max-height: none; }
+.dk-stage.media .stage3d .cap { font-size: 1.7cqw; margin: .6cqw 0; min-height: 0; }
+.dk-stage.media .btn, .dk-stage.media button { font-size: 1.5cqw; min-height: 3.4cqw; padding: .3cqw 1.4cqw; }
+.dk-stage.media .lab-lbl, .dk-stage.media .lab3d-read, .dk-stage.media small { font-size: 1.3cqw; }
+.dk-stage.intro .dk-body p { font-size: 1.75cqw; margin: 0 0 .8cqw; }
+.dk-stage.dense .dk-body { font-size: 1.55cqw; line-height: 1.45; } .dk-stage.dense .dk-q { font-size: 1.8cqw; margin-bottom: .8cqw; }
+.dk-stage.dense .dk-choices { gap: .35cqw; margin: .6cqw 0; } .dk-stage.dense .dk-choices button { font-size: 1.6cqw; padding: .45cqw 1cqw; }
+.dk-stage.dense .dk-given { font-size: 1.5cqw; } .dk-stage.dense .dk-ans { font-size: 1.6cqw; }
+@media (max-width: 760px) { .dk-stage.media canvas { height: 300px !important; } .dk-stage.media .btn, .dk-stage.media button { font-size: 15px; min-height: 44px; } .dk-stage.media .dk-body { overflow: visible; } }
+@media (min-width: 761px) {
+  .dk-3d[data-mount=lab] { display: grid; grid-template-columns: 1fr 27cqw; column-gap: 2cqw; row-gap: .6cqw; align-content: start; }
+  .dk-3d[data-mount=lab] .lab3d { display: contents; }
+  .dk-3d[data-mount=lab] > *, .dk-3d[data-mount=lab] .lab3d > * { grid-column: 2; margin: 0; padding: 0; }
+  .dk-3d[data-mount=lab] canvas { grid-column: 1 !important; grid-row: 1 / span 8; height: 36cqw !important; border-radius: 1cqw; }
+  .dk-3d[data-mount=lab] .lab3d-read { grid-template-columns: repeat(3, 1fr); } .dk-3d[data-mount=lab] .lab-read b { font-size: 2.4cqw; }
+  .dk-3d[data-mount=lab] .lab3d-tip { font-size: 1.3cqw; min-height: 0; }
+  .dk-3d[data-mount=lab] .lab3d-btns .pour { min-height: 4cqw; font-size: 1.6cqw; }
+  .dk-3d[data-mount=lab] .lab-table { font-size: 1.2cqw; }
+}
+@media (max-width: 760px) {
+  .dk-stage.dense .dk-body, .dk-stage.intro .dk-body p, .dk-stage.dense .dk-given, .dk-stage.dense .dk-choices button, .dk-stage.dense .dk-ans { font-size: 15px; }
+  .dk-stage.dense .dk-q { font-size: 17px; } .dk-stage.dense .dk-choices { gap: 6px; } .dk-stage.dense .dk-choices button { padding: 10px 12px; }
+  .dk-stage.media .stage3d .cap { font-size: 16px; }
+}
+.dk-art img { width: 100%; display: block; border-radius: .8cqw; object-fit: cover; max-height: 34cqw; }
+.dk-art .bk-photo figcaption { font-size: 1.2cqw; color: #5B6577; margin-top: .4cqw; } .dk-art .bk-photo figcaption small { display: block; opacity: .8; }
+.dk-art .bk-photo2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1cqw; } .dk-art .bk-photo2 img { max-height: 22cqw; }
+.dk-stage.cover .dk-art.cover img { max-height: 40cqw; }
+@media (max-width: 760px) { .dk-art .bk-photo figcaption { font-size: 12px; } }

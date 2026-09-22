@@ -1,0 +1,34 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 560" width="400" height="560" fill="none" stroke="#1E3A78" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+  <!-- 선반 -->
+  <path d="M18 120h160M222 312h160M18 500h170" stroke-width="4"/>
+  <path d="M30 120v10M166 120v10M234 312v10M370 312v10M30 500v10M176 500v10"/>
+  <!-- 삼각 플라스크 -->
+  <path d="M52 40h24M58 40v26L36 110q-3 8 6 10h44q9-2 6-10L70 66V40"/>
+  <path d="M44 96h40" opacity=".6"/><circle cx="58" cy="104" r="3"/><circle cx="72" cy="100" r="2"/>
+  <!-- 비커 -->
+  <path d="M104 62h44l-4 6v48q0 4-4 4h-28q-4 0-4-4V68z"/>
+  <path d="M112 80h10M112 92h14M112 104h10" stroke-width="2"/>
+  <!-- 시험관 꽂이 -->
+  <path d="M232 262h140M240 262v48M364 262v48M232 286h140"/>
+  <path d="M262 206v62q0 8 7 8t7-8v-62M296 196v72q0 8 7 8t7-8v-72M330 214v54q0 8 7 8t7-8v-54"/>
+  <path d="M262 244h14M296 236h14M330 250h14" stroke-width="2" opacity=".7"/>
+  <!-- 말굽자석 -->
+  <path d="M60 200v44a40 40 0 0 0 80 0v-44h-20v44a20 20 0 0 1-40 0v-44z"/>
+  <path d="M60 212h20M120 212h20" stroke-width="2"/>
+  <path d="M68 180l-6-10M100 176v-12M132 180l6-10" stroke-width="2" opacity=".7"/>
+  <!-- 현미경 -->
+  <path d="M250 150h70M266 150v-12h40v12M300 138l-20-56M272 96l16-8M286 60l12 30-10 4-12-30zM276 60h20M306 120a26 26 0 0 0-10-40"/>
+  <!-- 둥근 플라스크 + 스탠드 -->
+  <path d="M60 470h90M100 470V360M100 380h-22"/>
+  <path d="M60 384v18a24 24 0 1 0 20 0v-18M56 384h28"/>
+  <path d="M58 430h44" opacity=".6"/>
+  <!-- 알코올램프 -->
+  <path d="M130 470v-22q0-8 8-8h20q8 0 8 8v22M146 440v-8h4v8M148 428q-6-10 0-18q6 8 0 18"/>
+  <!-- 막대자석·나침반 -->
+  <rect x="226" y="392" width="92" height="26" rx="3"/><path d="M272 392v26"/>
+  <path d="M238 410l6-10 6 10M296 400h10l-10 12h10" stroke-width="2"/>
+  <circle cx="344" cy="452" r="30"/><path d="M344 432l6 20-6 20-6-20z"/>
+  <!-- 거품·반짝 -->
+  <circle cx="190" cy="40" r="6"/><circle cx="206" cy="24" r="4"/><circle cx="360" cy="40" r="8"/>
+  <path d="M200 180v14M193 187h14M372 190v10M367 195h10M24 330v12M18 336h12" stroke-width="2"/>
+</svg>
