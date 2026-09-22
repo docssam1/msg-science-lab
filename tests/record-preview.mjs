@@ -1,0 +1,18 @@
+import { mkdir, writeFile } from 'node:fs/promises';
+import { fileURLToPath } from 'node:url';
+const { chromium } = await import(process.env.MSG_PLAYWRIGHT_URL || 'playwright');
+const output = new URL('../output/', import.meta.url);
+await mkdir(output, { recursive: true });
+const browser = await chromium.launch({ channel: 'msedge', headless: true });
+const context = await browser.newContext({ viewport: { width: 1280, height: 960 }, recordVideo: { dir: fileURLToPath(new URL('../.proofs/final-video/', import.meta.url)), size: { width: 1280, height: 960 } } });
+const page = await context.newPage();
+await page.goto('http://127.0.0.1:4317/character.html');
+await page.locator('.character-tools').evaluate(el => el.removeAttribute('open'));
+await page.locator('#play').click();
+await page.waitForTimeout(19800);
+await page.screenshot({ path: fileURLToPath(new URL('character-preview.png', output)) });
+await context.close();
+const video = await page.video().path();
+await writeFile(new URL('../.proofs/final-video-path.txt', import.meta.url), video);
+console.log(video);
+await browser.close();

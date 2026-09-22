@@ -1,0 +1,60 @@
+import assert from 'node:assert/strict';
+import {mkdir,writeFile} from 'node:fs/promises';
+import {fileURLToPath} from 'node:url';
+const {chromium}=await import(process.env.MSG_PLAYWRIGHT_URL||'playwright');
+const base=process.env.MSG_BASE_URL||'http://127.0.0.1:4317';
+const root=new URL('../',import.meta.url),proof=new URL('.proofs/promo/',root);
+await mkdir(proof,{recursive:true});
+const file=name=>fileURLToPath(new URL(name,proof));
+const browser=await chromium.launch({channel:'msedge',headless:true});
+const context=await browser.newContext({viewport:{width:1365,height:1000},reducedMotion:'reduce'});
+const page=await context.newPage(),errors=[],external=[],writes=[],checks=[];
+page.on('pageerror',e=>errors.push(e.message));
+page.on('request',r=>{if(!r.url().startsWith(base)&&!r.url().startsWith('data:'))external.push(r.url());if(!['GET','HEAD'].includes(r.method()))writes.push(r.url());});
+const pass=name=>{checks.push(name);console.log('PASS',name);};
+// Capture real lesson UI, without changing lesson code or inventing a product mockup.
+await page.goto(`${base}/student.html?stage=parts`);
+await page.locator('button[data-part="spring"]').click();
+await page.locator('.lab-grid').screenshot({path:fileURLToPath(new URL('assets/promo-lesson.png',root))});
+await page.locator('.instrument').screenshot({path:fileURLToPath(new URL('assets/promo-instrument.png',root))});
+pass('actual CH01 lesson screenshots captured for advertising page');
+await page.goto(`${base}/promo.html`);
+await page.locator('.lesson-shot').evaluate(img=>img.decode());
+assert.match(await page.title(),/MSG 사이언스 랩/);
+assert.match(await page.locator('h1').innerText(),/교재 속 과학을,/);
+assert.match(await page.locator('.pilot-note').innerText(),/CHAPTER 01 시범 수업/);
+assert.equal(await page.locator('meta[name=robots]').getAttribute('content'),'noindex,nofollow');
+assert.equal(await page.locator('form,input,iframe,script').count(),0);
+assert.equal(await page.locator('.faq-list details').count(),6);
+pass('honest CH01 scope, six FAQs, no forms, scripts, embeds or index permission');
+for(const [width,height] of [[1920,1080],[1365,1000],[850,1100],[390,844],[320,780]]){
+  await page.setViewportSize({width,height});
+  await page.evaluate(()=>scrollTo(0,0));
+  await page.locator('img').evaluateAll(imgs=>Promise.all(imgs.map(img=>{img.loading='eager';return img.decode();})));
+  const overflow=await page.evaluate(()=>({page:document.documentElement.scrollWidth,viewport:innerWidth}));
+  assert(overflow.page<=overflow.viewport+1,`overflow at ${width}: ${JSON.stringify(overflow)}`);
+  assert.deepEqual(await page.locator('img').evaluateAll(imgs=>imgs.filter(img=>!img.complete||!img.naturalWidth).map(img=>img.src)),[]);
+  await page.screenshot({path:file(`promo-${width}.png`),fullPage:true});
+  await page.screenshot({path:file(`promo-hero-${width}.png`)});
+}
+pass('images loaded and no horizontal overflow at 1920, 1365, 850, 390 and 320 widths');
+for(let n=0;n<6;n++){
+  const detail=page.locator('.faq-list details').nth(n);await detail.locator('summary').click();assert(await detail.locator('p').isVisible());await detail.locator('summary').click();
+}
+pass('all six FAQs open and close with native controls');
+await page.setViewportSize({width:1365,height:1000});
+await page.locator('.hero-actions .primary').click();assert.match(page.url(),/student\.html/);assert.equal(await page.locator('.board-tools').isVisible(),false);
+await page.goto(`${base}/promo.html`);await page.locator('.hero-actions .secondary-link').click();assert.match(page.url(),/lecture\.html/);assert(await page.locator('.board-tools').isVisible());
+pass('primary student CTA and secondary lecture CTA open correct distinct learning modes');
+await page.goto(`${base}/promo.html`);
+await page.getByRole('link',{name:'영점 맞추기 체험',exact:true}).click();assert.match(page.url(),/stage=zero/);assert.equal(await page.locator('#zero-value').innerText(),'4 N');
+await page.goto(`${base}/promo.html`);await page.getByRole('link',{name:'눈높이 비교 체험',exact:true}).click();assert.match(page.url(),/stage=eye/);assert.equal(await page.locator('#eye-reading').innerText(),'20 N');
+await page.goto(`${base}/promo.html`);await page.getByRole('link',{name:'이 장 직접 열기',exact:true}).click();assert.match(page.url(),/stage=parts/);
+pass('three specific experiment deep links open real matching stages');
+await page.goto(`${base}/promo.html`);await page.keyboard.press('Tab');assert.equal(await page.evaluate(()=>document.activeElement.textContent),'본문으로 건너뛰기');await page.keyboard.press('Enter');assert.equal(await page.evaluate(()=>location.hash),'#main');
+await page.locator('.hero-actions .primary').focus();const focus=await page.locator('.hero-actions .primary').evaluate(el=>({style:getComputedStyle(el).outlineStyle,width:getComputedStyle(el).outlineWidth}));assert.equal(focus.style,'solid');assert.equal(focus.width,'3px');
+assert.equal(await page.evaluate(()=>getComputedStyle(document.documentElement).scrollBehavior),'auto');pass('keyboard skip/focus visibility and reduced motion');
+const touch=await browser.newContext({viewport:{width:390,height:844},hasTouch:true});const tp=await touch.newPage();await tp.goto(`${base}/promo.html`);await tp.locator('.faq-list summary').first().tap();assert(await tp.locator('.faq-list details').first().locator('p').isVisible());await tp.locator('.hero-actions .primary').tap();await tp.waitForURL('**/student.html');assert.match(tp.url(),/student\.html/);await touch.close();pass('mobile touch FAQ and student CTA');
+assert.deepEqual(errors,[]);assert.deepEqual(external,[]);assert.deepEqual(writes,[]);pass('zero console exceptions, external requests or uploads');
+await writeFile(file('report.json'),JSON.stringify({checks,errors,external,writes,at:new Date().toISOString()},null,2));
+await context.close();await browser.close();

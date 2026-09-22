@@ -1,47 +1,40 @@
-# 지필드 과학 탐구 랩 (`/science-lab/`)
+# MSG 사이언스 랩
 
-초등 과학탐구토론 지도자료의 차례 순서로 **개념 → 3D 애니메이션 실험 → 탐구 활동 → 토론 → 확인 문제**를 밟는 정적 사이트. 빌드 도구 없음(ES 모듈, GitHub Pages 그대로 배포).
+기존 Science Lab과 분리된 로컬 저장소. `초과심_물리` PART I 무게 재기, CHAPTER 01 「용수철저울의 구조 익히기」 시범 수업이다.
 
-## 구조
-
-```
-science-lab/
-  index.html        진입점
-  app.js            해시 라우터(#/ 홈, #/u/<id> 유닛), 진도 저장(localStorage sciLab.v1)
-  engine.js         Stage(Three.js 무대·조명·궤도 카메라) + Player(비트 재생기·자막·음성 토글)
-  styles.css
-  data/curriculum.js  PARTS·UNITS — 개념·용어·활동·변인표·토론·퀴즈
-  scenes/_kit.js      공용 도형·라벨(한글 캔버스 스프라이트)·화살표·막대차트·입자
-  scenes/<scene>.js   유닛당 하나
+```sh
+npm start
+npm test
 ```
 
-Three.js는 `../world-explorer/vendor/three.module.js`(r184)를 재사용한다.
+- 학생 자습: http://127.0.0.1:4317/student.html
+- 강의 화면: http://127.0.0.1:4317/lecture.html
+- 캐릭터 확대 시연: http://127.0.0.1:4317/character.html
+- 광고용 소개 페이지: http://127.0.0.1:4317/promo.html — 학생/전자칠판 수업 체험 연결, 공개 배포 전 로컬 시안.
+- 서버는 로컬 127.0.0.1에만 바인딩한다.
+- 학생용: 예상 → 부품 탐색 → 영점 조절 → 가상 측정 → 눈높이 → 저울 종류 → 교재 이야기 → 일일평가 6문항.
+- 강의용: 같은 개념을 큰 조작 화면으로 진행한다. 문제는 한 문항씩 표시하고 교사가 풀이를 공개한다. 필기, 되돌리기, 필기 지우기, 전체 화면을 지원한다.
+- 학생 일일평가는 6문항 제출 후 피드백을 제공하며 첫 시도 결과를 해당 브라우저에만 저장한다. 서버 업로드와 학생 계정은 없다.
+- 가상 저울은 0~30 N, 2 N 간격의 설명용 2D 모형이다. 원본 교구 규격이나 실제 촬영 영상이 아니다.
+- CH01 본문 인쇄 10~15쪽을 대조했다. 44~47쪽 단원평가 20문항은 전체 단원 학습 후 사용할 별도 평가다.
+- 강의용 정답 숨김은 UI 기능이며 인증/접근제어가 아니다. 수업 중 화면 공유 방법은 교사가 관리해야 한다.
+- 수업 캐릭터에는 실제 음성이 아직 연결되지 않았다. 별도 캐릭터 시연 페이지의 무음 동작/로컬 음성 근사 립싱크를 완성된 수업 내레이션과 혼동하지 않는다.
+- 전체 8개 챕터, 실제 OmniVoice 목소리 생성, 실제 전자칠판 하드웨어 검증, GitHub 원격/외부 배포는 아직 완료하지 않았다.
 
-## 장면 모듈 규약
+## 강의 자료
 
-```js
-export default {
-  view: { theta, phi, dist, target: [x, y, z] },     // 시작 카메라
-  build(kit, world) {                                 // world.add(id, obj) 로 등록 → 처음엔 숨김
-    ...; return { update(dt, t) {} };                 // (선택) 매 프레임 idle 애니메이션
-  },
-  beats: [                                            // 자막이 원본. 한 비트에 새로 보이는 것은 하나
-    { text: '…', show: ['id'], hide: ['id'], dur: 5, anim(p, o, t) { /* p: 0→1 */ } },
-  ],
-};
+- `output/MSG-초과심_물리-CH01-강의용-v1.pptx`: 13장 강의용 자료. 정답은 발표자 노트에 들어 있다. 일부 화면 질문은 요약되었으며 원문 전체는 웹 일일평가에 보존했다.
+- 강의용 PPTX를 학생에게 전달하면 발표자 노트의 정답도 함께 전달된다. 학생용 무답 자료로 간주하지 않는다.
+- PPTX의 실험 링크는 이 PC에서 `npm start` 실행 중일 때 열리는 로컬 주소다. PPTX 내부에 실험 실행 프로그램이 들어 있는 것은 아니다.
+- 원본 PDF를 저장소에 복사하거나 외부로 업로드하지 않았다. 출처 링크를 열려면 원본 Drive 접근 권한이 필요할 수 있다.
+
+## 검증 재실행
+
+```sh
+npm test
+node tests/ch01-browser.mjs
 ```
 
-- `goto(i)`는 항상 처음 상태로 되돌린 뒤 i 이전 비트의 최종 상태를 다시 적용한다 → 되감기가 "그때 그 화면".
-- 비트 진행은 벽시계 시간으로 잰다(느린 기기에서도 자막 길이가 늘어지지 않음).
-- `prefers-reduced-motion`이면 애니메이션 없이 최종 상태만 보여 준다.
-- 음성은 Web Speech(ko-KR) 2단계 폴백이며 끄고도 학습에 지장이 없어야 한다.
+브라우저 검증은 실행 중인 로컬 서버와 Playwright가 필요하다. 별도 설치 경로를 쓰면 `MSG_PLAYWRIGHT_URL`에 Playwright `index.mjs`의 file URL을 지정한다. `tests/browser.mjs`는 이전 캐릭터 시범 단계의 기록이며 현재 CH01 수업 회귀 검사는 `tests/ch01-browser.mjs`다.
 
-## 유닛 추가
-
-1. `data/curriculum.js`의 `UNITS`에 항목 추가(퀴즈 정답 letter는 쓰기 전에 분산해 둘 것).
-2. `scenes/<scene>.js` 작성, 유닛의 `scene` 필드와 파일명을 맞춘다.
-3. 로컬 서버(`python3 -m http.server`)로 `/science-lab/#/u/<id>` 열어 재생·이전·다음·처음, 모바일 폭 확인.
-
-## 출처
-
-서울특별시과학전시관, 『2009 초등학교 과학탐구토론 지도자료』. 개념 설명은 그 내용을 바탕으로 다시 썼고, 3D 장면은 원본 도형만 사용한다.
+현재 범위와 출처는 docs/CH01-PLAN.md, docs/CH01-SOURCE-REVIEW.md, 인수인계는 docs/HANDOFF.md, 캐릭터 생성 기록은 docs/ASSETS.md에 있다.

@@ -1,0 +1,13 @@
+import {mkdir,writeFile} from 'node:fs/promises';
+import {fileURLToPath} from 'node:url';
+const {chromium}=await import(process.env.MSG_PLAYWRIGHT_URL||'playwright');
+const out=fileURLToPath(new URL('../.proofs/ch01-video/',import.meta.url));await mkdir(out,{recursive:true});
+const browser=await chromium.launch({channel:'msedge',headless:true});
+const context=await browser.newContext({viewport:{width:1600,height:1080},recordVideo:{dir:out,size:{width:1600,height:1080}}});
+const page=await context.newPage();await page.goto('http://127.0.0.1:4317/lecture.html?stage=parts');await page.locator('.brand img').evaluate(img=>img.decode());
+await page.locator('button[data-part="spring"]').click();await page.waitForTimeout(2400);await page.locator('button[data-part="pointer"]').click();await page.waitForTimeout(2400);
+await page.locator('[data-stage="2"]').click();await page.waitForTimeout(1800);await page.locator('[data-zero="-2"]').click();await page.waitForTimeout(900);await page.locator('[data-zero="-2"]').click();await page.locator('#check-zero').click();await page.waitForTimeout(2100);
+await page.locator('[data-stage="3"]').click();await page.locator('#demo').click();await page.waitForTimeout(8200);
+await page.locator('[data-stage="4"]').click();await page.waitForTimeout(1800);await page.locator('[data-eye="1"]').click();await page.waitForTimeout(2300);await page.locator('[data-eye="-1"]').click();await page.waitForTimeout(2300);await page.locator('[data-eye="0"]').click();await page.waitForTimeout(2300);
+await page.locator('[data-stage="1"]').click();await page.screenshot({path:fileURLToPath(new URL('../output/ch01-lecture-preview.png',import.meta.url)),fullPage:true});await page.waitForTimeout(900);
+await context.close();await writeFile(out+'/video-path.txt',await page.video().path());console.log(await page.video().path());await browser.close();

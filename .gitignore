@@ -1,0 +1,14 @@
+node_modules/
+.private/
+.proofs/
+audio/reference/
+audio/generated/
+*.log
+.env*
+!.env.example
+.venv-omnivoice/
+clone-teacher/
+clone/
+clone-ref/
+__pycache__/
+autorun-check.txt
