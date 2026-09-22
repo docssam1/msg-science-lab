@@ -37,7 +37,7 @@ function buildPages(){
       </div>
       <div>
         <div class="concept-movie" data-movie><div class="ball"></div><div class="arrow"></div><div class="unit">N</div><div class="caption">물체를 아래로 끌어당기는 힘을 저울로 재고 N(뉴턴)으로 나타내요.</div></div>
-        <div class="action-row"><button data-play-movie>▶ 무게·힘·단위 애니메이션</button></div>
+        <div class="action-row"><button data-play-movie>▶ 무게·힘·단위 애니메이션</button><button class="secondary" data-audio="./assets/audio/docssam-predict.wav">🔊 우루사쌤 질문 듣기</button></div>
       </div>
     </div>
     <div class="book-box question"><h3>미리 생각하기</h3><p>같은 물체를 들어도 사람마다 무겁다고 느끼는 정도가 같을까요?</p><div class="answer-line"></div><div class="answer-line"></div></div>
@@ -46,7 +46,7 @@ function buildPages(){
 
   p.push(pageShell(11,'구조 · 영점 · 측정',`
     <div class="book-grid">
-      <div class="lab-figure"><img src="./assets/ch01/source-structure.png" alt="용수철저울의 구조를 보여 주는 교재 그림"><div class="action-row"><button data-lab="structure">3D로 구조 보기</button><button data-lab="zero">영점 맞추기</button></div></div>
+      <div class="lab-figure"><img src="./assets/ch01/source-structure.png" alt="용수철저울의 구조를 보여 주는 교재 그림"><div class="action-row"><button data-lab="structure">3D로 구조 보기</button><button data-lab="zero">영점 맞추기</button><button class="secondary" data-audio="./assets/audio/docssam-parts.wav">🔊 구조 설명 듣기</button><button class="secondary" data-audio="./assets/audio/docssam-zero.wav">🔊 영점 질문 듣기</button></div></div>
       <div>
         <h3>각 부분의 역할</h3>
         <div class="parts-mini">${parts.map(x=>`<span><b>${esc(x[1])}</b><br>${esc(x[2])}</span>`).join('')}</div>
@@ -136,7 +136,7 @@ characterToggle.onclick=()=>setCharacter(!document.body.classList.contains('char
 teacherToggle.onclick=()=>{const on=document.body.classList.toggle('teacher-mode');teacherToggle.setAttribute('aria-pressed',String(on));teacherToggle.textContent=on?'학생용 보기':'교사용 보기';renderSpread();};
 $('#print-book-btn').onclick=()=>window.print();
 
-let lab;
+let lab,voiceAudio;
 function labText(kind){
   const m={
     structure:['3D 용수철저울','저울을 돌려 보며 내부 구조를 살펴보세요. 화면을 위아래로 끌면 표시자와 고리의 움직임도 확인할 수 있습니다.'],
@@ -187,6 +187,7 @@ $('#lab-close').onclick=closeLab;$('#lab-overlay').addEventListener('click',e=>{
 function wirePageActions(){
   document.querySelectorAll('.book-stage [data-lab]').forEach(b=>b.onclick=()=>openLab(b.dataset.lab));
   document.querySelectorAll('.book-stage [data-play-movie]').forEach(b=>b.onclick=()=>{const m=b.closest('.book-page').querySelector('[data-movie]');m.classList.toggle('playing');b.textContent=m.classList.contains('playing')?'■ 애니메이션 멈추기':'▶ 무게·힘·단위 애니메이션';});
+  document.querySelectorAll('.book-stage [data-audio]').forEach(b=>b.onclick=async()=>{try{voiceAudio?.pause();voiceAudio=new Audio(b.dataset.audio);avatar.setMood('explain');avatar.setMouth('half');b.textContent='■ 재생 중';voiceAudio.onended=()=>{avatar.close();b.textContent=b.dataset.label||'🔊 다시 듣기';};b.dataset.label=b.dataset.label||b.textContent;await voiceAudio.play();}catch{avatar.close();b.textContent='음성을 재생할 수 없어요';}});
 }
 matchMedia('(max-width:1080px)').addEventListener('change',()=>{spread=0;renderSpread();});
 renderSpread();
