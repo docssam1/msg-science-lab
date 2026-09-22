@@ -1,2 +1,71 @@
 <!doctype html>
-<html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>초과심_물리 | MSG 사이언스 랩</title><link rel="stylesheet" href="./src/ch01.css"><link rel="stylesheet" href="./src/remediation.css"><link rel="icon" href="data:,"></head><body data-mode="student"><div id="app"></div><script type="module" src="./src/ch01.js"></script></body></html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>MSG Science Lab · CHAPTER 01 스마트북</title>
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="./src/smartbook.css">
+</head>
+<body>
+  <header class="smartbar">
+    <div class="brand">MSG SCIENCE LAB <small>초과심_물리 · CHAPTER 01</small></div>
+    <button id="character-toggle" type="button" aria-pressed="false">우루사쌤 숨기기</button>
+    <button id="teacher-toggle" type="button" aria-pressed="false">교사용 보기</button>
+    <button id="print-book-btn" type="button">인쇄 · PDF</button>
+    <a href="./student.html">기존 자습판</a>
+    <a href="./lecture.html">전자칠판판</a>
+  </header>
+
+  <div class="reader">
+    <main class="book-zone">
+      <div class="book-head">
+        <span><strong>살아있는 교재</strong> · 교재 10–15쪽</span>
+        <span>책을 넘기고, 필요한 그림을 눌러 3D 실험을 엽니다.</span>
+      </div>
+
+      <div class="book-stage" aria-label="CHAPTER 01 스마트북">
+        <div class="book-spread">
+          <div id="left-slot" class="book-slot left"></div>
+          <div id="right-slot" class="book-slot right"></div>
+        </div>
+      </div>
+
+      <nav class="book-controls" aria-label="페이지 이동">
+        <button id="prev-page" type="button">← 이전 쪽</button>
+        <span id="page-index" class="page-index"></span>
+        <button id="next-page" type="button">다음 쪽 →</button>
+      </nav>
+    </main>
+
+    <aside class="character-dock" aria-label="우루사쌤">
+      <div class="uru-card">
+        <div class="uru-bubble">
+          <b>우루사쌤</b><br>
+          교재를 먼저 읽고, 궁금한 그림은 직접 눌러 실험해 보자!
+        </div>
+        <div id="uru-avatar"></div>
+      </div>
+    </aside>
+  </div>
+
+  <section id="lab-overlay" class="lab-overlay" hidden aria-modal="true" role="dialog" aria-labelledby="lab-title">
+    <div class="lab-shell">
+      <div class="lab-main">
+        <button id="lab-close" class="lab-close" type="button" aria-label="3D 실험 닫기">×</button>
+        <div id="lab3d"></div>
+      </div>
+      <aside class="lab-side">
+        <p class="page-kicker">SMART LAB</p>
+        <h2 id="lab-title"></h2>
+        <p id="lab-desc"></p>
+        <div id="lab-controls"></div>
+      </aside>
+    </div>
+  </section>
+
+  <div id="print-book" class="print-only" aria-hidden="true"></div>
+
+  <script type="module" src="./src/smartbook.js"></script>
+</body>
+</html>
