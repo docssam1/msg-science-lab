@@ -154,7 +154,7 @@ function openLab(kind){
   const result=document.createElement('div');result.className='pick-result';result.textContent='직접 조작해 보세요.';
   lab?.destroy();
   lab=mountSpringScale($('#lab3d'),{
-    initialForce:kind==='eye'?20:0,initialZero:zero,
+    initialForce:kind==='eye'?20:0,initialZero:zero,pullEnabled:kind==='target',
     onReading:r=>{const out=$('#lab-reading');if(out)out.textContent=`${Math.round(r.reading)} N`;},
     onPick:(picked,state)=>{
       if(kind==='target') result.textContent=Math.abs(picked-targetForce)<=1?`성공! ${targetForce} N에 맞췄어요.`:`지금 찍은 위치는 약 ${picked} N. 목표는 ${targetForce} N입니다.`;
