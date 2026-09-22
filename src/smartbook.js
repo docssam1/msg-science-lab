@@ -187,7 +187,7 @@ $('#lab-close').onclick=closeLab;$('#lab-overlay').addEventListener('click',e=>{
 function wirePageActions(){
   document.querySelectorAll('.book-stage [data-lab]').forEach(b=>b.onclick=()=>openLab(b.dataset.lab));
   document.querySelectorAll('.book-stage [data-play-movie]').forEach(b=>b.onclick=()=>{const m=b.closest('.book-page').querySelector('[data-movie]');m.classList.toggle('playing');b.textContent=m.classList.contains('playing')?'■ 애니메이션 멈추기':'▶ 무게·힘·단위 애니메이션';});
-  document.querySelectorAll('.book-stage [data-audio]').forEach(b=>b.onclick=async()=>{try{voiceAudio?.pause();voiceAudio=new Audio(b.dataset.audio);avatar.setMood('explain');avatar.setMouth('half');b.textContent='■ 재생 중';voiceAudio.onended=()=>{avatar.close();b.textContent=b.dataset.label||'🔊 다시 듣기';};b.dataset.label=b.dataset.label||b.textContent;await voiceAudio.play();}catch{avatar.close();b.textContent='음성을 재생할 수 없어요';}});
+  document.querySelectorAll('.book-stage [data-audio]').forEach(b=>b.onclick=async()=>{const label=b.dataset.label||b.textContent;b.dataset.label=label;try{voiceAudio?.pause();voiceAudio=new Audio(b.dataset.audio);avatar.setMood('explain');avatar.setMouth('half');b.textContent='■ 재생 중';voiceAudio.onended=()=>{avatar.close();b.textContent=label;};voiceAudio.onerror=()=>{avatar.close();b.textContent='음성을 재생할 수 없어요';};await voiceAudio.play();}catch{avatar.close();b.textContent='음성을 재생할 수 없어요';}});
 }
 matchMedia('(max-width:1080px)').addEventListener('change',()=>{spread=0;renderSpread();});
 renderSpread();
