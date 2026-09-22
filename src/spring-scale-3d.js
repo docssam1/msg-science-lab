@@ -2,7 +2,7 @@ import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.184.0/build/three.m
 
 const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
 
-export function mountSpringScale(host,{initialForce=0,initialZero=0,onReading=()=>{},onForce=()=>{},onPick=()=>{}}={}){
+export function mountSpringScale(host,{initialForce=0,initialZero=0,pullEnabled=true,onReading=()=>{},onForce=()=>{},onPick=()=>{}}={}){
   host.innerHTML='';
   const wrap=document.createElement('div');
   wrap.className='ss3d-wrap';
@@ -106,7 +106,7 @@ export function mountSpringScale(host,{initialForce=0,initialZero=0,onReading=()
     onPick(approx,{view:eyeView,trueReading:force+zero});
   }
 
-  renderer.domElement.addEventListener('pointerdown',e=>{dragging=true;renderer.domElement.setPointerCapture(e.pointerId);});
+  renderer.domElement.addEventListener('pointerdown',e=>{if(!pullEnabled)return;dragging=true;renderer.domElement.setPointerCapture(e.pointerId);});
   renderer.domElement.addEventListener('pointermove',e=>{
     if(!dragging)return;
     const r=renderer.domElement.getBoundingClientRect();
