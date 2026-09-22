@@ -16,11 +16,18 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.11"
+
+      - name: Recover private reference from the pre-public commit
+        run: |
+          git show 6335b070d42ee5f87d8302ece65b60b599b4f208:assets/teacher-ref-recording.mp4 > /tmp/teacher-ref-recording.mp4
+          test -s /tmp/teacher-ref-recording.mp4
 
       - name: Install CPU PyTorch and OmniVoice
         run: |
@@ -31,20 +38,19 @@ jobs:
       - name: Generate teacher voice samples
         run: |
           python scripts/omnivoice-clone-teacher.py \
-            --ref assets/teacher-ref-recording.mp4 \
+            --ref /tmp/teacher-ref-recording.mp4 \
             --out clone-teacher \
             --device cpu
           test -s clone-teacher/docssam-predict.wav
           test -s clone-teacher/docssam-parts.wav
           test -s clone-teacher/docssam-zero.wav
 
-      - name: Store generated samples and remove raw reference from current branch
+      - name: Store generated samples
         run: |
           mkdir -p assets/audio
           cp clone-teacher/docssam-predict.wav assets/audio/
           cp clone-teacher/docssam-parts.wav assets/audio/
           cp clone-teacher/docssam-zero.wav assets/audio/
-          rm -f assets/teacher-ref-recording.mp4
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add assets/audio
