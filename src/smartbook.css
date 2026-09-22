@@ -102,3 +102,9 @@ body.teacher-mode .teacher-note{display:block}
   .page-foot{bottom:9mm;left:15mm;right:15mm}
   .action-row,.bk-web{display:none!important}
 }
+
+.teacher-rig{display:block;width:auto;height:100%}
+.mouth-shape,.eyelids,.happy-eyes,.closed-listen,.question-brow{display:none}
+.teacher-rig[data-mouth="closed"] .mouth-shape[data-shape="closed"]{display:block}
+.teacher-rig[data-mood="listen"] .closed-listen,.teacher-rig[data-mood="question"] .question-brow,.teacher-rig[data-mood="praise"] .happy-eyes,.teacher-rig.blinking .eyelids{display:block}
+.teacher-rig[data-mood="listen"] .closed-smile{display:none}
