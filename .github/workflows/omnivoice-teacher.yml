@@ -1,0 +1,60 @@
+name: Generate teacher OmniVoice samples
+
+on:
+  push:
+    paths:
+      - ".github/workflows/omnivoice-teacher.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  clone:
+    runs-on: ubuntu-latest
+    timeout-minutes: 180
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install CPU PyTorch and OmniVoice
+        run: |
+          python -m pip install --upgrade pip
+          pip install torch torchaudio --index-url https://download.pytorch.org/whl/cpu
+          pip install omnivoice soundfile imageio-ffmpeg
+
+      - name: Generate teacher voice samples
+        run: |
+          python scripts/omnivoice-clone-teacher.py \
+            --ref assets/teacher-ref-recording.mp4 \
+            --out clone-teacher \
+            --device cpu
+          test -s clone-teacher/docssam-predict.wav
+          test -s clone-teacher/docssam-parts.wav
+          test -s clone-teacher/docssam-zero.wav
+
+      - name: Store generated samples and remove raw reference from current branch
+        run: |
+          mkdir -p assets/audio
+          cp clone-teacher/docssam-predict.wav assets/audio/
+          cp clone-teacher/docssam-parts.wav assets/audio/
+          cp clone-teacher/docssam-zero.wav assets/audio/
+          rm -f assets/teacher-ref-recording.mp4
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/audio assets/teacher-ref-recording.mp4
+          git commit -m "feat: add OmniVoice teacher samples"
+          git push origin HEAD:main
+
+      - name: Upload listening artifact
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: teacher-omnivoice-samples
+          path: clone-teacher/
+          retention-days: 14
