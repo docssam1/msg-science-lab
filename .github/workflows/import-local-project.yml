@@ -35,7 +35,7 @@ jobs:
           unzip -q /tmp/msg-science-lab.zip -d /tmp/msg-upload
           SRC=/tmp/msg-upload/msg-science-lab
           test -d "$SRC/.git"
-          test "$(git -C "$SRC" rev-parse HEAD)" = "4438ba8889de8800bd656c029457e63deaeec569"
+          test "$(git -C "$SRC" rev-parse HEAD)" = "4438ba866ea7a77ba77acd0c1bf0d9240a17413a"
           git -C "$SRC" archive --format=tar HEAD -o /tmp/msg-science-lab.tar
 
       - name: Replace repository with uploaded project
