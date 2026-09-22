@@ -108,3 +108,7 @@ body.teacher-mode .teacher-note{display:block}
 .teacher-rig[data-mouth="closed"] .mouth-shape[data-shape="closed"]{display:block}
 .teacher-rig[data-mood="listen"] .closed-listen,.teacher-rig[data-mood="question"] .question-brow,.teacher-rig[data-mood="praise"] .happy-eyes,.teacher-rig.blinking .eyelids{display:block}
 .teacher-rig[data-mood="listen"] .closed-smile{display:none}
+
+.teacher-rig[data-mouth="half"] .mouth-shape[data-shape="half"],
+.teacher-rig[data-mouth="open"] .mouth-shape[data-shape="open"],
+.teacher-rig[data-mouth="round"] .mouth-shape[data-shape="round"]{display:block}
