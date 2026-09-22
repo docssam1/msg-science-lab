@@ -1,0 +1,48 @@
+name: Restore generated OmniVoice samples
+
+on:
+  push:
+    paths:
+      - ".github/workflows/restore-omnivoice-artifact.yml"
+  workflow_dispatch:
+
+permissions:
+  actions: read
+  contents: write
+
+jobs:
+  restore:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Download already-generated OmniVoice artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: teacher-omnivoice-samples
+          path: /tmp/teacher-voice
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: docssam1/msg-science-lab
+          run-id: 35749601021
+
+      - name: Restore WAV files
+        run: |
+          find /tmp/teacher-voice -maxdepth 3 -type f -print
+          mkdir -p assets/audio
+          PREDICT="$(find /tmp/teacher-voice -type f -name 'docssam-predict.wav' | head -1)"
+          PARTS="$(find /tmp/teacher-voice -type f -name 'docssam-parts.wav' | head -1)"
+          ZERO="$(find /tmp/teacher-voice -type f -name 'docssam-zero.wav' | head -1)"
+          test -s "$PREDICT"
+          test -s "$PARTS"
+          test -s "$ZERO"
+          cp "$PREDICT" assets/audio/docssam-predict.wav
+          cp "$PARTS" assets/audio/docssam-parts.wav
+          cp "$ZERO" assets/audio/docssam-zero.wav
+
+      - name: Commit WAV files
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add assets/audio
+          git commit -m "feat: add generated OmniVoice teacher samples"
+          git push origin HEAD:main
