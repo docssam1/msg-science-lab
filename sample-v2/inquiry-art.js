@@ -1,0 +1,10 @@
+// Vector illustrations for fictional teaching objects; no numerical weight is shown.
+export function inquiryObjectArt(id){
+ const name={foam:'스펀지 공',book:'두꺼운 책',A:'필통 A',B:'필통 B',C:'필통 C'}[id]||'';
+ const begin=`<svg viewBox="0 0 240 160" role="img" aria-label="${name}"><defs><linearGradient id="iq-shade" x2=".8" y2="1"><stop stop-color="#ffffff" stop-opacity=".40"/><stop offset="1" stop-color="#193752" stop-opacity=".24"/></linearGradient></defs><ellipse cx="125" cy="138" rx="82" ry="9" fill="#173955" opacity=".08"/>`;
+ const ball='<circle cx="120" cy="77" r="57" fill="#d2ad63"/><circle cx="120" cy="77" r="57" fill="url(#iq-shade)"/><path d="M70 53q68 2 86 73M68 91q70-5 101-56" fill="none" stroke="#b69556" stroke-width="2"/>'+[[96,49],[128,32],[155,72],[87,94],[126,114],[142,88],[113,73],[104,117]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="3.2" fill="#9d7b40" opacity=".50"/>`).join('');
+ const book='<path d="M50 47L154 22L197 109L91 138Z" fill="#195164"/><path d="M57 57L155 33L190 106L94 129Z" fill="#f4eddb"/><path d="M57 52L155 29L194 99L90 125Z" fill="#ba644e"/><path d="M57 52L155 29L194 99L90 125Z" fill="url(#iq-shade)"/><path d="M57 52L90 125L91 138L50 47Z" fill="#913f36"/><path d="M99 124l88-21m-85 26l86-22" stroke="#c0b9a9" stroke-width="2"/><path d="M91 58l50-12m-44 25l48-12" stroke="#f9eac7" stroke-width="3"/>';
+ const color={A:'#37848b',B:'#567ea3',C:'#92779e'}[id]||'#37848b';
+ const pouch=`<path d="M41 63Q42 48 60 46L177 47Q192 47 194 65L203 111Q204 128 184 132L57 131Q35 130 35 112Z" fill="${color}"/><path d="M41 63Q42 48 60 46L177 47Q192 47 194 65L203 111Q204 128 184 132L57 131Q35 130 35 112Z" fill="url(#iq-shade)"/><path d="M48 60Q121 52 187 61" stroke="#e8dcc9" stroke-width="5"/>${Array.from({length:21},(_,i)=>`<path d="M${51+i*6.3} 56v8" stroke="#8e795c" stroke-width="1.5"/>`).join('')}<path d="M174 60l13 14l-6 6l-13-14Z" fill="#d3aa62"/><rect x="95" y="81" width="45" height="31" rx="4" fill="#f1e9d8"/><text x="117" y="104" text-anchor="middle" fill="#1e4457" font-family="sans-serif" font-weight="700" font-size="23">${id}</text>`;
+ return begin+(id==='foam'?ball:id==='book'?book:pouch)+'</svg>';
+}
