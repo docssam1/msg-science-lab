@@ -1,0 +1,241 @@
+{
+  "checks": [
+    "Exactly five familiar comparison items",
+    "No anonymous bags or two-plus-three grouping",
+    "No numeric weights before measurement",
+    "Reordering includes all five items",
+    "Keyboard ranking preserves all five unique items",
+    "New state does not delete old saved attempts",
+    "5 N instrument with 0.1 N resolution",
+    "First procedure feedback does not disclose zero",
+    "Learner can adjust without a calibration verdict",
+    "Recognisable attached model: shoe",
+    "Object close-up preserves load: shoe",
+    "Valid measurement records shoe",
+    "Recognisable attached model: apple",
+    "Object close-up preserves load: apple",
+    "Real 3D tick selection uses decimal N",
+    "Valid measurement records apple",
+    "Recognisable attached model: mandarins",
+    "Object close-up preserves load: mandarins",
+    "Valid measurement records mandarins",
+    "Recognisable attached model: phone",
+    "Object close-up preserves load: phone",
+    "Valid measurement records phone",
+    "Recognisable attached model: pencilcase",
+    "Object close-up preserves load: pencilcase",
+    "Valid measurement records pencilcase",
+    "Five valid latest records unlock comparison",
+    "Final ranking contains all five measured objects",
+    "Specific cause appears only in final debrief",
+    "Textbook instrument remains 30 N",
+    "Viewport bounds 1920x1080",
+    "Viewport bounds 1366x768",
+    "Viewport bounds 1280x720",
+    "Viewport bounds 390x844",
+    "student edition has 20 pages",
+    "student edition has 20 activity QR codes",
+    "student intro pages do not hit footer",
+    "teacher edition has 20 pages",
+    "teacher edition has 20 activity QR codes",
+    "teacher intro pages do not hit footer",
+    "No browser exceptions"
+  ],
+  "errors": [],
+  "layouts": [
+    {
+      "width": 1920,
+      "height": 1080,
+      "scrollWidth": 1920,
+      "orderCount": 5,
+      "footerBottom": 1080
+    },
+    {
+      "width": 1366,
+      "height": 768,
+      "scrollWidth": 1366,
+      "orderCount": 5,
+      "footerBottom": 768
+    },
+    {
+      "width": 1280,
+      "height": 720,
+      "scrollWidth": 1280,
+      "orderCount": 5,
+      "footerBottom": 720
+    },
+    {
+      "width": 390,
+      "height": 844,
+      "scrollWidth": 390,
+      "orderCount": 5,
+      "footerBottom": 844
+    }
+  ],
+  "print": {
+    "student": [
+      {
+        "page": 1,
+        "gap": 80.53125
+      },
+      {
+        "page": 2,
+        "gap": 9.15625
+      },
+      {
+        "page": 3,
+        "gap": 127.453125
+      },
+      {
+        "page": 4,
+        "gap": 104.65625
+      },
+      {
+        "page": 5,
+        "gap": 94.203125
+      },
+      {
+        "page": 6,
+        "gap": 135.5625
+      },
+      {
+        "page": 7,
+        "gap": 138.75
+      },
+      {
+        "page": 8,
+        "gap": 132.21875
+      },
+      {
+        "page": 9,
+        "gap": 170.921875
+      },
+      {
+        "page": 10,
+        "gap": 105.265625
+      },
+      {
+        "page": 11,
+        "gap": 121.421875
+      },
+      {
+        "page": 12,
+        "gap": 128.21875
+      },
+      {
+        "page": 13,
+        "gap": 127.890625
+      },
+      {
+        "page": 14,
+        "gap": 112.609375
+      },
+      {
+        "page": 15,
+        "gap": 94.484375
+      },
+      {
+        "page": 16,
+        "gap": 120.5
+      },
+      {
+        "page": 17,
+        "gap": 124.71875
+      },
+      {
+        "page": 18,
+        "gap": 203.0625
+      },
+      {
+        "page": 19,
+        "gap": 110.0625
+      },
+      {
+        "page": 20,
+        "gap": 101.40625
+      }
+    ],
+    "teacher": [
+      {
+        "page": 1,
+        "gap": 41.65625
+      },
+      {
+        "page": 2,
+        "gap": 14.15625
+      },
+      {
+        "page": 3,
+        "gap": 127.453125
+      },
+      {
+        "page": 4,
+        "gap": 104.65625
+      },
+      {
+        "page": 5,
+        "gap": 94.203125
+      },
+      {
+        "page": 6,
+        "gap": 135.5625
+      },
+      {
+        "page": 7,
+        "gap": 138.75
+      },
+      {
+        "page": 8,
+        "gap": 132.21875
+      },
+      {
+        "page": 9,
+        "gap": 170.921875
+      },
+      {
+        "page": 10,
+        "gap": 105.265625
+      },
+      {
+        "page": 11,
+        "gap": 136.3125
+      },
+      {
+        "page": 12,
+        "gap": 131.125
+      },
+      {
+        "page": 13,
+        "gap": 127.890625
+      },
+      {
+        "page": 14,
+        "gap": 112.609375
+      },
+      {
+        "page": 15,
+        "gap": 94.484375
+      },
+      {
+        "page": 16,
+        "gap": 120.5
+      },
+      {
+        "page": 17,
+        "gap": 124.71875
+      },
+      {
+        "page": 18,
+        "gap": 125.4375
+      },
+      {
+        "page": 19,
+        "gap": 46.1875
+      },
+      {
+        "page": 20,
+        "gap": 80.8125
+      }
+    ]
+  }
+}

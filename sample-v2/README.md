@@ -23,3 +23,7 @@ StPageFlip 2.0.7, Three.js 0.184.0과 OrbitControls(MIT)는 vendor에 버전 고
 
 ## Inquiry / QR update
 Two authored introduction pages precede the unchanged 18 textbook-based pages (20 printed pages total). Each page has a tested deep-link QR. Prediction and method validity are assessed independently: no preparatory zero verdict, generic method-error feedback only after a submitted faulty measurement, correction and final explanation. New inquiry narration uses explicitly labelled device speech; existing18OmniVoiceclips are unchanged.
+
+
+## Five familiar objects
+Replaces anonymous pouches and the 2+3 split with one ordering of five familiar items: one shoe, one apple, two mandarins as one bundle, one phone and a filled pencil case. Detailed vector illustrations and individual 3D models share one transparent carrier. A smooth object-closeup button allows inspection without changing its load. Similar virtual loads use a dedicated 0–5 N scale with 0.1 N graduations; original 30 N textbook activities are unchanged. No weights or calibration verdict precede measurement. The new storage key preserves older inquiry records. Both 20-page QR editions regenerated. These are designed model weights, not empirically measured consumer products.

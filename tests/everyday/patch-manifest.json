@@ -1,0 +1,34 @@
+[
+  {
+    "path": "sample-v2/everyday-objects.js",
+    "sha256": "11b2b5344b17f470dbbb632d3731c26239692a4297dbbc2ad4588daa85381d98"
+  },
+  {
+    "path": "sample-v2/everyday-objects-3d.js",
+    "sha256": "93562739927c1469fcbdf1a5d5f5dedd9b4b8dcaf213a04e21ef61d40df60d6d"
+  },
+  {
+    "path": "sample-v2/inquiry.js",
+    "sha256": "7aa0603eac5c32ff1702fa22b182076e9501e1f814f361ca5c596b509eecbd81"
+  },
+  {
+    "path": "sample-v2/inquiry-pages.js",
+    "sha256": "3e8032fcd6f6ac3181a73f011b2f70417f9706ec8f1ae1152c232a089b3da717"
+  },
+  {
+    "path": "sample-v2/lab3d.js",
+    "sha256": "d1736285e831ad377c72a6050736b2b644a77e37e3f011b0f30fe365ae063415"
+  },
+  {
+    "path": "sample-v2/style.css",
+    "sha256": "f174a4858db9d38f00fa0fa6131ba69a9612cf596798ae2bfccdbb798330e394"
+  },
+  {
+    "path": "tests/everyday/model.test.mjs",
+    "sha256": "f9efa5b89579f69d114a953fab9987ea17204cca34dead109090109b9c437d36"
+  },
+  {
+    "path": "tests/everyday/browser.py",
+    "sha256": "7688701366e8334646c5ef9f5a2218299bcf93394361498d07950cc277788303"
+  }
+]
