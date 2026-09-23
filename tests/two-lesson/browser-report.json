@@ -1,0 +1,345 @@
+{
+  "errors": [],
+  "checks": [
+    "18 pages and 18 original questions",
+    "Genuine OmniVoice ended event opens the linked activity",
+    {
+      "activity": "compare",
+      "state": {
+        "force": 20,
+        "zero": 0,
+        "value": 20,
+        "reading": 20,
+        "settled": true,
+        "eye": "front",
+        "mode": "compare",
+        "extension": 6,
+        "totalLength": 11,
+        "expectedEye": 20.765574180635483
+      }
+    },
+    {
+      "activity": "parts",
+      "state": {
+        "force": 0,
+        "zero": 0,
+        "value": 0,
+        "reading": 0,
+        "settled": true,
+        "eye": "front",
+        "mode": "parts",
+        "extension": 0,
+        "totalLength": 5,
+        "expectedEye": 2.9501438159156255
+      }
+    },
+    {
+      "activity": "zero",
+      "state": {
+        "force": 0,
+        "zero": 4,
+        "value": 0,
+        "reading": 4,
+        "settled": true,
+        "eye": "front",
+        "mode": "zero",
+        "extension": 0,
+        "totalLength": 5,
+        "expectedEye": 4.289216912684515
+      }
+    },
+    {
+      "activity": "target",
+      "state": {
+        "force": 0,
+        "zero": 0,
+        "value": 0,
+        "reading": 0,
+        "settled": true,
+        "eye": "front",
+        "mode": "target",
+        "extension": 0,
+        "totalLength": 5,
+        "expectedEye": 0.17012759569677371
+      }
+    },
+    {
+      "activity": "eye",
+      "state": {
+        "force": 20,
+        "zero": 0,
+        "value": 20,
+        "reading": 20,
+        "settled": true,
+        "eye": "front",
+        "mode": "eye",
+        "extension": 6,
+        "totalLength": 11,
+        "expectedEye": 20
+      }
+    },
+    {
+      "activity": "measure",
+      "state": {
+        "force": 20,
+        "zero": 0,
+        "value": 20,
+        "reading": 20,
+        "settled": true,
+        "eye": "front",
+        "mode": "measure",
+        "extension": 6,
+        "totalLength": 11,
+        "expectedEye": 20.765574180635483
+      }
+    },
+    {
+      "activity": "elastic",
+      "state": {
+        "force": 0,
+        "zero": 0,
+        "value": 0,
+        "reading": 0,
+        "settled": true,
+        "eye": "front",
+        "mode": "elastic",
+        "extension": 0,
+        "totalLength": 5,
+        "expectedEye": 0.17012759569677371
+      }
+    },
+    {
+      "activity": "compression",
+      "state": {
+        "force": 0,
+        "zero": 0,
+        "value": 0,
+        "reading": 0,
+        "settled": true,
+        "eye": "front",
+        "mode": "compression",
+        "extension": 0,
+        "totalLength": 5,
+        "expectedEye": 0.17012759569677371
+      }
+    },
+    "17 original text/choice questions graded through UI",
+    "graph assessment and original-data isolation",
+    {
+      "media": "watch",
+      "duration": 39.005,
+      "width": 400,
+      "height": 300,
+      "muted": true
+    },
+    {
+      "media": "balance",
+      "duration": 26.993,
+      "width": 400,
+      "height": 300,
+      "muted": true
+    },
+    {
+      "media": "spring-film",
+      "duration": 14,
+      "width": 848,
+      "height": 636,
+      "muted": true
+    },
+    {
+      "printTeacher": false,
+      "minimumFooterGapPx": 94.203125,
+      "pages": 18
+    },
+    {
+      "printTeacher": true,
+      "minimumFooterGapPx": 46.1875,
+      "pages": 18
+    }
+  ],
+  "layouts": [
+    {
+      "w": 1920,
+      "h": 1080,
+      "scrollW": 1920,
+      "scrollH": 1080,
+      "foot": {
+        "x": 0,
+        "y": 1008,
+        "width": 1920,
+        "height": 72,
+        "top": 1008,
+        "right": 1920,
+        "bottom": 1080,
+        "left": 0
+      },
+      "book": {
+        "x": 276.37225341796875,
+        "y": 169,
+        "width": 1131.25537109375,
+        "height": 800,
+        "top": 169,
+        "right": 1407.6276245117188,
+        "bottom": 969,
+        "left": 276.37225341796875
+      }
+    },
+    {
+      "w": 1366,
+      "h": 768,
+      "scrollW": 1366,
+      "scrollH": 768,
+      "foot": {
+        "x": 0,
+        "y": 696,
+        "width": 1366,
+        "height": 72,
+        "top": 696,
+        "right": 1366,
+        "bottom": 768,
+        "left": 0
+      },
+      "book": {
+        "x": 219.967041015625,
+        "y": 169,
+        "width": 690.06591796875,
+        "height": 488,
+        "top": 169,
+        "right": 910.032958984375,
+        "bottom": 657,
+        "left": 219.967041015625
+      }
+    },
+    {
+      "w": 1280,
+      "h": 720,
+      "scrollW": 1280,
+      "scrollH": 720,
+      "foot": {
+        "x": 0,
+        "y": 648,
+        "width": 1280,
+        "height": 72,
+        "top": 648,
+        "right": 1280,
+        "bottom": 720,
+        "left": 0
+      },
+      "book": {
+        "x": 210.90472412109375,
+        "y": 169,
+        "width": 622.1905517578125,
+        "height": 440,
+        "top": 169,
+        "right": 833.0952758789062,
+        "bottom": 609,
+        "left": 210.90472412109375
+      }
+    },
+    {
+      "w": 390,
+      "h": 844,
+      "scrollW": 390,
+      "scrollH": 844,
+      "foot": {
+        "x": 0,
+        "y": 740,
+        "width": 390,
+        "height": 104,
+        "top": 740,
+        "right": 390,
+        "bottom": 844,
+        "left": 0
+      },
+      "book": {
+        "x": 15,
+        "y": 192.41561889648438,
+        "width": 360,
+        "height": 509.1687316894531,
+        "top": 192.41561889648438,
+        "right": 375,
+        "bottom": 701.5843505859375,
+        "left": 15
+      }
+    }
+  ],
+  "narration": [
+    {
+      "id": "l1-test-b",
+      "duration": 11.1
+    },
+    {
+      "id": "l2-elastic",
+      "duration": 12.48
+    },
+    {
+      "id": "l2-compress",
+      "duration": 11.92
+    },
+    {
+      "id": "l2-measure",
+      "duration": 13.36
+    },
+    {
+      "id": "l2-graph",
+      "duration": 11.04
+    },
+    {
+      "id": "l2-tools",
+      "duration": 13.48
+    },
+    {
+      "id": "l2-test-a",
+      "duration": 13
+    },
+    {
+      "id": "l2-test-b",
+      "duration": 10
+    },
+    {
+      "id": "l2-test-graph",
+      "duration": 13
+    },
+    {
+      "id": "l1-structure",
+      "duration": 10.77
+    },
+    {
+      "id": "l1-use",
+      "duration": 10.57
+    },
+    {
+      "id": "l1-eye",
+      "duration": 12.36
+    },
+    {
+      "id": "l1-scales",
+      "duration": 12.82
+    },
+    {
+      "id": "l1-name",
+      "duration": 13.56
+    },
+    {
+      "id": "l1-past",
+      "duration": 13.2
+    },
+    {
+      "id": "l1-watch",
+      "duration": 11.88
+    },
+    {
+      "id": "l1-future",
+      "duration": 13.64
+    },
+    {
+      "id": "l1-test-a",
+      "duration": 10.84
+    }
+  ],
+  "parallax": [
+    22.325227963525833,
+    20,
+    17.674772036474167
+  ]
+}
