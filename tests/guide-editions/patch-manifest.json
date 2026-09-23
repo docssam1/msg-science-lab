@@ -1,0 +1,38 @@
+[
+  {
+    "path": "sample-v2/app.js",
+    "sha256": "da7652c509b619fe3a5ef274c05984607f0f09ce4cdeb3e2f99a9fbbbba951d8"
+  },
+  {
+    "path": "sample-v2/book.html",
+    "sha256": "3104fadaa169519c9be26645f7bd81c430344cf3fd3d9d31ec6d36f1bb90057b"
+  },
+  {
+    "path": "sample-v2/editions.js",
+    "sha256": "7ed7cf0ae466ff36d6e93397c96d0d4d43b0265ee68acaac810ffdea30241c66"
+  },
+  {
+    "path": "sample-v2/guide-theme.css",
+    "sha256": "785a3803643a70c1e35e67d72f02fb08ac4302117f80e4db051db69ca29370ff"
+  },
+  {
+    "path": "sample-v2/index.html",
+    "sha256": "a45f806bf6b288a692b729899bb1b5b52fc159620efa93e6b7cb7e3daedf72b1"
+  },
+  {
+    "path": "sample-v2/student.html",
+    "sha256": "8203ddd29e26dea90739768947a7c05a44bed91f3175bf17cf3dc47163cb288b"
+  },
+  {
+    "path": "sample-v2/teacher.html",
+    "sha256": "1553bed36b5a9d2cee729185c50f4731d6e2470f5975d48f96b5d28f0274101e"
+  },
+  {
+    "path": "tests/guide-editions/browser.py",
+    "sha256": "c3288d3700cedc60c27030259ba55223a653f65ab7b12000a62d2b1619f22eb6"
+  },
+  {
+    "path": "tests/guide-editions/unchanged.json",
+    "sha256": "3df3e4f572acdb8cbdce30c656529946f607568441764aecad857a922363cd48"
+  }
+]

@@ -27,3 +27,7 @@ Two authored introduction pages precede the unchanged 18 textbook-based pages (2
 
 ## Five familiar objects
 Replaces anonymous pouches and the 2+3 split with one ordering of five familiar items: one shoe, one apple, two mandarins as one bundle, one phone and a filled pencil case. Detailed vector illustrations and individual 3D models share one transparent carrier. A smooth object-closeup button allows inspection without changing its load. Similar virtual loads use a dedicated 0–5 N scale with 0.1 N graduations; original 30 N textbook activities are unchanged. No weights or calibration verdict precede measurement. The new storage key preserves older inquiry records. Both 20-page QR editions regenerated. These are designed model weights, not empirically measured consumer products.
+
+
+## Framed guide editions
+Restyled from the original lete-on science-lab book CSS: chapter bands, double frames, ribbons, green concept boxes, navy observation panels, yellow cautions and red teacher annotations. Dedicated student.html, teacher.html and book.html entries share the same original20contentpages. Student PDF22pages (cover/navigation+20); instructor PDF27pages (cover/navigation+2lesson plans+2existing-note pages+21content sheets, one dense question section split rather than reduced type). Student routing never inherits instructor key visibility. Instructor projected pages initially conceal keys; explicit reveal opens annotated reading. Existing18questions, source text, five-object inquiry, delayed method feedback, QRtargets, media and physics are unchanged.

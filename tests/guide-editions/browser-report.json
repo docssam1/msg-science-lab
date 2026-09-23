@@ -1,0 +1,635 @@
+{
+  "checks": [
+    "Dedicated self-study entry works",
+    "All20contentpages present in the living book",
+    "Student pages do not show teacher answers",
+    "Visible double-page frame applied",
+    "Viewport and lower controls fit 1920x1080",
+    "Viewport and lower controls fit 1366x768",
+    "Viewport and lower controls fit 1280x720",
+    "Viewport and lower controls fit 390x844",
+    "Living page body does not hit controls 1",
+    "Living page stays inside its right border 1",
+    "Living page body does not hit controls 2",
+    "Living page stays inside its right border 2",
+    "Living page body does not hit controls 3",
+    "Living page stays inside its right border 3",
+    "Living page body does not hit controls 4",
+    "Living page stays inside its right border 4",
+    "Living page body does not hit controls 5",
+    "Living page stays inside its right border 5",
+    "Living page body does not hit controls 6",
+    "Living page stays inside its right border 6",
+    "Living page body does not hit controls 7",
+    "Living page stays inside its right border 7",
+    "Living page body does not hit controls 8",
+    "Living page stays inside its right border 8",
+    "Living page body does not hit controls 9",
+    "Living page stays inside its right border 9",
+    "Living page body does not hit controls 10",
+    "Living page stays inside its right border 10",
+    "Living page body does not hit controls 11",
+    "Living page stays inside its right border 11",
+    "Living page body does not hit controls 12",
+    "Living page stays inside its right border 12",
+    "Living page body does not hit controls 13",
+    "Living page stays inside its right border 13",
+    "Living page body does not hit controls 14",
+    "Living page stays inside its right border 14",
+    "Living page body does not hit controls 15",
+    "Living page stays inside its right border 15",
+    "Living page body does not hit controls 16",
+    "Living page stays inside its right border 16",
+    "Living page body does not hit controls 17",
+    "Living page stays inside its right border 17",
+    "Living page body does not hit controls 18",
+    "Living page stays inside its right border 18",
+    "Living page body does not hit controls 19",
+    "Living page stays inside its right border 19",
+    "Living page body does not hit controls 20",
+    "Living page stays inside its right border 20",
+    "Self-study answer persistence retained",
+    "Instructor mode switch works",
+    "Instructor projected book starts with keys hidden",
+    "Explicit instructor reveal opens annotated reading",
+    "Student mode does not inherit instructor key visibility",
+    "All five familiar objects remain in inquiry",
+    "Method-error feedback remains non-leading",
+    "Actual WebGL object retained: shoe",
+    "Actual WebGL object retained: apple",
+    "Actual WebGL object retained: mandarins",
+    "Actual WebGL object retained: phone",
+    "Actual WebGL object retained: pencilcase",
+    "Narration decodes ./audio/l1-test-b.mp3",
+    "Narration decodes ./audio/l2-elastic.mp3",
+    "Narration decodes ./audio/l2-compress.mp3",
+    "Narration decodes ./audio/l2-measure.mp3",
+    "Narration decodes ./audio/l2-graph.mp3",
+    "Narration decodes ./audio/l2-tools.mp3",
+    "Narration decodes ./audio/l2-test-a.mp3",
+    "Narration decodes ./audio/l2-test-b.mp3",
+    "Narration decodes ./audio/l2-test-graph.mp3",
+    "Narration decodes ./audio/l1-structure.mp3",
+    "Narration decodes ./audio/l1-use.mp3",
+    "Narration decodes ./audio/l1-eye.mp3",
+    "Narration decodes ./audio/l1-scales.mp3",
+    "Narration decodes ./audio/l1-name.mp3",
+    "Narration decodes ./audio/l1-past.mp3",
+    "Narration decodes ./audio/l1-watch.mp3",
+    "Narration decodes ./audio/l1-future.mp3",
+    "Narration decodes ./audio/l1-test-a.mp3",
+    "Muted video plays watch",
+    "Muted video plays balance",
+    "Muted video plays spring-film",
+    "student has 22 print pages",
+    "student keeps all18originalquestions exactly once",
+    "student all print content clears footer",
+    "student keeps activity-specific QR links",
+    "teacher has 27 print pages",
+    "teacher keeps all18originalquestions exactly once",
+    "teacher all print content clears footer",
+    "teacher keeps activity-specific QR links",
+    "No uncaught browser exceptions"
+  ],
+  "errors": [],
+  "editions": {
+    "student": {
+      "count": 22,
+      "qr": 21,
+      "questions": [
+        "a1",
+        "a2",
+        "a3",
+        "a4",
+        "a5",
+        "a6",
+        "b1",
+        "b2",
+        "b3",
+        "b4",
+        "b5",
+        "b6",
+        "b7",
+        "b8",
+        "b9",
+        "b10",
+        "b11",
+        "b12"
+      ],
+      "layouts": [
+        {
+          "key": "cover",
+          "bottom": 0,
+          "footer": null,
+          "overlap": 0
+        },
+        {
+          "key": "2",
+          "bottom": 1027.828125,
+          "footer": 1052.515625,
+          "overlap": -24.6875
+        },
+        {
+          "key": "0",
+          "bottom": 1042.453125,
+          "footer": 1052.515625,
+          "overlap": -10.0625
+        },
+        {
+          "key": "1",
+          "bottom": 1044.359375,
+          "footer": 1052.515625,
+          "overlap": -8.15625
+        },
+        {
+          "key": "2",
+          "bottom": 952.953125,
+          "footer": 1052.515625,
+          "overlap": -99.5625
+        },
+        {
+          "key": "3",
+          "bottom": 932.46875,
+          "footer": 1052.515625,
+          "overlap": -120.046875
+        },
+        {
+          "key": "4",
+          "bottom": 987.6875,
+          "footer": 1052.515625,
+          "overlap": -64.828125
+        },
+        {
+          "key": "5",
+          "bottom": 938.6875,
+          "footer": 1052.515625,
+          "overlap": -113.828125
+        },
+        {
+          "key": "6",
+          "bottom": 1036.203125,
+          "footer": 1052.515625,
+          "overlap": -16.3125
+        },
+        {
+          "key": "7",
+          "bottom": 882.625,
+          "footer": 1052.515625,
+          "overlap": -169.890625
+        },
+        {
+          "key": "8",
+          "bottom": 865.8125,
+          "footer": 1052.515625,
+          "overlap": -186.703125
+        },
+        {
+          "key": "9",
+          "bottom": 905.234375,
+          "footer": 1052.515625,
+          "overlap": -147.28125
+        },
+        {
+          "key": "10",
+          "bottom": 954.53125,
+          "footer": 1052.515625,
+          "overlap": -97.984375
+        },
+        {
+          "key": "11",
+          "bottom": 942.734375,
+          "footer": 1052.515625,
+          "overlap": -109.78125
+        },
+        {
+          "key": "12",
+          "bottom": 970.078125,
+          "footer": 1052.515625,
+          "overlap": -82.4375
+        },
+        {
+          "key": "13",
+          "bottom": 962.265625,
+          "footer": 1052.515625,
+          "overlap": -90.25
+        },
+        {
+          "key": "14",
+          "bottom": 1003.515625,
+          "footer": 1052.515625,
+          "overlap": -49
+        },
+        {
+          "key": "15",
+          "bottom": 938.65625,
+          "footer": 1052.515625,
+          "overlap": -113.859375
+        },
+        {
+          "key": "16",
+          "bottom": 972.6875,
+          "footer": 1052.515625,
+          "overlap": -79.828125
+        },
+        {
+          "key": "17",
+          "bottom": 976.203125,
+          "footer": 1052.515625,
+          "overlap": -76.3125
+        },
+        {
+          "key": "18",
+          "bottom": 1037.390625,
+          "footer": 1052.515625,
+          "overlap": -15.125
+        },
+        {
+          "key": "19",
+          "bottom": 959.375,
+          "footer": 1052.515625,
+          "overlap": -93.140625
+        }
+      ]
+    },
+    "teacher": {
+      "count": 27,
+      "qr": 24,
+      "questions": [
+        "a1",
+        "a2",
+        "a3",
+        "a4",
+        "a5",
+        "a6",
+        "b1",
+        "b2",
+        "b3",
+        "b4",
+        "b5",
+        "b6",
+        "b7",
+        "b8",
+        "b9",
+        "b10",
+        "b11",
+        "b12"
+      ],
+      "layouts": [
+        {
+          "key": "cover",
+          "bottom": 0,
+          "footer": null,
+          "overlap": 0
+        },
+        {
+          "key": "2",
+          "bottom": 1045.828125,
+          "footer": 1052.515625,
+          "overlap": -6.6875
+        },
+        {
+          "key": "3",
+          "bottom": 1035.421875,
+          "footer": 1052.515625,
+          "overlap": -17.09375
+        },
+        {
+          "key": "4",
+          "bottom": 1035.28125,
+          "footer": 1052.515625,
+          "overlap": -17.234375
+        },
+        {
+          "key": "5",
+          "bottom": 1042.234375,
+          "footer": 1052.515625,
+          "overlap": -10.28125
+        },
+        {
+          "key": "6",
+          "bottom": 889.609375,
+          "footer": 1052.515625,
+          "overlap": -162.90625
+        },
+        {
+          "key": "0",
+          "bottom": 1024.453125,
+          "footer": 1052.515625,
+          "overlap": -28.0625
+        },
+        {
+          "key": "1",
+          "bottom": 1046.359375,
+          "footer": 1052.515625,
+          "overlap": -6.15625
+        },
+        {
+          "key": "2",
+          "bottom": 952.953125,
+          "footer": 1052.515625,
+          "overlap": -99.5625
+        },
+        {
+          "key": "3",
+          "bottom": 932.46875,
+          "footer": 1052.515625,
+          "overlap": -120.046875
+        },
+        {
+          "key": "4",
+          "bottom": 987.6875,
+          "footer": 1052.515625,
+          "overlap": -64.828125
+        },
+        {
+          "key": "5",
+          "bottom": 938.6875,
+          "footer": 1052.515625,
+          "overlap": -113.828125
+        },
+        {
+          "key": "6",
+          "bottom": 1036.203125,
+          "footer": 1052.515625,
+          "overlap": -16.3125
+        },
+        {
+          "key": "7",
+          "bottom": 882.625,
+          "footer": 1052.515625,
+          "overlap": -169.890625
+        },
+        {
+          "key": "8",
+          "bottom": 865.8125,
+          "footer": 1052.515625,
+          "overlap": -186.703125
+        },
+        {
+          "key": "9",
+          "bottom": 905.234375,
+          "footer": 1052.515625,
+          "overlap": -147.28125
+        },
+        {
+          "key": "10",
+          "bottom": 1021.375,
+          "footer": 1052.515625,
+          "overlap": -31.140625
+        },
+        {
+          "key": "11",
+          "bottom": 981.15625,
+          "footer": 1052.515625,
+          "overlap": -71.359375
+        },
+        {
+          "key": "12",
+          "bottom": 970.078125,
+          "footer": 1052.515625,
+          "overlap": -82.4375
+        },
+        {
+          "key": "13",
+          "bottom": 962.265625,
+          "footer": 1052.515625,
+          "overlap": -90.25
+        },
+        {
+          "key": "14",
+          "bottom": 1003.515625,
+          "footer": 1052.515625,
+          "overlap": -49
+        },
+        {
+          "key": "15",
+          "bottom": 938.65625,
+          "footer": 1052.515625,
+          "overlap": -113.859375
+        },
+        {
+          "key": "16",
+          "bottom": 972.6875,
+          "footer": 1052.515625,
+          "overlap": -79.828125
+        },
+        {
+          "key": "17",
+          "bottom": 984.4375,
+          "footer": 1052.515625,
+          "overlap": -68.078125
+        },
+        {
+          "key": "18",
+          "bottom": 790.859375,
+          "footer": 1052.515625,
+          "overlap": -261.65625
+        },
+        {
+          "key": "19",
+          "bottom": 955.109375,
+          "footer": 1052.515625,
+          "overlap": -97.40625
+        },
+        {
+          "key": "20",
+          "bottom": 967.21875,
+          "footer": 1052.515625,
+          "overlap": -85.296875
+        }
+      ]
+    }
+  },
+  "layouts": [
+    {
+      "w": 1920,
+      "h": 1080,
+      "scroll": 1920,
+      "transport": 1080,
+      "workspace": 1008
+    },
+    {
+      "w": 1366,
+      "h": 768,
+      "scroll": 1366,
+      "transport": 768,
+      "workspace": 696
+    },
+    {
+      "w": 1280,
+      "h": 720,
+      "scroll": 1280,
+      "transport": 720,
+      "workspace": 648
+    },
+    {
+      "w": 390,
+      "h": 844,
+      "scroll": 390,
+      "transport": 844,
+      "workspace": 740
+    }
+  ],
+  "content_layouts": [
+    {
+      "right": 747.0001105636846,
+      "width": 794.0000265152728,
+      "page": "0",
+      "bottom": 989.8906433855901,
+      "limit": 1001.000003001729,
+      "zoom": "0.927345"
+    },
+    {
+      "right": 747.0001105636846,
+      "width": 794.0000265152728,
+      "page": "1",
+      "bottom": 1001.828131003458,
+      "limit": 1012.9999934962539,
+      "zoom": "0.940711"
+    },
+    {
+      "right": 747.0001105636846,
+      "width": 794.0000265152728,
+      "page": "2",
+      "bottom": 954.9532208051838,
+      "limit": 1012.9999934962539,
+      "zoom": "1"
+    },
+    {
+      "right": 747.0001105636846,
+      "width": 794.0000265152728,
+      "page": "3",
+      "bottom": 934.4688510582096,
+      "limit": 1012.9999934962539,
+      "zoom": "1"
+    },
+    {
+      "right": 747.0001105636846,
+      "width": 794.0000265152728,
+      "page": "4",
+      "bottom": 989.687403694528,
+      "limit": 1012.9999934962539,
+      "zoom": "1"
+    },
+    {
+      "right": 747.0001105636846,
+      "width": 794.0000265152728,
+      "page": "5",
+      "bottom": 945.2343746247839,
+      "limit": 1012.9999934962539,
+      "zoom": "1"
+    },
+    {
+      "right": 747.0001105636846,
+      "width": 794.0000265152728,
+      "page": "6",
+      "bottom": 1001.8750432749264,
+      "limit": 1012.9999934962539,
+      "zoom": "0.950402"
+    },
+    {
+      "right": 747.0001105636846,
+      "width": 794.0000265152728,
+      "page": "7",
+      "bottom": 884.6249839907787,
+      "limit": 1012.9999934962539,
+      "zoom": "1"
+    },
+    {
+      "right": 747.0001105636846,
+      "width": 794.0000265152728,
+      "page": "8",
+      "bottom": 867.812412449571,
+      "limit": 1012.9999934962539,
+      "zoom": "1"
+    },
+    {
+      "right": 747.0001105636846,
+      "width": 794.0000265152728,
+      "page": "9",
+      "bottom": 907.2344515440894,
+      "limit": 1012.9999934962539,
+      "zoom": "1"
+    },
+    {
+      "right": 747.0001105636846,
+      "width": 794.0000265152728,
+      "page": "10",
+      "bottom": 961.5313325475474,
+      "limit": 1012.9999934962539,
+      "zoom": "1"
+    },
+    {
+      "right": 747.0001105636846,
+      "width": 794.0000265152728,
+      "page": "11",
+      "bottom": 949.734441288182,
+      "limit": 1012.9999934962539,
+      "zoom": "1"
+    },
+    {
+      "right": 747.0001105636846,
+      "width": 794.0000265152728,
+      "page": "12",
+      "bottom": 972.0781662737737,
+      "limit": 1012.9999934962539,
+      "zoom": "1"
+    },
+    {
+      "right": 747.0001105636846,
+      "width": 794.0000265152728,
+      "page": "13",
+      "bottom": 964.2657280593622,
+      "limit": 1012.9999934962539,
+      "zoom": "1"
+    },
+    {
+      "right": 747.0001105636846,
+      "width": 794.0000265152728,
+      "page": "14",
+      "bottom": 1000.3749742351595,
+      "limit": 1012.9999934962539,
+      "zoom": "0.99439"
+    },
+    {
+      "right": 747.0001105636846,
+      "width": 794.0000265152728,
+      "page": "15",
+      "bottom": 942.6563065325628,
+      "limit": 1012.9999934962539,
+      "zoom": "1"
+    },
+    {
+      "right": 747.0001105636846,
+      "width": 794.0000265152728,
+      "page": "16",
+      "bottom": 974.6875560322746,
+      "limit": 1012.9999934962539,
+      "zoom": "1"
+    },
+    {
+      "right": 747.0001105636846,
+      "width": 794.0000265152728,
+      "page": "17",
+      "bottom": 983.2031164951012,
+      "limit": 1012.9999934962539,
+      "zoom": "1"
+    },
+    {
+      "right": 747.0001105636846,
+      "width": 794.0000265152728,
+      "page": "18",
+      "bottom": 1001.828131003458,
+      "limit": 1012.9999934962539,
+      "zoom": "0.929227"
+    },
+    {
+      "right": 747.0001105636846,
+      "width": 794.0000265152728,
+      "page": "19",
+      "bottom": 961.3750051279537,
+      "limit": 1012.9999934962539,
+      "zoom": "1"
+    }
+  ]
+}
