@@ -1,8 +1,8 @@
 [
   {
     "path": "README.md",
-    "size": 3080,
-    "sha256": "4b324dfe649d7f25c6510e6d2f57ce6325882cb30a5ecd3c0379b3ba46061645"
+    "size": 3861,
+    "sha256": "4df719e450fea74320512fc66cc4f6c375babc1a4f8c74da40664f6b305199bb"
   },
   {
     "path": "activities.js",
@@ -11,8 +11,8 @@
   },
   {
     "path": "app.js",
-    "size": 23508,
-    "sha256": "63ff62bcf97fbad6054f05086ef9a0e71342c53bce2e6e5652a1a038e409a972"
+    "size": 26104,
+    "sha256": "da7652c509b619fe3a5ef274c05984607f0f09ce4cdeb3e2f99a9fbbbba951d8"
   },
   {
     "path": "art/daily-eye.png",
@@ -135,9 +135,19 @@
     "sha256": "f0a8d1e1f50318ab20b579e19c2d59d43242a8c435b226989eafddb2c3e30fdc"
   },
   {
+    "path": "book.html",
+    "size": 433,
+    "sha256": "3104fadaa169519c9be26645f7bd81c430344cf3fd3d9d31ec6d36f1bb90057b"
+  },
+  {
     "path": "content.js",
     "size": 37689,
     "sha256": "c1e02c4ca65bc5653d09090522bf4ade3a87c5d6369b6d84e0e58ce476284e91"
+  },
+  {
+    "path": "editions.js",
+    "size": 9913,
+    "sha256": "7ed7cf0ae466ff36d6e93397c96d0d4d43b0265ee68acaac810ffdea30241c66"
   },
   {
     "path": "everyday-objects-3d.js",
@@ -155,9 +165,14 @@
     "sha256": "dc07c26f52bdc1d5851840a37dc35de6330b9673cf66f7d9cc4872b20b455d2b"
   },
   {
+    "path": "guide-theme.css",
+    "size": 28627,
+    "sha256": "785a3803643a70c1e35e67d72f02fb08ac4302117f80e4db051db69ca29370ff"
+  },
+  {
     "path": "index.html",
-    "size": 4088,
-    "sha256": "a8cd5dbbfcdd7a043d37487329e99791a45a5f0f1b19a5d86cebf2f341da757f"
+    "size": 4364,
+    "sha256": "a45f806bf6b288a692b729899bb1b5b52fc159620efa93e6b7cb7e3daedf72b1"
   },
   {
     "path": "inquiry-pages.js",
@@ -221,13 +236,13 @@
   },
   {
     "path": "print/student.pdf",
-    "size": 1691820,
-    "sha256": "f23fd908867a253468e3484dc6638db71eb04a151ba5bb12f326c21a086b7189"
+    "size": 2527528,
+    "sha256": "13506e2ddade0cdff90dad3b4e27bd6d5daea0c36b91a9ae56e93dc1dac4bcd1"
   },
   {
     "path": "print/teacher.pdf",
-    "size": 1882623,
-    "sha256": "d8b1228ed7617f08ac4d59b373c43148caebb88b93b0d0ecf6efa803399b5449"
+    "size": 2957080,
+    "sha256": "8000573b855c448257a899a441315b47a26f9c04b24ce0e5257c864b410427af"
   },
   {
     "path": "qr/l1-eye.png",
@@ -410,9 +425,19 @@
     "sha256": "965a4bf9651de20f44a538cf640d0d4229dea30c07026e1ca47d6f07f7154486"
   },
   {
+    "path": "student.html",
+    "size": 442,
+    "sha256": "8203ddd29e26dea90739768947a7c05a44bed91f3175bf17cf3dc47163cb288b"
+  },
+  {
     "path": "style.css",
     "size": 42791,
     "sha256": "f174a4858db9d38f00fa0fa6131ba69a9612cf596798ae2bfccdbb798330e394"
+  },
+  {
+    "path": "teacher.html",
+    "size": 442,
+    "sha256": "1553bed36b5a9d2cee729185c50f4731d6e2470f5975d48f96b5d28f0274101e"
   },
   {
     "path": "vendor/OrbitControls.js",

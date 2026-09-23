@@ -1,0 +1,46 @@
+[
+  {
+    "path": "sample-v2/content.js",
+    "sha256": "c1e02c4ca65bc5653d09090522bf4ade3a87c5d6369b6d84e0e58ce476284e91"
+  },
+  {
+    "path": "sample-v2/inquiry-pages.js",
+    "sha256": "3e8032fcd6f6ac3181a73f011b2f70417f9706ec8f1ae1152c232a089b3da717"
+  },
+  {
+    "path": "sample-v2/inquiry.js",
+    "sha256": "7aa0603eac5c32ff1702fa22b182076e9501e1f814f361ca5c596b509eecbd81"
+  },
+  {
+    "path": "sample-v2/everyday-objects.js",
+    "sha256": "11b2b5344b17f470dbbb632d3731c26239692a4297dbbc2ad4588daa85381d98"
+  },
+  {
+    "path": "sample-v2/everyday-objects-3d.js",
+    "sha256": "93562739927c1469fcbdf1a5d5f5dedd9b4b8dcaf213a04e21ef61d40df60d6d"
+  },
+  {
+    "path": "sample-v2/lab3d.js",
+    "sha256": "d1736285e831ad377c72a6050736b2b644a77e37e3f011b0f30fe365ae063415"
+  },
+  {
+    "path": "sample-v2/physics.js",
+    "sha256": "ea87722dcd41fe74fd656b5c952402fac033740067084116f90674e9c8457910"
+  },
+  {
+    "path": "sample-v2/review.js",
+    "sha256": "c7c84143414ef1d663b69f2d0a8e5e0b54b82782dcf49280253f7f74db19ef6d"
+  },
+  {
+    "path": "sample-v2/graphics.js",
+    "sha256": "dc07c26f52bdc1d5851840a37dc35de6330b9673cf66f7d9cc4872b20b455d2b"
+  },
+  {
+    "path": "sample-v2/qr-map.js",
+    "sha256": "83bc8070c4c98d1c8c44ea5c5810ed3efd089198c88a7472f1793f2fab19aefb"
+  },
+  {
+    "path": "sample-v2/activities.js",
+    "sha256": "930c29f8123880f0de87f61aaaebd8bfe5ac02030eec26218a667f9df7a1ec10"
+  }
+]

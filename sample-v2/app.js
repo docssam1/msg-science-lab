@@ -1,3 +1,4 @@
+import {frontMatter,frontMatterCount,editionName,printablePages} from './editions.js';
 import {pages,questions,gradeGroups,narration,lessonNames} from './content.js';
 import {esc} from './graphics.js';
 import {qrById} from './qr-map.js';
@@ -6,13 +7,15 @@ import {mountActivity,activityNames} from './activities.js';
 import {mountReview,concepts} from './review.js';
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const BASE_KEY='msg-source-sample-v2:';
+const edition=['student','teacher','book'].includes(new URLSearchParams(location.search).get('edition'))?new URLSearchParams(location.search).get('edition'):'book';
+let keysVisible=false;
 let writable=true;try{localStorage.setItem(BASE_KEY+'probe','1');localStorage.removeItem(BASE_KEY+'probe');}catch{writable=false;}
 const memory=new Map();
 function load(k,d){try{const x=localStorage.getItem(BASE_KEY+k);return x===null?(memory.get(k)??d):JSON.parse(x);}catch{return memory.get(k)??d;}}
 function save(k,v){if(k==='graph-assessment-result'){results.b12={correct:v.correct??v,value:load('graph-assessment',[]),time:Date.now()};memory.set('results',results);try{localStorage.setItem(BASE_KEY+'results',JSON.stringify(results));}catch{}}memory.set(k,v);try{localStorage.setItem(BASE_KEY+k,JSON.stringify(v));return true;}catch{writable=false;return false;}}
 let inkMode=false,inkPointer=null,activeKind='book';const inks=new Map();
 let current=0,book=null,activity=null,activityToken=0,voiceToken=0,voiceResolve=null,audio=null,utterance=null,started=false,reading=false;
-let wantSpread=load('spread',true),motion=load('motion',true),sound=load('sound',true),showCharacter=load('character',true),isTeacher=load('teacher',false),rebuilding=false;
+let wantSpread=load('spread:'+edition,edition==='book'),motion=load('motion',true),sound=load('sound',true),showCharacter=load('character',true),isTeacher=edition==='teacher',rebuilding=false;
 const answers=load('answers',{}),results=load('results',{});
 let files={};
 // A generation manifest is required before advertising a clip as an OmniVoice result.
@@ -21,16 +24,30 @@ let toastTimer;
 function toast(t){$('#toast').textContent=t;$('#toast').hidden=false;clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('#toast').hidden=true,4200);}
 let paperSerial=0;
 function scopeGraphics(html){const pageKey='v'+paperSerial++;let j=0;return html.replace(/<svg[\s\S]*?<\/svg>/g,s=>{const pre=pageKey+'-'+j+++'-';const ids=[...s.matchAll(/\bid="([^"]+)"/g)].map(m=>m[1]);for(const id of ids){s=s.replaceAll('id="'+id+'"','id="'+pre+id+'"').replaceAll('url(#'+id+')','url(#'+pre+id+')');}return s;});}
-function paper(p,i){return `<article class="paper has-lab-qr ${p.dense?'dense':''} ${p.assessment?'assessment':''}" data-book-page="${i}" data-layout-page="${p.layoutIndex??i}" data-source="${p.source.join(',')}"><div class="page-top"><strong>${String(p.lesson).padStart(2,'0')} / ${lessonNames[p.lesson]}</strong><em>SMART SCIENCE</em></div><a class="lab-qr" href="${qrById[p.id].url}" target="_blank" rel="noopener" aria-label="${p.lesson}차시 관련 활동 열기"><img src="./qr/${p.id}.png" alt="관련 실험·활동 QR"><span>실험 · 활동 열기</span></a><div class="page-heading"><div class="eyebrow">${p.kicker}</div><h1>${p.title}</h1><p class="page-lead">${p.lead}</p></div><form class="page-body" aria-label="교재 답안 ${i+1}">${scopeGraphics(p.body)}</form><footer class="page-foot"><span>MSG · ${p.lesson}차시 / ${p.added?'추가 도입 탐구 · 본책 10쪽 연계':'본책 '+p.source.join('·')+'쪽'}</span><span>${isTeacher?'교사용':'학생용'} <strong>${String(i+1).padStart(2,'0')}</strong></span></footer></article>`;}
-function printBuild(){ $('#print-root').innerHTML=pages.map(paper).join('');if(isTeacher)$('#print-root').querySelectorAll('[data-reveal]').forEach(el=>el.textContent=el.dataset.reveal); }
+function paper(p,i,folio=i+1){const actionDock=(p.body.match(/<button[^>]*(?:data-action|data-grade)=[^>]*>[\s\S]*?<\/button>/g)||[]).join('');return `<article class="paper has-lab-qr ${p.dense?'dense':''} ${p.assessment?'assessment':''} ${p.printClass||''}" data-book-page="${i}" data-lesson="${p.lesson}" data-layout-page="${p.layoutIndex??i}" data-source="${p.source.join(',')}"><div class="page-top"><strong><span class="chapter-medal">${String(p.lesson).padStart(2,'0')}</span>${lessonNames[p.lesson]}</strong><em>${isTeacher?'강사용 교안':'자습용 탐구 교재'}</em></div><a class="lab-qr" href="${qrById[p.id].url}" target="_blank" rel="noopener" aria-label="${p.lesson}차시 관련 활동 열기"><img src="./qr/${p.id}.png" alt="관련 실험·활동 QR"><span>실험 · 활동 열기</span></a><div class="page-tab">${p.lesson}차시 · ${p.assessment?'확인 문제':p.added?'추가 탐구':'과학 탐구'}</div><div class="page-heading"><div class="eyebrow">${p.kicker}</div><h1>${p.title}</h1><p class="page-lead">${p.lead}</p></div><form class="page-body" aria-label="교재 답안 ${i+1}">${scopeGraphics(p.body)}</form><div class="page-launch">${actionDock}</div><footer class="page-foot"><span>MSG · ${p.lesson}차시 / ${p.added?'추가 도입 탐구 · 본책 10쪽 연계':'본책 '+p.source.join('·')+'쪽'}</span><span>${isTeacher?'강사용':'자습용'} <strong>${String(folio).padStart(2,'0')}</strong></span></footer></article>`;}
+function printBuild(){const n=frontMatterCount(isTeacher);$('#print-root').innerHTML=scopeGraphics(frontMatter(isTeacher,pages))+printablePages(pages,isTeacher).map((p,i)=>paper(p,i,n+i+1)).join('');$('#print-root').dataset.edition=isTeacher?'teacher':'student';if(isTeacher)$('#print-root').querySelectorAll('[data-reveal]').forEach(el=>el.textContent=el.dataset.reveal);}
 function isSpread(){return wantSpread&&innerWidth>1000&&!$('#workspace').classList.contains('active');}
 function fit(){const space=$('#book-space'),wrap=$('#book-transform');if(!space||!wrap)return;const w=isSpread()?1588:794,h=1123;const scale=Math.max(.05,Math.min((space.clientWidth-16)/w,(space.clientHeight-14)/h));wrap.style.width=w+'px';wrap.style.height=h+'px';wrap.style.transform=`translate(-50%,-50%) scale(${scale})`;$('#fit-info').textContent=`전체 지면 ${Math.round(scale*100)}% · 본문 크게로 확대`;}
+
+function fitPageBodies(){
+ const root=document.querySelector('#flipbook');if(!root)return;
+ root.querySelectorAll('.paper').forEach(pg=>{
+  const body=pg.querySelector('.page-body'),dock=pg.querySelector('.page-launch'),foot=pg.querySelector('.page-foot');
+  if(!body||!foot||pg.getBoundingClientRect().height<1)return;body.style.zoom='1';body.style.width='100%';
+  const limit=(dock&&dock.children.length?dock.offsetTop:foot.offsetTop)-12;
+  const available=limit-body.offsetTop;if(available<100)return;
+  let full=body.scrollHeight;if(full<=available)return;
+  let z=Math.min(1,available/full);z=Math.max(.75,z);
+  body.style.zoom=String(z);body.style.width='100%';
+  pg.dataset.bodyFit=z.toFixed(3);
+ });
+}
 function restoreFields(root=document){root.querySelectorAll('[data-answer-field]').forEach(el=>{const v=answers[el.name];if(el.type==='radio')el.checked=String(v)===el.value;else if(v!==undefined)el.value=v;});}
-function updateMeta(){drawInk();const p=pages[current];$('#current-section').textContent=`${p.lesson}차시 · ${p.kicker.split('·')[1]||p.kicker}`;$('#page-source').textContent=`본책 ${p.source.join('·')}쪽 · 재편집 ${current+1}/${pages.length}`;$('#page-select').value=current;$('#prev').disabled=current===0;$('#next').disabled=current>=pages.length-1;$$('[data-lesson]').forEach(b=>b.classList.toggle('selected',+b.dataset.lesson===p.lesson));$('#teacher-guide').textContent=p.teacher;$('#teacher-guide').hidden=!isTeacher;$('#coach-copy').textContent=files[p.id]?.text||narration[p.id].text;$('#lesson-state').textContent=p.assessment?'생각하고 답할 때는 자동으로 넘기지 않습니다.':'해설 → 활동 → 관찰 → 교재로 돌아오기';save('page',current);}
-function buildBook(){rebuilding=true;const old=current;book?.destroy();$('#book-transform').innerHTML='<div id="flipbook"></div>';const el=$('#flipbook');el.style.width=(isSpread()?1588:794)+'px';el.style.height='1123px';el.innerHTML=pages.map(paper).join('');restoreFields(el);
+function updateMeta(){drawInk();const p=pages[current];$('#current-section').textContent=`${p.lesson}차시 · ${p.kicker.split('·')[1]||p.kicker}`;$('#page-source').textContent=`본책 ${p.source.join('·')}쪽 · 재편집 ${current+1}/${pages.length}`;$('#page-select').value=current;$('#prev').disabled=current===0;$('#next').disabled=current>=pages.length-1;$$('button[data-lesson]').forEach(b=>b.classList.toggle('selected',+b.dataset.lesson===p.lesson));$('#teacher-guide').textContent=p.teacher;$('#teacher-guide').hidden=!(isTeacher&&keysVisible);$('#coach-copy').textContent=files[p.id]?.text||narration[p.id].text;$('#lesson-state').textContent=p.assessment?'생각하고 답할 때는 자동으로 넘기지 않습니다.':'해설 → 활동 → 관찰 → 교재로 돌아오기';save('page',current);requestAnimationFrame(fitPageBodies);}
+function buildBook(){rebuilding=true;const old=current;book?.destroy();$('#book-transform').innerHTML='<div id="flipbook"></div>';const el=$('#flipbook');el.style.width=(isSpread()?1588:794)+'px';el.style.height='1123px';el.innerHTML=pages.map((p,i)=>paper(p,i)).join('');restoreFields(el);
  book=new St.PageFlip(el,{width:794,height:1123,size:'fixed',autoSize:false,minWidth:794,maxWidth:794,minHeight:1123,maxHeight:1123,usePortrait:!isSpread(),showCover:false,startPage:old,flippingTime:500,maxShadowOpacity:.2,useMouseEvents:false,clickEventForward:true,disableFlipByClick:true,showPageCorners:false,mobileScrollSupport:true});
  book.loadFromHTML(el.querySelectorAll('.paper'));book.on('flip',e=>{if(rebuilding)return;current=Math.min(pages.length-1,e.data);updateMeta();restoreFields(el);});
- book.turnToPage(old);current=old;fit();updateMeta();rebuilding=false;
+ book.turnToPage(old);current=old;fit();fitPageBodies();requestAnimationFrame(fitPageBodies);updateMeta();rebuilding=false;
 }
 function stopVoice(){voiceToken++;audio?.pause();if(audio){audio.removeAttribute('src');audio.load();}audio=null;if(window.speechSynthesis)speechSynthesis.cancel();utterance=null;voiceResolve?.(false);voiceResolve=null;document.body.classList.remove('talking');reading=false;$('#start').textContent=started?'▶ 해설 다시 듣기':'▶ 수업 시작';}
 async function say(text,clipId=null){stopVoice();$('#coach-copy').textContent=text;if(!sound||document.hidden)return false;const token=voiceToken;reading=true;$('#start').textContent='Ⅱ 해설 멈추기';document.body.classList.add('talking');
@@ -66,17 +83,22 @@ const entryParams=new URLSearchParams(location.search);
 const namedPage=pages.findIndex(p=>p.id===(entryParams.get('section')||entryParams.get('s')));
 current=namedPage>=0?namedPage:Math.max(0,Math.min(pages.length-1,Number(entryParams.get('page')||load('page',0))));
 if(!Number.isFinite(current))current=0;
-document.body.classList.toggle('hide-character',!showCharacter);document.body.classList.toggle('teacher-mode',isTeacher);$('#character').setAttribute('aria-pressed',showCharacter);$('#character').textContent=showCharacter?'우루사쌤 표시':'우루사쌤 숨김';$('#teacher').setAttribute('aria-pressed',isTeacher);$('#sound').setAttribute('aria-pressed',sound);$('#sound').textContent=sound?'소리 켬':'소리 끔';$('#motion').setAttribute('aria-pressed',motion);$('#motion').textContent=motion?'책넘김 켬':'책넘김 끔';$('#spread').setAttribute('aria-pressed',wantSpread);$('#spread').textContent=wantSpread?'펼침 보기':'한 쪽 보기';
+document.body.classList.toggle('hide-character',!showCharacter);document.body.classList.toggle('guide-mode',isTeacher);document.body.classList.toggle('teacher-mode',isTeacher&&keysVisible);$('#character').setAttribute('aria-pressed',showCharacter);$('#character').textContent=showCharacter?'우루사쌤 표시':'우루사쌤 숨김';$('#teacher').setAttribute('aria-pressed',keysVisible);$('#sound').setAttribute('aria-pressed',sound);$('#sound').textContent=sound?'소리 켬':'소리 끔';$('#motion').setAttribute('aria-pressed',motion);$('#motion').textContent=motion?'책넘김 켬':'책넘김 끔';$('#spread').setAttribute('aria-pressed',wantSpread);$('#spread').textContent=wantSpread?'펼침 보기':'한 쪽 보기';
+document.body.dataset.edition=edition;$('#edition').value=edition;document.title=editionName(edition)+' | 우루사쌤 사이언스 랩';$('#teacher').textContent='교안·정답 공개';
 printBuild();buildBook();
+$('#edition').onchange=e=>{stopVoice();const url=new URL(location.href);url.searchParams.set('edition',e.target.value);url.searchParams.set('s',pages[current].id);location.href=url.href;};
 $('#start').onclick=()=>reading?stopVoice():narrateCurrent();$('#read-text').onclick=readFull;
 $('#sound').onclick=()=>{sound=!sound;save('sound',sound);$('#sound').setAttribute('aria-pressed',sound);$('#sound').textContent=sound?'소리 켬':'소리 끔';if(!sound)stopVoice();};
-$('#prev').onclick=()=>navigate(current-1,{animated:true});$('#next').onclick=()=>navigate(current+1,{animated:true});$('#page-select').onchange=e=>navigate(+e.target.value);$$('[data-lesson]').forEach(b=>b.onclick=()=>navigate(pages.findIndex(p=>p.lesson===+b.dataset.lesson)));
-$('#spread').onclick=()=>{wantSpread=!wantSpread;save('spread',wantSpread);$('#spread').setAttribute('aria-pressed',wantSpread);$('#spread').textContent=wantSpread?'펼침 보기':'한 쪽 보기';buildBook();};
+$('#prev').onclick=()=>navigate(current-1,{animated:true});$('#next').onclick=()=>navigate(current+1,{animated:true});$('#page-select').onchange=e=>navigate(+e.target.value);$$('button[data-lesson]').forEach(b=>b.onclick=()=>navigate(pages.findIndex(p=>p.lesson===+b.dataset.lesson)));
+$('#spread').onclick=()=>{wantSpread=!wantSpread;save('spread:'+edition,wantSpread);$('#spread').setAttribute('aria-pressed',wantSpread);$('#spread').textContent=wantSpread?'펼침 보기':'한 쪽 보기';buildBook();};
 $('#motion').onclick=()=>{motion=!motion;save('motion',motion);$('#motion').setAttribute('aria-pressed',motion);$('#motion').textContent=motion?'책넘김 켬':'책넘김 끔';};
-$('#teacher').onclick=()=>{isTeacher=!isTeacher;save('teacher',isTeacher);document.body.classList.toggle('teacher-mode',isTeacher);$('#teacher').setAttribute('aria-pressed',isTeacher);$('#teacher').textContent=isTeacher?'학생용':'교사용';printBuild();buildBook();updateMeta();};
+$('#teacher').onclick=()=>{if(!isTeacher)return;keysVisible=!keysVisible;document.body.classList.toggle('teacher-mode',keysVisible);$('#teacher').setAttribute('aria-pressed',keysVisible);$('#teacher').textContent=keysVisible?'교안·정답 숨기기':'교안·정답 공개';buildBook();updateMeta();if(keysVisible)openActivity('reading');else closeActivity();};
 $('#character').onclick=()=>{showCharacter=!showCharacter;save('character',showCharacter);document.body.classList.toggle('hide-character',!showCharacter);$('#character').setAttribute('aria-pressed',showCharacter);$('#character').textContent=showCharacter?'우루사쌤 표시':'우루사쌤 숨김';fit();};
 $('#fullscreen').onclick=async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else await document.documentElement.requestFullscreen();fit();}catch{toast('브라우저 전체화면 권한이 없습니다. 현재 화면 맞춤은 유지합니다.');}};
-$('#print').onclick=()=>{printBuild();window.print();};$('#source').onclick=()=>openActivity('source');$('#credits').onclick=()=>openActivity('credits');$('#focus-reading').onclick=()=>openActivity('reading');$('#close-activity').onclick=closeActivity;
+$('#print').onclick=()=>{printBuild();window.print();};
+document.addEventListener('beforeprint',()=>{});
+window.addEventListener('beforeprint',()=>{document.body.classList.toggle('teacher-mode',isTeacher);});
+window.addEventListener('afterprint',()=>{document.body.classList.toggle('teacher-mode',isTeacher&&keysVisible);});$('#source').onclick=()=>openActivity('source');$('#credits').onclick=()=>openActivity('credits');$('#focus-reading').onclick=()=>openActivity('reading');$('#close-activity').onclick=closeActivity;
 document.addEventListener('submit',e=>e.preventDefault());
 document.addEventListener('input',e=>{if(e.target.matches('[data-answer-field]'))collectField(e.target);});
 document.addEventListener('click',e=>{const b=e.target.closest('[data-action],[data-grade],[data-reveal],[data-quick]');if(!b||b.closest('#print-root'))return;if(b.dataset.action){const page=b.closest('[data-book-page]');if(page){current=+page.dataset.bookPage;updateMeta();}openActivity(b.dataset.action);}if(b.dataset.grade)grade(b.dataset.grade);if(b.dataset.reveal){b.textContent=b.dataset.reveal;toast('탄성: 원래 모양으로 돌아가려는 성질');}if(b.dataset.quick){const r=b.closest('.inquiry').querySelector('.quick-result');r.textContent=b.dataset.quick==='비례'?'표와 그래프에서 비례 관계를 확인했어요.':'같은 배수로 늘어나는 관계인지 다시 살펴보세요.';}});
@@ -93,7 +115,7 @@ $('#pen').onclick=()=>{inkMode=!inkMode;inkPointer=null;ink.classList.toggle('wr
 $('#ink-undo').onclick=()=>{inks.get(inkKey())?.pop();drawInk();};$('#ink-clear').onclick=()=>{inks.delete(inkKey());drawInk();};
 function inkPoint(e){if(inkPointer!==e.pointerId)return;const b=ink.getBoundingClientRect();const pts=inks.get(inkKey());if(!pts?.length)return;pts.at(-1).push([Math.round((e.clientX-b.x)/b.width*1000),Math.round((e.clientY-b.y)/b.height*1000)]);drawInk();}
 ink.addEventListener('pointerdown',e=>{if(!inkMode||inkPointer!==null)return;e.preventDefault();inkPointer=e.pointerId;ink.setPointerCapture(e.pointerId);const strokes=inks.get(inkKey())||[];strokes.push([]);inks.set(inkKey(),strokes);inkPoint(e);});ink.addEventListener('pointermove',inkPoint);['pointerup','pointercancel','lostpointercapture'].forEach(t=>ink.addEventListener(t,()=>{inkPointer=null;}));
-window.__sample={pages,questions,answers,results,navigate,open:openActivity,close:closeActivity,grade,printBuild,get current(){return current},get book(){return book},get writable(){return writable},save,load};
+window.__sample={pages,questions,answers,results,navigate,open:openActivity,close:closeActivity,grade,printBuild,get current(){return current},get book(){return book},get writable(){return writable},get edition(){return edition},get teacher(){return isTeacher},save,load};
 document.documentElement.dataset.ready='true';
 
 // QR deep links open the matching activity, not a menu. No unsolicited audio.
