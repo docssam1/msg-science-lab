@@ -1,0 +1,108 @@
+name: Reconcile inquiry and preserve existing QR links
+on:
+  push:
+    branches: [work/inquiry-ranking-qr]
+    paths: [.github/workflows/reconcile-inquiry.yml]
+permissions:
+  contents: write
+jobs:
+  reconcile:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Preserve both histories and keep the validated inquiry implementation
+        run: |
+          set -euo pipefail
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git fetch origin main
+          test "$(git rev-parse origin/main)" = 'd681770ffad553095888c7fea7482d10af06690c'
+          python - <<'PY'
+          import subprocess,pathlib
+          baseline='ac20930bc1e08fdaac46ed65b61e3f3db56c0caa'
+          changed=subprocess.check_output(['git','diff','--name-only','-z',baseline,'HEAD','--','sample-v2','tests/two-lesson']).decode().split('\0')
+          changed=[p for p in changed if p]
+          result=subprocess.run(['git','merge','--no-commit','--no-ff','origin/main'])
+          conflicts=subprocess.check_output(['git','diff','--name-only','--diff-filter=U']).decode().splitlines()
+          if any(p not in changed for p in conflicts):
+              subprocess.run(['git','merge','--abort']);raise SystemExit('Unexpected conflict; no changes published')
+          subprocess.run(['git','restore','--source=HEAD','--staged','--worktree','--',*changed],check=True)
+          assert not subprocess.check_output(['git','ls-files','-u']).strip()
+          # Main-only legacy QR map, PNG and earlier test evidence remain intact.
+          p=pathlib.Path('sample-v2/app.js');s=p.read_text()
+          old="routeId=route.get('p'),routeIndex="
+          assert old in s
+          s=s.replace(old,"routeId=(route.get('p')||route.get('s'))==='l1-inquiry'?'l1-intro':(route.get('p')||route.get('s')),routeIndex=")
+          s=s.replace("if(!route.has('p')&&!route.has('page')", "if(!route.has('p')&&!route.has('s')&&!route.has('page')")
+          old="if(route.get('lab')&&activityNames[route.get('lab')]){await openActivity(route.get('lab'));}"
+          assert old in s
+          s=s.replace(old,"const requestedLab=route.get('lab')==='1'?pages[current].action:route.get('lab');\nif(requestedLab&&activityNames[requestedLab]){await openActivity(requestedLab);}")
+          p.write_text(s)
+          p=pathlib.Path('sample-v2/README.md');p.write_text(p.read_text()+'\nEarlier PDF links using `?s=...&lab=1` remain supported, including the former `l1-inquiry` page ID. Earlier browser progress storage is not deleted. Both development histories are retained.\n')
+          PY
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install browser
+        run: |
+          python -m pip install playwright==1.55.0
+          python -m playwright install --with-deps chromium
+          sudo apt-get install -y fonts-noto-cjk
+      - name: Validate both current and earlier printed QR routes
+        run: |
+          python -m http.server 8765 --bind 127.0.0.1 --directory "$GITHUB_WORKSPACE" >/tmp/reconcile-server.log 2>&1 &
+          python - <<'PY'
+          from playwright.sync_api import sync_playwright
+          from pathlib import Path
+          import json,urllib.parse
+          report=[]
+          with sync_playwright() as p:
+              b=p.chromium.launch(headless=True,args=['--enable-unsafe-swiftshader'])
+              page=b.new_page(viewport={'width':1366,'height':768})
+              page.goto('http://127.0.0.1:8765/sample-v2/?p=l1-intro')
+              old=page.evaluate('async()=> (await import("./qr-map.js")).qrById')
+              for id,item in old.items():
+                  query=urllib.parse.urlsplit(item['url']).query
+                  page.goto('http://127.0.0.1:8765/sample-v2/?'+query,wait_until='domcontentloaded')
+                  page.wait_for_function('window.__sample && document.documentElement.dataset.ready==="true"')
+                  page.wait_for_selector('#activity-content > *')
+                  expected='l1-intro' if id=='l1-inquiry' else id
+                  assert page.evaluate('window.__sample.pages[window.__sample.current].id')==expected
+                  assert page.locator('#workspace').evaluate('(e)=>e.classList.contains("active")')
+                  report.append({'oldId':id,'currentId':expected,'activity':item['action'],'passed':True})
+              b.close()
+          assert len(report)==20
+          Path('tests/two-lesson/legacy-qr-report.json').write_text(json.dumps(report,ensure_ascii=False,indent=2))
+          PY
+          node --experimental-default-type=module tests/two-lesson/unit-tests.mjs
+          node --experimental-default-type=module tests/two-lesson/inquiry.test.mjs
+          python tests/two-lesson/inquiry-browser.py
+          QA_OUT=/tmp/inquiry-qa/regression python tests/two-lesson/browser.py
+      - name: Commit the tested reconciliation without changing workflows
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json,hashlib,shutil
+          shutil.copyfile('/tmp/inquiry-qa/report.json','tests/two-lesson/inquiry-browser-report.json')
+          shutil.copyfile('/tmp/inquiry-qa/regression/report.json','tests/two-lesson/browser-report.json')
+          root=Path('sample-v2')
+          items=[{'path':p.relative_to(root).as_posix(),'size':p.stat().st_size,'sha256':hashlib.sha256(p.read_bytes()).hexdigest()} for p in sorted(root.rglob('*')) if p.is_file()]
+          Path('tests/two-lesson/file-manifest.json').write_text(json.dumps(items,ensure_ascii=False,indent=2))
+          PY
+          git add sample-v2 tests
+          git commit -m 'Merge concurrent inquiry update, preserve existing QR links, keep validated two-round experiment'
+          git push origin HEAD:work/inquiry-ranking-qr
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: inquiry-reconciliation-qa
+          path: |
+            /tmp/inquiry-qa/
+            tests/two-lesson/legacy-qr-report.json
+          retention-days: 3
