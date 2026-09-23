@@ -1,0 +1,215 @@
+{
+  "errors": [],
+  "checks": [
+    "Submit-only generic method feedback; incorrect prediction remains separate",
+    "Reference and motion error corrected before final explanation; common-offset order distinction",
+    "QR section ID opens the exact activity across page-number changes",
+    "Correct preparation accepted without a forced error"
+  ],
+  "print": [
+    {
+      "teacher": false,
+      "pages": 20,
+      "qrCodes": 20,
+      "gaps": [
+        {
+          "id": "intro-a",
+          "gap": 111.625
+        },
+        {
+          "id": "intro-b",
+          "gap": 19.515625
+        },
+        {
+          "id": "0",
+          "gap": 127.453125
+        },
+        {
+          "id": "1",
+          "gap": 104.65625
+        },
+        {
+          "id": "2",
+          "gap": 94.203125
+        },
+        {
+          "id": "3",
+          "gap": 135.5625
+        },
+        {
+          "id": "4",
+          "gap": 138.75
+        },
+        {
+          "id": "5",
+          "gap": 132.21875
+        },
+        {
+          "id": "6",
+          "gap": 170.921875
+        },
+        {
+          "id": "7",
+          "gap": 105.265625
+        },
+        {
+          "id": "8",
+          "gap": 121.421875
+        },
+        {
+          "id": "9",
+          "gap": 128.21875
+        },
+        {
+          "id": "10",
+          "gap": 127.890625
+        },
+        {
+          "id": "11",
+          "gap": 112.609375
+        },
+        {
+          "id": "12",
+          "gap": 94.484375
+        },
+        {
+          "id": "13",
+          "gap": 120.5
+        },
+        {
+          "id": "14",
+          "gap": 124.71875
+        },
+        {
+          "id": "15",
+          "gap": 203.0625
+        },
+        {
+          "id": "16",
+          "gap": 110.0625
+        },
+        {
+          "id": "17",
+          "gap": 101.40625
+        }
+      ]
+    },
+    {
+      "teacher": true,
+      "pages": 20,
+      "qrCodes": 20,
+      "gaps": [
+        {
+          "id": "intro-a",
+          "gap": 75.234375
+        },
+        {
+          "id": "intro-b",
+          "gap": 42.90625
+        },
+        {
+          "id": "0",
+          "gap": 127.453125
+        },
+        {
+          "id": "1",
+          "gap": 104.65625
+        },
+        {
+          "id": "2",
+          "gap": 94.203125
+        },
+        {
+          "id": "3",
+          "gap": 135.5625
+        },
+        {
+          "id": "4",
+          "gap": 138.75
+        },
+        {
+          "id": "5",
+          "gap": 132.21875
+        },
+        {
+          "id": "6",
+          "gap": 170.921875
+        },
+        {
+          "id": "7",
+          "gap": 105.265625
+        },
+        {
+          "id": "8",
+          "gap": 136.3125
+        },
+        {
+          "id": "9",
+          "gap": 131.125
+        },
+        {
+          "id": "10",
+          "gap": 127.890625
+        },
+        {
+          "id": "11",
+          "gap": 112.609375
+        },
+        {
+          "id": "12",
+          "gap": 94.484375
+        },
+        {
+          "id": "13",
+          "gap": 120.5
+        },
+        {
+          "id": "14",
+          "gap": 124.71875
+        },
+        {
+          "id": "15",
+          "gap": 125.4375
+        },
+        {
+          "id": "16",
+          "gap": 46.1875
+        },
+        {
+          "id": "17",
+          "gap": 80.8125
+        }
+      ]
+    }
+  ],
+  "method": {
+    "valid": {
+      "valid": true,
+      "reasons": []
+    },
+    "loaded": {
+      "valid": false,
+      "reasons": [
+        "loaded-adjustment"
+      ]
+    },
+    "view": {
+      "valid": false,
+      "reasons": [
+        "view"
+      ]
+    },
+    "moving": {
+      "valid": false,
+      "reasons": [
+        "motion"
+      ]
+    },
+    "entry": {
+      "valid": false,
+      "reasons": [
+        "reading"
+      ]
+    }
+  }
+}

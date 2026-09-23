@@ -2,7 +2,7 @@ import * as THREE from './vendor/three.module.js';
 import {OrbitControls} from './vendor/OrbitControls.js';
 import {SpringMotion,clamp,finite,apparentReading} from './physics.js';
 
-export function mountLab(host, {mode='compare',onChange=()=>{},onPick=()=>{},onRelease=()=>{}}={}) {
+export function mountLab(host, {mode='compare',onChange=()=>{},onPick=()=>{},onRelease=()=>{},onAdjust=()=>{}}={}) {
  const measure=mode==='measure',compress=mode==='compression',plain=measure||compress||mode==='elastic';
  host.innerHTML='<span class="scene-tag">3D 가상 교구 · 관찰 모형</span><span class="scene-hint">'+(mode==='eye'?'눈높이를 바꾼 뒤 눈금을 직접 누르세요':mode==='target'||mode==='elastic'?'고리를 잡아 아래로 당겨 보세요':mode==='compression'?'위쪽 누름판을 잡고 내려 보세요':'손가락 / 마우스로 돌려 볼 수 있어요')+'</span>';
  const canvas=document.createElement('canvas');host.prepend(canvas);
@@ -84,7 +84,7 @@ export function mountLab(host, {mode='compare',onChange=()=>{},onPick=()=>{},onR
  if(compress){moving.visible=false;inner.visible=false;tickGroup.visible=false;tickLabels.forEach(x=>x.visible=false);hand.visible=false;}
  const restLine=line([-.53,1.1,.4],[1.1,1.1,.4],root);restLine.visible=measure;
  let restNote=label('원래 길이 5 cm',-1.0,1.08,.4,{size:.12,width:500});restNote.visible=measure;
- const ring=mesh(new THREE.TorusGeometry(.32,.013,6,64),orange,moving);ring.position.copy(hookHit.position);ring.visible=mode==='compare'||mode==='measure'||mode==='target'||mode==='elastic';ring.castShadow=false;
+ const ring=mesh(new THREE.TorusGeometry(.32,.013,6,64),orange,moving);ring.position.copy(hookHit.position);ring.visible=mode==='inquiry'||mode==='compare'||mode==='measure'||mode==='target'||mode==='elastic';ring.castShadow=false;
  const ray=new THREE.Raycaster(),vec=new THREE.Vector2();
  let force=mode==='eye'?20:0,zero=mode==='zero'?4:0,eye='front',motion=new SpringMotion(force),disposed=false,raf,tween=null,drag=null,last=performance.now(),lastPaint=-999,version=0,settledLast=false;
  const home={pos:new THREE.Vector3(4,1.6,11.8),target:new THREE.Vector3(0,-.25,0)};
@@ -92,12 +92,15 @@ export function mountLab(host, {mode='compare',onChange=()=>{},onPick=()=>{},onR
  function animateCamera(position,target,duration=950){tween={from:camera.position.clone(),to:position.clone(),fromTarget:controls.target.clone(),toTarget:target.clone(),start:performance.now(),duration};controls.enabled=false;}
  function focusPart(id){const p=partPositions[id]||partPositions.spring;animateCamera(p.clone().add(new THREE.Vector3(.6,.15,3.2)),p,1000);}
  function resetView(){animateCamera(home.pos,home.target);}
- function setEye(which){eye=which;const py=y0-force*pitch;const p=new THREE.Vector3(.59,py,.38);const delta=which==='high'?1.35:which==='low'?-1.35:0;animateCamera(new THREE.Vector3(.59,py+delta,3.2),new THREE.Vector3(.59,py,.05),800);}
+ function setEye(which){eye=which;const py=y0-(force+zero)*pitch;const p=new THREE.Vector3(.59,py,.38);const delta=which==='high'?1.35:which==='low'?-1.35:0;animateCamera(new THREE.Vector3(.59,py+delta,3.2),new THREE.Vector3(.59,py,.05),800);}
  function setForce(v,{instant=false,shape}={}){v=finite(v);if(v<0||v>30)return false;force=v;motion.set(v,instant);if(shape){weightBody.visible=shape!=='case';secondary.visible=shape==='case';weightBody.material=shape==='ball'?orange:copper;}version++;return true;}
- function setZero(v){if(force!==0)return false;zero=clamp(finite(v),-6,6);knob.rotation.z=zero*.35;version++;return true;}
+ function setZero(v){if(force!==0&&mode!=='inquiry')return false;const old=zero;zero=clamp(finite(v),-6,6);knob.rotation.z=zero*.35;version++;if(old!==zero)onAdjust({force,zero,previous:old});return true;}
  function intersect(e,objects){const r=canvas.getBoundingClientRect();vec.set((e.clientX-r.left)/r.width*2-1,1-(e.clientY-r.top)/r.height*2);ray.setFromCamera(vec,camera);return ray.intersectObjects(objects,true)[0];}
  function pointOnDragPlane(e){const r=canvas.getBoundingClientRect();vec.set((e.clientX-r.left)/r.width*2-1,1-(e.clientY-r.top)/r.height*2);ray.setFromCamera(vec,camera);let target=new THREE.Vector3();return ray.ray.intersectPlane(new THREE.Plane(new THREE.Vector3(0,0,1),-.32),target);}
- function down(e){if(disposed||tween)return;if(mode==='zero'){const hit=intersect(e,[knob]);if(hit){drag={kind:'zero',id:e.pointerId,startX:e.clientX,zero};canvas.setPointerCapture(e.pointerId);controls.enabled=false;e.preventDefault();}}else if(['target','elastic','compression'].includes(mode)){
+ function down(e){if(disposed||tween)return;if(mode==='inquiry'){
+ const hit=intersect(e,[knob]);if(hit){drag={kind:'zero',id:e.pointerId,startX:e.clientX,zero};canvas.setPointerCapture(e.pointerId);controls.enabled=false;e.preventDefault();return;}
+ const tick=intersect(e,[scaleHit]);if(tick){const value=Math.round((y0-tick.point.y)/pitch);if(value>=0&&value<=30)onPick(value,state());}return;
+ }if(mode==='zero'){const hit=intersect(e,[knob]);if(hit){drag={kind:'zero',id:e.pointerId,startX:e.clientX,zero};canvas.setPointerCapture(e.pointerId);controls.enabled=false;e.preventDefault();}}else if(['target','elastic','compression'].includes(mode)){
   let hit=intersect(e,[compress?capHit:hookHit]);if(hit){let p=pointOnDragPlane(e);if(!p)return;drag={id:e.pointerId,start:p.y,value:force};canvas.setPointerCapture(e.pointerId);controls.enabled=false;e.preventDefault();}
  }else if(mode==='eye'){
   const hit=intersect(e,[scaleHit]);if(hit){const value=Math.round((y0-hit.point.y)/pitch);if(value>=0&&value<=30){onPick(value,{force,zero,eye,expected:apparentReading({force,zero,cameraY:camera.position.y,cameraZ:camera.position.z}).value});}}
@@ -108,7 +111,7 @@ export function mountLab(host, {mode='compare',onChange=()=>{},onPick=()=>{},onR
  function projectionOf(position){const p=position.clone().project(camera),r=canvas.getBoundingClientRect();return {x:r.left+(p.x+1)*r.width/2,y:r.top+(1-p.y)*r.height/2};}
  function hookScreen(){return projectionOf(hookHit.getWorldPosition(new THREE.Vector3()));}
  function tickScreen(n){return projectionOf(new THREE.Vector3(.59,y0-n*pitch,.045));}
- function state(){return {force,zero,value:motion.value,reading:force+zero,settled:motion.settled,eye,mode,extension:force*.3,totalLength:5+force*.3,expectedEye:apparentReading({force,zero,cameraY:camera.position.y,cameraZ:camera.position.z}).value};}
+ function state(){return {force,zero,value:motion.value,reading:force+zero,settled:motion.settled,viewMoving:!!tween,eye,mode,extension:force*.3,totalLength:5+force*.3,expectedEye:apparentReading({force,zero,cameraY:camera.position.y,cameraZ:camera.position.z}).value};}
  function resize(){let r=host.getBoundingClientRect();if(r.width<1||r.height<1)return;renderer.setSize(r.width,r.height,false);camera.aspect=r.width/r.height;camera.updateProjectionMatrix();}
  const observer=new ResizeObserver(resize);observer.observe(host);resize();controls.update();
  if(mode==='eye')setEye('front');
