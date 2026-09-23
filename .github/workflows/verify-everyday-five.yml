@@ -1,0 +1,74 @@
+name: Verify five everyday objects
+on:
+  push:
+    branches: [work/everyday-five-objects]
+    paths: [.github/workflows/verify-everyday-five.yml]
+permissions:
+  contents: write
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/checkout@v4
+      - name: Apply exact candidate
+        env:
+          PATCH_URL: 'https://sdmntprcentralus.oaiusercontent.com/files/00000000-2e60-81f5-b962-894c9e58db41/raw?se=2026-09-23T05%3A39%3A47Z&sp=r&sv=2026-02-06&sr=b&scid=c14c931e-dcea-5577-aec9-27e41391ef60&skoid=03727f49-62d3-42ac-8350-1c0e6559d238&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-09-22T23%3A20%3A15Z&ske=2026-09-23T23%3A20%3A15Z&sks=b&skv=2026-02-06&sig=SzsfFJ%2BTPZoyGsGQDan%2BVzlGi8dafwluOk68bh6BDq4%3D'
+        run: |
+          set -euo pipefail
+          curl -fL --retry 2 "$PATCH_URL" -o /tmp/patch.zip
+          echo '34c843b8593e152ad1bbc34d352fca26764e0740d57d520b0ce58579e7741b6c  /tmp/patch.zip' | sha256sum -c -
+          python - <<'PY'
+          import pathlib,zipfile,json,hashlib
+          with zipfile.ZipFile('/tmp/patch.zip') as z:
+              for f in z.infolist():
+                  p=pathlib.PurePosixPath(f.filename)
+                  assert not p.is_absolute() and '..' not in p.parts and p.parts[0] in ('sample-v2','tests')
+              z.extractall('.')
+          for f in json.load(open('tests/everyday/patch-manifest.json')):
+              assert hashlib.sha256(pathlib.Path(f['path']).read_bytes()).hexdigest()==f['sha256'],f['path']
+          PY
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install browser
+        run: |
+          python -m pip install playwright==1.55.0
+          python -m playwright install --with-deps chromium
+          sudo apt-get install -y fonts-noto-cjk
+      - name: Model and original-content tests
+        run: |
+          node --experimental-default-type=module tests/everyday/model.test.mjs
+          node --experimental-default-type=module tests/two-lesson/unit-tests.mjs
+      - name: Actual WebGL, student interaction and print checks
+        run: |
+          python -m http.server 8765 --bind 127.0.0.1 >/tmp/everyday-server.log 2>&1 &
+          python tests/everyday/browser.py
+      - name: Stage validated product files only
+        run: |
+          set -euo pipefail
+          cp /tmp/everyday-qa/student.pdf sample-v2/print/student.pdf
+          cp /tmp/everyday-qa/teacher.pdf sample-v2/print/teacher.pdf
+          cp /tmp/everyday-qa/report.json tests/everyday/browser-report.json
+          python - <<'PY'
+          from pathlib import Path
+          import json,hashlib
+          with open('sample-v2/README.md','a') as f:f.write('\n\n## Five familiar objects\nReplaces anonymous pouches and the 2+3 split with one ordering of five familiar items: one shoe, one apple, two mandarins as one bundle, one phone and a filled pencil case. Detailed vector illustrations and individual 3D models share one transparent carrier. Similar virtual loads use a dedicated0–5Nscale with0.1Ngraduations; original30Ntextbook activities are unchanged. No weights or calibration verdict precede measurement. The new storage key preserves older inquiry records. Both20page QR editions regenerated. These are designed model weights, not empirically measured consumer products.\n')
+          root=Path('sample-v2')
+          files=[{'path':str(p.relative_to(root)),'size':p.stat().st_size,'sha256':hashlib.sha256(p.read_bytes()).hexdigest()} for p in sorted(root.rglob('*')) if p.is_file()]
+          Path('tests/two-lesson/file-manifest.json').write_text(json.dumps(files,ensure_ascii=False,indent=2))
+          PY
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add sample-v2 tests/everyday tests/two-lesson/file-manifest.json
+          git commit -m 'feat: compare five familiar objects with visible contents and precise 3D weighing'
+          git push origin HEAD:work/everyday-five-objects
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: everyday-five-qa
+          path: /tmp/everyday-qa/
+          retention-days: 3
