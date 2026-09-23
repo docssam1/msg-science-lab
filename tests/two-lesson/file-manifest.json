@@ -146,8 +146,8 @@
   },
   {
     "path": "editions.js",
-    "size": 9913,
-    "sha256": "7ed7cf0ae466ff36d6e93397c96d0d4d43b0265ee68acaac810ffdea30241c66"
+    "size": 9843,
+    "sha256": "efa77a7664387ce8acc17aff7370f2fb243f6856a47907baeee2ef28637f25c5"
   },
   {
     "path": "everyday-objects-3d.js",
@@ -236,13 +236,13 @@
   },
   {
     "path": "print/student.pdf",
-    "size": 2527528,
-    "sha256": "13506e2ddade0cdff90dad3b4e27bd6d5daea0c36b91a9ae56e93dc1dac4bcd1"
+    "size": 1912081,
+    "sha256": "fc1c8fadce7801461b5b3fbf030c7b048d2f6833a2dd71b0dfa200ad93463754"
   },
   {
     "path": "print/teacher.pdf",
-    "size": 2957080,
-    "sha256": "8000573b855c448257a899a441315b47a26f9c04b24ce0e5257c864b410427af"
+    "size": 2144646,
+    "sha256": "b7eaf249d18619140b51c2935ef5ec1b862a788ee6bd34560364e8784b9d50e3"
   },
   {
     "path": "qr/l1-eye.png",
