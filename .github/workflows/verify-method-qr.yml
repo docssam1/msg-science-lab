@@ -1,0 +1,70 @@
+name: Verify method inquiry and QR
+on:
+  push:
+    branches: [work/inquiry-method-qr]
+    paths: [.github/workflows/verify-method-qr.yml]
+permissions:
+  contents: write
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Download exact candidate
+        env:
+          BUNDLE_URL: 'https://sdmntprcentralus.oaiusercontent.com/files/00000000-af8c-81f5-89c2-502a43f5202d/raw?se=2026-09-23T03%3A30%3A18Z&sp=r&sv=2026-02-06&sr=b&scid=4753bc75-72ac-555f-b4f2-33c38a884bb9&skoid=03727f49-62d3-42ac-8350-1c0e6559d238&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-09-23T01%3A09%3A06Z&ske=2026-09-24T01%3A09%3A06Z&sks=b&skv=2026-02-06&sig=4XpfrWTpgD/AOgaGZaC2mzoMRlgVstwevWjkchbVcDw%3D'
+        run: |
+          set -euo pipefail
+          curl -fL --retry 2 "$BUNDLE_URL" -o /tmp/candidate.zip
+          echo 'e0641680f6543340295f454d38c1fb3b4374ecc3c251d55b6b2982c677c0a666  /tmp/candidate.zip' | sha256sum -c -
+          python - <<'PY'
+          import pathlib,zipfile,json,hashlib
+          root=pathlib.Path('/tmp/candidate');root.mkdir()
+          with zipfile.ZipFile('/tmp/candidate.zip') as z:
+              for item in z.infolist():
+                  p=pathlib.PurePosixPath(item.filename)
+                  if p.is_absolute() or '..' in p.parts or p.parts[0] not in ('sample-v2','tests'):raise ValueError('Unsafe path')
+              z.extractall(root)
+          manifest=json.load(open(root/'tests/method/file-manifest.json'))
+          for f in manifest:
+              p=root/'sample-v2'/f['path']
+              assert p.stat().st_size==f['size'] and hashlib.sha256(p.read_bytes()).hexdigest()==f['sha256'],str(p)
+          print('Verified candidate files:',len(manifest))
+          PY
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install browser
+        run: |
+          python -m pip install playwright==1.55.0
+          python -m playwright install --with-deps chromium
+          sudo apt-get install -y fonts-noto-cjk
+      - name: Validate diagnostic model
+        run: node --experimental-default-type=module /tmp/candidate/tests/method/model.test.mjs
+      - name: Test actual learner workflow and WebGL
+        run: |
+          python -m http.server 8765 --bind 127.0.0.1 --directory /tmp/candidate >/tmp/method-server.log 2>&1 &
+          python /tmp/candidate/tests/method/browser.py
+      - name: Stage tested product files only
+        run: |
+          set -euo pipefail
+          cp -a /tmp/candidate/sample-v2/. ./sample-v2/
+          mkdir -p tests/method
+          cp -a /tmp/candidate/tests/method/. tests/method/
+          cp /tmp/method-qa/report.json tests/method/browser-report.json
+          cp tests/method/file-manifest.json tests/two-lesson/file-manifest.json
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add sample-v2 tests/method tests/two-lesson/file-manifest.json
+          git commit -m 'feat: add hypothesis measurement inquiry, neutral method feedback and printable QR links'
+          git push origin HEAD:work/inquiry-method-qr
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: method-inquiry-qr-validation
+          path: /tmp/method-qa/
+          retention-days: 7
