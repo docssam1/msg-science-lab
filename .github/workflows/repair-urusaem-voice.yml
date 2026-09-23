@@ -1,0 +1,166 @@
+name: Repair Urusaem voice and inspect references
+on:
+  push:
+    branches: [work/urusaem-voice-expressions]
+    paths: [.github/workflows/repair-urusaem-voice.yml]
+permissions:
+  contents: write
+  actions: read
+jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      - name: Receive exact source-derived voice plan
+        env:
+          SOURCE_URL: 'https://sdmntprkoreacentral.oaiusercontent.com/files/00000000-b8bc-8206-bfa3-4da89e772020/raw?se=2026-09-23T11%3A07%3A23Z&sp=r&sv=2026-02-06&sr=b&scid=5f436fe8-a07f-51e0-b0a7-274199e15dca&skoid=03727f49-62d3-42ac-8350-1c0e6559d238&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-09-22T22%3A51%3A13Z&ske=2026-09-23T22%3A51%3A13Z&sks=b&skv=2026-02-06&sig=kyaAzgCyXyLiOPfMDbGmwgQsWD2vvLhCxnDz3VcVXO8%3D'
+        run: |
+          curl -fL --retry 2 "$SOURCE_URL" -o /tmp/voice.zip
+          echo 'd6ad00c96309aa742e847c843021acd926c6b5ad06675ae8e6f434f5c2ffcc07  /tmp/voice.zip' | sha256sum -c -
+          python - <<'PY'
+          import zipfile,pathlib
+          with zipfile.ZipFile('/tmp/voice.zip') as z:
+            for f in z.infolist():
+              p=pathlib.PurePosixPath(f.filename)
+              assert not p.is_absolute() and '..' not in p.parts and p.parts[0]=='scripts'
+            z.extractall('/tmp/voice-source')
+          PY
+      - uses: actions/upload-artifact@v4
+        with:
+          name: urusaem-voice-source
+          path: /tmp/voice-source/
+          retention-days: 3
+  generate:
+    needs: prepare
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      max-parallel: 8
+      matrix:
+        shard: [0, 1, 2, 3, 4, 5, 6, 7]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/download-artifact@v4
+        with:
+          name: urusaem-voice-source
+          path: .
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Prepare voice engine and existing authorized reference
+        run: |
+          git show 6335b070d42ee5f87d8302ece65b60b599b4f208:assets/teacher-ref-recording.mp4 > /tmp/reference.mp4
+          test -s /tmp/reference.mp4
+          python -m pip install torch torchaudio --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install omnivoice==0.2.1 soundfile imageio-ffmpeg
+      - name: Generate exact narration segments
+        env:
+          SHARD: ${{ matrix.shard }}
+          OMP_NUM_THREADS: '4'
+          MKL_NUM_THREADS: '4'
+        run: python scripts/generate-urusaem-voice.py
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: urusaem-voice-${{ matrix.shard }}
+          path: /tmp/urusaem-voice/${{ matrix.shard }}/
+          retention-days: 3
+  assemble:
+    needs: generate
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: work/urusaem-voice-expressions
+      - uses: actions/download-artifact@v4
+        with:
+          name: urusaem-voice-source
+          path: .
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: urusaem-voice-?
+          path: /tmp/generated
+      - name: Verify and stage generated voice assets
+        run: |
+          python - <<'PY'
+          import pathlib,json,hashlib,shutil
+          plan=json.load(open('scripts/urusaem-voice-plan.json'))
+          old=json.load(open('sample-v2/audio/narration-manifest.json'))
+          new={}
+          for p in pathlib.Path('/tmp/generated').glob('*/manifest.json'):
+            for id,c in json.load(open(p)).items():
+              assert 'error' not in c and c['engine']=='OmniVoice 0.2.1'
+              audio=p.parent/(id+'.mp3')
+              assert audio.stat().st_size>1000 and hashlib.sha256(audio.read_bytes()).hexdigest()==c['sha256']
+              shutil.copy2(audio,'sample-v2/audio/'+audio.name);new[id]=c
+          assert set(new)=={c['id'] for c in plan['clips']},'Missing speech clips'
+          for c in plan['clips']:
+            if c['kind']=='intro':old[c['id']]=new[c['id']]
+          pathlib.Path('sample-v2/audio/narration-manifest.json').write_text(json.dumps(old,ensure_ascii=False,indent=2))
+          allclips={**old,**new}
+          lookup={**{c['text']:id for id,c in old.items()},**plan['lookup']}
+          lib={'version':plan['version'],'engine':'OmniVoice','clips':allclips,'playlists':plan['playlists'],'lookup':lookup,'device_voice_fallback':False}
+          pathlib.Path('sample-v2/audio/voice-library.json').write_text(json.dumps(lib,ensure_ascii=False,indent=2))
+          print('New voice clips',len(new),'full-page playlists',len(plan['playlists']))
+          PY
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add sample-v2/audio scripts/build-voice-plan.py scripts/generate-urusaem-voice.py scripts/urusaem-voice-plan.json
+          git commit -m 'feat: add source-matched OmniVoice for all pages and fixed classroom prompts'
+          git push origin HEAD:work/urusaem-voice-expressions
+      - uses: actions/upload-artifact@v4
+        with:
+          name: urusaem-complete-voice
+          path: sample-v2/audio/
+          retention-days: 3
+  inspect-references:
+    runs-on: ubuntu-latest
+    timeout-minutes: 12
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install inspection browser
+        run: |
+          pip install playwright==1.55.0
+          python -m playwright install --with-deps chromium
+          sudo apt-get install -y fonts-noto-cjk
+      - name: Open user-provided pages and their teach/self routes
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json,urllib.request
+          from playwright.sync_api import sync_playwright
+          out=Path('/tmp/references');out.mkdir()
+          base='https://raw.githack.com/docssam1/lete-on/6b61afc92a24d78cba28b4664bb33db334dd26e4/science-lab/v2/index.html'
+          urls={'book':base+'#/s41-u03b/lab-book/student','teach':base+'#/s41-u03b/lab-class/teach/1','self':base+'#/s41-u03b/lab-class/self/1','intro':'https://lete-on.gfieldacademy.net/science-lab/intro/'}
+          report=[]
+          with sync_playwright() as p:
+            b=p.chromium.launch(args=['--no-sandbox','--enable-unsafe-swiftshader'])
+            for name,url in urls.items():
+              page=b.new_page(viewport={'width':1440,'height':900})
+              try:
+                r=page.goto(url,wait_until='domcontentloaded',timeout=45000);page.wait_for_timeout(5000)
+                text=page.locator('body').inner_text();(out/(name+'.txt')).write_text(text)
+                page.screenshot(path=str(out/(name+'.png')),full_page=True)
+                report.append({'name':name,'url':url,'status':r.status if r else None,'text_length':len(text)})
+              except Exception as e:report.append({'name':name,'url':url,'error':str(e)})
+              page.close()
+            b.close()
+          for name in ['deck.js','deck.css','book.js','book.css','v2.js']:
+            url='https://raw.githubusercontent.com/docssam1/lete-on/6b61afc92a24d78cba28b4664bb33db334dd26e4/science-lab/v2/'+name
+            try:(out/name).write_bytes(urllib.request.urlopen(url,timeout=30).read())
+            except Exception as e:report.append({'file':name,'error':str(e)})
+          (out/'report.json').write_text(json.dumps(report,ensure_ascii=False,indent=2));print(json.dumps(report))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: supplied-reference-inspection
+          path: /tmp/references/
+          retention-days: 3
