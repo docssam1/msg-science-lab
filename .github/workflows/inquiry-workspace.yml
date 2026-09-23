@@ -1,0 +1,22 @@
+name: Inquiry workspace
+on:
+  push:
+    branches: [work/inquiry-method-feedback]
+    paths: [.github/workflows/inquiry-workspace.yml]
+permissions:
+  contents: read
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/upload-artifact@v4
+        with:
+          name: inquiry-source
+          path: |
+            sample-v2/
+            tests/two-lesson/
+            .github/workflows/pages.yml
+            package.json
+          include-hidden-files: true
+          retention-days: 2
