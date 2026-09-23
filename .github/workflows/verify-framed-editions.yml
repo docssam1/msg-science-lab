@@ -13,11 +13,11 @@ jobs:
       - uses: actions/checkout@v4
       - name: Apply exact candidate
         env:
-          PATCH_URL: 'https://sdmntprkoreacentral.oaiusercontent.com/files/00000000-11cc-8206-8b62-630367b1ad86/raw?se=2026-09-23T06%3A39%3A40Z&sp=r&sv=2026-02-06&sr=b&scid=c07f2df6-e908-5164-bad7-5c11c48fcd7e&skoid=03727f49-62d3-42ac-8350-1c0e6559d238&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-09-22T23%3A03%3A50Z&ske=2026-09-23T23%3A03%3A50Z&sks=b&skv=2026-02-06&sig=xvoZSKCXMas1XwysRdwNk8sSKs5uAJaQiUyihPd3VR8%3D'
+          PATCH_URL: 'https://sdmntprindiasocentral.oaiusercontent.com/files/00000000-6f34-8211-9f9c-5c68fb015877/raw?se=2026-09-23T06%3A48%3A11Z&sp=r&sv=2026-02-06&sr=b&scid=df1f51bc-6337-5164-9e0a-98d5cf2c195e&skoid=03727f49-62d3-42ac-8350-1c0e6559d238&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-09-23T05%3A31%3A29Z&ske=2026-09-24T05%3A31%3A29Z&sks=b&skv=2026-02-06&sig=pdqXrd6cPAASXnAGSsPGGhXYI8Y39zGwu5vcYDCsEFk%3D'
         run: |
           set -euo pipefail
           curl -fL --retry 2 "$PATCH_URL" -o /tmp/guide.zip
-          echo 'd1bff1e4b778e219b6a23dc5b76fb0a847ede3d334738c1320b52ea11978b68d  /tmp/guide.zip' | sha256sum -c -
+          echo '3182420593f76c46b0fec426547037f7993c8f1a3547c2d967403fcfd5cd08ea  /tmp/guide.zip' | sha256sum -c -
           python - <<'PY'
           import pathlib,zipfile,json,hashlib
           with zipfile.ZipFile('/tmp/guide.zip') as z:
