@@ -21,7 +21,7 @@ export async function mountInquiry(host,ctx){
  if(state.phase==='measure'||state.phase==='review')state.phase='ready';
  let selected=null,zeroAtLoad=0,adjustedLoaded=false;
  const save=()=>ctx.save(key,state);
- const feedback=text=>{if(disposed)return;ctx.status(text);const el=host.querySelector('[data-inquiry-feedback]');if(el)el.textContent=text;};
+ const feedback=text=>{if(disposed)return;ctx.status(text);if(text===methodErrorText)ctx.respond?.('method-error',text,'encourage');else if(text.startsWith('측정값을 기록했어요'))ctx.respond?.('measurement-recorded',null,'praise');else if(text.startsWith('내 생각을 기록했어요'))ctx.respond?.('retry-ready',null,'think');const el=host.querySelector('[data-inquiry-feedback]');if(el)el.textContent=text;};
  const stopLab=()=>{lab?.destroy();lab=null;ctx.setLab(null);ghost?.remove();ghost=null;};
  const obj=id=>inquiryObjects.find(o=>o.id===id);
  function forecast(){return `다섯 물건: ${state.order.map(id=>obj(id).name).join(' → ')}${state.uncertain?' (잠정 순서)':''}`;}

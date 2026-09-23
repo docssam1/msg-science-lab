@@ -1,0 +1,86 @@
+[
+  {
+    "path": "sample-v2/app.js",
+    "sha256": "e61256724b456db7f09590c67b45f98c6ca8dca73f4cc761d5410451f0b2bb78"
+  },
+  {
+    "path": "sample-v2/index.html",
+    "sha256": "490590bd59ac3f1f541d907084b24d9588ae30a1ab114c80629a093674d14c16"
+  },
+  {
+    "path": "sample-v2/style.css",
+    "sha256": "5a7616f8d0fef4b8b158a9509fa37b3b6e5445ee1382b19f8a110285c417678f"
+  },
+  {
+    "path": "sample-v2/coach.js",
+    "sha256": "16e52c6fe0898fb10c29939c6078c2a9c0b75b5a3581922af962702679fbfdb6"
+  },
+  {
+    "path": "sample-v2/coach.css",
+    "sha256": "638b948de961c4706ab7ed6476ed203393cce1404712a80df58bfebff570d1a9"
+  },
+  {
+    "path": "sample-v2/activities.js",
+    "sha256": "46c5aa842e865c36fd3200a8b5e5d649e10e6d6f8c5da7af08a72f31fb2ad403"
+  },
+  {
+    "path": "sample-v2/inquiry.js",
+    "sha256": "b30dad6dc3f2587955f253a0c7e642f1b7b46f4a479c531b200cd6dcda48f573"
+  },
+  {
+    "path": "sample-v2/class.html",
+    "sha256": "9338b4b447bb3dbca0394d6f9f195693ebd7ca872d1ede463fcf01204e1d4075"
+  },
+  {
+    "path": "sample-v2/class.css",
+    "sha256": "0d15dfa4c7033ad82c53eb341470fec9bf7b160355e3f228706ba9d74e24f401"
+  },
+  {
+    "path": "sample-v2/class.js",
+    "sha256": "a6ec195e72f6f8d6e66e141b732a989909bfc1a4eb7877cf2b3f2b68f2ba734a"
+  },
+  {
+    "path": "sample-v2/class-content.js",
+    "sha256": "83b74c405f0065bb5f4fe21905c4152856de7e560c5cd77b14f5074d42b160c9"
+  },
+  {
+    "path": "sample-v2/README.md",
+    "sha256": "5a60169fcb271f2833f7c733e3eb98a3ad62f5ffb6e43628204636abe49cae1e"
+  },
+  {
+    "path": "sample-v2/art/expressions/encourage.png",
+    "sha256": "9bddfd179a3657e1abb43687923c9248d5e021aa9d36377d29bcd9486cc9645b"
+  },
+  {
+    "path": "sample-v2/art/expressions/manifest.json",
+    "sha256": "bbeb741cb40ded4c8ee6f6474f24915ea697b292c3f7eb3dc45b5b232418a2ff"
+  },
+  {
+    "path": "sample-v2/art/expressions/praise.png",
+    "sha256": "b9cecc2a5e0b7f4f85dac61d8a1ecb669633cbb6a1b0b004410ee9b692e89b8b"
+  },
+  {
+    "path": "sample-v2/art/expressions/explain.png",
+    "sha256": "3fd940c88511263200ae8ecd7fe3cf2834f2ddb0f63ba40140adc8a89eabb4c6"
+  },
+  {
+    "path": "sample-v2/art/expressions/think.png",
+    "sha256": "307678d287dca135214f2acfaa1c2f13f11e2035218a0b145061abafaff013cd"
+  },
+  {
+    "path": "sample-v2/art/expressions/listen.png",
+    "sha256": "b30019bb0c3d116fe39d65c92ced607692947c22bcf2229c7776a71512707b69"
+  },
+  {
+    "path": "sample-v2/art/expressions/surprise.png",
+    "sha256": "a858d38db82711a04a6ce5ea5025dfe83e5800cc8d53414a9ad481fd2ecd7ada"
+  },
+  {
+    "path": "tests/voice-coach/browser.py",
+    "sha256": "a89da7003b5d2740371355b77a2255371ef65355e91d5c59fe0ee131ce6eca35"
+  },
+  {
+    "path": "tests/voice-coach/model.test.mjs",
+    "sha256": "6d5e3bced55fee5f7bccd0f7fa9c6e84e686bf0ac4f4d313d5e55d059029ee0a"
+  }
+]

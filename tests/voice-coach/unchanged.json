@@ -1,0 +1,50 @@
+[
+  {
+    "path": "sample-v2/content.js",
+    "sha256": "c1e02c4ca65bc5653d09090522bf4ade3a87c5d6369b6d84e0e58ce476284e91"
+  },
+  {
+    "path": "sample-v2/inquiry-pages.js",
+    "sha256": "3e8032fcd6f6ac3181a73f011b2f70417f9706ec8f1ae1152c232a089b3da717"
+  },
+  {
+    "path": "sample-v2/physics.js",
+    "sha256": "ea87722dcd41fe74fd656b5c952402fac033740067084116f90674e9c8457910"
+  },
+  {
+    "path": "sample-v2/lab3d.js",
+    "sha256": "d1736285e831ad377c72a6050736b2b644a77e37e3f011b0f30fe365ae063415"
+  },
+  {
+    "path": "sample-v2/everyday-objects.js",
+    "sha256": "11b2b5344b17f470dbbb632d3731c26239692a4297dbbc2ad4588daa85381d98"
+  },
+  {
+    "path": "sample-v2/everyday-objects-3d.js",
+    "sha256": "93562739927c1469fcbdf1a5d5f5dedd9b4b8dcaf213a04e21ef61d40df60d6d"
+  },
+  {
+    "path": "sample-v2/review.js",
+    "sha256": "c7c84143414ef1d663b69f2d0a8e5e0b54b82782dcf49280253f7f74db19ef6d"
+  },
+  {
+    "path": "sample-v2/editions.js",
+    "sha256": "efa77a7664387ce8acc17aff7370f2fb243f6856a47907baeee2ef28637f25c5"
+  },
+  {
+    "path": "sample-v2/guide-theme.css",
+    "sha256": "785a3803643a70c1e35e67d72f02fb08ac4302117f80e4db051db69ca29370ff"
+  },
+  {
+    "path": "sample-v2/print/student.pdf",
+    "sha256": "fc1c8fadce7801461b5b3fbf030c7b048d2f6833a2dd71b0dfa200ad93463754"
+  },
+  {
+    "path": "sample-v2/print/teacher.pdf",
+    "sha256": "b7eaf249d18619140b51c2935ef5ec1b862a788ee6bd34560364e8784b9d50e3"
+  },
+  {
+    "path": "sample-v2/qr-map.js",
+    "sha256": "83bc8070c4c98d1c8c44ea5c5810ed3efd089198c88a7472f1793f2fab19aefb"
+  }
+]

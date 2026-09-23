@@ -4,7 +4,7 @@ import {toolRows} from './content.js';
 export const activityNames={inquiry:'저울이 왜 필요할까요? · 예상과 실험',parts:'이 부품은 어떤 일을 할까요?',zero:'물체를 달기 전에 영점 맞추기',compare:'어느 물체가 더 무거울까요?',target:'고리를 당겨 목표 눈금에 맞추기',eye:'시선만 바꾸고 눈금 직접 찍기',types:'어떤 저울을 사용할까요?',history:'용수철의 이름과 과거',watch:'기록영상 · 시계 속 태엽',balance:'기록영상 · 작은 용수철의 반복 운동',future:'교재의 미래 전망 · 개념 도해',elastic:'잡아당기고 놓아 보는 탄성',compression:'누르는 힘과 길이 변화',measure:'추 10·20·30 g과 늘어난 길이',graph:'표를 읽고 그래프에 점 찍기','assessment-graph':'일일평가 12번 · 다른 표, 다른 그래프','spring-film':'실제 용수철 운동 관찰',tools:'생활 속 여섯 도구',assessment:'답안과 확인 질문',source:'원본 교재 대조',reading:'본문 크게 읽기',credits:'외부 자료와 구현 범위'};
 const partList=[['handle','손잡이','손으로 잡거나 스탠드에 고정하는 부분입니다.'],['zero','영점조절나사','물체를 달기 전에 표시자를 0에 맞춥니다.'],['spring','용수철','물체를 매달면 늘어나는 부분입니다.'],['pointer','표시자','눈금을 가리키며 윗부분을 기준으로 읽습니다.'],['scale','눈금','측정값과 단위를 확인하는 표시입니다.'],['hook','고리','무게를 재려는 물체를 매다는 부분입니다.']];
 export async function mountActivity(kind,host,ctx){
- if(kind==='inquiry'||kind==='compare'){const {mountInquiry}=await import('./inquiry.js');return mountInquiry(host,ctx);}
+ if(kind==='inquiry'||kind==='compare'){const {mountInquiry}=await import('./inquiry.js?v=urusaem-2');return mountInquiry(host,ctx);}
  let disposed=false,cleanup=()=>{};const setStatus=s=>{if(!disposed)ctx.status(s);};
  const say=s=>disposed?Promise.resolve(false):ctx.say(s);
  const destroy=()=>{disposed=true;cleanup();};
