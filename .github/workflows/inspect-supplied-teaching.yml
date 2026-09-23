@@ -1,0 +1,63 @@
+name: Inspect supplied teaching screens
+on:
+  push:
+    branches: [work/urusaem-voice-expressions]
+    paths: [.github/workflows/inspect-supplied-teaching.yml]
+permissions:
+  contents: read
+jobs:
+  inspect:
+    runs-on: ubuntu-latest
+    timeout-minutes: 8
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - run: |
+          pip install playwright==1.55.0
+          python -m playwright install --with-deps chromium
+          sudo apt-get install -y fonts-noto-cjk
+      - name: Inspect real reference pages
+        run: |
+          python - <<'PY'
+          import json
+          from pathlib import Path
+          from playwright.sync_api import sync_playwright
+          out=Path('/tmp/reference-real');out.mkdir();report=[]
+          pinned='https://raw.githack.com/docssam1/lete-on/6b61afc92a24d78cba28b4664bb33db334dd26e4/science-lab/v2/index.html'
+          live='https://lete-on.gfieldacademy.net/science-lab/v2/index.html'
+          with sync_playwright() as p:
+            b=p.chromium.launch(args=['--no-sandbox','--enable-unsafe-swiftshader'])
+            for label,base in [('pinned',pinned),('live',live)]:
+              page=b.new_page(viewport={'width':1440,'height':900})
+              for mode in ['teach','self']:
+                url=base+'#/s41-u03b/lab-class/'+mode+'/1';item={'name':label+'-'+mode,'requested':url}
+                try:
+                  page.goto(url,wait_until='domcontentloaded',timeout=45000)
+                  page.wait_for_timeout(1500)
+                  link=page.get_by_role('link',name='Open the page',exact=True)
+                  if link.count():
+                    item['confirmation_href']=link.get_attribute('href')
+                    link.click();page.wait_for_timeout(4000)
+                  page.wait_for_timeout(3500)
+                  item['url']=page.url;item['actual_deck']=page.locator('.dk-stage').count()>0
+                  item['text']=page.locator('body').inner_text()[:4500]
+                  page.screenshot(path=str(out/(label+'-'+mode+'.png')),full_page=True)
+                  if page.locator('.dk-stage').count():
+                    for n in range(4):
+                      btn=page.locator('[data-a="next"]')
+                      if btn.count():btn.click();page.wait_for_timeout(400)
+                    page.screenshot(path=str(out/(label+'-'+mode+'-question.png')),full_page=True)
+                    item['question_text']=page.locator('body').inner_text()[:6000]
+                except Exception as e:item['error']=str(e)
+                report.append(item)
+              page.close()
+            b.close()
+          (out/'report.json').write_text(json.dumps(report,ensure_ascii=False,indent=2));print(json.dumps(report,ensure_ascii=False))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: supplied-teaching-real-screens
+          path: /tmp/reference-real/
+          retention-days: 3
