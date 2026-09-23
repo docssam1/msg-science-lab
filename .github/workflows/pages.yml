@@ -27,11 +27,40 @@ jobs:
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
+      - name: Stage public sample only
+        run: |
+          mkdir -p _site
+          cp index.html _site/index.html
+          cp -a sample-v2 _site/sample-v2
+
       - name: Upload site
         uses: actions/upload-pages-artifact@v3
         with:
-          path: "."
+          path: "_site"
 
       - name: Deploy
         id: deployment
         uses: actions/deploy-pages@v5
+
+      - name: Verify the actual published sample
+        env:
+          SITE_URL: ${{ steps.deployment.outputs.page_url }}
+        run: |
+          python - <<'PY'
+          import os,json,hashlib,time,urllib.request,urllib.parse
+          base=os.environ['SITE_URL'].rstrip('/')+'/'
+          manifest=json.load(open('tests/two-lesson/file-manifest.json'))
+          checked=[]
+          for f in manifest:
+              url=base+'sample-v2/'+urllib.parse.quote(f['path'])+'?verify='+f['sha256'][:12]
+              for attempt in range(4):
+                  try:
+                      with urllib.request.urlopen(url,timeout=30) as r:
+                          body=r.read();status=r.status
+                      assert status==200 and hashlib.sha256(body).hexdigest()==f['sha256'],f['path']
+                      checked.append(f['path']);break
+                  except Exception:
+                      if attempt==3:raise
+                      time.sleep(5)
+          print(json.dumps({'status':'verified','site':base+'sample-v2/','files':len(checked),'all_content_hashes_match':True},ensure_ascii=False))
+          PY
