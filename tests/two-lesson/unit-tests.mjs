@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import {pages,questions} from '../../sample-v2/content.js';
 import {SpringMotion,apparentReading,gradePoints,dataLesson,dataAssessment,gradeQuestion} from '../../sample-v2/physics.js';
 import {bank,fingerprint,takeUnused,concepts} from '../../sample-v2/review.js';
-assert.equal(pages.length,18);assert.equal(questions.length,18);
+assert.equal(pages.length,20);assert.equal(questions.length,18);
 assert.deepEqual([...new Set(pages.flatMap(p=>p.source))].sort((a,b)=>a-b),Array.from({length:12},(_,i)=>i+10));
 for(const q of questions){assert.ok(gradeQuestion(q,q.answer));}
 assert.ok(gradePoints(dataLesson,dataLesson));assert.ok(gradePoints(dataAssessment,dataAssessment));assert.ok(!gradePoints(dataLesson,dataAssessment));

@@ -1,0 +1,399 @@
+{
+  "errors": [],
+  "checks": [
+    "Pair prediction, pointer + button ranking, hidden 2N offset, unchanged observations, neutral method audit, learner repair, retained 2 rounds, evidence conclusion, reload persistence",
+    "20 stable QR deep links route to correct page and open activity"
+  ],
+  "layouts": [
+    {
+      "w": 1920,
+      "h": 1080,
+      "sw": 1920,
+      "sh": 1080,
+      "book": {
+        "x": 276.37225341796875,
+        "y": 169,
+        "width": 1131.25537109375,
+        "height": 800,
+        "top": 169,
+        "right": 1407.6276245117188,
+        "bottom": 969,
+        "left": 276.37225341796875
+      },
+      "foot": {
+        "x": 0,
+        "y": 1008,
+        "width": 1920,
+        "height": 72,
+        "top": 1008,
+        "right": 1920,
+        "bottom": 1080,
+        "left": 0
+      }
+    },
+    {
+      "w": 1366,
+      "h": 768,
+      "sw": 1366,
+      "sh": 768,
+      "book": {
+        "x": 219.967041015625,
+        "y": 169,
+        "width": 690.06591796875,
+        "height": 488,
+        "top": 169,
+        "right": 910.032958984375,
+        "bottom": 657,
+        "left": 219.967041015625
+      },
+      "foot": {
+        "x": 0,
+        "y": 696,
+        "width": 1366,
+        "height": 72,
+        "top": 696,
+        "right": 1366,
+        "bottom": 768,
+        "left": 0
+      }
+    },
+    {
+      "w": 1280,
+      "h": 720,
+      "sw": 1280,
+      "sh": 720,
+      "book": {
+        "x": 210.90472412109375,
+        "y": 169,
+        "width": 622.1905517578125,
+        "height": 440,
+        "top": 169,
+        "right": 833.0952758789062,
+        "bottom": 609,
+        "left": 210.90472412109375
+      },
+      "foot": {
+        "x": 0,
+        "y": 648,
+        "width": 1280,
+        "height": 72,
+        "top": 648,
+        "right": 1280,
+        "bottom": 720,
+        "left": 0
+      }
+    },
+    {
+      "w": 390,
+      "h": 844,
+      "sw": 390,
+      "sh": 844,
+      "book": {
+        "x": 15,
+        "y": 192.41561889648438,
+        "width": 360,
+        "height": 509.1687316894531,
+        "top": 192.41561889648438,
+        "right": 375,
+        "bottom": 701.5843505859375,
+        "left": 15
+      },
+      "foot": {
+        "x": 0,
+        "y": 740,
+        "width": 390,
+        "height": 104,
+        "top": 740,
+        "right": 390,
+        "bottom": 844,
+        "left": 0
+      }
+    }
+  ],
+  "audio": [
+    {
+      "id": "l1-test-b",
+      "duration": 11.1
+    },
+    {
+      "id": "l2-elastic",
+      "duration": 12.48
+    },
+    {
+      "id": "l2-compress",
+      "duration": 11.92
+    },
+    {
+      "id": "l2-measure",
+      "duration": 13.36
+    },
+    {
+      "id": "l2-graph",
+      "duration": 11.04
+    },
+    {
+      "id": "l2-tools",
+      "duration": 13.48
+    },
+    {
+      "id": "l2-test-a",
+      "duration": 13
+    },
+    {
+      "id": "l2-test-b",
+      "duration": 10
+    },
+    {
+      "id": "l2-test-graph",
+      "duration": 13
+    },
+    {
+      "id": "l1-structure",
+      "duration": 10.77
+    },
+    {
+      "id": "l1-use",
+      "duration": 10.57
+    },
+    {
+      "id": "l1-eye",
+      "duration": 12.36
+    },
+    {
+      "id": "l1-scales",
+      "duration": 12.82
+    },
+    {
+      "id": "l1-name",
+      "duration": 13.56
+    },
+    {
+      "id": "l1-past",
+      "duration": 13.2
+    },
+    {
+      "id": "l1-watch",
+      "duration": 11.88
+    },
+    {
+      "id": "l1-future",
+      "duration": 13.64
+    },
+    {
+      "id": "l1-test-a",
+      "duration": 10.84
+    },
+    {
+      "id": "l1-intro",
+      "duration": 16.04
+    },
+    {
+      "id": "l1-inquiry-record",
+      "duration": 16.78
+    }
+  ],
+  "printStudent": [
+    {
+      "id": "l1-intro",
+      "gap": 68.84375,
+      "qrTitleOverlap": false
+    },
+    {
+      "id": "l1-inquiry-record",
+      "gap": 20.84375,
+      "qrTitleOverlap": false
+    },
+    {
+      "id": "l1-structure",
+      "gap": 127.453125,
+      "qrTitleOverlap": false
+    },
+    {
+      "id": "l1-use",
+      "gap": 104.65625,
+      "qrTitleOverlap": false
+    },
+    {
+      "id": "l1-eye",
+      "gap": 94.203125,
+      "qrTitleOverlap": false
+    },
+    {
+      "id": "l1-scales",
+      "gap": 135.5625,
+      "qrTitleOverlap": false
+    },
+    {
+      "id": "l1-name",
+      "gap": 138.75,
+      "qrTitleOverlap": false
+    },
+    {
+      "id": "l1-past",
+      "gap": 132.21875,
+      "qrTitleOverlap": false
+    },
+    {
+      "id": "l1-watch",
+      "gap": 170.921875,
+      "qrTitleOverlap": false
+    },
+    {
+      "id": "l1-future",
+      "gap": 105.265625,
+      "qrTitleOverlap": false
+    },
+    {
+      "id": "l1-test-a",
+      "gap": 121.421875,
+      "qrTitleOverlap": false
+    },
+    {
+      "id": "l1-test-b",
+      "gap": 128.21875,
+      "qrTitleOverlap": false
+    },
+    {
+      "id": "l2-elastic",
+      "gap": 127.890625,
+      "qrTitleOverlap": false
+    },
+    {
+      "id": "l2-compress",
+      "gap": 112.609375,
+      "qrTitleOverlap": false
+    },
+    {
+      "id": "l2-measure",
+      "gap": 94.484375,
+      "qrTitleOverlap": false
+    },
+    {
+      "id": "l2-graph",
+      "gap": 120.5,
+      "qrTitleOverlap": false
+    },
+    {
+      "id": "l2-tools",
+      "gap": 124.71875,
+      "qrTitleOverlap": false
+    },
+    {
+      "id": "l2-test-a",
+      "gap": 203.0625,
+      "qrTitleOverlap": false
+    },
+    {
+      "id": "l2-test-b",
+      "gap": 110.0625,
+      "qrTitleOverlap": false
+    },
+    {
+      "id": "l2-test-graph",
+      "gap": 101.40625,
+      "qrTitleOverlap": false
+    }
+  ],
+  "printTeacher": [
+    {
+      "id": "l1-intro",
+      "gap": 68.84375,
+      "qrTitleOverlap": false
+    },
+    {
+      "id": "l1-inquiry-record",
+      "gap": 16.125,
+      "qrTitleOverlap": false
+    },
+    {
+      "id": "l1-structure",
+      "gap": 127.453125,
+      "qrTitleOverlap": false
+    },
+    {
+      "id": "l1-use",
+      "gap": 104.65625,
+      "qrTitleOverlap": false
+    },
+    {
+      "id": "l1-eye",
+      "gap": 94.203125,
+      "qrTitleOverlap": false
+    },
+    {
+      "id": "l1-scales",
+      "gap": 135.5625,
+      "qrTitleOverlap": false
+    },
+    {
+      "id": "l1-name",
+      "gap": 138.75,
+      "qrTitleOverlap": false
+    },
+    {
+      "id": "l1-past",
+      "gap": 132.21875,
+      "qrTitleOverlap": false
+    },
+    {
+      "id": "l1-watch",
+      "gap": 170.921875,
+      "qrTitleOverlap": false
+    },
+    {
+      "id": "l1-future",
+      "gap": 105.265625,
+      "qrTitleOverlap": false
+    },
+    {
+      "id": "l1-test-a",
+      "gap": 136.3125,
+      "qrTitleOverlap": false
+    },
+    {
+      "id": "l1-test-b",
+      "gap": 131.125,
+      "qrTitleOverlap": false
+    },
+    {
+      "id": "l2-elastic",
+      "gap": 127.890625,
+      "qrTitleOverlap": false
+    },
+    {
+      "id": "l2-compress",
+      "gap": 112.609375,
+      "qrTitleOverlap": false
+    },
+    {
+      "id": "l2-measure",
+      "gap": 94.484375,
+      "qrTitleOverlap": false
+    },
+    {
+      "id": "l2-graph",
+      "gap": 120.5,
+      "qrTitleOverlap": false
+    },
+    {
+      "id": "l2-tools",
+      "gap": 124.71875,
+      "qrTitleOverlap": false
+    },
+    {
+      "id": "l2-test-a",
+      "gap": 125.4375,
+      "qrTitleOverlap": false
+    },
+    {
+      "id": "l2-test-b",
+      "gap": 46.1875,
+      "qrTitleOverlap": false
+    },
+    {
+      "id": "l2-test-graph",
+      "gap": 80.8125,
+      "qrTitleOverlap": false
+    }
+  ]
+}

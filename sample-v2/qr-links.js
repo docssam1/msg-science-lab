@@ -1,0 +1,82 @@
+export const qrLinks = {
+  "l1-intro": {
+    "url": "https://docssam1.github.io/msg-science-lab/sample-v2/?p=l1-intro&lab=inquiry",
+    "label": "예상·측정 실험"
+  },
+  "l1-inquiry-record": {
+    "url": "https://docssam1.github.io/msg-science-lab/sample-v2/?p=l1-inquiry-record&lab=inquiry",
+    "label": "예상·측정 실험"
+  },
+  "l1-structure": {
+    "url": "https://docssam1.github.io/msg-science-lab/sample-v2/?p=l1-structure&lab=parts",
+    "label": "부품 확대 실험"
+  },
+  "l1-use": {
+    "url": "https://docssam1.github.io/msg-science-lab/sample-v2/?p=l1-use&lab=zero",
+    "label": "저울 조작 실험"
+  },
+  "l1-eye": {
+    "url": "https://docssam1.github.io/msg-science-lab/sample-v2/?p=l1-eye&lab=eye",
+    "label": "눈높이 실험"
+  },
+  "l1-scales": {
+    "url": "https://docssam1.github.io/msg-science-lab/sample-v2/?p=l1-scales&lab=types",
+    "label": "저울 선택 활동"
+  },
+  "l1-name": {
+    "url": "https://docssam1.github.io/msg-science-lab/sample-v2/?p=l1-name&lab=history",
+    "label": "과학 이야기"
+  },
+  "l1-past": {
+    "url": "https://docssam1.github.io/msg-science-lab/sample-v2/?p=l1-past&lab=history",
+    "label": "과학 이야기"
+  },
+  "l1-watch": {
+    "url": "https://docssam1.github.io/msg-science-lab/sample-v2/?p=l1-watch&lab=watch",
+    "label": "기록영상 보기"
+  },
+  "l1-future": {
+    "url": "https://docssam1.github.io/msg-science-lab/sample-v2/?p=l1-future&lab=future",
+    "label": "미래 이야기"
+  },
+  "l1-test-a": {
+    "url": "https://docssam1.github.io/msg-science-lab/sample-v2/?p=l1-test-a&lab=assessment",
+    "label": "문제 크게 보기"
+  },
+  "l1-test-b": {
+    "url": "https://docssam1.github.io/msg-science-lab/sample-v2/?p=l1-test-b&lab=assessment",
+    "label": "문제 크게 보기"
+  },
+  "l2-elastic": {
+    "url": "https://docssam1.github.io/msg-science-lab/sample-v2/?p=l2-elastic&lab=elastic",
+    "label": "탄성 실험"
+  },
+  "l2-compress": {
+    "url": "https://docssam1.github.io/msg-science-lab/sample-v2/?p=l2-compress&lab=compression",
+    "label": "압축 실험"
+  },
+  "l2-measure": {
+    "url": "https://docssam1.github.io/msg-science-lab/sample-v2/?p=l2-measure&lab=measure",
+    "label": "추 측정 실험"
+  },
+  "l2-graph": {
+    "url": "https://docssam1.github.io/msg-science-lab/sample-v2/?p=l2-graph&lab=graph",
+    "label": "그래프 활동"
+  },
+  "l2-tools": {
+    "url": "https://docssam1.github.io/msg-science-lab/sample-v2/?p=l2-tools&lab=tools",
+    "label": "도구 관찰"
+  },
+  "l2-test-a": {
+    "url": "https://docssam1.github.io/msg-science-lab/sample-v2/?p=l2-test-a&lab=assessment",
+    "label": "문제 크게 보기"
+  },
+  "l2-test-b": {
+    "url": "https://docssam1.github.io/msg-science-lab/sample-v2/?p=l2-test-b&lab=assessment",
+    "label": "문제 크게 보기"
+  },
+  "l2-test-graph": {
+    "url": "https://docssam1.github.io/msg-science-lab/sample-v2/?p=l2-test-graph&lab=assessment-graph",
+    "label": "평가 그래프"
+  }
+};

@@ -1,0 +1,12 @@
+{
+  "student": {
+    "pages": 20,
+    "decoded": 20,
+    "links_match": true
+  },
+  "teacher": {
+    "pages": 20,
+    "decoded": 20,
+    "links_match": true
+  }
+}

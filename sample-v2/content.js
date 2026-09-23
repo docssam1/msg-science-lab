@@ -1,3 +1,4 @@
+import {inquiryPages,inquiryNarration} from './inquiry-pages.js';
 import {scaleArt, springArt, eyeArt, graphSVG, graphChoices, toolIcon, loadArt} from './graphics.js';
 export const section=(n,title,body)=>`<section class="unit-section"><h3><span>${n}</span>${title}</h3>${body}</section>`;
 const note=(title,text)=>`<aside class="editor-note"><b>${title}</b><p>${text}</p></aside>`;
@@ -144,6 +145,7 @@ page('l2-test-graph',2,[21],'DAILY TEST · 일일평가','이번에는 다른 �
 export const lessonNames={1:'용수철저울의 구조 익히기',2:'추의 무게에 따른 용수철의 길이 변화'};
 export const questions=[...q1,...q2];
 export const gradeGroups={'1a':q1.slice(0,3),'1b':q1.slice(3),'2a':q2.slice(0,4),'2b':q2.slice(4,11)};
+pages.unshift(...inquiryPages);
 export const narration=Object.fromEntries(pages.map(p=>[p.id,{id:p.id,text:({
 'l1-structure':'용수철저울의 각 부분은 어떤 일을 할까요? 이름을 외우기 전에 부품을 하나씩 확대해서 역할을 생각해 봅시다.',
 'l1-use':'물체를 달기 전에 영점을 맞추고, 흔들림이 멈춘 뒤 눈높이를 맞춰 읽어요.',
@@ -164,3 +166,5 @@ export const narration=Object.fromEntries(pages.map(p=>[p.id,{id:p.id,text:({
 'l2-test-b':'조건을 같게 둔 비교인지, 어떤 길이를 말하는지 생각하며 답하세요.',
 'l2-test-graph':'이 표에서는 십 그램일 때 사 센티미터예요. 앞의 실험과 다른 숫자를 사용해 그래프를 완성하세요.'
 })[p.id]}]));
+
+Object.assign(narration,inquiryNarration);

@@ -11,12 +11,12 @@ with sync_playwright() as p:
  try:
   page.add_init_script('const RealAudio=window.Audio;window.Audio=class extends RealAudio{constructor(...args){super(...args);window.__lastAudio=this;}};')
   page.goto(BASE,wait_until='networkidle');page.wait_for_function('window.__sample')
-  assert page.evaluate('window.__sample.pages.length')==18
+  assert page.evaluate('window.__sample.pages.length')==20
   assert page.evaluate('window.__sample.questions.length')==18
-  report['checks'].append('18 pages and 18 original questions')
-  # The narration is real audio, independently decodable at all 18 URLs.
+  report['checks'].append('20 pages and 18 original questions')
+  # The narration is real audio, independently decodable at all 20 URLs.
   clips=page.evaluate('''async()=>{const m=await fetch('./audio/narration-manifest.json').then(r=>r.json());return Promise.all(Object.entries(m).map(async([id,v])=>{const a=new Audio(v.path);const d=await new Promise((res,rej)=>{a.onloadedmetadata=()=>res(a.duration);a.onerror=()=>rej(new Error(id));a.load()});return {id,duration:d};}));}''')
-  assert len(clips)==18 and all(2<x['duration']<60 for x in clips)
+  assert len(clips)==20 and all(2<x['duration']<60 for x in clips)
   report['narration']=clips
   # Actual start plays a genuine clip and transitions after audio ends (seek near end).
   page.locator('#start').click();page.wait_for_timeout(1500)
@@ -53,7 +53,7 @@ with sync_playwright() as p:
    page.screenshot(path=str(OUT/(kind+'.png')));report['checks'].append({'activity':kind,'state':state})
    page.evaluate('window.__sample.close()')
   # Original question UI: all 17 text/choice answers, with duplicated print/read contexts.
-  for idx,group,total in [(8,'1a',3),(9,'1b',3),(15,'2a',4),(16,'2b',7)]:
+  for idx,group,total in [(10,'1a',3),(11,'1b',3),(17,'2a',4),(18,'2b',7)]:
    page.evaluate('(i)=>window.__sample.navigate(i)',idx);page.locator('#focus-reading').click()
    qids=page.locator('#activity [data-qid]').evaluate_all('(els)=>els.map(e=>e.dataset.qid)')
    # Use each rendered field; write the corresponding source answer without filling hidden print controls.
@@ -105,9 +105,9 @@ with sync_playwright() as p:
    if teacher:page.emulate_media(media='screen');page.locator('#teacher').click()
    page.emulate_media(media='print')
    gaps=page.evaluate('''()=>[...document.querySelectorAll('#print-root .paper')].map(p=>p.querySelector('.page-foot').getBoundingClientRect().top-p.querySelector('.page-body').getBoundingClientRect().bottom)''')
-   assert len(gaps)==18 and min(gaps)>8
+   assert len(gaps)==20 and min(gaps)>8
    page.pdf(path=str(OUT/('teacher.pdf' if teacher else 'student.pdf')),print_background=True,prefer_css_page_size=True)
-   report['checks'].append({'printTeacher':teacher,'minimumFooterGapPx':min(gaps),'pages':18})
+   report['checks'].append({'printTeacher':teacher,'minimumFooterGapPx':min(gaps),'pages':20})
   assert not report['errors']
  except Exception:
   report['errors'].append(traceback.format_exc());page.emulate_media(media='screen');page.screenshot(path=str(OUT/'failure.png'))

@@ -2,9 +2,9 @@ import * as THREE from './vendor/three.module.js';
 import {OrbitControls} from './vendor/OrbitControls.js';
 import {SpringMotion,clamp,finite,apparentReading} from './physics.js';
 
-export function mountLab(host, {mode='compare',onChange=()=>{},onPick=()=>{},onRelease=()=>{}}={}) {
+export function mountLab(host, {mode='compare',initialZero=null,onChange=()=>{},onPick=()=>{},onRelease=()=>{},onAdjustZero=()=>{}}={}) {
  const measure=mode==='measure',compress=mode==='compression',plain=measure||compress||mode==='elastic';
- host.innerHTML='<span class="scene-tag">3D 가상 교구 · 관찰 모형</span><span class="scene-hint">'+(mode==='eye'?'눈높이를 바꾼 뒤 눈금을 직접 누르세요':mode==='target'||mode==='elastic'?'고리를 잡아 아래로 당겨 보세요':mode==='compression'?'위쪽 누름판을 잡고 내려 보세요':'손가락 / 마우스로 돌려 볼 수 있어요')+'</span>';
+ host.innerHTML='<span class="scene-tag">3D 가상 교구 · 관찰 모형</span><span class="scene-hint">'+(mode==='inquiry'?'물건을 매달고 눈금을 직접 읽어 보세요':mode==='eye'?'눈높이를 바꾼 뒤 눈금을 직접 누르세요':mode==='target'||mode==='elastic'?'고리를 잡아 아래로 당겨 보세요':mode==='compression'?'위쪽 누름판을 잡고 내려 보세요':'손가락 / 마우스로 돌려 볼 수 있어요')+'</span>';
  const canvas=document.createElement('canvas');host.prepend(canvas);
  const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true,preserveDrawingBuffer:true});
  renderer.setPixelRatio(Math.min(devicePixelRatio,1.6));renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.35;
@@ -49,6 +49,19 @@ export function mountLab(host, {mode='compare',onChange=()=>{},onPick=()=>{},onR
  let weightBody=cyl(.26,.48,copper,0,-.21,0,weight);cyl(.14,.06,steel,0,.075,0,weight);
  let weightHook=tube([[0,.065,0],[0,.17,0],[.10,.21,0],[.13,.14,0]],.02,steel,weight);
  let secondary=mesh(new THREE.BoxGeometry(.5,.37,.28),teal,weight);secondary.position.y=-.23;secondary.visible=false;
+
+ const inquiryBall=mesh(new THREE.SphereGeometry(.31,32,24),mat({color:'#d2ad63',roughness:.94}),weight);inquiryBall.position.y=-.25;inquiryBall.visible=false;
+ const inquiryBook=new THREE.Group();weight.add(inquiryBook);inquiryBook.visible=false;
+ box(.64,.49,.23,mat({color:'#efe6d1',roughness:.95}),0,-.22,0,inquiryBook);
+ const cover=mat({color:'#b8614c',roughness:.7});box(.69,.54,.027,cover,0,-.22,.135,inquiryBook);box(.69,.54,.027,cover,0,-.22,-.135,inquiryBook);box(.028,.54,.30,cover,-.34,-.22,0,inquiryBook);
+ const inquiryPouch=new THREE.Group();weight.add(inquiryPouch);inquiryPouch.visible=false;
+ const pouchMaterial=mat({color:'#37848b',roughness:.9});box(.68,.38,.28,pouchMaterial,0,-.22,0,inquiryPouch);box(.62,.02,.03,copper,0,-.02,.06,inquiryPouch);
+ const patchCanvas=document.createElement('canvas');patchCanvas.width=128;patchCanvas.height=128;const patchTexture=new THREE.CanvasTexture(patchCanvas);textures.add(patchTexture);
+ const patchMat=new THREE.MeshBasicMaterial({map:patchTexture});materials.add(patchMat);const patch=mesh(new THREE.PlaneGeometry(.17,.17),patchMat,inquiryPouch);patch.position.set(0,-.23,.146);
+ function dressLoad(shape){inquiryBall.visible=false;inquiryBook.visible=false;inquiryPouch.visible=false;weightBody.visible=shape!=='case';secondary.visible=shape==='case';weightBody.material=shape==='ball'?orange:copper;
+  if(shape==='foam'||shape==='book'||shape?.startsWith('pouch-')){weightBody.visible=false;secondary.visible=false;inquiryBall.visible=shape==='foam';inquiryBook.visible=shape==='book';inquiryPouch.visible=shape.startsWith('pouch-');
+   if(inquiryPouch.visible){const id=shape.slice(-1).toUpperCase();pouchMaterial.color.set({A:'#37848b',B:'#567ea3',C:'#92779e'}[id]);const c=patchCanvas.getContext('2d');c.fillStyle='#f1e9d8';c.fillRect(0,0,128,128);c.font='bold 90px sans-serif';c.textAlign='center';c.fillStyle='#25485c';c.fillText(id,64,98);patchTexture.needsUpdate=true;}}
+ }
  // Helical tube buffer: fixed topology, only vertices/normals move.
  const turns=18,segs=288,radial=8,R=.135,wire=.026;
  const cg=new THREE.BufferGeometry(),pos=new Float32Array((segs+1)*(radial+1)*3),norm=new Float32Array(pos.length),idx=[];
@@ -84,37 +97,37 @@ export function mountLab(host, {mode='compare',onChange=()=>{},onPick=()=>{},onR
  if(compress){moving.visible=false;inner.visible=false;tickGroup.visible=false;tickLabels.forEach(x=>x.visible=false);hand.visible=false;}
  const restLine=line([-.53,1.1,.4],[1.1,1.1,.4],root);restLine.visible=measure;
  let restNote=label('원래 길이 5 cm',-1.0,1.08,.4,{size:.12,width:500});restNote.visible=measure;
- const ring=mesh(new THREE.TorusGeometry(.32,.013,6,64),orange,moving);ring.position.copy(hookHit.position);ring.visible=mode==='compare'||mode==='measure'||mode==='target'||mode==='elastic';ring.castShadow=false;
+ const ring=mesh(new THREE.TorusGeometry(.32,.013,6,64),orange,moving);ring.position.copy(hookHit.position);ring.visible=mode==='inquiry'||mode==='compare'||mode==='measure'||mode==='target'||mode==='elastic';ring.castShadow=false;
  const ray=new THREE.Raycaster(),vec=new THREE.Vector2();
- let force=mode==='eye'?20:0,zero=mode==='zero'?4:0,eye='front',motion=new SpringMotion(force),disposed=false,raf,tween=null,drag=null,last=performance.now(),lastPaint=-999,version=0,settledLast=false;
+ let force=mode==='eye'?20:0,zero=initialZero===null?(mode==='zero'?4:0):clamp(finite(initialZero),-6,6),eye='front',motion=new SpringMotion(force),disposed=false,raf,tween=null,drag=null,last=performance.now(),lastPaint=-999,version=0,settledLast=false;
  const home={pos:new THREE.Vector3(4,1.6,11.8),target:new THREE.Vector3(0,-.25,0)};
  const partPositions={handle:new THREE.Vector3(0,2.86,.16),zero:new THREE.Vector3(0,2.17,.55),spring:new THREE.Vector3(-.10,1.65,.24),pointer:new THREE.Vector3(.2,1.2,.38),scale:new THREE.Vector3(.66,.2,.04),hook:new THREE.Vector3(.08,-.4,.32)};
  function animateCamera(position,target,duration=950){tween={from:camera.position.clone(),to:position.clone(),fromTarget:controls.target.clone(),toTarget:target.clone(),start:performance.now(),duration};controls.enabled=false;}
  function focusPart(id){const p=partPositions[id]||partPositions.spring;animateCamera(p.clone().add(new THREE.Vector3(.6,.15,3.2)),p,1000);}
  function resetView(){animateCamera(home.pos,home.target);}
- function setEye(which){eye=which;const py=y0-force*pitch;const p=new THREE.Vector3(.59,py,.38);const delta=which==='high'?1.35:which==='low'?-1.35:0;animateCamera(new THREE.Vector3(.59,py+delta,3.2),new THREE.Vector3(.59,py,.05),800);}
- function setForce(v,{instant=false,shape}={}){v=finite(v);if(v<0||v>30)return false;force=v;motion.set(v,instant);if(shape){weightBody.visible=shape!=='case';secondary.visible=shape==='case';weightBody.material=shape==='ball'?orange:copper;}version++;return true;}
- function setZero(v){if(force!==0)return false;zero=clamp(finite(v),-6,6);knob.rotation.z=zero*.35;version++;return true;}
+ function setEye(which){eye=which;const py=y0-(force+zero)*pitch;const p=new THREE.Vector3(.59,py,.38);const delta=which==='high'?1.35:which==='low'?-1.35:0;animateCamera(new THREE.Vector3(.59,py+delta,mode==='inquiry'?12.4:3.2),new THREE.Vector3(.59,mode==='inquiry'?-.15:py,.05),800);}
+ function setForce(v,{instant=false,shape}={}){v=finite(v);if(v<0||v>30)return false;force=v;motion.set(v,instant);if(shape)dressLoad(shape);version++;if(mode==='inquiry'&&eye==='front')setEye('front');return true;}
+ function setZero(v){if(force!==0&&mode!=='inquiry')return false;zero=clamp(finite(v),-6,6);knob.rotation.z=zero*.35;version++;onAdjustZero({zero,force});if(mode==='inquiry'&&eye==='front')setEye('front');return true;}
  function intersect(e,objects){const r=canvas.getBoundingClientRect();vec.set((e.clientX-r.left)/r.width*2-1,1-(e.clientY-r.top)/r.height*2);ray.setFromCamera(vec,camera);return ray.intersectObjects(objects,true)[0];}
  function pointOnDragPlane(e){const r=canvas.getBoundingClientRect();vec.set((e.clientX-r.left)/r.width*2-1,1-(e.clientY-r.top)/r.height*2);ray.setFromCamera(vec,camera);let target=new THREE.Vector3();return ray.ray.intersectPlane(new THREE.Plane(new THREE.Vector3(0,0,1),-.32),target);}
- function down(e){if(disposed||tween)return;if(mode==='zero'){const hit=intersect(e,[knob]);if(hit){drag={kind:'zero',id:e.pointerId,startX:e.clientX,zero};canvas.setPointerCapture(e.pointerId);controls.enabled=false;e.preventDefault();}}else if(['target','elastic','compression'].includes(mode)){
+ function down(e){if(disposed||tween)return;if(mode==='zero'||mode==='inquiry'){const hit=intersect(e,[knob]);if(hit){drag={kind:'zero',id:e.pointerId,startX:e.clientX,zero};canvas.setPointerCapture(e.pointerId);controls.enabled=false;e.preventDefault();}else if(mode==='inquiry'){const tick=intersect(e,[scaleHit]);if(tick){const value=Math.round((y0-tick.point.y)/pitch);if(value>=0&&value<=30)onPick(value,state());}}}else if(['target','elastic','compression'].includes(mode)){
   let hit=intersect(e,[compress?capHit:hookHit]);if(hit){let p=pointOnDragPlane(e);if(!p)return;drag={id:e.pointerId,start:p.y,value:force};canvas.setPointerCapture(e.pointerId);controls.enabled=false;e.preventDefault();}
  }else if(mode==='eye'){
   const hit=intersect(e,[scaleHit]);if(hit){const value=Math.round((y0-hit.point.y)/pitch);if(value>=0&&value<=30){onPick(value,{force,zero,eye,expected:apparentReading({force,zero,cameraY:camera.position.y,cameraZ:camera.position.z}).value});}}
  }}
  function move(e){if(!drag||e.pointerId!==drag.id)return;if(drag.kind==='zero'){setZero(Math.round(clamp(drag.zero+(e.clientX-drag.startX)/18,-6,6)));e.preventDefault();return;}let p=pointOnDragPlane(e);if(!p)return;let v=clamp(drag.value+(drag.start-p.y)/(compress?.04:pitch),0,30);setForce(v,{instant:true});e.preventDefault();}
- function up(e){if(!drag||drag.id!==e.pointerId)return;if(drag.kind==='zero'){drag=null;controls.enabled=true;return;}onRelease(force);drag=null;controls.enabled=mode!=='eye';setForce(0);}
+ function up(e){if(!drag||drag.id!==e.pointerId)return;if(drag.kind==='zero'){drag=null;controls.enabled=mode!=='inquiry';return;}onRelease(force);drag=null;controls.enabled=mode!=='eye'&&mode!=='inquiry';setForce(0);}
  canvas.addEventListener('pointerdown',down);canvas.addEventListener('pointermove',move);canvas.addEventListener('pointerup',up);canvas.addEventListener('pointercancel',up);
  function projectionOf(position){const p=position.clone().project(camera),r=canvas.getBoundingClientRect();return {x:r.left+(p.x+1)*r.width/2,y:r.top+(1-p.y)*r.height/2};}
  function hookScreen(){return projectionOf(hookHit.getWorldPosition(new THREE.Vector3()));}
  function tickScreen(n){return projectionOf(new THREE.Vector3(.59,y0-n*pitch,.045));}
- function state(){return {force,zero,value:motion.value,reading:force+zero,settled:motion.settled,eye,mode,extension:force*.3,totalLength:5+force*.3,expectedEye:apparentReading({force,zero,cameraY:camera.position.y,cameraZ:camera.position.z}).value};}
+ function state(){return {force,zero,value:motion.value,reading:force+zero,settled:motion.settled,eye,mode,viewMoving:!!tween,viewAligned:Math.abs(apparentReading({force,zero,cameraY:camera.position.y,cameraZ:camera.position.z}).value-(force+zero))<.25,apparentNow:apparentReading({force:motion.value,zero,cameraY:camera.position.y,cameraZ:camera.position.z}).value,extension:force*.3,totalLength:5+force*.3,expectedEye:apparentReading({force,zero,cameraY:camera.position.y,cameraZ:camera.position.z}).value};}
  function resize(){let r=host.getBoundingClientRect();if(r.width<1||r.height<1)return;renderer.setSize(r.width,r.height,false);camera.aspect=r.width/r.height;camera.updateProjectionMatrix();}
  const observer=new ResizeObserver(resize);observer.observe(host);resize();controls.update();
- if(mode==='eye')setEye('front');
+ if(mode==='eye'||mode==='inquiry')setEye('front');
  let currentVersion=-1;
  function tick(now){if(disposed)return;let dt=Math.min((now-last)/1000,.06);last=now;motion.update(document.hidden?0:dt);
-  if(tween){let t=clamp((now-tween.start)/tween.duration,0,1),s=t*t*(3-2*t);camera.position.lerpVectors(tween.from,tween.to,s);controls.target.lerpVectors(tween.fromTarget,tween.toTarget,s);if(t===1){tween=null;controls.enabled=mode!=='eye';}}
+  if(tween){let t=clamp((now-tween.start)/tween.duration,0,1),s=t*t*(3-2*t);camera.position.lerpVectors(tween.from,tween.to,s);controls.target.lerpVectors(tween.fromTarget,tween.toTarget,s);if(t===1){tween=null;controls.enabled=mode!=='eye'&&mode!=='inquiry';}}
   controls.update();let shown=motion.value+zero;
   if(Math.abs(shown-lastPaint)>.0008||version!==currentVersion){
    moving.position.y=-shown*pitch;weight.visible=force>0||Math.abs(motion.value)>.15;

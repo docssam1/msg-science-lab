@@ -1,7 +1,7 @@
 {
   "errors": [],
   "checks": [
-    "18 pages and 18 original questions",
+    "20 pages and 18 original questions",
     "Genuine OmniVoice ended event opens the linked activity",
     {
       "activity": "compare",
@@ -13,6 +13,9 @@
         "settled": true,
         "eye": "front",
         "mode": "compare",
+        "viewMoving": false,
+        "viewAligned": false,
+        "apparentNow": 20.765574180635483,
         "extension": 6,
         "totalLength": 11,
         "expectedEye": 20.765574180635483
@@ -28,6 +31,9 @@
         "settled": true,
         "eye": "front",
         "mode": "parts",
+        "viewMoving": false,
+        "viewAligned": false,
+        "apparentNow": 2.9501438159156255,
         "extension": 0,
         "totalLength": 5,
         "expectedEye": 2.9501438159156255
@@ -43,6 +49,9 @@
         "settled": true,
         "eye": "front",
         "mode": "zero",
+        "viewMoving": false,
+        "viewAligned": false,
+        "apparentNow": 4.289216912684515,
         "extension": 0,
         "totalLength": 5,
         "expectedEye": 4.289216912684515
@@ -58,6 +67,9 @@
         "settled": true,
         "eye": "front",
         "mode": "target",
+        "viewMoving": false,
+        "viewAligned": true,
+        "apparentNow": 0.17012759569677371,
         "extension": 0,
         "totalLength": 5,
         "expectedEye": 0.17012759569677371
@@ -73,6 +85,9 @@
         "settled": true,
         "eye": "front",
         "mode": "eye",
+        "viewMoving": false,
+        "viewAligned": true,
+        "apparentNow": 20,
         "extension": 6,
         "totalLength": 11,
         "expectedEye": 20
@@ -88,6 +103,9 @@
         "settled": true,
         "eye": "front",
         "mode": "measure",
+        "viewMoving": false,
+        "viewAligned": false,
+        "apparentNow": 20.765574180635483,
         "extension": 6,
         "totalLength": 11,
         "expectedEye": 20.765574180635483
@@ -103,6 +121,9 @@
         "settled": true,
         "eye": "front",
         "mode": "elastic",
+        "viewMoving": false,
+        "viewAligned": true,
+        "apparentNow": 0.17012759569677371,
         "extension": 0,
         "totalLength": 5,
         "expectedEye": 0.17012759569677371
@@ -118,6 +139,9 @@
         "settled": true,
         "eye": "front",
         "mode": "compression",
+        "viewMoving": false,
+        "viewAligned": true,
+        "apparentNow": 0.17012759569677371,
         "extension": 0,
         "totalLength": 5,
         "expectedEye": 0.17012759569677371
@@ -148,13 +172,13 @@
     },
     {
       "printTeacher": false,
-      "minimumFooterGapPx": 94.203125,
-      "pages": 18
+      "minimumFooterGapPx": 20.84375,
+      "pages": 20
     },
     {
       "printTeacher": true,
-      "minimumFooterGapPx": 46.1875,
-      "pages": 18
+      "minimumFooterGapPx": 16.125,
+      "pages": 20
     }
   ],
   "layouts": [
@@ -335,6 +359,14 @@
     {
       "id": "l1-test-a",
       "duration": 10.84
+    },
+    {
+      "id": "l1-intro",
+      "duration": 16.04
+    },
+    {
+      "id": "l1-inquiry-record",
+      "duration": 16.78
     }
   ],
   "parallax": [

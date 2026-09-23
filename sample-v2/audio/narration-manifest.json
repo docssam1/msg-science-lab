@@ -160,5 +160,21 @@
     "engine": "OmniVoice 0.2.1",
     "num_step": 16,
     "path": "./audio/l1-test-a.mp3"
+  },
+  "l1-intro": {
+    "id": "l1-intro",
+    "text": "저울은 왜 필요할까요? 스펀지 공과 두꺼운 책 중 어느 것이 더 무거울지 예상해 보세요. 이번에는 비슷하게 생긴 필통 세 개를 가벼울 것 같은 순서로 줄 세워 봅시다. 먼저 정한 예상은 남겨 두고, 저울로 확인해 봐요.",
+    "path": "./audio/l1-intro.mp3",
+    "engine": "OmniVoice 0.2.1",
+    "num_step": 16,
+    "seconds": 16.04
+  },
+  "l1-inquiry-record": {
+    "id": "l1-inquiry-record",
+    "text": "먼저 예상한 순서를 지우지 마세요. 물건을 하나씩 재고, 읽은 값을 그대로 기록해 봅시다. 결과를 모은 뒤에는 준비부터 기록까지 내가 어떤 방법으로 실험했는지 돌아보세요. 방법을 바꿨다면, 다시 잰 결과도 함께 남깁니다.",
+    "path": "./audio/l1-inquiry-record.mp3",
+    "engine": "OmniVoice 0.2.1",
+    "num_step": 16,
+    "seconds": 16.78
   }
 }
