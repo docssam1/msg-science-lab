@@ -1,0 +1,27 @@
+import assert from 'node:assert/strict';
+import {inquiryObjects,inquiryScale,validOrder,initialOrder,objectFigure,inquiryStateKey} from '../../sample-v2/everyday-objects.js';
+import {checkMethod,methodErrorText} from '../../sample-v2/inquiry.js';
+import {inquiryPages,inquiryNarration} from '../../sample-v2/inquiry-pages.js';
+import {pages,questions} from '../../sample-v2/content.js';
+import {dataLesson,dataAssessment,apparentReading} from '../../sample-v2/physics.js';
+assert.equal(inquiryObjects.length,5);
+assert.deepEqual(initialOrder(),['shoe','apple','mandarins','phone','pencilcase']);
+assert(validOrder(initialOrder()));assert(!validOrder(['shoe','apple','mandarins']));assert(!validOrder(['shoe','shoe','apple','phone','pencilcase']));
+assert.equal(inquiryObjects.find(o=>o.id==='mandarins').quantity,'두 개 함께');
+assert.equal(new Set(inquiryObjects.map(o=>o.force)).size,5);
+assert(Math.max(...inquiryObjects.map(o=>o.force))-Math.min(...inquiryObjects.map(o=>o.force))<1);
+assert(inquiryObjects.every(o=>o.force>0&&o.force<inquiryScale.max));assert.equal(inquiryScale.max,5);assert.equal(inquiryScale.step,.1);
+assert.equal((objectFigure(inquiryObjects[2]).match(/data-fruit=/g)||[]).length,2);
+for(const o of inquiryObjects)assert(objectFigure(o).includes(`data-everyday-object="${o.id}"`));
+assert.notEqual(inquiryStateKey,'why-scale-inquiry-v1');
+assert.equal(pages.length,20);assert.equal(Object.keys(questions).length,18);
+assert.deepEqual(dataLesson,[[10,3],[20,6],[30,9]]);assert.deepEqual(dataAssessment,[[10,4],[20,8],[30,12]]);
+for(const p of inquiryPages)assert(!/큰 상자|작은 금속 추|주머니 [ABC]|세 주머니/.test(p.body));
+for(const s of Object.values(inquiryNarration))assert(!/세 주머니|두 물건/.test(s));
+const valid={zeroAtLoad:0,zero:0,adjustedLoaded:false,settled:true,viewMoving:false,expectedEye:2,reading:2,entered:2};
+assert(checkMethod(valid).valid);
+assert(!checkMethod({...valid,entered:2.1}).valid);
+for(const bad of [{zero:.2},{zeroAtLoad:.2},{adjustedLoaded:true},{settled:false},{viewMoving:true},{expectedEye:2.15}])assert(!checkMethod({...valid,...bad}).valid);
+assert(!/영점|0|나사|눈높이/.test(methodErrorText));
+for(const o of inquiryObjects){const py=1.2-o.force*.42;assert(Math.abs(apparentReading({force:o.force,cameraY:py,cameraZ:13,pitch:.42}).value-o.force)<1e-10);}
+console.log('PASS: 5 familiar objects; pair of mandarins is one group; 5N precision; separate state; unchanged source 18 questions and graph data; non-leading method diagnosis.');
