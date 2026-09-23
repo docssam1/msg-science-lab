@@ -13,11 +13,11 @@ jobs:
       - uses: actions/checkout@v4
       - name: Apply exact candidate
         env:
-          PATCH_URL: 'https://sdmntprcentralindia.oaiusercontent.com/files/00000000-3250-8208-a6de-430c08a17656/raw?se=2026-09-23T03%3A23%3A48Z&sp=r&sv=2026-02-06&sr=b&scid=ba4deeb6-ee32-5950-a3cb-b31f9096e937&skoid=03727f49-62d3-42ac-8350-1c0e6559d238&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-09-23T00%3A39%3A34Z&ske=2026-09-24T00%3A39%3A34Z&sks=b&skv=2026-02-06&sig=OYOq0ZQmDKoFIb2alBAluVaBWmV/GgYJ8trhGwdEtwM%3D'
+          PATCH_URL: 'https://sdmntprindiasocentral.oaiusercontent.com/files/00000000-1290-8211-b75b-815b2e3dae37/raw?se=2026-09-23T03%3A29%3A38Z&sp=r&sv=2026-02-06&sr=b&scid=e34a6efa-16c2-5cfb-af23-fb985154f903&skoid=03727f49-62d3-42ac-8350-1c0e6559d238&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-09-23T02%3A53%3A10Z&ske=2026-09-24T02%3A53%3A10Z&sks=b&skv=2026-02-06&sig=sW0awcPbwE1zyhS5V%2BPCUumY9Mg/VNsKoKvZo6IC3kc%3D'
         run: |
           set -euo pipefail
           curl -fL "$PATCH_URL" -o /tmp/patch.zip
-          echo '70e7f87c9ee4048e62d883b2b684196f1d0d5d06ad96eac2f4743b91df5e904a  /tmp/patch.zip' | sha256sum -c -
+          echo '8aa735f7f7bdd1a34dfd988ff1ad6c3d9cd5e394c9c0aa7b345e97ad49c22c18  /tmp/patch.zip' | sha256sum -c -
           python - <<'PY'
           import zipfile,pathlib,json,hashlib
           with zipfile.ZipFile('/tmp/patch.zip') as z:
@@ -57,10 +57,7 @@ jobs:
           from pathlib import Path
           import json,hashlib
           root=Path('sample-v2')
-          manifest=[{'path':str(p.relative_to(root)),'size':p.stat().st_size,'sha256':hashlib.sha256(p.read_bytes()).hexdigest()} for p in sorted(root.rglob('*')) if p.is_file()]
-          Path('tests/two-lesson/file-manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2))
           with open('sample-v2/README.md','a') as f:f.write('\n\n## Inquiry / QR update\nTwo authored introduction pages precede the unchanged 18 textbook-based pages (20 printed pages total). Each page has a tested deep-link QR. Prediction and method validity are assessed independently: no preparatory zero verdict, generic method-error feedback only after a submitted faulty measurement, correction and final explanation. New inquiry narration uses explicitly labelled device speech; existing18OmniVoiceclips are unchanged.\n')
-          # README changed after enumerating: refresh the file manifest.
           manifest=[{'path':str(p.relative_to(root)),'size':p.stat().st_size,'sha256':hashlib.sha256(p.read_bytes()).hexdigest()} for p in sorted(root.rglob('*')) if p.is_file()]
           Path('tests/two-lesson/file-manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2))
           PY
