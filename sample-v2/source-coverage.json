@@ -1,0 +1,59 @@
+{
+  "source": "초과심_물리 / printed pages 10–21",
+  "lessons": [
+    {
+      "lesson": 1,
+      "source_pages": [
+        10,
+        11,
+        12,
+        13,
+        14,
+        15
+      ],
+      "recomposed_pages": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ],
+      "original_questions": 6
+    },
+    {
+      "lesson": 2,
+      "source_pages": [
+        16,
+        17,
+        18,
+        19,
+        20,
+        21
+      ],
+      "recomposed_pages": [
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18
+      ],
+      "original_questions": 12
+    }
+  ],
+  "source_comparison": "source/p10.webp … p21.webp inside application",
+  "source_flags": [
+    "p17 반비례 원문 보존, 전체 길이 감소와 반비례의 차이를 별도 주석",
+    "p14 역사 연대와 480% 성능 수치: 집필 당시 서술, 최신 검증 완료 주장 금지",
+    "p17 1·2·3 N 도해와 10·20·30 g 측정표는 서로 다른 제시 자료로 구분",
+    "p17–18 3·6·9 cm와 p21 4·8·12 cm 자료를 별도 유지"
+  ],
+  "sample_only": true
+}

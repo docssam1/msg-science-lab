@@ -1,0 +1,317 @@
+[
+  {
+    "path": "README.md",
+    "size": 1906,
+    "sha256": "0831b9aab34190bd60ad21daa71faabc31fd6d56e72c5a1a782f4d98162f53da"
+  },
+  {
+    "path": "activities.js",
+    "size": 27309,
+    "sha256": "9c9e1c1544db76b4d32ca3efa9151fcf349f2bc1f2a859201ad6d0d3e3b7db3e"
+  },
+  {
+    "path": "app.js",
+    "size": 22652,
+    "sha256": "a3d2fc25a31c90ffed4231d3166df5bd6ca10644d6653d28e642d703173b7625"
+  },
+  {
+    "path": "art/daily-eye.png",
+    "size": 56385,
+    "sha256": "99ee9d350fada2c10b0a69da8dc3ad392daeed16f807286757cfd0ac285f018e"
+  },
+  {
+    "path": "art/daily-parts.png",
+    "size": 22786,
+    "sha256": "fb06549647919e93d88b9fb5897ae6599810dbbd88b31604c1b3a880611cbdd0"
+  },
+  {
+    "path": "art/historical-engraving.png",
+    "size": 120311,
+    "sha256": "17faedfa6555dd9577a8765cf7f2cd07f50a86d96057378c694be4a5d9ad2b8e"
+  },
+  {
+    "path": "art/historical-portrait.png",
+    "size": 66404,
+    "sha256": "67c66a303e09f4ae95617604cbe0050148d2bdc01c453291c255c30ad138a28f"
+  },
+  {
+    "path": "art/urusaem.png",
+    "size": 1206458,
+    "sha256": "1bf57b2623e9e20e9c5fed40b47e1961c0a1925b0189397da1df68ee3b5c75f7"
+  },
+  {
+    "path": "audio/l1-eye.mp3",
+    "size": 149228,
+    "sha256": "c16132ab609fd0d89532a2137761f6243359a7442a5eea7c88fa14cb7e6eb0f4"
+  },
+  {
+    "path": "audio/l1-future.mp3",
+    "size": 164780,
+    "sha256": "428bdd56655701d77c118c5924233cd642ce508eb93be63324fdaa9d1123fcaf"
+  },
+  {
+    "path": "audio/l1-name.mp3",
+    "size": 163628,
+    "sha256": "0c8295682c05c335c202ca7f13c7b8deea60743510c3b5a858c1efb6f8e346cd"
+  },
+  {
+    "path": "audio/l1-past.mp3",
+    "size": 159308,
+    "sha256": "63419570c46ebace915898e0560d50a06333aeaa2a8979ab4cf15b2246da3a3c"
+  },
+  {
+    "path": "audio/l1-scales.mp3",
+    "size": 154988,
+    "sha256": "6c83c9ccfc271766b8f392c154d71c1d73816d2c3c6095980be344a73535b7a2"
+  },
+  {
+    "path": "audio/l1-structure.mp3",
+    "size": 130220,
+    "sha256": "7852dc7f7a0b3b6d841cc869e652f68a6e7d0c2d9ec891d79ed9da8714b671bf"
+  },
+  {
+    "path": "audio/l1-test-a.mp3",
+    "size": 131084,
+    "sha256": "cbe83dcdc9abff447442caa80da59da0588fddae60cf52492b79460478d9b27e"
+  },
+  {
+    "path": "audio/l1-test-b.mp3",
+    "size": 134252,
+    "sha256": "6b991ef23c4928acca295a0dfd00c4dfb0209626e674effd4c266d08714725a9"
+  },
+  {
+    "path": "audio/l1-use.mp3",
+    "size": 127916,
+    "sha256": "cc71f2cf192751ad7e9a475aea57a6e1954d70f26042c10fce07d856e4a2cbae"
+  },
+  {
+    "path": "audio/l1-watch.mp3",
+    "size": 143468,
+    "sha256": "d488455ce4fcfd01774f1733bdfa297c60ec25c9027c4d093fde0305beb55f63"
+  },
+  {
+    "path": "audio/l2-compress.mp3",
+    "size": 144044,
+    "sha256": "0d0894c51ea1bc38731ea664648e41d57523785eef26cc95b49737ce1c3d3684"
+  },
+  {
+    "path": "audio/l2-elastic.mp3",
+    "size": 150668,
+    "sha256": "1013386f69e6793163225501adf0c928c925ec633206816f10b1215ed37cd3bd"
+  },
+  {
+    "path": "audio/l2-graph.mp3",
+    "size": 133388,
+    "sha256": "8ba403a566f2b24d6290b7deaea403450b7cb107332db015a7995ff11d36558b"
+  },
+  {
+    "path": "audio/l2-measure.mp3",
+    "size": 161324,
+    "sha256": "1e78d77315e5a6b08d94171e618eddd2e1aceadc1a8491efab049667fd244647"
+  },
+  {
+    "path": "audio/l2-test-a.mp3",
+    "size": 157004,
+    "sha256": "b35dad7c854c7c3e1251bdc1ad90530d48c8a141c534b2bb4c1f699469616dec"
+  },
+  {
+    "path": "audio/l2-test-b.mp3",
+    "size": 121004,
+    "sha256": "960b85b885833d836f75c5697156cf6fd91e0eda1c66e44ff4a55c209eade110"
+  },
+  {
+    "path": "audio/l2-test-graph.mp3",
+    "size": 157004,
+    "sha256": "4da1d371b14a8bd22ba961a23deb5d76b5e4572235cf7ac55a88203e81df8968"
+  },
+  {
+    "path": "audio/l2-tools.mp3",
+    "size": 162764,
+    "sha256": "75fd5d3f9c91e0348443384a8051546d1d4e926fa9f8859b22cdc24975ea58e7"
+  },
+  {
+    "path": "audio/narration-manifest.json",
+    "size": 7553,
+    "sha256": "f0a8d1e1f50318ab20b579e19c2d59d43242a8c435b226989eafddb2c3e30fdc"
+  },
+  {
+    "path": "content.js",
+    "size": 37521,
+    "sha256": "83ef3bd9359a5b175703cc9ee85204229a8226d06ca17e9df02f489e99ab9dac"
+  },
+  {
+    "path": "graphics.js",
+    "size": 10451,
+    "sha256": "dc07c26f52bdc1d5851840a37dc35de6330b9673cf66f7d9cc4872b20b455d2b"
+  },
+  {
+    "path": "index.html",
+    "size": 4088,
+    "sha256": "a8cd5dbbfcdd7a043d37487329e99791a45a5f0f1b19a5d86cebf2f341da757f"
+  },
+  {
+    "path": "lab3d.js",
+    "size": 15494,
+    "sha256": "1fb0b0a2ece4492ae598a7b5452d0f769fe323a7300994717ef9f4c453bd5927"
+  },
+  {
+    "path": "media/spring-observation.mp4",
+    "size": 1797919,
+    "sha256": "ecf4d9f4cb8ba13ca9ef74f4750027d914d2f72545e73c44e52055bda686be87"
+  },
+  {
+    "path": "media/spring-observation.webm",
+    "size": 893221,
+    "sha256": "8e739aaf76f4b5934b23e467118fdd7d887870e0c533264488eeea30c3082b89"
+  },
+  {
+    "path": "media/spring-poster.jpg",
+    "size": 23610,
+    "sha256": "af15b97ad19144f90c266bad75f2c780dbd18621575841a1454c33a6614a87ae"
+  },
+  {
+    "path": "media/watch-balance.mp4",
+    "size": 1992050,
+    "sha256": "6b9e369c948d9f9e4d1ea1f96ee1fb137679b7908b6b4db082b167addad5685c"
+  },
+  {
+    "path": "media/watch-balance.webm",
+    "size": 2242751,
+    "sha256": "0764ebc61461180acc20258430ba9e52f8071560d57ac1d0353b51d8121b1c39"
+  },
+  {
+    "path": "media/watch-mainspring.mp4",
+    "size": 960493,
+    "sha256": "62a11c16a02c26f45fa668821e4eb0145a831cc0394b84cf0e17b7f47f957eb6"
+  },
+  {
+    "path": "media/watch-mainspring.webm",
+    "size": 611591,
+    "sha256": "f2b3de766d2188336ee582a91d420402f54503fda735a0654489546295238ccc"
+  },
+  {
+    "path": "media/watch-poster.jpg",
+    "size": 7398,
+    "sha256": "f485e949ea5049fbc8bb8e1a51769fe46ab719bc00e93744c8f74211dbc2b322"
+  },
+  {
+    "path": "physics.js",
+    "size": 1868,
+    "sha256": "ea87722dcd41fe74fd656b5c952402fac033740067084116f90674e9c8457910"
+  },
+  {
+    "path": "print/student.pdf",
+    "size": 1293490,
+    "sha256": "e4f9fa123126e5709be76e0b816dee8ddf53f114d4310958291dde3f15fc756d"
+  },
+  {
+    "path": "print/teacher.pdf",
+    "size": 1458429,
+    "sha256": "3fa8d300f934504cefd56caeee7ec6e60736cc76616265d96e5fe31f19b2890f"
+  },
+  {
+    "path": "review.js",
+    "size": 11059,
+    "sha256": "c7c84143414ef1d663b69f2d0a8e5e0b54b82782dcf49280253f7f74db19ef6d"
+  },
+  {
+    "path": "source/p10.webp",
+    "size": 64676,
+    "sha256": "1cb4c71dd3adf6d69a5a1142aea16cbe85b8eb626d711a589f10918839d238ff"
+  },
+  {
+    "path": "source/p11.webp",
+    "size": 40904,
+    "sha256": "3d3cc4d75c23f77b7caa2e4487c71e620e000b16527995b647d5d00f5017d1f4"
+  },
+  {
+    "path": "source/p12.webp",
+    "size": 79840,
+    "sha256": "e0d414abbb9cff5f234c5223a0d4b20e2662f6ce07a268198ac59cae9a7d4515"
+  },
+  {
+    "path": "source/p13.webp",
+    "size": 159470,
+    "sha256": "020a80a7ecbbe287515a5df8a90a8a7981de6979c29ebdd9f08b7ba6de6519fa"
+  },
+  {
+    "path": "source/p14.webp",
+    "size": 170516,
+    "sha256": "c1175bc310915cfb2849327c16186a35bf8d62e3615640b585ffd0a048e76cab"
+  },
+  {
+    "path": "source/p15.webp",
+    "size": 64490,
+    "sha256": "27c6497a83bda1a5b2cd1b400ded1c273cfc2df79fe0b0ce787e4384c4b3ca6d"
+  },
+  {
+    "path": "source/p16.webp",
+    "size": 70316,
+    "sha256": "c44cf1d51fae6b5d7fa0d7de38a5d8b9090ff067cde9c84d833357388bf15ebe"
+  },
+  {
+    "path": "source/p17.webp",
+    "size": 56328,
+    "sha256": "4294c55e604241093bd0609fead0f0188cd1d8ca6f7131f4f7b17db101500876"
+  },
+  {
+    "path": "source/p18.webp",
+    "size": 51744,
+    "sha256": "3f6f35508d045b91c21716f81846cfd5da2a1755ea1d395ff556cd0f61723704"
+  },
+  {
+    "path": "source/p19.webp",
+    "size": 75758,
+    "sha256": "4aac912d0bd9f7e3bc4bcda04612b402f69da668f5b77146d772be264a054b03"
+  },
+  {
+    "path": "source/p20.webp",
+    "size": 71612,
+    "sha256": "8f6371e451496866a7b7df3781bd106f9606c0ec01525a3261dcc5be85b1ffe5"
+  },
+  {
+    "path": "source/p21.webp",
+    "size": 45014,
+    "sha256": "da6d8d1269258378b1375439a1aabc4c840a1463c2827f4803da8de938d5574a"
+  },
+  {
+    "path": "source-coverage.json",
+    "size": 1177,
+    "sha256": "965a4bf9651de20f44a538cf640d0d4229dea30c07026e1ca47d6f07f7154486"
+  },
+  {
+    "path": "style.css",
+    "size": 33281,
+    "sha256": "5d8af5000d0b998fe2b5eaab671b686a56197f6102014b3c332afeae1cb693be"
+  },
+  {
+    "path": "vendor/OrbitControls.js",
+    "size": 40516,
+    "sha256": "3f40137b0620b375637d6bce55dc830d86d79cb80b4d93aaf1b8ca6c5cb4741a"
+  },
+  {
+    "path": "vendor/PAGE-FLIP-LICENSE.txt",
+    "size": 1063,
+    "sha256": "88d7b609a3be5efa2abe8648ddc35d5489579db5e06299545760df45c2c32d66"
+  },
+  {
+    "path": "vendor/THREE-LICENSE.txt",
+    "size": 1081,
+    "sha256": "8b378ebe60e2fe500158cb0ac71cb5e8b7d92953c2abcc63a0eb90499653b5bc"
+  },
+  {
+    "path": "vendor/page-flip.browser.js",
+    "size": 44058,
+    "sha256": "bbaca0bbef57a22bb66a3fc69d67baf9a17fb9a9c89ec9ed35e2b91abe4bd1e7"
+  },
+  {
+    "path": "vendor/three.core.js",
+    "size": 1427497,
+    "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
+  },
+  {
+    "path": "vendor/three.module.js",
+    "size": 648961,
+    "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+  }
+]
