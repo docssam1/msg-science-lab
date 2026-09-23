@@ -41,7 +41,10 @@ with sync_playwright() as p:
   for name,v in VALUES.items():
    page.locator(f'[data-object="{name}"]').press('Enter');page.wait_for_function('window.__lab.state().settled&&!window.__lab.state().viewMoving')
    check('Recognisable attached model: '+name,page.locator('.inquiry-lab canvas').get_attribute('data-object')==name)
+   page.locator('[data-inquiry-object]').click();page.wait_for_function('!window.__lab.state().viewMoving')
+   check('Object close-up preserves load: '+name,abs(page.evaluate('window.__lab.state().force')-v)<.001)
    page.locator('.inquiry-lab .scene').screenshot(path=str(OUT/f'model-{name}.png'))
+   page.locator('[data-inquiry-whole]').click();page.wait_for_function('!window.__lab.state().viewMoving')
    if name=='apple':
     page.locator('[data-inquiry-view="front"]').click();page.wait_for_function('!window.__lab.state().viewMoving')
     pos=page.evaluate('window.__lab.tickScreen(2.0)');page.mouse.click(pos['x'],pos['y']);

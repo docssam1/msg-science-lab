@@ -98,6 +98,7 @@ export function mountLab(host, {mode='compare',onChange=()=>{},onPick=()=>{},onR
  function animateCamera(position,target,duration=950){tween={from:camera.position.clone(),to:position.clone(),fromTarget:controls.target.clone(),toTarget:target.clone(),start:performance.now(),duration};controls.enabled=false;}
  function focusPart(id){const p=partPositions[id]||partPositions.spring;animateCamera(p.clone().add(new THREE.Vector3(.6,.15,3.2)),p,1000);}
  function resetView(){if(inquiry&&force>0){const py=y0-(force+zero)*pitch;eye='front';animateCamera(new THREE.Vector3(.59,py,13),new THREE.Vector3(.59,py,.04));}else animateCamera(home.pos,home.target);}
+ function focusObject(){if(!everyday||!everyday.objectId)return false;const center=everyday.group.getWorldPosition(new THREE.Vector3()).add(new THREE.Vector3(0,-.38,0));animateCamera(center.clone().add(new THREE.Vector3(1.7,1.05,3.25)),center,850);return true;}
  function setEye(which){eye=which;const py=y0-(force+zero)*pitch;const p=new THREE.Vector3(.59,py,.38);const delta=which==='high'?1.35:which==='low'?-1.35:0;animateCamera(new THREE.Vector3(.59,py+delta,3.2),new THREE.Vector3(.59,py,.05),800);}
  function setForce(v,{instant=false,shape,object}={}){v=finite(v);if(v<0||v>scaleMax)return false;force=v;motion.set(v,instant);if(everyday){everyday.set(force>0?object:null);canvas.dataset.object=everyday.objectId||'';}if(shape){weightBody.visible=shape!=='case';secondary.visible=shape==='case';weightBody.material=shape==='ball'?orange:copper;}version++;return true;}
  function setZero(v){if(force!==0&&mode!=='inquiry')return false;const old=zero;zero=Number(clamp(finite(v),-zeroLimit,zeroLimit).toFixed(inquiry?1:0));knob.rotation.z=zero*.35;version++;if(old!==zero)onAdjust({force,zero,previous:old});return true;}
@@ -135,7 +136,7 @@ export function mountLab(host, {mode='compare',onChange=()=>{},onPick=()=>{},onR
   renderer.render(scene,camera);raf=requestAnimationFrame(tick);
  }
  raf=requestAnimationFrame(tick);
- return {setForce,setZero,focusPart,resetView,setEye,state,hookScreen,tickScreen,knobScreen:()=>projectionOf(knob.getWorldPosition(new THREE.Vector3())),canvas,
+ return {setForce,setZero,focusPart,focusObject,resetView,setEye,state,hookScreen,tickScreen,knobScreen:()=>projectionOf(knob.getWorldPosition(new THREE.Vector3())),canvas,
   destroy(){everyday?.dispose();disposed=true;cancelAnimationFrame(raf);observer.disconnect();controls.dispose();canvas.removeEventListener('pointerdown',down);canvas.removeEventListener('pointermove',move);canvas.removeEventListener('pointerup',up);canvas.removeEventListener('pointercancel',up);geometries.forEach(g=>g.dispose());materials.forEach(m=>m.dispose());textures.forEach(t=>t.dispose());renderer.dispose();renderer.forceContextLoss();host.innerHTML='';}
  };
 }

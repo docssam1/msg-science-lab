@@ -1,8 +1,8 @@
 [
   {
     "path": "README.md",
-    "size": 2993,
-    "sha256": "41396830bbec0f9f2c3525bea3dc295229a2eef629dc310e2ce8622f19672416"
+    "size": 3080,
+    "sha256": "4b324dfe649d7f25c6510e6d2f57ce6325882cb30a5ecd3c0379b3ba46061645"
   },
   {
     "path": "activities.js",
@@ -166,13 +166,13 @@
   },
   {
     "path": "inquiry.js",
-    "size": 15770,
-    "sha256": "dfa3752d0f780893284b4121b93b9ff9354fdcc49e8b3b0caf1c24b3514cb47f"
+    "size": 16026,
+    "sha256": "7aa0603eac5c32ff1702fa22b182076e9501e1f814f361ca5c596b509eecbd81"
   },
   {
     "path": "lab3d.js",
-    "size": 17205,
-    "sha256": "78005f01b20126f8dca3919b8105a308e5850bcb8ba40ee95ab025122b86ed41"
+    "size": 17479,
+    "sha256": "d1736285e831ad377c72a6050736b2b644a77e37e3f011b0f30fe365ae063415"
   },
   {
     "path": "media/spring-observation.mp4",
@@ -222,12 +222,12 @@
   {
     "path": "print/student.pdf",
     "size": 1691820,
-    "sha256": "c0831dde5f124bf15668109485263ac6fd0127de9d62ab88e807e354f4a11b36"
+    "sha256": "f23fd908867a253468e3484dc6638db71eb04a151ba5bb12f326c21a086b7189"
   },
   {
     "path": "print/teacher.pdf",
     "size": 1882623,
-    "sha256": "b4ec070f1630bd1a7de1ed1c3cc9c23fe04dd8f31eadfbce00e0d7cd0c822887"
+    "sha256": "d8b1228ed7617f08ac4d59b373c43148caebb88b93b0d0ecf6efa803399b5449"
   },
   {
     "path": "qr/l1-eye.png",

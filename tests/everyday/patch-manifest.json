@@ -9,7 +9,7 @@
   },
   {
     "path": "sample-v2/inquiry.js",
-    "sha256": "dfa3752d0f780893284b4121b93b9ff9354fdcc49e8b3b0caf1c24b3514cb47f"
+    "sha256": "7aa0603eac5c32ff1702fa22b182076e9501e1f814f361ca5c596b509eecbd81"
   },
   {
     "path": "sample-v2/inquiry-pages.js",
@@ -17,7 +17,7 @@
   },
   {
     "path": "sample-v2/lab3d.js",
-    "sha256": "78005f01b20126f8dca3919b8105a308e5850bcb8ba40ee95ab025122b86ed41"
+    "sha256": "d1736285e831ad377c72a6050736b2b644a77e37e3f011b0f30fe365ae063415"
   },
   {
     "path": "sample-v2/style.css",
@@ -29,6 +29,6 @@
   },
   {
     "path": "tests/everyday/browser.py",
-    "sha256": "e70f073eed06f39a2841c23d7fb30298c8f523447ddf2f1d5a513091a8e85eed"
+    "sha256": "7688701366e8334646c5ef9f5a2218299bcf93394361498d07950cc277788303"
   }
 ]
