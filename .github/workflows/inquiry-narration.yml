@@ -1,0 +1,58 @@
+name: Inquiry introduction narration
+on:
+  push:
+    branches: [work/inquiry-ranking-qr]
+    paths: [.github/workflows/inquiry-narration.yml]
+permissions:
+  contents: read
+jobs:
+  narration:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Prepare local voice reference
+        run: |
+          git show 6335b070d42ee5f87d8302ece65b60b599b4f208:assets/teacher-ref-recording.mp4 > /tmp/reference.mp4
+          python -m pip install torch torchaudio --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install omnivoice==0.2.1 soundfile imageio-ffmpeg
+      - name: Generate inquiry-only narration
+        env:
+          OMP_NUM_THREADS: '4'
+          MKL_NUM_THREADS: '4'
+        run: |
+          python - <<'PY'
+          import json,pathlib,subprocess,time,numpy as np
+          import imageio_ffmpeg,torch,soundfile as sf
+          from omnivoice import OmniVoice
+          torch.set_num_threads(4)
+          ff=imageio_ffmpeg.get_ffmpeg_exe()
+          subprocess.run([ff,'-y','-i','/tmp/reference.mp4','-ac','1','-ar','24000','/tmp/reference.wav'],check=True,capture_output=True)
+          model=OmniVoice.from_pretrained('k2-fsa/OmniVoice',device_map='cpu',dtype=torch.float32)
+          lines={
+           'l1-intro':'저울은 왜 필요할까요? 스펀지 공과 두꺼운 책 중 어느 것이 더 무거울지 예상해 보세요. 이번에는 비슷하게 생긴 필통 세 개를 가벼울 것 같은 순서로 줄 세워 봅시다. 먼저 정한 예상은 남겨 두고, 저울로 확인해 봐요.',
+           'l1-inquiry-record':'먼저 예상한 순서를 지우지 마세요. 물건을 하나씩 재고, 읽은 값을 그대로 기록해 봅시다. 결과를 모은 뒤에는 준비부터 기록까지 내가 어떤 방법으로 실험했는지 돌아보세요. 방법을 바꿨다면, 다시 잰 결과도 함께 남깁니다.'
+          }
+          out=pathlib.Path('/tmp/inquiry-voice');out.mkdir();manifest={}
+          for id,text in lines.items():
+              with torch.inference_mode():audio=model.generate(text=text,ref_audio='/tmp/reference.wav',num_step=16)[0]
+              if hasattr(audio,'detach'):audio=audio.detach().cpu().numpy()
+              audio=np.asarray(audio).squeeze()
+              assert np.isfinite(audio).all() and audio.size>2400
+              wav=out/(id+'.wav');sf.write(wav,audio,24000)
+              subprocess.run([ff,'-y','-i',str(wav),'-codec:a','libmp3lame','-b:a','96k',str(out/(id+'.mp3'))],check=True,capture_output=True);wav.unlink()
+              manifest[id]={'id':id,'text':text,'path':'./audio/'+id+'.mp3','engine':'OmniVoice 0.2.1','num_step':16,'seconds':audio.size/24000}
+              print(id,manifest[id]['seconds'],flush=True)
+              (out/'inquiry-manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2))
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: inquiry-narration
+          path: /tmp/inquiry-voice/
+          retention-days: 3
