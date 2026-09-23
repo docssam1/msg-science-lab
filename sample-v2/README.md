@@ -19,3 +19,7 @@ StPageFlip 2.0.7, Three.js 0.184.0과 OrbitControls(MIT)는 vendor에 버전 고
 
 ## 한계
 실물 전자칠판에서의 동시 멀티터치는 별도 확인이 필요합니다. 실험은 이상적 교육 모형입니다. 모든 제품의 실제 내부 구조를 재현한 3D 모델은 아니며, 도구 원리는 개념 도해로 구분합니다.
+
+
+## Inquiry / QR update
+Two authored introduction pages precede the unchanged 18 textbook-based pages (20 printed pages total). Each page has a tested deep-link QR. Prediction and method validity are assessed independently: no preparatory zero verdict, generic method-error feedback only after a submitted faulty measurement, correction and final explanation. New inquiry narration uses explicitly labelled device speech; existing18OmniVoiceclips are unchanged.

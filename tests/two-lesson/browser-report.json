@@ -1,23 +1,8 @@
 {
   "errors": [],
   "checks": [
-    "18 pages and 18 original questions",
+    "20 pages and 18 original questions",
     "Genuine OmniVoice ended event opens the linked activity",
-    {
-      "activity": "compare",
-      "state": {
-        "force": 20,
-        "zero": 0,
-        "value": 20,
-        "reading": 20,
-        "settled": true,
-        "eye": "front",
-        "mode": "compare",
-        "extension": 6,
-        "totalLength": 11,
-        "expectedEye": 20.765574180635483
-      }
-    },
     {
       "activity": "parts",
       "state": {
@@ -26,6 +11,7 @@
         "value": 0,
         "reading": 0,
         "settled": true,
+        "viewMoving": false,
         "eye": "front",
         "mode": "parts",
         "extension": 0,
@@ -41,6 +27,7 @@
         "value": 0,
         "reading": 4,
         "settled": true,
+        "viewMoving": false,
         "eye": "front",
         "mode": "zero",
         "extension": 0,
@@ -56,6 +43,7 @@
         "value": 0,
         "reading": 0,
         "settled": true,
+        "viewMoving": false,
         "eye": "front",
         "mode": "target",
         "extension": 0,
@@ -71,6 +59,7 @@
         "value": 20,
         "reading": 20,
         "settled": true,
+        "viewMoving": false,
         "eye": "front",
         "mode": "eye",
         "extension": 6,
@@ -86,6 +75,7 @@
         "value": 20,
         "reading": 20,
         "settled": true,
+        "viewMoving": false,
         "eye": "front",
         "mode": "measure",
         "extension": 6,
@@ -101,6 +91,7 @@
         "value": 0,
         "reading": 0,
         "settled": true,
+        "viewMoving": false,
         "eye": "front",
         "mode": "elastic",
         "extension": 0,
@@ -116,6 +107,7 @@
         "value": 0,
         "reading": 0,
         "settled": true,
+        "viewMoving": false,
         "eye": "front",
         "mode": "compression",
         "extension": 0,
@@ -148,13 +140,13 @@
     },
     {
       "printTeacher": false,
-      "minimumFooterGapPx": 94.203125,
-      "pages": 18
+      "minimumFooterGapPx": 19.515625,
+      "pages": 20
     },
     {
       "printTeacher": true,
-      "minimumFooterGapPx": 46.1875,
-      "pages": 18
+      "minimumFooterGapPx": 42.90625,
+      "pages": 20
     }
   ],
   "layouts": [

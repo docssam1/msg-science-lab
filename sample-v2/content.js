@@ -1,3 +1,4 @@
+import {inquiryPages,inquiryNarration} from './inquiry-pages.js';
 import {scaleArt, springArt, eyeArt, graphSVG, graphChoices, toolIcon, loadArt} from './graphics.js';
 export const section=(n,title,body)=>`<section class="unit-section"><h3><span>${n}</span>${title}</h3>${body}</section>`;
 const note=(title,text)=>`<aside class="editor-note"><b>${title}</b><p>${text}</p></aside>`;
@@ -16,7 +17,7 @@ page('l1-use',1,[10],'MEASURE · 올바른 사용','매달기 전에,\n먼저 0�
 <div class="advantages"><section><small>장점</small><p>손으로 어림할 때보다 정확한 무게를 측정할 수 있습니다.</p></section><section><small>주의할 점</small><p>저울의 종류마다 측정 범위가 정해져 있고, 큰 힘에 의해 변형되기 쉽습니다.</p></section></div>
 ${section('02','용수철저울의 사용방법',`<ol class="process"><li><b>0에 맞추기</b><p>물체를 달지 않은 상태에서 영점조절나사를 이용해 눈금이 0을 가리키도록 합니다.</p></li><li><b>고리에 매달기</b><p>물체를 아래쪽 고리에 매답니다. 저울의 측정 범위를 먼저 확인합니다.</p></li><li><b>멈춘 뒤 읽기</b><p>위아래로 움직이던 표시자가 멈추면 눈높이를 맞춘 후 눈금을 읽습니다.</p></li></ol>`)}
 <div class="trio-art">${art(scaleArt({force:0,labels:false}))}${art(scaleArt({force:10,labels:false}))}${art(scaleArt({force:20,labels:false}))}</div>
-<div class="page-actions">${act('zero','영점 조절하기')}${act('compare','두 물체 매달아 비교하기')}${act('target','목표 눈금에 맞춰 당기기')}</div>
+<div class="page-actions">${act('zero','영점 조절하기')}${act('compare','예상 · 줄 세우기 · 비교 실험')}${act('target','목표 눈금에 맞춰 당기기')}</div>
 ${note('가상 교구의 설정','3D 저울의 범위는 0~30 N, 작은 눈금은 1 N입니다. 이 값은 추가한 실험의 설정이며 본책의 교구 수치를 바꾼 것이 아닙니다.')}`,'zero','물체를 매단 채 영점을 맞추는 오류를 확인합니다. 목표 맞추기는 원본 문제가 아닌 확장 활동입니다. 안정된 측정값과 관찰 중인 값을 구분합니다.');
 
 page('l1-eye',1,[11],'VIEWPOINT · 시선과 눈금','같은 물체,\n달라 보이는 눈금.','표시자의 윗부분과 눈높이를 수평으로 맞추기',`
@@ -144,6 +145,8 @@ page('l2-test-graph',2,[21],'DAILY TEST · 일일평가','이번에는 다른 �
 export const lessonNames={1:'용수철저울의 구조 익히기',2:'추의 무게에 따른 용수철의 길이 변화'};
 export const questions=[...q1,...q2];
 export const gradeGroups={'1a':q1.slice(0,3),'1b':q1.slice(3),'2a':q2.slice(0,4),'2b':q2.slice(4,11)};
+pages.forEach((p,i)=>p.layoutIndex=i);
+pages.unshift(...inquiryPages);
 export const narration=Object.fromEntries(pages.map(p=>[p.id,{id:p.id,text:({
 'l1-structure':'용수철저울의 각 부분은 어떤 일을 할까요? 이름을 외우기 전에 부품을 하나씩 확대해서 역할을 생각해 봅시다.',
 'l1-use':'물체를 달기 전에 영점을 맞추고, 흔들림이 멈춘 뒤 눈높이를 맞춰 읽어요.',
@@ -163,4 +166,4 @@ export const narration=Object.fromEntries(pages.map(p=>[p.id,{id:p.id,text:({
 'l2-test-a':'같은 용수철에서 무게와 늘어난 길이가 어떻게 연결되는지 확인해 보세요.',
 'l2-test-b':'조건을 같게 둔 비교인지, 어떤 길이를 말하는지 생각하며 답하세요.',
 'l2-test-graph':'이 표에서는 십 그램일 때 사 센티미터예요. 앞의 실험과 다른 숫자를 사용해 그래프를 완성하세요.'
-})[p.id]}]));
+})[p.id]||inquiryNarration[p.id]}]));
