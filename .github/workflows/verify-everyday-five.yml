@@ -13,11 +13,11 @@ jobs:
       - uses: actions/checkout@v4
       - name: Apply exact candidate
         env:
-          PATCH_URL: 'https://sdmntprcentralus.oaiusercontent.com/files/00000000-2e60-81f5-b962-894c9e58db41/raw?se=2026-09-23T05%3A39%3A47Z&sp=r&sv=2026-02-06&sr=b&scid=c14c931e-dcea-5577-aec9-27e41391ef60&skoid=03727f49-62d3-42ac-8350-1c0e6559d238&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-09-22T23%3A20%3A15Z&ske=2026-09-23T23%3A20%3A15Z&sks=b&skv=2026-02-06&sig=SzsfFJ%2BTPZoyGsGQDan%2BVzlGi8dafwluOk68bh6BDq4%3D'
+          PATCH_URL: 'https://sdmntprindiasocentral.oaiusercontent.com/files/00000000-cabc-8211-8a66-6c2359d2983a/raw?se=2026-09-23T05%3A47%3A48Z&sp=r&sv=2026-02-06&sr=b&scid=d725e8bd-88dd-5a8c-9ad0-3c44af26dc58&skoid=03727f49-62d3-42ac-8350-1c0e6559d238&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-09-22T22%3A58%3A11Z&ske=2026-09-23T22%3A58%3A11Z&sks=b&skv=2026-02-06&sig=irexKUR%2B4L/gkuORnvjV7rQrHCIU8P0OCWF4BvYhUpU%3D'
         run: |
           set -euo pipefail
           curl -fL --retry 2 "$PATCH_URL" -o /tmp/patch.zip
-          echo '34c843b8593e152ad1bbc34d352fca26764e0740d57d520b0ce58579e7741b6c  /tmp/patch.zip' | sha256sum -c -
+          echo '7f2a67ca8c95fac7a762949d474ca323204d08bd4307497d91c13a457660e2a2  /tmp/patch.zip' | sha256sum -c -
           python - <<'PY'
           import pathlib,zipfile,json,hashlib
           with zipfile.ZipFile('/tmp/patch.zip') as z:
@@ -56,7 +56,9 @@ jobs:
           python - <<'PY'
           from pathlib import Path
           import json,hashlib
-          with open('sample-v2/README.md','a') as f:f.write('\n\n## Five familiar objects\nReplaces anonymous pouches and the 2+3 split with one ordering of five familiar items: one shoe, one apple, two mandarins as one bundle, one phone and a filled pencil case. Detailed vector illustrations and individual 3D models share one transparent carrier. Similar virtual loads use a dedicated0–5Nscale with0.1Ngraduations; original30Ntextbook activities are unchanged. No weights or calibration verdict precede measurement. The new storage key preserves older inquiry records. Both20page QR editions regenerated. These are designed model weights, not empirically measured consumer products.\n')
+          readme=Path('sample-v2/README.md')
+          prior=readme.read_text().split('\n\n## Five familiar objects')[0]
+          readme.write_text(prior+'\n\n## Five familiar objects\nReplaces anonymous pouches and the 2+3 split with one ordering of five familiar items: one shoe, one apple, two mandarins as one bundle, one phone and a filled pencil case. Detailed vector illustrations and individual 3D models share one transparent carrier. A smooth object-closeup button allows inspection without changing its load. Similar virtual loads use a dedicated 0–5 N scale with 0.1 N graduations; original 30 N textbook activities are unchanged. No weights or calibration verdict precede measurement. The new storage key preserves older inquiry records. Both 20-page QR editions regenerated. These are designed model weights, not empirically measured consumer products.\n')
           root=Path('sample-v2')
           files=[{'path':str(p.relative_to(root)),'size':p.stat().st_size,'sha256':hashlib.sha256(p.read_bytes()).hexdigest()} for p in sorted(root.rglob('*')) if p.is_file()]
           Path('tests/two-lesson/file-manifest.json').write_text(json.dumps(files,ensure_ascii=False,indent=2))
@@ -64,7 +66,7 @@ jobs:
           git config user.name 'github-actions[bot]'
           git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git add sample-v2 tests/everyday tests/two-lesson/file-manifest.json
-          git commit -m 'feat: compare five familiar objects with visible contents and precise 3D weighing'
+          git commit -m 'feat: add smooth object close-ups to the five-item inquiry'
           git push origin HEAD:work/everyday-five-objects
       - uses: actions/upload-artifact@v4
         if: always()
