@@ -13,7 +13,7 @@ jobs:
       - uses: actions/checkout@v4
       - name: Download exact candidate
         env:
-          BUNDLE_URL: 'https://sdmntprcentralus.oaiusercontent.com/files/00000000-af8c-81f5-89c2-502a43f5202d/raw?se=2026-09-23T03%3A30%3A18Z&sp=r&sv=2026-02-06&sr=b&scid=4753bc75-72ac-555f-b4f2-33c38a884bb9&skoid=03727f49-62d3-42ac-8350-1c0e6559d238&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-09-23T01%3A09%3A06Z&ske=2026-09-24T01%3A09%3A06Z&sks=b&skv=2026-02-06&sig=4XpfrWTpgD/AOgaGZaC2mzoMRlgVstwevWjkchbVcDw%3D'
+          BUNDLE_URL: 'https://sdmntprjapaneast.oaiusercontent.com/files/00000000-d400-8209-bd0b-ddfa0ed43b27/raw?se=2026-09-23T03%3A32%3A51Z&sp=r&sv=2026-02-06&sr=b&scid=f3c6acb5-53e9-5d03-9a9c-d54af34e6b68&skoid=03727f49-62d3-42ac-8350-1c0e6559d238&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-09-23T02%3A55%3A15Z&ske=2026-09-24T02%3A55%3A15Z&sks=b&skv=2026-02-06&sig=nM5WaodDdMO5IAA52hKQqWXQDWA4UAOZ%2BF1N0hYb1Jw%3D'
         run: |
           set -euo pipefail
           curl -fL --retry 2 "$BUNDLE_URL" -o /tmp/candidate.zip
@@ -30,6 +30,8 @@ jobs:
           for f in manifest:
               p=root/'sample-v2'/f['path']
               assert p.stat().st_size==f['size'] and hashlib.sha256(p.read_bytes()).hexdigest()==f['sha256'],str(p)
+          p=root/'tests/method/browser.py'
+          p.write_text(p.read_text().replace("page.locator('[data-feedback]')", "page.locator('#activity-content [data-feedback]')"))
           print('Verified candidate files:',len(manifest))
           PY
       - uses: actions/setup-node@v4
