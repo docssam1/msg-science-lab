@@ -1,0 +1,40 @@
+{
+  "checks": [
+    "Uncorrected reference detected only after submission; cause not shown or spoken",
+    "Actual 3D knob drag changes the reference while empty; no automatic reset",
+    "Oscillation and real camera parallax are separate tracked errors with the same non-leading first feedback",
+    "All five correct measurements accepted without auto-calibration; failed and corrected attempts both retained",
+    "Stable-ID QR deep-link reaches the original graph assessment independently of added pages"
+  ],
+  "errors": [],
+  "layouts": [
+    {
+      "w": 1920,
+      "h": 1080,
+      "scrollW": 1920,
+      "transport": 1080,
+      "workspace": 1008
+    },
+    {
+      "w": 1366,
+      "h": 768,
+      "scrollW": 1366,
+      "transport": 768,
+      "workspace": 696
+    },
+    {
+      "w": 1280,
+      "h": 720,
+      "scrollW": 1280,
+      "transport": 720,
+      "workspace": 648
+    },
+    {
+      "w": 390,
+      "h": 844,
+      "scrollW": 390,
+      "transport": 844,
+      "workspace": 740
+    }
+  ]
+}

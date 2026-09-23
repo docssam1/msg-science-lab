@@ -1,0 +1,22 @@
+export const qrLinks = {
+  "intro-predict": "https://docssam1.github.io/msg-science-lab/sample-v2/?id=intro-predict&activity=inquiry",
+  "intro-method": "https://docssam1.github.io/msg-science-lab/sample-v2/?id=intro-method&activity=inquiry",
+  "l1-structure": "https://docssam1.github.io/msg-science-lab/sample-v2/?id=l1-structure&activity=parts",
+  "l1-use": "https://docssam1.github.io/msg-science-lab/sample-v2/?id=l1-use&activity=zero",
+  "l1-eye": "https://docssam1.github.io/msg-science-lab/sample-v2/?id=l1-eye&activity=eye",
+  "l1-scales": "https://docssam1.github.io/msg-science-lab/sample-v2/?id=l1-scales&activity=types",
+  "l1-name": "https://docssam1.github.io/msg-science-lab/sample-v2/?id=l1-name&activity=history",
+  "l1-past": "https://docssam1.github.io/msg-science-lab/sample-v2/?id=l1-past&activity=history",
+  "l1-watch": "https://docssam1.github.io/msg-science-lab/sample-v2/?id=l1-watch&activity=watch",
+  "l1-future": "https://docssam1.github.io/msg-science-lab/sample-v2/?id=l1-future&activity=future",
+  "l1-test-a": "https://docssam1.github.io/msg-science-lab/sample-v2/?id=l1-test-a&activity=assessment",
+  "l1-test-b": "https://docssam1.github.io/msg-science-lab/sample-v2/?id=l1-test-b&activity=assessment",
+  "l2-elastic": "https://docssam1.github.io/msg-science-lab/sample-v2/?id=l2-elastic&activity=elastic",
+  "l2-compress": "https://docssam1.github.io/msg-science-lab/sample-v2/?id=l2-compress&activity=compression",
+  "l2-measure": "https://docssam1.github.io/msg-science-lab/sample-v2/?id=l2-measure&activity=measure",
+  "l2-graph": "https://docssam1.github.io/msg-science-lab/sample-v2/?id=l2-graph&activity=graph",
+  "l2-tools": "https://docssam1.github.io/msg-science-lab/sample-v2/?id=l2-tools&activity=tools",
+  "l2-test-a": "https://docssam1.github.io/msg-science-lab/sample-v2/?id=l2-test-a&activity=assessment",
+  "l2-test-b": "https://docssam1.github.io/msg-science-lab/sample-v2/?id=l2-test-b&activity=assessment",
+  "l2-test-graph": "https://docssam1.github.io/msg-science-lab/sample-v2/?id=l2-test-graph&activity=assessment-graph"
+};
