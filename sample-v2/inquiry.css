@@ -1,0 +1,98 @@
+/* Additional inquiry styling; source textbook pages stay intact. */
+.page-heading{padding-right:106px}
+.page-qr{position:absolute;right:44px;top:87px;width:88px;text-align:center;text-decoration:none;color:var(--ink);font-size:10px;line-height:1.3;z-index:2}
+.page-qr img{display:block;width:84px;height:84px;background:#fff;margin:0 auto 3px;image-rendering:pixelated}
+.page-qr span{font-size:10px;letter-spacing:0}
+.paper .inquiry-lead{border-top:1px solid #cadcde;padding-top:16px;margin:14px 0}
+.paper .inquiry-lead:first-child{border-top:0;padding-top:0;margin-top:0}
+.paper .inquiry-lead>span{font-size:12px;letter-spacing:.5px;color:var(--teal);font-weight:800}
+.paper .inquiry-lead h3{font-size:22px;margin:10px 0}
+.paper .inquiry-lead p{font-size:17px;line-height:1.7;margin:8px 0}
+.inquiry-objects{display:grid;align-items:end;gap:20px;text-align:center;margin:10px 0}
+.inquiry-objects.pair{grid-template-columns:1fr 1fr;padding:0 45px}
+.inquiry-objects.trio{grid-template-columns:repeat(3,1fr)}
+.inquiry-objects figure{margin:0}
+.inquiry-objects svg{width:100%;height:142px;display:block}
+.inquiry-objects.trio svg{height:115px}
+.inquiry-objects figcaption{font-size:17px;font-weight:700;color:var(--navy)}
+.blank-line{display:inline-block;min-width:220px;border-bottom:1px solid #98b3bb}
+.rank-print{margin:15px 0 8px;font-size:12px;display:flex;align-items:center;justify-content:space-between}
+.rank-print b{font-size:21px;letter-spacing:3px;white-space:nowrap}
+.paper .fiction-note{font-size:11px;line-height:1.6;color:var(--muted);margin:10px 0}
+.paper .inquiry-record-table th,.paper .inquiry-record-table td{height:42px;padding:7px 8px;font-size:16px}
+.paper .inquiry-record-table{margin:10px 0}
+.paper .inquiry-teacher-note{font-size:12px;margin:8px 0}
+.inquiry-work{height:100%;overflow:auto;max-width:1100px;margin:0 auto;padding:24px 30px}
+.inquiry-work:has(.inquiry-lab){padding:0;max-width:none;overflow:hidden}
+.inquiry-heading>span,.inquiry-step{font-size:11px;color:var(--teal);font-weight:800;letter-spacing:1px}
+.inquiry-heading h3{font-size:29px;line-height:1.4;letter-spacing:-1px;margin:8px 0}
+.inquiry-heading p{font-size:15px;line-height:1.65;margin:10px 0 15px}
+.object-choices{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:10px 0}
+.object-choices button{padding:12px;border-radius:12px;background:#fffefb;min-width:0;display:flex;flex-direction:column;align-items:center;font-size:18px}
+.object-choices svg{width:100%;height:135px}
+.object-choices [aria-pressed=true]{outline:3px solid var(--teal);outline-offset:-3px;background:#edf4f1}
+.inquiry-label{display:block;font-size:14px;line-height:1.7;margin:12px 0 8px}
+.inquiry-work textarea{width:100%;resize:vertical;border:1px solid #adbec5;border-radius:8px;padding:10px;font-size:15px;line-height:1.6;min-height:66px;display:block;background:#fff}
+.inquiry-next{background:var(--teal);color:white;border-color:var(--teal);white-space:normal;min-height:44px}
+.inquiry-footnote{display:block;font-size:10px;color:var(--muted);line-height:1.6;margin-top:15px}
+.rank-direction{display:flex;justify-content:space-between;align-items:center;gap:9px;font-size:12px;color:var(--muted)}
+.rank-tray{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:12px 0 18px}
+.rank-card{min-width:0;border:1px solid #bfcfd3;background:#fffefb;border-radius:12px;padding:8px;text-align:center}
+.rank-card svg{width:100%;height:132px}.rank-card strong{display:block;font-size:15px}
+.rank-handle{touch-action:none;cursor:grab}.rank-handle.dragging{opacity:.55;transform:scale(.94)}
+.rank-card button{margin:8px 4px 0;min-width:40px}
+.inquiry-button-row{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.inquiry-lab{height:100%;grid-template-columns:minmax(0,1fr) 285px}
+.inquiry-controls{font-size:13px;padding:14px 16px;min-height:0;overflow:auto}
+.inquiry-controls h3{font-size:19px!important;line-height:1.4}
+.locked-prediction{border-left:3px solid var(--teal);padding:7px 10px;background:#eef5f1;font-size:11px;line-height:1.65;margin-bottom:10px}
+.locked-prediction span{display:block}
+.inquiry-loads{display:grid;grid-template-columns:repeat(3,1fr);gap:6px}
+.inquiry-controls .inquiry-loads button{padding:3px;margin:0;min-width:0;white-space:normal;touch-action:none}
+.inquiry-loads svg{width:100%;height:50px;display:block;pointer-events:none}
+.inquiry-loads span{display:block;font-size:10px;pointer-events:none}
+.inquiry-controls .inquiry-instruction{font-size:11px;line-height:1.5}
+.inquiry-controls .inquiry-button-row button{width:auto;flex:1;margin:3px 0;min-height:35px;font-size:11px;padding:5px}
+.inquiry-controls .inquiry-next{font-size:13px}
+.inquiry-controls .inquiry-label{font-size:13px}
+.inquiry-controls input[type=number]{width:80px;min-height:39px;font-size:17px;border:1px solid #9fbac0;border-radius:6px;padding:5px}
+.inquiry-records{max-height:200px;overflow:auto;margin:10px 0}
+.inquiry-records table{font-size:11px;width:100%;border-collapse:collapse;margin:8px 0}
+.inquiry-records caption{text-align:left;color:var(--teal);font-weight:750;padding:3px}
+.inquiry-records td,.inquiry-records th{border-bottom:1px solid #c9d8dd;padding:4px 6px;text-align:left}
+.inquiry-review{font-size:12px;line-height:1.7;background:#f7f4eb;padding:0 8px;border-radius:6px}
+.inquiry-review:empty{padding:0}
+.inquiry-review h4{font-size:16px;margin:8px 0}
+.inquiry-review textarea{font-size:13px}
+.teacher-only{display:none}.teacher-mode .teacher-only{display:block}
+.teacher-audit{font-size:11px;line-height:1.6;border-top:1px dashed #c5a898;padding-top:9px;margin-top:10px}
+@media(max-width:1250px){.inquiry-lab{grid-template-columns:minmax(0,1fr) 240px}.inquiry-work{padding:17px}.inquiry-heading h3{font-size:24px}}
+@media(max-width:820px){
+ .inquiry-work{padding:14px 15px}.inquiry-heading h3{font-size:23px}.inquiry-heading p{font-size:13px}
+ .object-choices{gap:10px}.object-choices svg{height:106px}.object-choices button{font-size:15px}
+ .rank-tray{gap:6px}.rank-card{padding:5px}.rank-card svg{height:82px}.rank-card strong{font-size:12px}.rank-card button{min-width:34px;padding:5px}
+ .rank-direction{font-size:10px}.inquiry-work textarea{font-size:14px}.inquiry-next{font-size:13px;width:100%}
+ .inquiry-lab{grid-template-columns:1fr;grid-template-rows:minmax(170px,1fr) minmax(155px,44%)}
+ .inquiry-controls{padding:9px 12px}.inquiry-controls .inquiry-loads{grid-template-columns:repeat(5,1fr)}
+ .inquiry-controls .inquiry-loads button{min-height:50px}.inquiry-loads svg{height:40px}
+ .large-reading .page-heading{padding-right:85px}.large-reading .page-qr{right:15px;top:70px;width:68px}.large-reading .page-qr img{height:64px;width:64px}
+ .large-reading .rank-print{flex-wrap:wrap;gap:8px}.large-reading .rank-print b{font-size:17px}
+ .large-reading .inquiry-objects.pair{padding:0}.large-reading .inquiry-objects svg{height:100px}
+}
+@media print{.page-qr{right:11.6mm;top:23mm}.page-qr img{width:22.2mm;height:22.2mm}.page-heading{padding-right:28mm}.paper .inquiry-lead .write-lines i{height:24px}.paper[data-page-id="l1-inquiry-record"] .inquiry-teacher-note{font-size:11px}}
+@media screen and (min-width:821px) and (max-height:900px){
+ .inquiry-work:not(:has(.inquiry-lab)){padding:10px 22px;max-width:760px;width:100%}
+ .inquiry-heading h3{font-size:24px;line-height:1.18;margin:4px 0}
+ .inquiry-heading p{font-size:13px;line-height:1.4;margin:4px 0 7px}
+ .inquiry-heading h3 br{display:none}
+ .object-choices{margin:5px 0;gap:12px}
+ .object-choices button{padding:5px 10px;flex-direction:row;justify-content:center;gap:10px;font-size:17px}
+ .object-choices svg{height:82px;width:112px;flex-shrink:0}
+ .inquiry-work>.unsure{min-height:34px;font-size:12px;padding:6px 12px}
+ .inquiry-work>.inquiry-label{font-size:13px;margin:6px 0}
+ .inquiry-work:not(:has(.inquiry-lab)) textarea{min-height:50px;height:58px;padding:6px;font-size:14px;line-height:1.5}
+ .inquiry-footnote{margin-top:6px;line-height:1.4}
+ .rank-tray{margin:7px 0}.rank-card{padding:4px 6px}.rank-card svg{height:62px}
+ .rank-card button{margin:4px 4px 0;min-height:33px;padding:3px 10px}.rank-card strong{font-size:13px}.rank-direction{font-size:11px}
+}
+.teacher-mode .paper[data-page-id="l1-inquiry-record"] .inquiry-record-table th,.teacher-mode .paper[data-page-id="l1-inquiry-record"] .inquiry-record-table td{height:32px;padding:4px 8px}
