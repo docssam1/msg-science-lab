@@ -160,5 +160,33 @@
     "engine": "OmniVoice 0.2.1",
     "num_step": 16,
     "path": "./audio/l1-test-a.mp3"
+  },
+  "l1-inquiry": {
+    "id": "l1-inquiry",
+    "text": "저울은 왜 필요할까요? 신발 한 짝, 사과 한 개, 귤 두 개, 휴대폰 한 개, 그리고 필기구가 든 필통을 준비했어요. 모양은 달라도 무게가 비슷한 다섯 물건이에요. 귤 두 개는 한 묶음으로 생각하고, 다섯 물건 전체를 가벼울 것 같은 순서대로 놓아 봅시다. 까닭을 말한 뒤 저울로 확인해 볼까요?",
+    "mood": "think",
+    "kind": "intro",
+    "text_sha256": "b43bac9cb6642a398fc4970b542689093484be8364351523f62f3a3ef954edaf",
+    "spoken_text": "저울은 왜 필요할까요? 신발 한 짝, 사과 한 개, 귤 두 개, 휴대폰 한 개, 그리고 필기구가 든 필통을 준비했어요. 모양은 달라도 무게가 비슷한 다섯 물건이에요. 귤 두 개는 한 묶음으로 생각하고, 다섯 물건 전체를 가벼울 것 같은 순서대로 놓아 봅시다. 까닭을 말한 뒤 저울로 확인해 볼까요?",
+    "path": "./audio/l1-inquiry.mp3",
+    "seconds": 21.32,
+    "engine": "OmniVoice 0.2.1",
+    "num_step": 16,
+    "sha256": "6317ab82abc2a827ed0bc4a258d99f3dc3039731179c8a3c3fa06658d8ea3c33",
+    "generation_seconds": 115.5
+  },
+  "l1-inquiry-record": {
+    "id": "l1-inquiry-record",
+    "text": "다섯 물건을 하나씩 재고 처음 예상과 비교해 봅시다. 실험 방법에 오류가 있다는 안내가 나오면 어떤 과정을 다시 확인할지 스스로 생각해 보세요. 다시 측정한 다음 다섯 물건 전체를 가벼운 순서대로 정리합니다.",
+    "mood": "think",
+    "kind": "intro",
+    "text_sha256": "dab24bed79c3a392f24733e9ab87bb031b0dcb380fb08b05830e5590e37b0fd6",
+    "spoken_text": "다섯 물건을 하나씩 재고 처음 예상과 비교해 봅시다. 실험 방법에 오류가 있다는 안내가 나오면 어떤 과정을 다시 확인할지 스스로 생각해 보세요. 다시 측정한 다음 다섯 물건 전체를 가벼운 순서대로 정리합니다.",
+    "path": "./audio/l1-inquiry-record.mp3",
+    "seconds": 16.08,
+    "engine": "OmniVoice 0.2.1",
+    "num_step": 16,
+    "sha256": "575676dc8ccdfb45fb3c6249c9aa46f17a175f8f83c9707465a6d675f821795b",
+    "generation_seconds": 198.0
   }
 }
