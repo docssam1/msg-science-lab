@@ -23,3 +23,5 @@ StPageFlip 2.0.7, Three.js 0.184.0과 OrbitControls(MIT)는 vendor에 버전 고
 
 ## QR와 도입 탐구
 각 지면의 QR은 대응 활동을 엽니다. 서로 다른 두 물건과 비슷한 세 물건을 먼저 예상한 뒤 측정합니다. 원인을 선제 공개하지 않고 제출 후 실험 방법을 점검합니다. 처음 예상과 관찰값, 바꾼 방법, 재측정 기록을 보존합니다.
+
+Earlier PDF links using `?s=...&lab=1` remain supported, including the former `l1-inquiry` page ID. Earlier browser progress storage is not deleted. Both development histories are retained.

@@ -1,8 +1,8 @@
 [
   {
     "path": "README.md",
-    "size": 2293,
-    "sha256": "06b3ea0734add18742f4d2b72cd83e066842f0dc9ab00f35052e78ee082e48cf"
+    "size": 2484,
+    "sha256": "0c4342c1e79d02a49abbca066df8e193fd437727390df3e4531c35929deed787"
   },
   {
     "path": "activities.js",
@@ -11,8 +11,8 @@
   },
   {
     "path": "app.js",
-    "size": 23833,
-    "sha256": "959d895b8b7d1c59bbb94b9ac5a574d19d25c40bd4f3a82a0577d04ed622fe4a"
+    "size": 23997,
+    "sha256": "26f26d1ee9a95ae51cbb2f1303b019b7cff25b52532fde7c25fa838d6051b27e"
   },
   {
     "path": "art/daily-eye.png",
@@ -260,6 +260,11 @@
     "sha256": "b4d0e794188158d6557fd48fe1c314d42355ba92a9513e3207cf1fdf507dfed9"
   },
   {
+    "path": "qr/l1-inquiry.png",
+    "size": 968,
+    "sha256": "f73a7ce4914eab28402aee03c67d4748f3b2fe6938561096b152af22eb0183a1"
+  },
+  {
     "path": "qr/l1-intro.png",
     "size": 2479,
     "sha256": "57eaf3140da4eff957dc5b9346a750e9baa61be2ce715cf10270a945019b0963"
@@ -353,6 +358,11 @@
     "path": "qr-links.js",
     "size": 2997,
     "sha256": "5bc1134c7bc0dcc972442d924234f2ffe74345fc94ad784b88b247fcb2108576"
+  },
+  {
+    "path": "qr-map.js",
+    "size": 2685,
+    "sha256": "83bc8070c4c98d1c8c44ea5c5810ed3efd089198c88a7472f1793f2fab19aefb"
   },
   {
     "path": "review.js",

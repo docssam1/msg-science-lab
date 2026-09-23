@@ -1,0 +1,122 @@
+[
+  {
+    "oldId": "l1-inquiry",
+    "currentId": "l1-intro",
+    "activity": "inquiry",
+    "passed": true
+  },
+  {
+    "oldId": "l1-inquiry-record",
+    "currentId": "l1-inquiry-record",
+    "activity": "inquiry",
+    "passed": true
+  },
+  {
+    "oldId": "l1-structure",
+    "currentId": "l1-structure",
+    "activity": "parts",
+    "passed": true
+  },
+  {
+    "oldId": "l1-use",
+    "currentId": "l1-use",
+    "activity": "zero",
+    "passed": true
+  },
+  {
+    "oldId": "l1-eye",
+    "currentId": "l1-eye",
+    "activity": "eye",
+    "passed": true
+  },
+  {
+    "oldId": "l1-scales",
+    "currentId": "l1-scales",
+    "activity": "types",
+    "passed": true
+  },
+  {
+    "oldId": "l1-name",
+    "currentId": "l1-name",
+    "activity": "history",
+    "passed": true
+  },
+  {
+    "oldId": "l1-past",
+    "currentId": "l1-past",
+    "activity": "history",
+    "passed": true
+  },
+  {
+    "oldId": "l1-watch",
+    "currentId": "l1-watch",
+    "activity": "watch",
+    "passed": true
+  },
+  {
+    "oldId": "l1-future",
+    "currentId": "l1-future",
+    "activity": "future",
+    "passed": true
+  },
+  {
+    "oldId": "l1-test-a",
+    "currentId": "l1-test-a",
+    "activity": "assessment",
+    "passed": true
+  },
+  {
+    "oldId": "l1-test-b",
+    "currentId": "l1-test-b",
+    "activity": "assessment",
+    "passed": true
+  },
+  {
+    "oldId": "l2-elastic",
+    "currentId": "l2-elastic",
+    "activity": "elastic",
+    "passed": true
+  },
+  {
+    "oldId": "l2-compress",
+    "currentId": "l2-compress",
+    "activity": "compression",
+    "passed": true
+  },
+  {
+    "oldId": "l2-measure",
+    "currentId": "l2-measure",
+    "activity": "measure",
+    "passed": true
+  },
+  {
+    "oldId": "l2-graph",
+    "currentId": "l2-graph",
+    "activity": "graph",
+    "passed": true
+  },
+  {
+    "oldId": "l2-tools",
+    "currentId": "l2-tools",
+    "activity": "tools",
+    "passed": true
+  },
+  {
+    "oldId": "l2-test-a",
+    "currentId": "l2-test-a",
+    "activity": "assessment",
+    "passed": true
+  },
+  {
+    "oldId": "l2-test-b",
+    "currentId": "l2-test-b",
+    "activity": "assessment",
+    "passed": true
+  },
+  {
+    "oldId": "l2-test-graph",
+    "currentId": "l2-test-graph",
+    "activity": "assessment-graph",
+    "passed": true
+  }
+]
