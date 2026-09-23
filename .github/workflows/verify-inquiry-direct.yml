@@ -1,0 +1,101 @@
+name: Verify repository-local inquiry update
+on:
+  push:
+    branches: [work/inquiry-ranking-qr]
+    paths: [.github/workflows/verify-inquiry-direct.yml]
+permissions:
+  contents: write
+  actions: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install test and QR tools
+        run: |
+          python -m pip install playwright==1.55.0 pymupdf opencv-python-headless 'qrcode[pil]'
+          python -m playwright install --with-deps chromium
+          sudo apt-get install -y fonts-noto-cjk
+      - name: Integrate source files already in this repository
+        run: python scripts/integrate-inquiry.py
+      - name: Retrieve the already-generated narration
+        uses: actions/download-artifact@v4
+        with:
+          name: inquiry-narration
+          path: /tmp/inquiry-audio
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          repository: docssam1/msg-science-lab
+          run-id: 35813627831
+      - name: Integrate narration and test domain logic
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import json,shutil
+          src=Path('/tmp/inquiry-audio');target=Path('sample-v2/audio')
+          new=json.loads((src/'inquiry-manifest.json').read_text())
+          assert set(new)=={'l1-intro','l1-inquiry-record'}
+          p=target/'narration-manifest.json';old=json.loads(p.read_text())
+          for id,item in new.items():
+              assert item['engine']=='OmniVoice 0.2.1' and item['seconds']>2
+              shutil.copyfile(src/(id+'.mp3'),target/(id+'.mp3'));old[id]=item
+          p.write_text(json.dumps(old,ensure_ascii=False,indent=2))
+          PY
+          node --experimental-default-type=module tests/two-lesson/unit-tests.mjs
+          node --experimental-default-type=module tests/two-lesson/inquiry.test.mjs
+      - name: Browser inquiry and existing lesson regression
+        run: |
+          python -m http.server 8765 --bind 127.0.0.1 --directory "$GITHUB_WORKSPACE" >/tmp/inquiry-server.log 2>&1 &
+          python tests/two-lesson/inquiry-browser.py
+          QA_OUT=/tmp/inquiry-qa/regression python tests/two-lesson/browser.py
+      - name: Verify every QR from both rendered PDFs
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          import fitz,cv2,numpy as np,json
+          manifest=json.loads(Path('sample-v2/qr/manifest.json').read_text());wanted=[v['url'] for v in manifest.values()];report={}
+          for name in ['student','teacher']:
+              doc=fitz.open('/tmp/inquiry-qa/'+name+'.pdf');assert len(doc)==20;got=[]
+              for i,p in enumerate(doc):
+                  links=[x for x in p.get_links() if x.get('uri','') in wanted];assert len(links)==1,(name,i,links)
+                  r=fitz.Rect(links[0]['from'])+(-2,-2,2,2)
+                  pix=p.get_pixmap(matrix=fitz.Matrix(4,4),clip=r,alpha=False)
+                  img=np.frombuffer(pix.samples,dtype=np.uint8).reshape(pix.height,pix.width,3)
+                  value,pts,_=cv2.QRCodeDetector().detectAndDecode(img)
+                  assert value==links[0]['uri'],(name,i,'QR decode failed');got.append(value)
+              report[name]={'pages':len(doc),'decoded':len(got),'links_match':got==wanted};assert got==wanted
+          Path('/tmp/inquiry-qa/pdf-qr-report.json').write_text(json.dumps(report,ensure_ascii=False,indent=2));print(report)
+          PY
+      - name: Commit verified product files only
+        run: |
+          set -euo pipefail
+          cp /tmp/inquiry-qa/student.pdf sample-v2/print/student.pdf
+          cp /tmp/inquiry-qa/teacher.pdf sample-v2/print/teacher.pdf
+          cp /tmp/inquiry-qa/report.json tests/two-lesson/inquiry-browser-report.json
+          cp /tmp/inquiry-qa/regression/report.json tests/two-lesson/browser-report.json
+          cp /tmp/inquiry-qa/pdf-qr-report.json tests/two-lesson/pdf-qr-report.json
+          python - <<'PY'
+          import json,hashlib
+          from pathlib import Path
+          root=Path('sample-v2');manifest=[]
+          for p in sorted(root.rglob('*')):
+              if p.is_file():manifest.append({'path':p.relative_to(root).as_posix(),'size':p.stat().st_size,'sha256':hashlib.sha256(p.read_bytes()).hexdigest()})
+          Path('tests/two-lesson/file-manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2))
+          PY
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add sample-v2 tests/two-lesson
+          git commit -m 'feat: add QR-linked weigh-and-rank inquiry with non-leading method review'
+          git push origin HEAD:work/inquiry-ranking-qr
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: inquiry-direct-validation
+          path: /tmp/inquiry-qa/
+          retention-days: 3
