@@ -1,0 +1,76 @@
+name: Verify framed guide editions
+on:
+  push:
+    branches: [work/framed-guide-editions]
+    paths: [.github/workflows/verify-framed-editions.yml]
+permissions:
+  contents: write
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Apply exact candidate
+        env:
+          PATCH_URL: 'https://sdmntprwestus.oaiusercontent.com/files/00000000-67b0-8230-9add-b7be49a2eacb/raw?se=2026-09-23T06%3A31%3A03Z&sp=r&sv=2026-02-06&sr=b&scid=9d1851cc-17d0-54d3-aa36-eb50f5c426ba&skoid=03727f49-62d3-42ac-8350-1c0e6559d238&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2026-09-23T00%3A54%3A35Z&ske=2026-09-24T00%3A54%3A35Z&sks=b&skv=2026-02-06&sig=nz98kLmsmSqIL2RqVP%2B4lRD1YfTlpXGf/%2Bj4lh29mus%3D'
+        run: |
+          set -euo pipefail
+          curl -fL --retry 2 "$PATCH_URL" -o /tmp/guide.zip
+          echo '7a588cae18cf028a9914365e1b67fb527c20fa1885f8aca061729ae8f926b1d2  /tmp/guide.zip' | sha256sum -c -
+          python - <<'PY'
+          import pathlib,zipfile,json,hashlib
+          with zipfile.ZipFile('/tmp/guide.zip') as z:
+              for f in z.infolist():
+                  p=pathlib.PurePosixPath(f.filename)
+                  assert not p.is_absolute() and '..' not in p.parts and p.parts[0] in ('sample-v2','tests')
+              z.extractall('.')
+          for name in ['patch-manifest.json','unchanged.json']:
+              for f in json.load(open('tests/guide-editions/'+name)):
+                  assert hashlib.sha256(pathlib.Path(f['path']).read_bytes()).hexdigest()==f['sha256'],f['path']
+          print('Exact candidate and original source/experiment data verified')
+          PY
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install browser
+        run: |
+          python -m pip install playwright==1.55.0
+          python -m playwright install --with-deps chromium
+          sudo apt-get install -y fonts-noto-cjk
+      - name: Existing content and physics regression
+        run: |
+          node --experimental-default-type=module tests/two-lesson/unit-tests.mjs
+          node --experimental-default-type=module tests/everyday/model.test.mjs
+      - name: Actual editions, WebGL, narration, video and printing
+        run: |
+          python -m http.server 8765 --bind 127.0.0.1 >/tmp/guide-server.log 2>&1 &
+          python tests/guide-editions/browser.py
+      - name: Stage validated product files only
+        run: |
+          set -euo pipefail
+          cp /tmp/guide-editions-qa/student.pdf sample-v2/print/student.pdf
+          cp /tmp/guide-editions-qa/teacher.pdf sample-v2/print/teacher.pdf
+          cp /tmp/guide-editions-qa/report.json tests/guide-editions/browser-report.json
+          python - <<'PY'
+          from pathlib import Path
+          import json,hashlib
+          with open('sample-v2/README.md','a') as f:f.write('\n\n## Framed guide editions\nRestyled from the original lete-on science-lab book CSS: chapter bands, double frames, ribbons, green concept boxes, navy observation panels, yellow cautions and red teacher annotations. Dedicated student.html, teacher.html and book.html entries share the same original20contentpages. Student PDF22pages (cover/navigation+20); instructor PDF27pages (cover/navigation+2lesson plans+2existing-note pages+21content sheets, one dense question section split rather than reduced type). Student routing never inherits instructor key visibility. Instructor projected pages initially conceal keys; explicit reveal opens annotated reading. Existing18questions, source text, five-object inquiry, delayed method feedback, QRtargets, media and physics are unchanged.\n')
+          root=Path('sample-v2')
+          manifest=[{'path':str(p.relative_to(root)),'size':p.stat().st_size,'sha256':hashlib.sha256(p.read_bytes()).hexdigest()} for p in sorted(root.rglob('*')) if p.is_file()]
+          Path('tests/two-lesson/file-manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2))
+          PY
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add sample-v2 tests/guide-editions tests/two-lesson/file-manifest.json
+          git commit -m 'feat: unify framed self-study, instructor guide and living-book editions'
+          git push origin HEAD:work/framed-guide-editions
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: framed-guide-editions-qa
+          path: /tmp/guide-editions-qa/
+          retention-days: 3
