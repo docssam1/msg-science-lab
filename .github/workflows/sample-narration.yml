@@ -1,0 +1,69 @@
+name: Sample narration generation
+on:
+  push:
+    branches: [work/two-lesson-source-rebuild]
+    paths: [.github/workflows/sample-narration.yml]
+permissions:
+  contents: read
+jobs:
+  voice:
+    runs-on: ubuntu-latest
+    timeout-minutes: 75
+    strategy:
+      fail-fast: false
+      matrix:
+        half: [0, 1]
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Prepare
+        run: |
+          git show 6335b070d42ee5f87d8302ece65b60b599b4f208:assets/teacher-ref-recording.mp4 > /tmp/reference.mp4
+          python -m pip install torch torchaudio --index-url https://download.pytorch.org/whl/cpu
+          python -m pip install omnivoice==0.2.1 soundfile imageio-ffmpeg
+      - name: Generate approved sample narration
+        env:
+          HALF: ${{ matrix.half }}
+          OMP_NUM_THREADS: '4'
+          MKL_NUM_THREADS: '4'
+        run: |
+          python - <<'PY'
+          import json,os,pathlib,subprocess,time
+          import imageio_ffmpeg,torch,soundfile as sf,numpy as np
+          from omnivoice import OmniVoice
+          torch.set_num_threads(4)
+          ffmpeg=imageio_ffmpeg.get_ffmpeg_exe()
+          subprocess.run([ffmpeg,'-y','-i','/tmp/reference.mp4','-ar','24000','-ac','1','/tmp/reference.wav'],check=True,capture_output=True)
+          model=OmniVoice.from_pretrained('k2-fsa/OmniVoice',device_map='cpu',dtype=torch.float32)
+          out=pathlib.Path('/tmp/narration');out.mkdir()
+          lines=json.load(open('scripts/sample-narration.json'))
+          half=int(os.environ['HALF']); selected=lines[half*9:(half+1)*9]
+          results=[]
+          for item in selected:
+              start=time.time()
+              try:
+                  with torch.inference_mode(): a=model.generate(text=item['text'],ref_audio='/tmp/reference.wav',num_step=16)[0]
+                  if hasattr(a,'detach'): a=a.detach().cpu().numpy()
+                  a=np.asarray(a).squeeze()
+                  if a.size<2400 or not np.isfinite(a).all(): raise ValueError('Invalid or empty audio')
+                  wav=out/(item['id']+'.wav'); sf.write(wav,a,24000)
+                  mp3=out/(item['id']+'.mp3')
+                  subprocess.run([ffmpeg,'-y','-i',str(wav),'-codec:a','libmp3lame','-b:a','96k',str(mp3)],check=True,capture_output=True)
+                  wav.unlink()
+                  results.append({**item,'seconds':len(a)/24000,'generation_seconds':round(time.time()-start,2),'engine':'OmniVoice 0.2.1','num_step':16})
+                  print(item['id'],results[-1]['seconds'],'seconds',flush=True)
+              except Exception as e:
+                  results.append({**item,'error':str(e)});print(item['id'],str(e),flush=True)
+              (out/('manifest-'+str(half)+'.json')).write_text(json.dumps(results,ensure_ascii=False,indent=2))
+          if any('error' in r for r in results): raise SystemExit(1)
+          PY
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: sample-narration-${{ matrix.half }}
+          path: /tmp/narration/
+          retention-days: 7
