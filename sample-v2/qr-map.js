@@ -80,3 +80,11 @@ export const qrById={
     "action": "assessment-graph"
   }
 };
+
+// Page-specific links keep repeated source scenes (P3/P4, P13/P14, P18/P19,
+// P21/P22) on the printed page that the student scanned.
+export function qrForPage(page){
+ const number=Number(page.printId?.slice(1));
+ if(!Number.isInteger(number)||number<1||number>23)throw new Error('Invalid lesson QR page');
+ return `https://docssam1.github.io/msg-science-lab/sample-v2/index.html?edition=student&page=${number}&activity=${encodeURIComponent(page.action||'source')}`;
+}

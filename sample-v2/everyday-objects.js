@@ -8,10 +8,11 @@ export const inquiryObjects = Object.freeze([
  Object.freeze({id:'pencilcase',name:'필기구가 든 필통',short:'필통',quantity:'내용물 포함',force:2.6,kind:'pencilcase'})
 ]);
 export const inquiryScale=Object.freeze({max:5,step:.1,tolerance:.051,zeroLimit:.6});
-export const inquiryStateKey='why-scale-everyday-five-v2';
+export const inquiryStateKey='why-scale-everyday-five-v3';
 export function initialOrder(){return inquiryObjects.map(o=>o.id);}
 export function validOrder(order){return Array.isArray(order)&&order.length===5&&new Set(order).size===5&&order.every(id=>inquiryObjects.some(o=>o.id===id));}
 export const formatForce=n=>Number(n).toFixed(1);
+export function objectPhoto(o){const file=o.id==='pencilcase'?'pencil-case':o.id;return `<img class="object-photo" src="./photos/${file}.jpg" alt="${o.name} 예시 실사 사진">`;}
 
 // Detailed original vector illustrations, shared by web and print; no anonymous sacks.
 export function objectFigure(o){
