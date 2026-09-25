@@ -46,6 +46,20 @@ export const takes = {
 Object.assign(takes, {
   design: { script: async (p, at) => { for (const k of [0, 1, 2, 3]) { await at(1.6 + k * 2.4); await p.click('#next').catch(() => {}); } } },
   story: { script: async (p, at) => { await at(0.5); await openLab(p); await at(2.5); await p.evaluate(() => { const v = document.querySelector('#activity video'); if (v) { v.muted = true; v.play(); } }); } },
+  // 데일리 테스트: 부품 이름 하나를 헷갈린 채 채점 → 첨삭 펼치기 → 처방 문제(첫 오답은 질문만, 다시 고르면 정답)
+  grade: { setup: async (p) => {
+    const R = '#mobile-reader', fill = (n, v) => p.locator(`${R} input[name="${n}"]`).fill(v);
+    await p.evaluate(() => localStorage.clear()); await p.reload(); await p.waitForTimeout(1500);
+    await fill('a1-0', '영점조절나사'); await fill('a1-1', '용수철'); await fill('a1-2', '눈금'); await fill('a1-3', '고리');
+    await p.locator(`${R} input[name="a2"][value="2"]`).check(); await fill('a4', 'ㄷ');
+    await p.locator(`${R} input[name="a5"][value="0"]`).check(); await p.locator(`${R} input[name="a6"][value="1"]`).check();
+  }, script: async (p, at) => {
+    await at(1.0); await p.click('#guide-action').catch(() => {});
+    await at(4.0); await p.evaluate(() => document.querySelector('.dt-card.wrong summary')?.click());
+    await at(7.5); await p.click('#guide-action').catch(() => {});
+    await at(9.5); await p.evaluate(() => document.querySelector('[data-rx="s01"] [data-rx-opt="0"]')?.click());
+    await at(11.5); await p.evaluate(() => document.querySelector('[data-rx="s01"] [data-rx-opt="1"]')?.click());
+  } },
   screen: takes.start, self: takes.inquiry, lab: takes.use, voice: takes.elastic, mistake: takes.zero,
   media: { script: async (p, at) => { await at(0.5); await openLab(p); await at(2.5); await p.evaluate(() => { const v = document.querySelector('#activity video'); if (v) { v.muted = true; v.play(); } }); } },
 });

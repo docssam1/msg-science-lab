@@ -27,6 +27,10 @@
 - **소개 영상**(안쌤 영상 형식): `promo/msg-physics/` — 대본 `voice-promo.json`(16줄), 장면 `storyboard.js`(17), `tools/build.mjs`. 새 대사 음성은 원장 PC `scripts/local/omnivoice-promo.cmd`(기존 우루사쌤 클립을 참조로 복제) → `sample-v2/audio/promo/*.mp3` 올리면 다시 build. 음성 없으면 무음 초안.
 - **쇼릴**: `tools/build-reel.mjs` → `promo/msg-physics/chogwasim-live-showreel.mp4`. 실제 앱을 **가상 시계로 한 장씩** 찍어(`tools/vtake.mjs`) 소프트웨어 렌더링에서도 끊김 없는 30fps. 3D는 왼쪽 960×1080 가득 + 오른쪽 큰 자막, 화면 컷은 천천히 다가가는 카메라 + 아래 자막. 음악은 `tools/music.py`로 합성한 원곡(저작권 없음, 바꿔 끼우기 쉬움) + 우루사쌤 목소리 몇 마디(나올 때 음악 자동 낮춤).
 - 영상 속 동영상(시계 기록영상)은 가상 시계가 못 잡아서 실시간 녹화(`take.mjs`)로 찍는다.
+  - **녹화 스크립트 주의**: 교구의 물체(`.weight-item`, 추가 탐구 `[data-object]`)는 `click()`으로 **안 매달린다** — 포인터/Enter 키로만 반응한다. `hang()`(Enter 키) 사용. 이걸 몰라 영점·측정·오류 컷이 한동안 빈 저울로 찍혀 있었다. 배틀 화면의 물체는 `<button>`이라 click 된다.
+  - 컷에 `zoom: [가로, 세로, 배율, 시작초, 끝초]`를 주면 2배 해상도로 찍고 그 지점으로 다가간다(작은 글자 강조용). `css`는 그 컷 녹화에만 입히는 스타일 — 앱은 그대로.
+  - 컷 번호(`07 / 12`)는 `num` 있는 컷 수에서 자동 계산.
+  - `tests/two-lesson/file-manifest.json`의 해시는 battle·app 등 수정 뒤 낡았다. 읽는 코드가 없어 그대로 둠.
 
 ## 우루사쌤을 책·실험 안으로 + Daily Test 채점·첨삭·처방 (2026-09-26)
 - 원장: "자동 채점·첨삭 기능 예시도 우리 사이언스랩처럼. UI가 구리면 안 돼. 교재와 실험 안에 캐릭터가 들어가 있어야지." + "첨삭 기능도 넣어야지. 유사문제 은행도, 오개념이 2개가 되면…"

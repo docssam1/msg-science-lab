@@ -3,7 +3,7 @@
 // 실제 앱을 가상 시계로 한 장씩 찍어(vtake) 끊김 없는 30fps 컷을 만들고, 큰 자막·브랜드 카드·음악·우루사쌤 목소리로 편집한다.
 import { chromium } from '/opt/node22/lib/node_modules/playwright/index.mjs';
 import { spawnSync } from 'node:child_process';
-import { mkdirSync, existsSync, writeFileSync } from 'node:fs';
+import { mkdirSync, existsSync, writeFileSync, readFileSync } from 'node:fs';
 import { join, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { vtake } from './vtake.mjs';
@@ -26,49 +26,88 @@ const range = (p, v, sel = '#activity input[type=range]') => p.evaluate(([v, sel
 const open = async (p) => { await p.click('#guide-action'); await p.waitForTimeout(2600); };
 const predict = async (p) => { await p.click('#guide-action'); await p.waitForTimeout(1300); await p.check('#activity input[type=checkbox]').catch(() => {}); await p.fill('#activity textarea', '사과가 가장 무거울 것 같아요.').catch(() => {}); await click(p, '#activity button', '예상을 기록'); await p.waitForTimeout(2800); };
 
+const R = '#mobile-reader';
+const answer = async (p) => {   // 데일리 테스트 1차시: 부품 이름 하나를 헷갈리고(×), 3번은 목록 밖 답(검토 필요)
+  await p.evaluate(() => localStorage.clear()); await p.reload(); await p.waitForFunction(() => document.documentElement.dataset.ready === 'true'); await p.waitForTimeout(900);
+  const fill = (n, v) => p.locator(`${R} input[name="${n}"]`).fill(v);
+  await fill('a1-0', '영점조절나사'); await fill('a1-1', '용수철'); await fill('a1-2', '눈금'); await fill('a1-3', '고리');
+  await p.locator(`${R} input[name="a2"][value="2"]`).check();
+  await p.locator(`${R} .question[data-q="a3"] .dt-speak`).click(); await p.locator(`${R} .question[data-q="a3"] .speech-draft`).fill('바늘'); await p.locator(`${R} .question[data-q="a3"] .speech-apply`).click();
+  await fill('a4', 'ㄷ'); await p.locator(`${R} input[name="a5"][value="0"]`).check(); await p.locator(`${R} input[name="a6"][value="1"]`).check();
+};
+
 // 컷: kind = hook | card | 3d | ui ; lines = [초, 모양, html] (3d: 오른쪽 큰 글씨 / ui: 아래 자막)
 const cuts = [
-  { id: 'hook', kind: 'hook', dur: 5.0, steps: [[0.3, '손으로 든 느낌만으로는'], [2.2, '손으로 든 느낌만으로는<br><em>정확히 알 수 없어요</em>']] },
-  { id: 'brand', kind: 'card', dur: 3.8, tag: '초등과학심화, 이제 살아 움직인다', small: '대치 MSG 영재교육', logo: true },
+  { id: 'hook', kind: 'hook', dur: 5.0, steps: [[0.3, '손으로 든 느낌만으로는'], [2.2, '손으로 든 느낌만으로는<br><em>정확히 알 수 없어요</em>']], sfx: [[0.3, 'pop'], [2.2, 'pop']] },
+  { id: 'brand', kind: 'card', dur: 3.8, tag: '초등과학심화, 이제 살아 움직인다', small: '대치 MSG 영재교육', logo: true, sfx: [[0, 'impact']] },
   { id: 'elastic', kind: '3d', dur: 4.8, num: '01', kicker: '탄성', url: 'student.html?page=12', setup: open,
     script: async (p, at) => { for (let k = 0; k <= 36; k++) { await at(0.2 + k * 0.055); await range(p, k / 36); } await at(3.0); await click(p, '#activity button', '힘을 놓기'); },
-    lines: [[0.15, 'k', '실제 구동 · 탄성'], [0.35, 'h', '당기면<br><em>늘어나고</em>'], [2.9, 's', '놓으면 원래 모양으로 돌아와요']] },
+    lines: [[0.15, 'k', '실제 구동 · 탄성'], [0.35, 'h', '당기면<br><em>늘어나고</em>'], [2.9, 's', '놓으면 원래 모양으로 돌아와요']], sfx: [[0.25, 'spring'], [3.0, 'tick'], [3.05, 'spring']] },
   { id: 'zero', kind: '3d', dur: 5.2, num: '02', kicker: '용수철저울', url: 'student.html?page=5', setup: predict,
     script: async (p, at) => { await at(0.4); await click(p, '[data-confirm-empty]'); await at(1.4); await hang(p, '#activity .weight-item', '사과 한 개'); },
-    lines: [[0.15, 'k', '영점부터'], [0.5, 'h', '매달고,<br>기다리고,<br><em>읽는다</em>']] },
+    lines: [[0.15, 'k', '영점부터'], [0.5, 'h', '매달고,<br>기다리고,<br><em>읽는다</em>']], sfx: [[0.4, 'tick'], [1.4, 'tick'], [1.5, 'clank']] },
   { id: 'measure', kind: '3d', dur: 5.0, num: '03', kicker: '추의 무게와 늘어난 길이', url: 'student.html?page=15', setup: open,
     script: async (p, at) => { for (const [i, g] of ['10 g', '20 g', '30 g'].entries()) { await at(0.3 + i * 1.5); if (i) await click(p, '#activity button', '물체 빼기'); await hang(p, '#activity .weight-item', g); } },
-    lines: [[0.15, 'k', '추 10 · 20 · 30 g'], [0.4, 'h', '하나씩 더하면<br><em>3 · 6 · 9 cm</em>']] },
+    lines: [[0.15, 'k', '추 10 · 20 · 30 g'], [0.4, 'h', '하나씩 더하면<br><em>3 · 6 · 9 cm</em>']], sfx: [[0.3, 'clank'], [1.8, 'tick'], [1.85, 'clank'], [3.3, 'tick'], [3.35, 'clank']] },
   { id: 'eye', kind: '3d', dur: 4.6, num: '04', kicker: '시선과 눈금', url: 'student.html?page=6', setup: open,
     script: async (p, at) => { for (const [i, v] of ['위에서', '같은 높이', '아래에서', '같은 높이'].entries()) { await at(0.3 + i * 1.05); await click(p, '#activity button', v); } },
-    lines: [[0.15, 'k', '눈높이 맞추기'], [0.4, 'h', '보는 곳이 바뀌면<br><em>눈금도 달라 보여요</em>']] },
+    lines: [[0.15, 'k', '눈높이 맞추기'], [0.4, 'h', '보는 곳이 바뀌면<br><em>눈금도 달라 보여요</em>']], sfx: [0.3, 1.35, 2.4, 3.45].map((t) => [t, 'tick']) },
   { id: 'press', kind: '3d', dur: 4.2, num: '05', kicker: '누르는 힘', url: 'student.html?page=14', setup: open,
     script: async (p, at) => { for (let k = 0; k <= 30; k++) { await at(0.2 + k * 0.06); await range(p, k / 30); } await at(2.8); await click(p, '#activity button', '힘을 없애기'); },
-    lines: [[0.15, 'k', '누르는 힘'], [0.4, 'h', '누르면<br><em>짧아져요</em>']] },
+    lines: [[0.15, 'k', '누르는 힘'], [0.4, 'h', '누르면<br><em>짧아져요</em>']], sfx: [[0.2, 'spring'], [2.8, 'tick'], [2.85, 'spring']] },
   { id: 'error', kind: 'ui', dur: 5.4, num: '06', kicker: '스스로 점검', url: 'student.html?page=5', setup: predict,
     script: async (p, at) => { await at(0.5); await hang(p, '#activity .weight-item', '신발 한 짝'); await at(0.9); await p.evaluate(() => document.querySelector('#activity [data-method-review]')?.closest('.lab-controls, .feedback, div')?.scrollIntoView({ block: 'center' })); },
-    lines: [[0.3, 'h', '실수하면 답 대신 <em>질문</em>으로']], vo: ['method-error', 0.6], zoom: [0.68, 0.5, 1.45, 1.2, 2.4],
+    lines: [[0.3, 'h', '실수하면 답 대신 <em>질문</em>으로']], vo: ['method-error', 0.6], zoom: [0.68, 0.5, 1.45, 1.2, 2.4], sfx: [[0.5, 'tick'], [0.58, 'buzz'], [1.2, 'swell']],
     // 오류가 난 뒤에만 경고 상자에 주황 빛 테두리(쇼릴에서 눈이 가도록 — 앱 자체는 그대로)
     css: `#activity .lab-controls:has([data-method-review]:not([hidden])) [data-inquiry-feedback]{position:relative;z-index:2;box-shadow:0 0 0 3px #ff8a3d,0 0 30px 8px rgba(255,138,61,.5)!important;animation:reelGlow 1.1s ease-in-out infinite alternate}@keyframes reelGlow{from{box-shadow:0 0 0 3px #ff8a3d,0 0 14px 2px rgba(255,138,61,.35)}to{box-shadow:0 0 0 3px #ff8a3d,0 0 34px 10px rgba(255,138,61,.6)}}` },
-  { id: 'graph', kind: 'ui', dur: 4.6, num: '07', kicker: '표에서 그래프로', url: 'student.html?page=16', setup: open,
-    script: async (p, at) => { for (const [i, [g, c]] of [[10, 3], [20, 6], [30, 9]].entries()) { await at(0.4 + i * 1.2); await p.evaluate(([g, c]) => { const [a, b] = document.querySelectorAll('#activity input[type=number]'); if (a) { a.value = g; a.dispatchEvent(new Event('input', { bubbles: true })); } if (b) { b.value = c; b.dispatchEvent(new Event('input', { bubbles: true })); } }, [g, c]); await click(p, '#activity button', '점 찍기'); } },
-    lines: [[0.3, 'h', '숫자가 점이 되고, <em>관계가 보여요</em>']] },
-  { id: 'battle', kind: 'ui', dur: 6.2, num: '08', kicker: '가르치기 · 두 팀', url: 'teacher.html?page=5', setup: async (p) => { await p.click('#battle'); await p.waitForTimeout(3500); },
+  { id: 'grade', kind: 'ui', dur: 5.8, num: '07', kicker: '데일리 테스트 · 자동 채점', url: 'student.html?page=11', setup: answer,
     script: async (p, at) => {
-      await at(0.5); await p.evaluate(() => document.querySelectorAll('[data-confirm-empty], button').forEach((b) => { if (/빈 저울/.test(b.textContent)) b.click(); }));
-      await at(1.6); await p.evaluate(() => { const items = [...document.querySelectorAll('.weight-item, [data-object]')].filter((x) => x.offsetParent); const half = Math.ceil(items.length / 2); items[1]?.click(); items[half + 4]?.click(); });
-      await at(4.0); await p.evaluate(() => [...document.querySelectorAll('button')].find((b) => /정답 확인/.test(b.textContent))?.click());
+      await at(0.5); await p.evaluate(() => document.querySelector('#guide-action')?.click());
+      await at(2.8); await p.evaluate(() => document.querySelector('.dt-card.wrong summary')?.click());
     },
-    lines: [[0.3, 'h', '두 팀이 나와 <em>배틀</em>로']], vo: ['question-correct', 4.3, 1.4] },
-  { id: 'video', kind: 'ui', dur: 4.2, num: '09', kicker: '과학 이야기', url: 'student.html?page=9', real: true, setup: open,
+    lines: [[0.3, 'h', '채점하고, <em>왜 틀렸는지</em>까지']], zoom: [0.27, 0.5, 1.9, 2.0, 3.2], sfx: [[0.5, 'tick'], [0.85, 'ding', 0.7], [2.0, 'swell'], [2.8, 'tick']] },
+  { id: 'remedy', kind: 'ui', dur: 5.0, num: '08', kicker: '오개념 처방', url: 'student.html?page=11',
+    setup: async (p) => { await answer(p); await p.click('#guide-action'); await p.waitForTimeout(1600); },
+    script: async (p, at) => {
+      await at(0.4); await p.evaluate(() => document.querySelector('#guide-action')?.click());
+      await at(0.9); await p.evaluate(() => document.querySelector('[data-rx="s01"]')?.scrollIntoView({ block: 'start' }));
+      await at(1.9); await p.evaluate(() => document.querySelector('[data-rx="s01"] [data-rx-opt="0"]')?.click());
+      await at(3.4); await p.evaluate(() => document.querySelector('[data-rx="s01"] [data-rx-opt="1"]')?.click());
+    },
+    lines: [[0.3, 'h', '두 번 헷갈리면 <em>처방 문제</em>']], zoom: [0.26, 0.42, 2.0, 1.0, 1.8], sfx: [[0.4, 'tick'], [1.0, 'swell'], [1.9, 'tick'], [1.95, 'buzz'], [3.4, 'tick'], [3.45, 'ding']] },
+  { id: 'graph', kind: 'ui', dur: 4.6, num: '09', kicker: '표에서 그래프로', url: 'student.html?page=16', setup: open,
+    script: async (p, at) => { for (const [i, [g, c]] of [[10, 3], [20, 6], [30, 9]].entries()) { await at(0.4 + i * 1.2); await p.evaluate(([g, c]) => { const [a, b] = document.querySelectorAll('#activity input[type=number]'); if (a) { a.value = g; a.dispatchEvent(new Event('input', { bubbles: true })); } if (b) { b.value = c; b.dispatchEvent(new Event('input', { bubbles: true })); } }, [g, c]); await click(p, '#activity button', '점 찍기'); } },
+    lines: [[0.3, 'h', '숫자가 점이 되고, <em>관계가 보여요</em>']], sfx: [0.4, 1.6, 2.8].map((t) => [t + 0.05, 'pop']) },
+  { id: 'battle', kind: 'ui', dur: 7.6, num: '10', kicker: '가르치기 · 두 팀', url: 'teacher.html?page=5', setup: async (p) => { await p.click('#battle'); await p.waitForTimeout(3500); },
+    // A팀은 가벼운 것부터 바르게 세우고, B팀은 한 칸 어긋나게 — 도장·배너·점수가 한 컷에 다 나온다
+    script: async (p, at, fx) => {
+      const [A, B] = await p.evaluate(() => [...document.querySelectorAll('[data-battle-team]')].map((e) => e.dataset.battleTeam));
+      const tap = (sel) => p.evaluate((sel) => document.querySelector(sel)?.click(), sel);
+      await at(0.3); await tap(`[data-zero="${A}"]`); await tap(`[data-zero="${B}"]`); fx('tick');
+      await at(0.7); await tap(`[data-object="apple"][data-team="${A}"]`); fx('clank'); await at(0.9); await tap(`[data-object="shoe"][data-team="${B}"]`); fx('clank', 0, 0.8);
+      const order = (t) => p.evaluate((t) => [...document.querySelectorAll(`[data-battle-team="${t}"] [data-move="1"]`)].map((b) => b.dataset.id), t);
+      const force = await p.evaluate(async () => Object.fromEntries((await import('./battle-rounds.js')).battleObjects.map((o) => [o.id, o.force])));
+      let t = 1.5;
+      for (let guard = 0; guard < 12; guard++) {   // 버블 정렬 한 칸씩 — 카드가 미끄러지는 게 보이게
+        const o = await order(A); const i = o.findIndex((id, k) => k && force[o[k - 1]] > force[id]); if (i < 0) break;
+        await at(t); await tap(`[data-battle-team="${A}"] [data-move="-1"][data-id="${o[i]}"]`); fx('tick', 0, 0.7); t += 0.28;
+      }
+      const ob = await order(B); const bad = ob.findIndex((id, k) => k && force[ob[k - 1]] < force[id]);
+      await at(2.1); fx('tick', 0, 0.7); await tap(`[data-battle-team="${B}"] [data-move="-1"][data-id="${ob[Math.max(1, bad)]}"]`);
+      await at(Math.max(3.4, t + 0.2)); await tap(`[data-submit="${A}"]`); fx('tick'); await at(Math.max(3.7, t + 0.5)); await tap(`[data-submit="${B}"]`); fx('tick');
+      await at(Math.max(4.2, t + 0.9)); await tap('[data-battle-answer]'); fx('tick'); fx('stamp', 0.3); fx('stamp', 0.5, 0.8); fx('sparkle', 1.15);
+    },
+    lines: [[0.3, 'h', '두 팀이 겨루는 <em>실험 배틀</em>']], vo: ['question-correct', 4.6, 1.4] },
+  { id: 'video', kind: 'ui', dur: 4.2, num: '11', kicker: '과학 이야기', url: 'student.html?page=9', real: true, setup: open,
     script: async (p, at) => { await at(0.2); await p.evaluate(() => { const v = document.querySelector('#activity video'); if (v) { v.muted = true; v.currentTime = 6; v.play(); } }); },
     lines: [[0.3, 'h', '책 속에서 바로 <em>영상</em>으로']] },
-  { id: 'modes', kind: 'ui', dur: 3.8, num: '10', kicker: '초·과·심 LIVE', url: 'start.html', real: true,
+  { id: 'modes', kind: 'ui', dur: 3.8, num: '12', kicker: '초·과·심 LIVE', url: 'start.html', real: true,
     script: async (p, at) => { for (const [i, s] of ['.card:nth-child(1)', '.card:nth-child(2)', '.card:nth-child(3)'].entries()) { await at(0.4 + i * 0.9); await p.hover(s).catch(() => {}); } },
-    lines: [[0.3, 'h', '스스로 공부 · 가르치기 · <em>살아있는 책</em>']] },
-  { id: 'end', kind: 'card', dur: 5.2, tag: '초등과학심화, 이제 살아 움직인다', small: '대치 MSG 영재교육 · 스스로 공부 · 가르치기 · 살아있는 책 · A4 인쇄', logo: true },
+    lines: [[0.3, 'h', '스스로 공부 · 가르치기 · <em>살아있는 책</em>']], sfx: [0.4, 1.3, 2.2].map((t) => [t, 'tick', 0.6]) },
+  { id: 'end', kind: 'card', dur: 5.2, tag: '초등과학심화, 이제 살아 움직인다', small: '대치 MSG 영재교육 · 스스로 공부 · 가르치기 · 살아있는 책 · A4 인쇄', logo: true, sfx: [[0, 'impact', 0.8], [0.5, 'sparkle']] },
 ];
 const XF = 0.4;
+const NUMBERED = cuts.filter((c) => c.num).length;
 
 const b = await chromium.launch({ executablePath: '/opt/pw-browsers/chromium', args: ['--use-gl=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] });
 const shot = async (q, file, transparent = true) => {
@@ -98,8 +137,11 @@ for (const c of cuts) {
     const take = join(d, 'take.mp4');
     if (retake || !existsSync(take)) {
       const t0 = Date.now(); const is3d = c.kind === '3d';
-      const opts = { url: APP + c.url, seconds: c.dur + 0.3, setup: c.setup, script: c.script, out: take, css: is3d ? FULL3D : (c.css || ''), width: is3d ? 960 : 1920, height: 1080, dpr: c.zoom ? 2 : 1 };
+      let now = 0; const ev = [];   // 녹화 중 실제 동작 시각에 맞춘 효과음 기록(배틀처럼 시각이 그때그때 정해지는 컷)
+      const script = c.script && ((p, at) => c.script(p, async (s) => { now = s; await at(s); }, (k, dt = 0, g = 1) => ev.push([+(now + dt).toFixed(3), k, g])));
+      const opts = { url: APP + c.url, seconds: c.dur + 0.3, setup: c.setup, script, out: take, css: is3d ? FULL3D : (c.css || ''), width: is3d ? 960 : 1920, height: 1080, dpr: c.zoom ? 2 : 1 };
       const r = c.real ? await recordTake(b, { ...opts, width: 1920, height: 1080 }) : await vtake(b, opts);
+      if (ev.length) writeFileSync(join(d, 'sfx.json'), JSON.stringify(ev));
       console.log(`  녹화 ${c.id}: ${r.frames}장 · ${((Date.now() - t0) / 1000).toFixed(0)}초`, r.errs?.length ? r.errs : '');
     }
     const lines = c.lines || []; const pngs = [];
@@ -109,8 +151,8 @@ for (const c of cuts) {
       else await shot({ mode: 'rcapt', cls, html }, f);
     }
     const base = join(d, 'base.png');
-    if (c.kind === '3d') await shot({ mode: 'rbg', kicker: c.kicker, num: `${c.num} / 10` }, base, false);
-    else await shot({ mode: 'rcapbg', kicker: c.kicker, num: `${c.num} / 10` }, base);
+    if (c.kind === '3d') await shot({ mode: 'rbg', kicker: c.kicker, num: `${c.num} / ${NUMBERED}` }, base, false);
+    else await shot({ mode: 'rcapbg', kicker: c.kicker, num: `${c.num} / ${NUMBERED}` }, base);
     const ins = ['-loop', '1', '-t', String(c.dur), '-i', base, '-i', take, ...pngs.flatMap(([f]) => ['-loop', '1', '-t', String(c.dur), '-i', f])];
     let fc;
     if (c.kind === '3d') fc = `[1:v]scale=960:1080,setpts=PTS-STARTPTS[tk];[0:v][tk]overlay=0:0[b0]`;
@@ -140,12 +182,23 @@ const TOTAL = off + cuts.at(-1).dur;
 // 소리: 음악(드롭 = 브랜드 카드 시작) + 우루사쌤 목소리 몇 마디(나올 때 음악을 살짝 낮춤)
 const MUSIC = join(W, 'music.wav');
 spawnSync('python3', [join(HERE, 'music.py'), MUSIC, String(TOTAL.toFixed(2)), String(starts[1].toFixed(2))], { stdio: 'inherit' });
+// 효과음: 컷마다 적어 둔 것 + 녹화 때 기록한 것 + 장면 전환 휙 + 큰 자막 들어올 때 톡
+const events = [];
+cuts.forEach((c, i) => {
+  const rec = join(W, c.id, 'sfx.json');
+  for (const [t, k, g = 1] of [...(c.sfx || []), ...(existsSync(rec) ? JSON.parse(readFileSync(rec, 'utf8')) : [])]) events.push([starts[i] + t, k, g]);
+  for (const [t0, cls] of c.lines || []) if (cls === 'h') events.push([starts[i] + t0, 'pop', 0.7]);
+  if (i >= 2) events.push([starts[i] - 0.12, 'whoosh', 0.8]);
+});
+const SFX = join(W, 'sfx.wav'), EV = join(W, 'sfx-events.json');
+writeFileSync(EV, JSON.stringify(events));
+spawnSync('python3', [join(HERE, 'sfx.py'), SFX, String(TOTAL.toFixed(2)), EV], { stdio: 'inherit' });
 const vos = [['l1-structure', starts[1] + 0.35, 3.3]];
 cuts.forEach((c, i) => { if (c.vo) vos.push([c.vo[0], starts[i] + c.vo[1], c.vo[2]]); });
-const aIns = ['-i', MUSIC, ...vos.flatMap(([id]) => ['-i', join(VO, `${id}.mp3`)])];
+const aIns = ['-i', MUSIC, ...vos.flatMap(([id]) => ['-i', join(VO, `${id}.mp3`)]), '-i', SFX];
 let afc = '';
 vos.forEach(([, t, len], i) => { afc += `[${cuts.length + 1 + i}:a]${len ? `atrim=0:${len},` : ''}aresample=48000,aformat=channel_layouts=stereo,volume=1.6,adelay=${Math.round(t * 1000)}|${Math.round(t * 1000)}[v${i}];`; });
-afc += `${vos.map((_, i) => `[v${i}]`).join('')}amix=inputs=${vos.length}:normalize=0[vox];[vox]asplit[vx1][vx2];[${cuts.length}:a]volume=0.55[mus];[mus][vx1]sidechaincompress=threshold=0.05:ratio=6:attack=20:release=300[duck];[duck][vx2]amix=inputs=2:normalize=0,loudnorm=I=-15:TP=-1.5:LRA=11[ao]`;
+afc += `${vos.map((_, i) => `[v${i}]`).join('')}amix=inputs=${vos.length}:normalize=0[vox];[vox]asplit[vx1][vx2];[${cuts.length}:a]volume=0.55[mus];[mus][vx1]sidechaincompress=threshold=0.05:ratio=6:attack=20:release=300[duck];[${cuts.length + 1 + vos.length}:a]volume=0.8[fx];[duck][vx2][fx]amix=inputs=3:normalize=0,loudnorm=I=-15:TP=-1.5:LRA=11[ao]`;
 const FINAL = join(OUT, 'chogwasim-live-showreel.mp4');
 ff([...ins, ...aIns, '-filter_complex', `${fc};[${last}]format=yuv420p[vo];${afc}`, '-map', '[vo]', '-map', '[ao]', '-t', TOTAL.toFixed(2), '-r', '30', '-c:v', 'libx264', '-crf', '18', '-preset', 'slow', '-c:a', 'aac', '-b:a', '192k', '-movflags', '+faststart', FINAL]);
 ff(['-ss', String((starts[2] + 1.6).toFixed(2)), '-i', FINAL, '-frames:v', '1', '-q:v', '2', join(OUT, 'chogwasim-live-showreel-poster.jpg')]);

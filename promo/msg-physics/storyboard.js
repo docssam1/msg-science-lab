@@ -43,6 +43,7 @@ export const scenes = [
   { id: 'lab', view: 'app', url: 'student.html?page=5', clip: 'p10-lab', kicker: '3D 가상 실험', label: '진짜처럼 움직이는 용수철저울', note: '영점 → 매달기 → 눈금 읽기' },
   { id: 'voice', view: 'app', url: 'student.html?page=12', clip: 'l2-elastic', kicker: '실제 수업 음성', label: '당겼다 놓으면?', note: '실험하면서 우루사쌤이 바로 옆에서' },
   { id: 'mistake', view: 'app', url: 'student.html?page=5', clip: 'p11-mistake', kicker: '과정을 스스로 점검', label: '답 대신 질문으로', note: '"어떤 과정을 다시 살펴볼까?"' },
+  { id: 'grade', view: 'app', url: 'student.html?page=11', clip: 'p11b-grade', kicker: '데일리 테스트', label: '채점 · 첨삭 · 처방 문제', note: '두 번 헷갈리면 비슷한 문제로 다시' },
   { id: 'battle', view: 'app', url: 'teacher.html?page=5', clip: 'p12-battle', kicker: '가르치기', label: '두 팀 배틀', note: '같은 물건, 두 개의 저울, 한 판 승부', hold: 2 },
   { id: 'tree', view: 'deck', clip: 'p13-tree', chip: C, layout: 'tree', kicker: '과학 계통도 · 물리', title: '초·과·심에서 고등 물리까지',
     items: [{ s: '초·과·심', t: '자석의 이용' }, { s: '심화', t: '자기장 · 자기력선' }, { s: '중학교 2학년', t: '전기와 자기' }, { s: '통합과학', t: '물질과 전자기장' }, { s: '고등', t: '물리 Ⅰ · Ⅱ' }] },
