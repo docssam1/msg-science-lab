@@ -1,12 +1,14 @@
 // Student print sequence. Source pages and assessment data stay in content.js.
-import {pages,q1,q2,questionHTML} from './content.js';
+import {pages,q1,q2,questionHTML,history1,history2,history3,coilHistory,future} from './content.js';
+import {watchDiagram,futureDiagram} from './reading-art.js';
 import {inquiryObjects,objectPhoto} from './everyday-objects.js';
 import {scaleArt,eyeArt,springArt,graphSVG,toolIcon} from './graphics.js';
 import {toolRows} from './content.js';
 
 const byId=Object.fromEntries(pages.map(page=>[page.id,page]));
 const base=(id,printId,overrides={})=>({...byId[id],printId,...overrides});
-const questions=(items,group)=>`<div class="test-grid">${items.map(q=>questionHTML(q,{print:true})).join('')}</div>${group?`<button class="page-action" data-grade="${group}">답 제출하고 확인하기</button>`:''}`;
+const questions=(items,group,{shared='',sharedAfter=0}={})=>`<div class="daily-test-banner"><span>daily test</span><small>일일 테스트</small></div><div class="source-test-list">${items.map((q,i)=>`${shared&&i===sharedAfter?`<p class="test-shared">${shared}</p>`:''}${questionHTML(q,{print:true})}`).join('')}</div>${group?`<button class="page-action" data-grade="${group}">답 제출하고 확인하기</button>`:''}`;
+const testPage=(id,printId,items,group,options={})=>base(id,printId,{title:`Daily Test ${String(items[0].n).padStart(2,'0')}–${String(items.at(-1).n).padStart(2,'0')}`,lead:'문항을 읽고 답을 고른 까닭을 말해 보세요.',printClass:'source-test',body:questions(items,group,options)});
 const objects=()=>`<div class="print-objects lesson-object-photos">${inquiryObjects.map(o=>`<figure>${objectPhoto(o)}<figcaption>${o.name}</figcaption></figure>`).join('')}</div>`;
 const lines=n=>`<div class="write-lines">${'<i></i>'.repeat(n)}</div>`;
 const act=(kind,label)=>`<button class="page-action" data-action="${kind}">${label}</button>`;
@@ -20,11 +22,11 @@ export const studentPrintPages=[
  base('l1-inquiry-record','P5',{title:'직접 측정해 봐요',body:`<h2>물체를 걸기 전 기준을 확인했나요?</h2><p>□ 빈 저울을 살펴보았습니다.</p><div class="p5-visual"><figure>${scaleArt({force:0,labels:false})}<figcaption>빈 저울의 표시부터 살펴보세요.</figcaption></figure>${objects()}</div><table class="book-table inquiry-log"><thead><tr><th>물건</th><th>처음 측정 (N)</th><th>다시 측정 (N)</th></tr></thead><tbody>${inquiryObjects.map(o=>`<tr><th>${o.name}</th><td></td><td></td></tr>`).join('')}</tbody></table><h2>예상과 측정은 어떻게 달랐나요?</h2>${lines(2)}`}),
  base('l1-eye','P6',{title:'눈금은 어떻게 읽을까요?',lead:'위 · 정면 · 아래 시점을 비교하세요.',body:`<figure class="lesson-hero eye-hero">${eyeArt()}<figcaption>표시자의 윗부분과 눈높이를 맞추세요.</figcaption></figure><h2>어느 눈높이에서 읽어야 할까요?</h2>${lines(3)}${act('eye','세 시점 비교하기')}`}),
  base('l1-scales','P7',{title:'물건에 맞는 저울을 골라요',lead:'어디에 놓거나 매달까요?',body:`<div class="scale-photo-three">${[['scale-spring','용수철저울','작은 물체를 매달아요.'],['scale-table','앉은뱅이저울','위에 올려놓아요.'],['scale-person','체중계','몸의 무게를 재요.']].map(([file,name,caption])=>`<figure><img src="./photos/${file}.jpg" alt="${name} 실사 사진"><figcaption><b>${name}</b><small>${caption}</small></figcaption></figure>`).join('')}</div>${act('types','알맞은 저울 고르기')}`}),
- base('l1-past','P8',{title:'용수철의 과거',lead:'옛 도구에는 어떤 모양이 있었을까요?',body:`<div class="history-photos"><figure><img src="./art/historical-engraving.png" alt="용수철의 과거를 보여 주는 역사 기록 그림"><figcaption>역사 기록 그림</figcaption></figure><figure>${springArt()}<figcaption>판처럼 휘는 모양 · 개념 도해</figcaption></figure></div><h2>두 모양은 힘을 없애면 어떻게 될까요?</h2>${lines(3)}${act('history','과거 자료 살펴보기')}`}),
- base('l1-watch','P9',{title:'시계 속 용수철',lead:'태엽이 움직이는 장면을 찾아보세요.',body:`<figure class="lesson-hero watch-hero"><img src="./media/watch-poster.jpg" alt="1949년 시계 기록영상 장면"><figcaption>1949년 시계 기록영상 · 낮은 해상도의 원본을 그대로 표시</figcaption></figure>${act('watch','기존 기록영상 보기')}`}),
- base('l1-future','P10',{title:'용수철의 미래',lead:'새 재료와 쓰임을 살펴보세요.',body:`<div class="future-visual">${[['작은 코일','작은 장치 속 움직임'],['새 재료','재료의 성질 연구'],['4D 프린팅','시간에 따른 모양 변화']].map(([t,d])=>`<section>${springArt()}<h2>${t}</h2><p>${d}</p></section>`).join('')}</div><p class="lesson-caption">미래 전망을 설명하는 개념 도해입니다. 실제 제품 사진이 아닙니다.</p>${act('future','교재의 미래 이야기 보기')}`}),
- base('l1-test-a','P11',{body:questions(q1.slice(0,3),'p11')}),
- base('l1-test-b','P12',{body:questions(q1.slice(3,6),'p12')}),
+ base('l1-past','P8',{title:'용수철의 과거',lead:'원본 과학 이야기를 그림과 함께 읽어 봐요.',printClass:'reading-page',body:`<div class="reading-history-top"><figure><img src="./art/historical-engraving.png" alt="원본 교재의 옛 투석기 기록 그림"><figcaption>본책 13쪽의 역사 그림</figcaption></figure><section><h2>용수철의 이름이 붙여진 유래</h2><p>동양의 한자문화권에서 쓰는 龍鬚鐵(용수철)은 용수(龍鬚)의 성질을 가진 쇠를 가리킨다. 이때 용수는 돌돌 말린 용의 수염을 일컫는데, 이 용의 수염을 잡아당겨 길게 펴더라도 돌돌 말린 모양으로 되돌아간다고 전해진다. 용수철이란 이름은 이러한 탄성체의 복원력을 빗대어 붙여진 이름이다.</p></section></div><h2 class="reading-subtitle">용수철의 과거</h2><div class="original-reading"><p>${history1}</p><p>${history2}</p><p>${history3}</p></div>${act('history','과거 자료 살펴보기')}`}),
+ base('l1-watch','P9',{title:'시계 속 태엽',lead:'태엽의 움직임과 원본 이야기를 함께 읽어 봐요.',printClass:'reading-page',body:`<figure class="reading-visual">${watchDiagram()}<figcaption>태엽통과 밸런스 스프링은 다른 부품입니다. 작동을 이해하기 위한 개념 도해입니다.</figcaption></figure><div class="archive-link"><img src="./media/watch-poster.jpg" alt="기존 1949년 기록영상의 실제 장면"><span>기존 기록영상 · 1949<br><b>태엽이 풀리며 움직이는 장면 보기</b></span></div><h2 class="reading-subtitle">코일 형태 용수철의 등장</h2><div class="original-reading"><p>${coilHistory}</p></div>${act('watch','기존 기록영상 보기')}`}),
+ base('l1-future','P10',{title:'용수철의 미래',lead:'원본의 전망을 읽고 세 가지 기술을 구분해 봐요.',printClass:'reading-page',body:`<figure class="reading-visual">${futureDiagram()}<figcaption>극소 코일 · 4D 프린팅 · 2D 재료를 설명하는 개념 도해입니다.</figcaption></figure><h2 class="reading-subtitle">원본 교재의 읽을거리</h2><div class="original-reading"><p>${future}</p></div><p class="reading-context">원본 집필 당시의 기술 전망입니다. 기관·성능 수치는 최신 제품의 성능을 뜻하지 않습니다.</p>${act('future','미래 기술 개념 살펴보기')}`}),
+ testPage('l1-test-a','P11',q1.slice(0,3),'p11'),
+ testPage('l1-test-b','P12',q1.slice(3,6),'p12',{shared:'[05~06] 다음 〈보기〉에 제시된 내용을 읽고 문장에 맞도록 ○표를 하시오.',sharedAfter:1}),
  base('l2-elastic','P13',{title:'힘을 주면 어떻게 변할까요?',lead:'관찰한 뒤 움직임을 기록하세요.',body:`<div class="lesson-three">${[['잡아당기기','pull'],['누르기','compress'],['놓기','pull']].map(([t,m])=>`<figure>${springArt({mode:m})}<figcaption>${t}</figcaption></figure>`).join('')}</div><h2>손을 놓으면 어떤 일이 일어날까요?</h2>${lines(4)}`}),
  base('l2-elastic','P14',{title:'다시 돌아오는 성질',lead:'관찰한 움직임에 이름을 붙여 보세요.',body:`<div class="lesson-large-art">${springArt({large:true})}</div><div class="definition"><b>탄성</b><p>힘을 없애면 원래 모양으로 돌아가려는 성질</p></div><h2>다른 물체에서도 볼 수 있을까요?</h2>${lines(3)}`}),
  base('l2-compress','P15',{title:'전체 길이와 변한 길이',lead:'두 길이를 구분해 표시하세요.',body:`<div class="lesson-large-art">${springArt({mode:'compress',large:true})}</div><div class="length-pair"><section><b>전체 길이</b><p>용수철의 양 끝 사이</p></section><section><b>줄어든 길이</b><p>처음보다 짧아진 만큼</p></section></div><h2>힘을 더 크게 주면 어느 길이가 달라질까요?</h2>${lines(3)}`}),
@@ -32,10 +34,10 @@ export const studentPrintPages=[
  base('l2-graph','P17',{title:'표를 그래프로 나타내요',lead:'본문 실험 A의 점을 직접 옮겨 보세요.',body:`<table class="book-table"><thead><tr><th>추의 무게 (g)</th><th>10</th><th>20</th><th>30</th></tr></thead><tbody><tr><th>늘어난 길이 (cm)</th><td>3</td><td>6</td><td>9</td></tr></tbody></table><div class="lesson-graph">${graphSVG({points:[],max:9,step:3,labels:true})}</div><p>가로축: 추의 무게 (g) · 세로축: 늘어난 길이 (cm)</p><aside class="extension"><b>확장 탐구</b> 같은 관계가 이어진다고 가정하면, 40 g에서는 얼마나 늘어날까요?</aside>`}),
  base('l2-tools','P18',{title:'용수철이 달라지면?',lead:'한 번에 한 조건만 바꿔 비교하세요.',action:'factors',body:`<div class="lesson-three factor-trio">${[['재질','같은 모양에서 재료 바꾸기'],['철사 굵기','같은 재료에서 굵기 바꾸기'],['코일 지름','같은 철사에서 지름 바꾸기']].map(([t,d])=>`<section>${springArt()}<h2>${t}</h2><p>${d}</p></section>`).join('')}</div><h2>무엇을 같게 두어야 할까요?</h2>${lines(4)}${act('factors','한 조건씩 비교하기')}`}),
  base('l2-tools','P19',{title:'생활 속 용수철',lead:'도구마다 용수철이 하는 일을 살펴보세요.',body:`<div class="lesson-six tool-photos">${toolRows.map(([id,name,desc])=>`<figure>${id==='expander'?toolIcon(id):`<img src="./photos/${{stapler:'stapler',pen:'pen',pogo:'pogo',trampoline:'trampoline',trap:'trap'}[id]}.jpg" alt="${name} 실사 사진">`}<figcaption><b>${name}</b><small>${desc}</small></figcaption></figure>`).join('')}</div><p>완력기는 구조를 보여 주는 개념 도해입니다. 제품마다 내부 구조는 다를 수 있습니다.</p>${act('tools','도구의 역할 비교하기')}`}),
- base('l2-test-a','P20',{body:questions(q2.slice(0,3),'p20')}),
- base('l2-test-b','P21',{body:questions(q2.slice(3,6),'p21')}),
- base('l2-test-b','P22',{body:questions(q2.slice(6,9),'p22')}),
- base('l2-test-graph','P23',{body:questions(q2.slice(9,12))})
+ testPage('l2-test-a','P20',q2.slice(0,3),'p20'),
+ testPage('l2-test-b','P21',q2.slice(3,6),'p21',{shared:'[05~11] 다음 보기에 제시된 내용을 읽고 문장에 맞도록 ○표를 하시오.',sharedAfter:1}),
+ testPage('l2-test-b','P22',q2.slice(6,9),'p22'),
+ testPage('l2-test-graph','P23',q2.slice(9,12),null)
 ];
 
 export function studentCover(){

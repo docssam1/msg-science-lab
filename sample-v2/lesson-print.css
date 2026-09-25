@@ -90,6 +90,9 @@
  #mobile-reader .lesson-large-art{height:240px}
  #mobile-reader .lesson-graph{height:250px}
  #mobile-reader .test-grid{grid-template-columns:1fr}
+ #mobile-reader .daily-test-banner{width:61%;height:42px;margin:0 0 17px;border-radius:11px;gap:5px}
+ #mobile-reader .daily-test-banner span{font-size:21px}
+ #mobile-reader .daily-test-banner small{font-size:8px}
  #mobile-reader .question{font-size:15px}
  #mobile-reader .page-launch{position:static;display:flex;flex-wrap:wrap}
  #mobile-reader .page-body .page-action{display:none}
@@ -98,6 +101,68 @@
  #mobile-reader .book-table th,#mobile-reader .book-table td{min-width:0;padding:6px}
 }
 .teacher-note-paper section{border-top:2px solid #adcbc6;padding:16px 8px;margin:14px 0;font-size:18px;line-height:1.7}
+
+/* Supplied reading prose is printed on the student sheets, beside distinct diagrams. */
+.reading-page .page-heading{min-height:0;margin-bottom:9px;padding-bottom:8px}
+.reading-page .page-heading h1{font-size:30px;margin-bottom:2px}
+.reading-page .page-body{font-size:13px;line-height:1.48}
+.reading-page .page-body h2,.reading-page .page-body .reading-subtitle{font-size:16px;line-height:1.3;margin:10px 0 5px;text-align:left}
+.reading-page .original-reading{background:#f6f9f7;border-left:4px solid #497e65;padding:8px 11px;text-align:left;word-break:keep-all}
+.reading-page .original-reading p{margin:0 0 7px}
+.reading-page .original-reading p:last-child{margin-bottom:0}
+.reading-history-top{display:grid;grid-template-columns:175px 1fr;gap:13px;align-items:start}
+.reading-history-top figure,.reading-visual{margin:0}
+.reading-history-top img{width:100%;height:148px;object-fit:cover;object-position:top}
+.reading-history-top figcaption,.reading-visual figcaption{font-size:11px;line-height:1.35;color:#526b68;text-align:center}
+.reading-history-top section{font-size:12px;line-height:1.48;text-align:left}
+.reading-history-top section h2{margin-top:0!important}
+.reading-history-top section p{margin:0}
+.reading-diagram{display:block;width:100%;height:auto;max-height:245px}
+.future-diagram{max-height:165px}
+.archive-link{display:flex;align-items:center;gap:12px;padding:5px 10px;margin-top:5px;background:#fbf4e5;font-size:12px}
+.archive-link img{width:105px;height:60px;object-fit:cover}
+.reading-context{font-size:11px;color:#536b63;margin:7px 0}
+
+/* Consecutive student pages preserve the original left-column then right-column question order. */
+.source-test .page-heading{min-height:0;height:0;padding:0;margin:0;border:0;overflow:hidden}
+.source-test .page-body{font-size:14px;line-height:1.45}
+.daily-test-banner{width:66%;height:49px;margin:0 auto 19px;border-radius:16px;background:#d7e5f6;color:#153e59;display:flex;justify-content:center;align-items:center;gap:13px}
+.daily-test-banner span{font-size:28px;font-weight:900;line-height:1}
+.daily-test-banner small{font-size:11px;font-weight:800;letter-spacing:.05em}
+.test-shared{font-size:12px;line-height:1.4;margin:0 0 6px;color:#214a64;text-align:left}
+.source-test-list{display:flex;flex-direction:column;gap:7px}
+.source-test-list .question{margin:0;padding:7px 9px 9px;border:0;border-bottom:1px solid #c4d4dc;border-radius:0;background:white;font-size:13px;line-height:1.43}
+.source-test-list .question header{display:block}
+.source-test-list .question header>span{display:block;background:none;color:#153e59;width:auto;height:auto;min-width:0;font-size:27px;line-height:1.15;margin:0 0 4px}
+.source-test-list .question header p{font-size:13px;line-height:1.43;margin:0 0 6px}
+.source-test-list .given{font-size:12px;line-height:1.5;padding:6px 8px;margin:5px 0}
+.source-test-list .inline-test-option{display:inline-flex;align-items:center;gap:3px;white-space:nowrap;cursor:pointer}
+.source-test-list .inline-test-option input{width:13px;height:13px;min-width:13px;margin:0;accent-color:#234b77}
+.source-test-list .q-options{font-size:12px;line-height:1.3;gap:2px}
+.source-test-list .q-image{max-height:150px;max-width:180px;float:none;display:block;margin:3px auto 7px}
+.source-test-list .q-image.parts{width:auto;height:155px;max-width:130px}
+.source-test-list .parts-answers{display:grid;grid-template-columns:1fr 1fr;gap:3px 12px;margin:6px 0}
+.source-test-list .parts-answers label{gap:5px}
+.source-test-list .parts-answers input{width:100%;max-width:145px;height:24px;font-size:13px}
+.source-test-list .short-answer{margin:5px 0}
+.source-test-list .short-answer input{height:26px}
+.source-test-list .q-graphs{height:145px;margin:2px 0}
+.source-test-list .print-graph{height:240px}
+.source-test-list .book-table{font-size:11px;margin:5px 0}
+.source-test-list .book-table th,.source-test-list .book-table td{height:24px;padding:3px}
+.source-test-list .question[data-q="b12"]{margin-top:6px}
+@media print{
+ #print-root .reading-page .page-body{font-size:9.7pt;line-height:1.42}
+ #print-root .reading-page .page-body h2{font-size:12pt;margin:2mm 0 1mm}
+ #print-root .reading-history-top img{height:35mm}
+ #print-root .reading-diagram{max-height:53mm}
+ #print-root .future-diagram{max-height:41mm}
+ #print-root .source-test .page-body{font-size:10pt;line-height:1.38}
+ #print-root .daily-test-banner{height:12mm;margin-bottom:4mm}
+ #print-root .source-test-list .question header p{font-size:10pt}
+ #print-root .source-test-list .question{font-size:10pt}
+ #print-root .source-test-list .q-options{font-size:9pt}
+}
 .teacher-note-paper section h2{font-size:22px;color:#1b6866;margin:0 0 8px}
 .teacher-note-paper section p{margin:0;white-space:pre-wrap}
 .teacher-note-paper section li{padding:4px 0}
