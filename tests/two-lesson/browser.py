@@ -11,9 +11,9 @@ with sync_playwright() as p:
  try:
   page.add_init_script('const RealAudio=window.Audio;window.Audio=class extends RealAudio{constructor(...args){super(...args);window.__lastAudio=this;}};')
   page.goto(BASE+'?page=2',wait_until='networkidle');page.wait_for_function('window.__sample')
-  assert page.evaluate('window.__sample.pages.length')==20
+  assert page.evaluate('window.__sample.pages.length')==21
   assert page.evaluate('window.__sample.questions.length')==18
-  report['checks'].append('20 pages and 18 original questions')
+  report['checks'].append('21 pages and 18 original questions')
   # The narration is real audio, independently decodable at all 18 URLs.
   clips=page.evaluate('''async()=>{const m=await fetch('./audio/narration-manifest.json').then(r=>r.json());return Promise.all(Object.entries(m).map(async([id,v])=>{const a=new Audio(v.path);const d=await new Promise((res,rej)=>{a.onloadedmetadata=()=>res(a.duration);a.onerror=()=>rej(new Error(id));a.load()});return {id,duration:d};}));}''')
   assert len(clips)==18 and all(2<x['duration']<60 for x in clips)
@@ -87,11 +87,8 @@ with sync_playwright() as p:
    assert meta['duration']>10 and meta['muted'] and meta['width']>300
    report['checks'].append({'media':kind,**meta});page.screenshot(path=str(OUT/(kind+'.png')))
   page.evaluate('window.__sample.close();window.__sample.navigate(0)')
-  # Whiteboard and input-mode separation.
-  page.locator('#pen').click();page.mouse.move(230,230);page.mouse.down();page.mouse.move(370,270,steps=10);page.mouse.up()
-  assert page.locator('#ink-layer polyline').count()==1
-  page.locator('#ink-undo').click();assert page.locator('#ink-layer polyline').count()==0
-  page.locator('#pen').click();assert not page.locator('#ink-layer').evaluate('(e)=>e.classList.contains("writing")')
+  # This edition is a classroom guide and has no ink layer.
+  assert page.locator('#pen,#ink-layer').count()==0
   # All viewport boundaries. Large book is fit by height as well as width.
   for w,h in [(1920,1080),(1366,768),(1280,720),(390,844)]:
    page.set_viewport_size({'width':w,'height':h});page.wait_for_timeout(500)

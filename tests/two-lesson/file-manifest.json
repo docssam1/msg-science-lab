@@ -1,18 +1,18 @@
 [
   {
     "path": "README.md",
-    "size": 3953,
-    "sha256": "c1f9db23c558ecfc6ffee57db141b8243080cf73aca2b58a83365b7304f04d35"
+    "size": 4426,
+    "sha256": "15548655cab1b623f4489d8a11f9fe9b3f171f13b9b2a2838c97e19c56225768"
   },
   {
     "path": "activities.js",
-    "size": 29659,
-    "sha256": "d9c5638accd611388653de692ea6a5786c6d0e7a5c61a445050c149e5688e75d"
+    "size": 29797,
+    "sha256": "4d8ddca6140e26d5eb4ba615587e0ff5272ac3c90432edae3884f6e7080d6dea"
   },
   {
     "path": "app.js",
-    "size": 29899,
-    "sha256": "f78573c6f123a58c8599cfbe057ff6d644ddc253e84804cf79756170ee926930"
+    "size": 28491,
+    "sha256": "0e99c9ba7b787a042d019736b61f41ec886bbc74117c2add301a070f3de4d084"
   },
   {
     "path": "art/FUTURE-IMAGE-PROMPTS.md",
@@ -635,6 +635,21 @@
     "sha256": "a3784e949a3b64bca154135f8e445603a2c15dbf88108b024182415a1ccac988"
   },
   {
+    "path": "battle-state.js",
+    "size": 843,
+    "sha256": "205682925ec9dc541527bd8cdc926d4f771effe069cd60979c8c5ed33c7bc205"
+  },
+  {
+    "path": "battle.css",
+    "size": 4438,
+    "sha256": "d52125f13254be81c2b850596470e4d9cd0276bd7086e755fe2157079f06365b"
+  },
+  {
+    "path": "battle.js",
+    "size": 9075,
+    "sha256": "e90d2482c8091d69ca45bf4d62785da91b10cfee6e78933bf1fa03b0215f8961"
+  },
+  {
     "path": "book.html",
     "size": 433,
     "sha256": "3104fadaa169519c9be26645f7bd81c430344cf3fd3d9d31ec6d36f1bb90057b"
@@ -671,8 +686,8 @@
   },
   {
     "path": "index.html",
-    "size": 4555,
-    "sha256": "88e915f746ee7577c5f3a71578ffa7cc5bd7febcb3b3a8f473bd969c6dadd83a"
+    "size": 4351,
+    "sha256": "6379c01effd4d1057083301652ab46a7c60572543eb448d7a6543b3a7224dc21"
   },
   {
     "path": "inquiry-pages.js",
@@ -1146,8 +1161,8 @@
   },
   {
     "path": "style.css",
-    "size": 42394,
-    "sha256": "5a7616f8d0fef4b8b158a9509fa37b3b6e5445ee1382b19f8a110285c417678f"
+    "size": 42113,
+    "sha256": "36b9641721d1aec076aea5b3e4f30becb88b921e54733300331016139d836af1"
   },
   {
     "path": "teacher-notes.html",

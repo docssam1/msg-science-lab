@@ -21,10 +21,6 @@
 @media(max-width:820px){.lab-controls .weights{grid-template-columns:repeat(4,1fr)}.lab-controls .weight-item{padding:3px}.lab-controls .reading{font-size:18px}}
 @media print{.teacher-mode .paper[data-layout-page="16"] .given{font-size:13px;line-height:1.5}.teacher-mode .paper[data-layout-page="16"] .question{padding:5px 0}.teacher-mode .paper[data-layout-page="16"] .teacher-answer{font-size:10px;line-height:1.4}.teacher-mode .paper[data-layout-page="16"] .q-options{font-size:12px}.teacher-mode .paper[data-layout-page="16"] .question header p{font-size:10px}}
 
-#ink-layer{position:absolute;inset:0;width:100%;height:100%;z-index:80;pointer-events:none}
-#ink-layer.writing{pointer-events:auto;touch-action:none;cursor:crosshair}
-#pen[aria-pressed=true]{background:#dcecea;border-color:#398a84}
-@media print{#ink-layer{display:none!important}}
 
 .teacher-graphic{display:none}.teacher-mode .teacher-graphic{display:block}.teacher-mode .student-graphic{display:none}
 /* Inquiry additions: original pages retain their layoutIndex and source content. */
