@@ -257,7 +257,7 @@ let afc = '';
 vos.forEach(([, t], i) => { afc += `[${cuts.length + 1 + i}:a]aresample=48000,aformat=channel_layouts=stereo,volume=1.6,adelay=${Math.round(t * 1000)}|${Math.round(t * 1000)}[v${i}];`; });
 afc += `${vos.map((_, i) => `[v${i}]`).join('')}amix=inputs=${vos.length}:normalize=0,apad=whole_dur=${TOTAL.toFixed(2)}[vox];[vox]asplit[vx1][vx2];[${cuts.length}:a]volume=0.38[mus];[mus][vx1]sidechaincompress=threshold=0.05:ratio=6:attack=20:release=300[duck];[${cuts.length + 1 + vos.length}:a]volume=0.65[fx];[duck][vx2][fx]amix=inputs=3:normalize=0,loudnorm=I=-15:TP=-1.5:LRA=11[ao]`;
 const FINAL = join(OUT, 'chogwasim-live-showreel.mp4');
-ff([...ins, ...aIns, '-filter_complex', `${fc};[${last}]format=yuv420p[vo];${afc}`, '-map', '[vo]', '-map', '[ao]', '-t', TOTAL.toFixed(2), '-r', '30', '-c:v', 'libx264', '-crf', '18', '-preset', 'slow', '-c:a', 'aac', '-b:a', '192k', '-movflags', '+faststart', FINAL]);
+ff([...ins, ...aIns, '-filter_complex', `${fc};[${last}]format=yuv420p[vo];${afc}`, '-map', '[vo]', '-map', '[ao]', '-t', TOTAL.toFixed(2), '-r', '30', '-c:v', 'libx264', '-crf', '18', '-preset', 'slow', '-c:a', 'aac', '-b:a', '192k', '-ar', '48000', '-movflags', '+faststart', FINAL]);
 ff(['-ss', String((starts[2] + 1.6).toFixed(2)), '-i', FINAL, '-frames:v', '1', '-q:v', '2', join(OUT, 'chogwasim-live-showreel-poster.jpg')]);
 writeFileSync(join(W, 'timeline.json'), JSON.stringify(cuts.map((c, i) => ({ id: c.id, start: +starts[i].toFixed(2), dur: c.dur })), null, 1));
 console.log(`쇼릴 완성: ${FINAL} · ${TOTAL.toFixed(1)}초`);
