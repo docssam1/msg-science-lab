@@ -5,8 +5,8 @@ export function studentGuideFor(page, index, lastIndex, activityVisited = false)
     text: '책을 열어 볼까요? 다음 페이지를 눌러보세요.', action: 'next', label: '다음 페이지', kind: null
   };
   if (page.assessment) return {
-    text: '일일 테스트예요. 말해서 나온 글을 읽고 고치거나 직접 답을 쓴 뒤, 답 확인·셀프 체크를 눌러보세요.',
-    action: 'assessment', label: '문제 크게 보기', kind: null
+    text: '일일 테스트예요. 답을 고르거나 쓰고, 다 풀면 채점하기를 눌러 보세요. 말로 답해도 좋아요.',
+    action: 'grade', label: '채점하기', kind: null
   };
   const kind = page.action || /data-action="([^"]+)"/.exec(page.body || '')?.[1] || null;
   const cue=sourceLessons[page.printId]?.student;
@@ -30,7 +30,7 @@ const activityPrompts={
   watch:'영상을 보고 태엽이 어떻게 움직이는지 살펴보세요.',
   balance:'작은 용수철의 반복 움직임을 살펴보세요.',
   'spring-film':'영상을 보고 용수철이 늘었다 돌아오는 모습을 살펴보세요.',
-  assessment:'채점 결과를 읽고 다시 살펴볼 문제를 확인해 보세요.',
+  assessment:'문제를 풀고 채점하기를 눌러 보세요. 채점 뒤에는 틀린 문제를 다시 살펴봐요.',
   reading:'책의 글과 그림을 크게 살펴보세요.'
 };
 export function studentActivityPrompt(kind){

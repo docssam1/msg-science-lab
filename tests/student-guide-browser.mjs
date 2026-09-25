@@ -30,7 +30,8 @@ try{
  assert.match(await page.locator('#coach-copy').innerText(),/다음 페이지/);
  assert.equal(await page.locator('#guide-action').getAttribute('data-guide-action'),'next');
  assert.equal(await page.locator('#mobile-reader').isVisible(),true);
- assert.match(await page.locator('#teacher-expression').getAttribute('src'),/teacher-neutral\.png/);
+ assert.match(await page.locator('#teacher-expression').getAttribute('src'),/urusaem\.png/);
+ assert.equal(await page.locator('#book-pane .teacher-dock').count(),1,'coach stands inside the book area');
  assert((await page.locator('#teacher-expression').evaluate(img=>img.naturalHeight))>1000,'approved full-body image loads');
  await page.screenshot({path:join(out,'student-cover-1366.png')});
  await page.emulateMedia({media:'print'});
@@ -73,21 +74,23 @@ try{
  await page.locator('#mobile-reader .assessment-photo .photo-remove').click();
  await page.waitForFunction(()=>document.querySelector('#mobile-reader .assessment-photo .photo-preview').hidden);
  const question=page.locator('#mobile-reader .question[data-q="a3"]');
+ await question.locator('.dt-speak').click();
  await question.locator('.speech-start').click();
  await page.waitForFunction(()=>document.querySelector('#mobile-reader .question[data-q="a3"] .speech-draft').value==='표시 자');
  assert.equal(await question.locator('input[name="a3"]').inputValue(),'','dictation must remain a draft');
  await question.locator('.speech-draft').fill('표시자');
  await question.locator('.speech-apply').click();
  assert.equal(await question.locator('input[name="a3"]').inputValue(),'표시자');
- await question.locator('.speech-check').click();
- assert.match(await question.locator('.speech-result').innerText(),/맞았어요/);
- await question.locator('[data-self="understood"]').click();
- assert.equal(await question.locator('.speech-result').getAttribute('data-self-check'),'understood');
+ await question.locator('[data-self="sure"]').click();
+ assert.equal(await question.locator('[data-self="sure"]').getAttribute('aria-pressed'),'true');
+ assert.doesNotMatch(await question.innerText(),/표시자입니다/,'self-check never reveals the answer before grading');
  const choice=page.locator('#mobile-reader .question[data-q="a5"]');
+ await choice.locator('.dt-speak').click();
  await choice.locator('.speech-draft').fill('①');
  await choice.locator('.speech-apply').click();
  assert.equal(await choice.locator('input[type="radio"][value="0"]').isChecked(),true);
  const parts=page.locator('#mobile-reader .question[data-q="a1"]');
+ await parts.locator('.dt-speak').click();
  await parts.locator('.speech-slot').selectOption('1');
  await parts.locator('.speech-draft').fill('학생이 고친 말');
  await parts.locator('.speech-apply').click();
@@ -100,11 +103,14 @@ try{
 
  await page.goto(base+'student.html?page=20');
  await page.waitForFunction(()=>document.documentElement.dataset.ready==='true');
- const locked=page.locator('#mobile-reader .question[data-q="b9"]');
- await locked.locator('input[value="0"]').check();
- await locked.locator('.speech-check').click();
- assert.match(await locked.locator('.speech-result').innerText(),/해설 확인 중/);
- assert.doesNotMatch(await locked.locator('.speech-result').innerText(),/확인할 답/);
+ for(const [n,v] of [['b7',0],['b8',0],['b9',0],['b10',1],['b11',0]])await page.locator(`#mobile-reader input[name="${n}"][value="${v}"]`).check();
+ await page.locator('#guide-action').click();
+ await page.waitForFunction(()=>document.querySelector('.dt-report'));
+ const locked=page.locator('.dt-card[data-dt-item="b9"]');
+ assert.match(await locked.innerText(),/검토 필요/);
+ assert.doesNotMatch(await locked.innerText(),/크다입니다/,'unconfirmed answers stay hidden');
+ assert.equal(await page.evaluate(()=>window.__sample.results.b9.correct),null,'unconfirmed items are not scored');
+ assert.equal(await page.evaluate(()=>window.__sample.results.b7.answerKey),'dt-2026-09-26');
 
  await page.goto(base+'index.html?edition=teacher&page=1');
  await page.waitForFunction(()=>document.documentElement.dataset.ready==='true');
@@ -144,5 +150,5 @@ try{
   if(i===10)await mobile.screenshot({path:join(out,'student-reading-390.png')});
  }
  assert.deepEqual(errors,[]);
- console.log('student guidance and assessment: speech edit/check, local photo attach/restore/delete, full-body image, locked keys, print/teacher separation, 21 pages at 390px passed');
+ console.log('student guidance and assessment: speech drawer/self-check, grading with review items, local photo attach/restore/delete, full-body image, locked keys, print/teacher separation, 21 pages at 390px passed');
 }finally{await browser.close();}

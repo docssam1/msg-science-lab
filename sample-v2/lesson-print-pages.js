@@ -7,7 +7,7 @@ import {toolRows} from './content.js';
 const byId=Object.fromEntries(pages.map(page=>[page.id,page]));
 const base=(id,printId,overrides={})=>({...byId[id],printId,...overrides});
 const testColumn=(items,shared,sharedAfter=0)=>`<div class="source-test-list test-column">${items.map((q,i)=>`${shared&&i===sharedAfter?`<p class="test-shared">${shared}</p>`:''}${questionHTML(q,{print:true})}`).join('')}</div>`;
-const questions=(left,right,group,{shared='',sharedAfter=0,buttonLabel='답 제출하고 확인하기'}={})=>`<div class="daily-test-banner"><span>daily test</span><small>일일 테스트</small></div><div class="source-test-columns">${testColumn(left)}${testColumn(right,shared,sharedAfter)}</div>${group?`<button class="page-action" data-grade="${group}">${buttonLabel}</button>`:''}`;
+const questions=(left,right,group,{shared='',sharedAfter=0,buttonLabel='채점하기'}={})=>`<div class="daily-test-banner"><span>daily test</span><small>일일 테스트</small></div><div class="source-test-columns">${testColumn(left)}${testColumn(right,shared,sharedAfter)}</div>${group?`<button class="page-action" data-grade="${group}">${buttonLabel}</button>`:''}`;
 const testPage=(id,printId,left,right,group,options={})=>base(id,printId,{title:`Daily Test ${String(left[0].n).padStart(2,'0')}–${String(right.at(-1).n).padStart(2,'0')}`,lead:'문항을 읽고 답을 고른 까닭을 말해 보세요.',printClass:'source-test',body:questions(left,right,group,options)});
 const objects=()=>`<div class="print-objects lesson-object-photos">${inquiryObjects.map(o=>`<figure>${objectPhoto(o)}<figcaption>${o.name}</figcaption></figure>`).join('')}</div>`;
 const scaleCloseup=(force)=>scaleArt({force,labels:false,showWeight:force>0}).replace('viewBox="0 0 680 720"','viewBox="220 0 230 720"');
@@ -40,7 +40,7 @@ export const studentPrintPages=[
  base('l2-tools','P18',{title:'용수철이 달라지면?',lead:'한 번에 한 조건만 바꿔 비교하세요.',action:'factors',body:`<div class="lesson-three factor-trio">${[['재질','같은 모양에서 재료 바꾸기','material'],['철사 굵기','같은 재료에서 굵기 바꾸기','wire'],['코일 지름','같은 철사에서 지름 바꾸기','diameter']].map(([t,d,f])=>`<section>${factorArt(f)}<h2>${t}</h2><p>${d}</p></section>`).join('')}</div><h2>무엇을 같게 두어야 할까요?</h2>${lines(4)}${act('factors','한 조건씩 비교하기')}`}),
  base('l2-tools','P19',{title:'생활 속 용수철',lead:'도구마다 용수철이 하는 일을 살펴보세요.',body:`<div class="lesson-six tool-photos">${toolRows.map(([id,name,desc])=>`<figure>${id==='expander'?toolIcon(id):`<img src="./photos/${{stapler:'stapler',pen:'pen',pogo:'pogo',trampoline:'trampoline',trap:'trap'}[id]}.jpg" alt="${name} 실사 사진">`}<figcaption><b>${name}</b><small>${desc}</small></figcaption></figure>`).join('')}</div><p>완력기는 구조를 보여 주는 개념 도해입니다. 제품마다 내부 구조는 다를 수 있습니다.</p>${act('tools','도구의 역할 비교하기')}`}),
  testPage('l2-test-a','P19',q2.slice(0,3),q2.slice(3,6),'p19',{shared:'[05~11] 다음 보기에 제시된 내용을 읽고 문장에 맞도록 ○표를 하시오.',sharedAfter:1}),
- testPage('l2-test-graph','P20',q2.slice(6,10),q2.slice(10,12),'p20',{buttonLabel:'7–8번 확인하기'})
+ testPage('l2-test-graph','P20',q2.slice(6,10),q2.slice(10,12),'p20')
 ];
 // Keep printed folios and QR destinations aligned after source-faithful test spreads are merged.
 studentPrintPages.forEach((page,index)=>{page.printId=`P${index+1}`;});
