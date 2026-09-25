@@ -116,7 +116,7 @@ let acc = 0; const ev = []; scenes.forEach((s, i) => { if (i) ev.push([acc - 0.2
 ev.push([0, 'impact', 0.5]); ev.push([T - sceneDur.at(-1), 'sparkle', 0.7]);
 writeFileSync(EVF, JSON.stringify(ev)); spawnSync('python3', [join(HERE, 'sfx.py'), FX, T.toFixed(2), EVF], { stdio: 'inherit' });
 ff(['-i', RAW, '-i', MUS, '-i', FX, '-filter_complex',
-  `[0:a]asplit[n1][n2];[1:a]volume=0.32[m];[m][n1]sidechaincompress=threshold=0.03:ratio=5:attack=40:release=500[md];[2:a]volume=0.7[fx];[n2][md][fx]amix=inputs=3:normalize=0,loudnorm=I=-16:TP=-1.5:LRA=11[ao]`,
+  `[0:a]asplit[n1][n2];[1:a]volume=0.06[m];[m][n1]sidechaincompress=threshold=0.02:ratio=8:attack=30:release=600[md];[2:a]volume=0.45[fx];[n2][md][fx]amix=inputs=3:normalize=0,loudnorm=I=-16:TP=-1.5:LRA=11[ao]`,
   '-map', '0:v', '-map', '[ao]', '-c:v', 'copy', '-c:a', 'aac', '-b:a', '192k', '-ar', '48000', '-movflags', '+faststart', FINAL]);
 writeFileSync(join(OUT, 'msg-physics-promo.srt'), srt.map((x, i) => `${i + 1}\n${ts(x.a)} --> ${ts(x.b)}\n${x.text}\n`).join('\n'));
 ff(['-ss', '2', '-i', join(WORK, scenes[0].id, 'scene.mp4'), '-frames:v', '1', '-q:v', '3', join(OUT, 'msg-physics-promo-poster.jpg')]);
