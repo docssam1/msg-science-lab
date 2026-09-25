@@ -65,17 +65,21 @@ for (const [n, s] of scenes.entries()) {
   const out = join(dir, 'scene.mp4');
   if ((!only.length || only.includes(s.id)) && !(assemble && existsSync(out))) {
     for (const [i, x] of subs.entries()) await shot({ mode: 'bubble', text: x.text }, join(dir, `sub${i}.png`));
+    // 말하는 우루사쌤: 승인된 표정 그림을 소리에 맞춰 바꿔 끼운다(talker.py). 장면 표정 = s.mood
+    const TALK = join(dir, 'talk');
+    spawnSync('python3', [join(HERE, 'talker.py'), TALK, String(dur), String(LEAD), clip.file || '-', s.mood || 'listen', '330'], { stdio: 'inherit' });
+    const talkIn = ['-framerate', '30', '-i', join(TALK, '%05d.png')];
     const audioIn = clip.file ? ['-i', clip.file] : ['-f', 'lavfi', '-t', String(dur), '-i', 'anullsrc=r=48000:cl=stereo'];
     const subIn = subs.flatMap((x, i) => ['-loop', '1', '-t', String(dur), '-i', join(dir, `sub${i}.png`)]);
     let fc, ins;
     if (s.view === 'slide' || s.view === 'deck') {
-      await shot({ mode: s.view, ...s }, join(dir, 'slide.png'));
-      ins = ['-loop', '1', '-t', String(dur), '-i', join(dir, 'slide.png'), ...subIn, ...audioIn];
+      await shot({ mode: s.view, ...s, noChar: true }, join(dir, 'slide.png'));
+      ins = ['-loop', '1', '-t', String(dur), '-i', join(dir, 'slide.png'), ...subIn, ...audioIn, ...talkIn];
       fc = '[0:v]format=rgba[v0]'; subs.forEach((x, i) => { fc += `;[v${i}][${i + 1}:v]overlay=0:0:enable='between(t,${x.a.toFixed(2)},${(i + 1 < subs.length ? subs[i + 1].a : dur).toFixed(2)})'[v${i + 1}]`; });
-      fc += `;[v${subs.length}]format=yuv420p[vo];[${subs.length + 1}:a]adelay=${LEAD * 1000}|${LEAD * 1000},apad,atrim=0:${dur}[ao]`;
+      fc += `;[v${subs.length}][${subs.length + 2}:v]overlay=4:H-h:eof_action=repeat[vc];[vc]format=yuv420p[vo];[${subs.length + 1}:a]adelay=${LEAD * 1000}|${LEAD * 1000},apad,atrim=0:${dur}[ao]`;
     } else {
       await shot({ mode: 'bg', n: `${n}/${scenes.length - 1}`, chip: BRAND.chip }, join(dir, 'bg.png'));
-      await shot({ mode: 'chrome', ...s }, join(dir, 'chrome.png'));
+      await shot({ mode: 'chrome', ...s, noChar: true }, join(dir, 'chrome.png'));
       const take = join(WORK, `${s.id}.take.mp4`);
       if (retake || !existsSync(take)) {
         const T0 = takes[s.id] || {};
@@ -94,10 +98,10 @@ for (const [n, s] of scenes.entries()) {
         if (w / h < 16 / 9) { const nw = h * 16 / 9; x -= (nw - w) / 2; w = nw; } else { const nh = w * 9 / 16; y -= (nh - h) / 2; h = nh; }
         w = Math.min(1600, Math.max(480, w)); h = w * 9 / 16; x = Math.max(0, Math.min(1600 - w, x)); y = Math.max(0, Math.min(900 - h, y)); z = [F.from, F.to, Math.round(x), Math.round(y), Math.round(w), Math.round(h)]; }   // [시작초, 끝초, x, y, w, h] — 1600×900 녹화 좌표에서 이 영역으로 서서히 확대
       const crop = z ? `crop=w='if(lt(t,${z[0]}),1600,if(lt(t,${z[1]}),1600-(1600-${z[4]})*(t-${z[0]})/(${z[1]}-${z[0]}),${z[4]}))':h='ow*9/16':x='if(lt(t,${z[0]}),0,if(lt(t,${z[1]}),${z[2]}*(t-${z[0]})/(${z[1]}-${z[0]}),${z[2]}))':y='if(lt(t,${z[0]}),0,if(lt(t,${z[1]}),${z[3]}*(t-${z[0]})/(${z[1]}-${z[0]}),${z[3]}))',` : '';
-      ins = ['-loop', '1', '-t', String(dur), '-i', join(dir, 'bg.png'), '-i', take, '-loop', '1', '-i', MASK, '-loop', '1', '-t', String(dur), '-i', join(dir, 'chrome.png'), ...subIn, ...audioIn];
+      ins = ['-loop', '1', '-t', String(dur), '-i', join(dir, 'bg.png'), '-i', take, '-loop', '1', '-i', MASK, '-loop', '1', '-t', String(dur), '-i', join(dir, 'chrome.png'), ...subIn, ...audioIn, ...talkIn];
       fc = `[1:v]${crop}scale=1440:810:flags=lanczos,format=rgba[tk];[2:v]format=gray[mk];[tk][mk]alphamerge[tkm];[0:v][tkm]overlay=420:112:shortest=0[b0];[b0][3:v]overlay=0:0[v0]`;
       subs.forEach((x, i) => { fc += `;[v${i}][${i + 4}:v]overlay=0:0:enable='between(t,${x.a.toFixed(2)},${(i + 1 < subs.length ? subs[i + 1].a : dur).toFixed(2)})'[v${i + 1}]`; });
-      fc += `;[v${subs.length}]format=yuv420p[vo];[${subs.length + 4}:a]adelay=${LEAD * 1000}|${LEAD * 1000},apad,atrim=0:${dur}[ao]`;
+      fc += `;[v${subs.length}][${subs.length + 5}:v]overlay=4:H-h:eof_action=repeat[vc];[vc]format=yuv420p[vo];[${subs.length + 4}:a]adelay=${LEAD * 1000}|${LEAD * 1000},apad,atrim=0:${dur}[ao]`;
     }
     ff([...ins, '-filter_complex', fc, '-map', '[vo]', '-map', '[ao]', '-t', String(dur), '-r', '30', '-c:v', 'libx264', '-crf', '19', '-preset', 'medium', '-c:a', 'aac', '-b:a', '160k', '-ar', '48000', '-ac', '2', out]);
     console.log(`장면 ${n + 1}/${scenes.length} ${s.id} ${dur}s`);
