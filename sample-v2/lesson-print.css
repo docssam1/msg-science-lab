@@ -173,6 +173,13 @@
  #print-root .source-test-list .question header p{font-size:11pt}
  #print-root .source-test-list .question{font-size:11pt}
  #print-root .source-test-list .q-options{font-size:10pt}
+ /* The final six questions share one sheet; make the short prompts and graph
+    large enough to use that space while keeping the source's two columns. */
+ #print-root .paper[data-print-id="P20"] .source-test-list .question,
+ #print-root .paper[data-print-id="P20"] .source-test-list .question header p{font-size:13pt;line-height:1.48}
+ #print-root .paper[data-print-id="P20"] .source-test-list .given{font-size:12.5pt;line-height:1.55;padding:8px 10px}
+ #print-root .paper[data-print-id="P20"] .source-test-list .book-table{font-size:11pt}
+ #print-root .paper[data-print-id="P20"] .source-test-list .print-graph{height:335px}
 }
 .teacher-note-paper section h2{font-size:22px;color:#1b6866;margin:0 0 8px}
 .teacher-note-paper section p{margin:0;white-space:pre-wrap}
@@ -287,3 +294,56 @@
 .factor-activity textarea{display:block;width:100%;max-width:620px;margin:8px 0;padding:10px;font:inherit}
 @media(max-width:600px){.factor-activity{padding:14px;font-size:14px}.factor-pair svg{height:155px}}
 @media(max-width:700px){#mobile-reader .lesson-four{grid-template-columns:repeat(2,1fr)}#mobile-reader .lesson-four svg{height:145px}#mobile-reader .scale-photo-three{grid-template-columns:1fr}#mobile-reader .scale-photo-three img{height:220px}#mobile-reader .history-photos{grid-template-columns:1fr}#mobile-reader .history-photos img,#mobile-reader .history-photos svg{height:220px}#mobile-reader .future-visual{grid-template-columns:1fr}#mobile-reader .future-visual svg{height:160px}#mobile-reader .watch-hero img{height:220px}#mobile-reader .tool-photos img,#mobile-reader .tool-photos svg{height:110px}}
+
+/* Editorial rhythm shared by the observation pages, leaving the original tests untouched. */
+@media screen and (min-width:701px), print{
+ :is(#flipbook,#print-root,.large-reading) .paper.has-lab-qr:not(.reading-page):not(.source-test) .page-heading h1{font-size:42px;line-height:1.13;letter-spacing:-1.4px}
+ :is(#flipbook,#print-root,.large-reading) .paper.has-lab-qr:not(.reading-page):not(.source-test) .page-body h2{font-size:24px;line-height:1.28;font-weight:900;color:#205d47}
+ :is(#flipbook,#print-root,.large-reading) .paper.has-lab-qr:not(.reading-page):not(.source-test) .page-tab{font-size:12px;font-weight:850;border-radius:12px 0 0 12px;padding:14px 5px}
+ :is(#flipbook,#print-root,.large-reading) .paper.has-lab-qr:not(.reading-page):not(.source-test) :is(.lesson-hero,.lesson-four figure,.lesson-three figure,.lesson-six figure,.scale-photo-three figure,.factor-trio section,.eye-hero){border:2px solid #9bbdab;border-radius:23px 6px 23px 6px;background:#fbfcf9;overflow:hidden}
+ :is(#flipbook,#print-root,.large-reading) .paper.has-lab-qr:not(.reading-page):not(.source-test) :is(.lesson-four figcaption,.lesson-three figcaption,.lesson-six figcaption,.scale-photo-three figcaption){font-size:18px;font-weight:850;color:#225e49;line-height:1.3}
+ :is(#flipbook,#print-root,.large-reading) .paper.has-lab-qr:not(.reading-page):not(.source-test) .write-lines i{height:42px}
+ :is(#flipbook,#print-root,.large-reading) .paper[data-print-id="P1"] .lesson-hero{height:710px;max-width:100%;padding:18px}
+ :is(#flipbook,#print-root,.large-reading) .paper[data-print-id="P1"] .lesson-hero svg{height:620px;width:100%;max-width:100%}
+ :is(#flipbook,#print-root,.large-reading) .paper[data-print-id="P1"] .part-labels{font-size:22px;line-height:1.5;margin-top:11px;color:#205d47}
+ :is(#flipbook,#print-root,.large-reading) .paper[data-print-id="P2"] .lesson-four svg{height:490px}
+ :is(#flipbook,#print-root,.large-reading) .paper[data-print-id="P2"] .lesson-four figure{padding:18px 8px}
+ :is(#flipbook,#print-root,.large-reading) .paper[data-print-id="P2"] .short-check{font-size:22px;padding:21px;border:2px solid #a7c6b2;border-radius:20px 5px 20px 5px;margin-top:24px}
+ :is(#flipbook,#print-root,.large-reading) .paper[data-print-id="P3"] .lesson-object-photos .object-photo{height:244px}
+ :is(#flipbook,#print-root,.large-reading) .paper[data-print-id="P4"] .lesson-object-photos .object-photo{height:190px}
+ :is(#flipbook,#print-root,.large-reading) .paper[data-print-id="P5"] .write-lines i{height:33px}
+ :is(#flipbook,#print-root,.large-reading) .paper[data-print-id="P5"] .p5-visual>figure svg{height:51mm}
+ :is(#flipbook,#print-root,.large-reading) .paper[data-print-id="P5"] .lesson-object-photos .object-photo{height:19mm}
+ :is(#flipbook,#print-root,.large-reading) .paper[data-print-id="P3"] .lesson-object-photos figure,:is(#flipbook,#print-root,.large-reading) .paper[data-print-id="P4"] .lesson-object-photos figure{border:1.5px solid #9bbdab;border-radius:18px 5px 18px 5px;overflow:hidden;background:#fbfcf9}
+ :is(#flipbook,#print-root,.large-reading) .paper[data-print-id="P3"] .lesson-object-photos figcaption,:is(#flipbook,#print-root,.large-reading) .paper[data-print-id="P4"] .lesson-object-photos figcaption{font-size:16px;font-weight:850;color:#205d47}
+ :is(#flipbook,#print-root,.large-reading) .paper[data-print-id="P7"] .scale-photo-three{grid-template-columns:.9fr 1.1fr;grid-template-rows:repeat(2,minmax(0,1fr));height:700px}
+ :is(#flipbook,#print-root,.large-reading) .paper[data-print-id="P7"] .scale-photo-three figure:first-child{grid-row:1/3}
+ :is(#flipbook,#print-root,.large-reading) .paper[data-print-id="P7"] .scale-photo-three figure:first-child img{height:596px}
+ :is(#flipbook,#print-root,.large-reading) .paper[data-print-id="P7"] .scale-photo-three figure:not(:first-child) img{height:254px}
+ :is(#flipbook,#print-root,.large-reading) .paper[data-print-id="P7"] .scale-photo-three figcaption{padding:14px 8px}
+ :is(#flipbook,#print-root,.large-reading) .paper[data-print-id="P12"] .lesson-three svg{height:440px}
+ :is(#flipbook,#print-root,.large-reading) .paper[data-print-id="P13"] .lesson-large-art{height:450px}
+ :is(#flipbook,#print-root,.large-reading) .paper[data-print-id="P14"] .lesson-large-art{height:440px}
+ :is(#flipbook,#print-root,.large-reading) .paper[data-print-id="P15"] .lesson-three svg{height:400px}
+ :is(#flipbook,#print-root,.large-reading) .paper[data-print-id="P16"] .lesson-graph{height:535px}
+ :is(#flipbook,#print-root,.large-reading) .paper[data-print-id="P17"] .lesson-three svg{height:340px}
+ :is(#flipbook,#print-root,.large-reading) .paper[data-print-id="P18"] .tool-photos img,:is(#flipbook,#print-root,.large-reading) .paper[data-print-id="P18"] .tool-photos svg{height:245px}
+}
+@media screen and (max-width:700px){
+ #mobile-reader .paper.has-lab-qr:not(.reading-page):not(.source-test) .page-body h2{font-size:21px;line-height:1.3;font-weight:900;color:#205d47}
+ #mobile-reader .paper.has-lab-qr:not(.reading-page):not(.source-test) :is(.lesson-hero,.lesson-four figure,.lesson-three figure,.lesson-six figure,.scale-photo-three figure,.factor-trio section){border:1.5px solid #9bbdab;border-radius:18px 5px 18px 5px;background:#fbfcf9;overflow:hidden}
+ #mobile-reader .paper[data-print-id="P1"] .lesson-hero{height:380px;max-width:100%;padding:8px}
+ #mobile-reader .paper[data-print-id="P1"] .lesson-hero svg{width:100%;height:340px}
+ #mobile-reader .paper[data-print-id="P1"] .part-labels{font-size:16px;line-height:1.5;color:#205d47}
+ #mobile-reader .paper[data-print-id="P2"] .lesson-four svg{height:250px}
+ #mobile-reader .paper[data-print-id="P12"] .lesson-three,#mobile-reader .paper[data-print-id="P17"] .factor-trio{grid-template-columns:1fr}
+ #mobile-reader .paper[data-print-id="P12"] .lesson-three svg{height:250px}
+ #mobile-reader .paper[data-print-id="P17"] .factor-trio svg{height:200px}
+}
+@media screen and (min-width:701px){
+ :is(#flipbook,.large-reading) .paper[data-print-id="P20"] .source-test-list .question,
+ :is(#flipbook,.large-reading) .paper[data-print-id="P20"] .source-test-list .question header p{font-size:18px;line-height:1.48}
+ :is(#flipbook,.large-reading) .paper[data-print-id="P20"] .source-test-list .given{font-size:17px;line-height:1.55;padding:8px 10px}
+ :is(#flipbook,.large-reading) .paper[data-print-id="P20"] .source-test-list .book-table{font-size:15px}
+ :is(#flipbook,.large-reading) .paper[data-print-id="P20"] .source-test-list .print-graph{height:335px}
+}
