@@ -95,4 +95,5 @@ GitHub 저장소에는 현재 `sample-v2/print/student.pdf`, `sample-v2/print/te
 - 학생용 일일 테스트 문항마다 `마이크로 말하기 → 받아쓴 글 초안 확인 → 학생이 수정 → 수정한 답 적용 → 답 확인·셀프 체크`를 연결했다. 받아쓴 말은 자동 제출하거나 답안에 바로 넣지 않는다. 마이크를 쓸 수 없을 때는 직접 입력한다. 원본 인쇄 문항과 교사용 화면에는 이 조작 패널을 넣지 않았다.
 - 번호·보기 말을 정확히 인식했을 때만 선택지에 적용한다. 여러 칸 문항은 적용할 칸을 학생이 고른다. 기존 답안 저장을 그대로 사용한다. 공식 해설 검수가 남은 2차시 9–11번은 셀프 체크에서 정답을 공개하지 않고 `해설 확인 중`으로 표시한다.
 - Edge 실제 화면에서 전신 그림 로드, 말하기 초안과 수정 후 적용, 정답 확인과 셀프 체크, 미승인 정답 비공개, 교사용·인쇄본 분리, 390px 21면 가로 넘침 없음을 확인했다. `npm test` 23/23 통과. 화면 증거는 `outputs/student-guide-review/student-speech-selfcheck-1366.png`와 `student-experiment-cue-1366.png`에 있다.
+- Google Drive 검수 화면: [학생용 전신 안내](https://drive.google.com/file/d/1nJBsUiUaR10licVRAoAGFRQ6A1CnnX1L/view), [말하기 초안·셀프 체크](https://drive.google.com/file/d/1n6qTBgghWn4hxz_adADcZg9AvYYCpigO/view).
 - **남은 범위:** 과제 화면과 사진 촬영·올리기, 실제 학생 기기의 마이크 권한·인식 품질, 공식 문항·해설 검수는 완료하지 않았다. 사진 업로드와 채점 기능을 일반 학습 장면에 넣지 않는다. 검수 전 `main` 추가 병합 금지.
