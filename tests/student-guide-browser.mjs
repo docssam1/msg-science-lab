@@ -61,6 +61,17 @@ try{
 
  await page.goto(base+'student.html?page=11');
  await page.waitForFunction(()=>document.documentElement.dataset.ready==='true');
+ const photo=page.locator('#mobile-reader .assessment-photo');
+ await photo.locator('input[type="file"]').setInputFiles(join(out,'student-cover-1366.png'));
+ await page.waitForFunction(()=>!document.querySelector('#mobile-reader .assessment-photo .photo-preview').hidden);
+ assert.match(await photo.locator('.photo-status').innerText(),/이 기기에/);
+ await page.reload();
+ await page.waitForFunction(()=>document.documentElement.dataset.ready==='true');
+ await page.waitForFunction(()=>!document.querySelector('#mobile-reader .assessment-photo .photo-preview').hidden);
+ await photo.scrollIntoViewIfNeeded();
+ await page.screenshot({path:join(out,'student-photo-1366.png')});
+ await page.locator('#mobile-reader .assessment-photo .photo-remove').click();
+ await page.waitForFunction(()=>document.querySelector('#mobile-reader .assessment-photo .photo-preview').hidden);
  const question=page.locator('#mobile-reader .question[data-q="a3"]');
  await question.locator('.speech-start').click();
  await page.waitForFunction(()=>document.querySelector('#mobile-reader .question[data-q="a3"] .speech-draft').value==='표시 자');
@@ -84,6 +95,7 @@ try{
  await page.screenshot({path:join(out,'student-speech-selfcheck-1366.png')});
  await page.emulateMedia({media:'print'});
  assert.equal(await page.locator('#print-root .speech-answer').count(),0,'print source remains unchanged');
+ assert.equal(await page.locator('#print-root .assessment-photo').count(),0,'print source has no attached photo UI');
  await page.emulateMedia({media:'screen'});
 
  await page.goto(base+'student.html?page=20');
@@ -99,6 +111,7 @@ try{
  assert.equal(await page.locator('#guide-action').isVisible(),false);
  assert.equal(await page.locator('#start').isVisible(),false);
  assert.equal(await page.locator('.speech-answer').count(),0);
+ assert.equal(await page.locator('.assessment-photo').count(),0);
  assert.notEqual(await page.locator('.lesson-bar').evaluate(el=>getComputedStyle(el).display),'none');
  await page.locator('#next').click();
  await page.waitForTimeout(700);
@@ -111,6 +124,7 @@ try{
  assert.equal(await mobile.locator('.teacher-dock').isVisible(),true);
  assert.equal(await mobile.locator('#guide-action').getAttribute('data-guide-kind'),'inquiry');
  assert.equal(await mobile.locator('.speech-answer').count(),0,'learning pages do not show assessment input');
+ assert.equal(await mobile.locator('.assessment-photo').count(),0,'learning pages do not show photo input');
  assert.equal(await mobile.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
  await mobile.locator('#focus-reading').tap();
  assert.equal(await mobile.locator('body').evaluate(el=>el.classList.contains('student-zoom')),true);
@@ -130,5 +144,5 @@ try{
   if(i===10)await mobile.screenshot({path:join(out,'student-reading-390.png')});
  }
  assert.deepEqual(errors,[]);
- console.log('student guidance and speech draft: full-body image, edit/apply/self-check, locked keys, print separation, teacher separation, 21 pages at 390px passed');
+ console.log('student guidance and assessment: speech edit/check, local photo attach/restore/delete, full-body image, locked keys, print/teacher separation, 21 pages at 390px passed');
 }finally{await browser.close();}
