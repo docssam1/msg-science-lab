@@ -1,3 +1,4 @@
+import {sourceLessons} from './source-lessons.js';
 // Student guidance describes the next available action without completing it for the learner.
 export function studentGuideFor(page, index, lastIndex, activityVisited = false) {
   if (page.printId === 'P0') return {
@@ -8,12 +9,13 @@ export function studentGuideFor(page, index, lastIndex, activityVisited = false)
     action: 'assessment', label: '문제 크게 보기', kind: null
   };
   const kind = page.action || /data-action="([^"]+)"/.exec(page.body || '')?.[1] || null;
+  const cue=sourceLessons[page.printId]?.student;
   if (kind && !activityVisited) return {
-    text: '실험을 해볼까요? 반짝이는 실험 버튼을 눌러보세요.',
+    text: `${cue?cue+' ':''}실험을 해볼까요? 반짝이는 실험 버튼을 눌러보세요.`,
     action: 'activity', label: '실험 열기', kind
   };
   if (index < lastIndex) return {
-    text: activityVisited ? '직접 해보았어요. 다음 페이지를 눌러보세요.' : '이 페이지를 살펴보았나요? 다음 페이지를 눌러보세요.',
+    text: activityVisited ? '직접 해보았어요. 다음 페이지를 눌러보세요.' : `${cue?cue+' ':''}다음 페이지를 눌러보세요.`,
     action: 'next', label: '다음 페이지', kind: null
   };
   return {text: '여기까지 공부했어요. 읽은 내용을 다시 살펴보세요.', action: 'none', label: '', kind: null};
