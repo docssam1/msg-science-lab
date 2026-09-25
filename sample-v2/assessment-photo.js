@@ -19,8 +19,9 @@ async function photoRecord(key,operation,value){
  return new Promise((resolve,reject)=>{
   const transaction=db.transaction(STORE,operation==='get'?'readonly':'readwrite');
   const request=transaction.objectStore(STORE)[operation](...(operation==='get'||operation==='delete'?[key]:[value,key]));
-  request.onsuccess=()=>resolve(request.result);
-  request.onerror=()=>reject(request.error||new Error('사진을 보관하지 못했어요.'));
+  transaction.oncomplete=()=>resolve(request.result);
+  transaction.onerror=()=>reject(transaction.error||new Error('사진을 보관하지 못했어요.'));
+  transaction.onabort=()=>reject(transaction.error||new Error('사진 보관이 중단됐어요.'));
  });
 }
 
