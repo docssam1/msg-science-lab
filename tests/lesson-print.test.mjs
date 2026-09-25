@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import {studentPrintPages,studentCover} from '../sample-v2/lesson-print-pages.js';
-import {q1,q2} from '../sample-v2/content.js';
+import {q1,q2,history1,history2,history3,coilHistory,future} from '../sample-v2/content.js';
 import {qrForPage} from '../sample-v2/qr-map.js';
 
 test('source-layout print plan has P0 through P20 and preserves all original questions once',()=>{
@@ -32,4 +32,23 @@ test('repeated source scenes keep their own printed QR destination',()=>{
  assert.match(qrForPage(p17),/page=17&activity=factors$/);
  assert.match(qrForPage(p18),/page=18&activity=tools$/);
  assert.notEqual(qrForPage(p17),qrForPage(p18));
+});
+
+test('reading spreads retain every source sentence and open the intended existing footage',()=>{
+ const stories=[
+  [studentPrintPages[7],[history1,history2,history3],'watch'],
+  [studentPrintPages[8],[coilHistory],'watch'],
+  [studentPrintPages[9],[future],'spring-film']
+ ];
+ for(const [page,passages,video] of stories){
+  const visible=page.body.replace(/<[^>]+>/g,'').replace(/\s+/g,' ');
+  for(const passage of passages){
+   for(const sentence of passage.match(/[^.!?]+[.!?]?/g)){
+    if(sentence.trim())assert.ok(visible.includes(sentence.trim()),`${page.printId}: ${sentence.slice(0,32)}`);
+   }
+  }
+  assert.match(page.body,new RegExp(`data-action="${video}"`));
+  assert.match(qrForPage(page),new RegExp(`activity=${video}$`));
+  assert.doesNotMatch(visible,/본책 13쪽|본책 14쪽/);
+ }
 });
