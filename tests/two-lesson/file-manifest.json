@@ -1,23 +1,23 @@
 [
   {
     "path": "README.md",
-    "size": 3978,
-    "sha256": "96e05bb4f429c8b673de2bf3ea2017c881d00fe8e945163fbf615da75b39d6e9"
+    "size": 3953,
+    "sha256": "c1f9db23c558ecfc6ffee57db141b8243080cf73aca2b58a83365b7304f04d35"
   },
   {
     "path": "activities.js",
-    "size": 29795,
-    "sha256": "e0a969b19256a4e6339f3d607bb7a0548ef0b37621844f2b63dcdc3a653452d9"
+    "size": 29659,
+    "sha256": "d9c5638accd611388653de692ea6a5786c6d0e7a5c61a445050c149e5688e75d"
   },
   {
     "path": "app.js",
-    "size": 30042,
-    "sha256": "77a17b3ca32b05624dcb6578ad97e921e5bb9e06d8750045bef861ddc8fb38b5"
+    "size": 29899,
+    "sha256": "f78573c6f123a58c8599cfbe057ff6d644ddc253e84804cf79756170ee926930"
   },
   {
     "path": "art/FUTURE-IMAGE-PROMPTS.md",
-    "size": 3172,
-    "sha256": "4a5f1288abe9b5339fe65f86924cbf12a58e0137dfa700a594d655993d611be3"
+    "size": 3157,
+    "sha256": "f0baac0ab31ced9c94603f8e8c926299c850f2c167a9c23bc039804bcc4af16e"
   },
   {
     "path": "art/daily-eye.png",
@@ -46,8 +46,8 @@
   },
   {
     "path": "art/expressions/manifest.json",
-    "size": 1539,
-    "sha256": "d140dff4b72e766b1d43dde7cc7ed01afdbcd2aba06a68cf8e01cab1a112af33"
+    "size": 1455,
+    "sha256": "bbeb741cb40ded4c8ee6f6474f24915ea697b292c3f7eb3dc45b5b232418a2ff"
   },
   {
     "path": "art/expressions/praise.png",
@@ -246,8 +246,8 @@
   },
   {
     "path": "audio/narration-manifest.json",
-    "size": 7716,
-    "sha256": "68afc46ec4f98a321dba57b315a0d1e0a2e8114f18a4df4d7dc380e09af2eb5d"
+    "size": 7553,
+    "sha256": "f0a8d1e1f50318ab20b579e19c2d59d43242a8c435b226989eafddb2c3e30fdc"
   },
   {
     "path": "audio/part-handle.mp3",
@@ -631,8 +631,8 @@
   },
   {
     "path": "audio/voice-library.json",
-    "size": 153405,
-    "sha256": "117e72081050fee64abd0f9398bb7ce5e5886a271134430fdd613e42faec1f5f"
+    "size": 151745,
+    "sha256": "a3784e949a3b64bca154135f8e445603a2c15dbf88108b024182415a1ccac988"
   },
   {
     "path": "book.html",
@@ -641,63 +641,63 @@
   },
   {
     "path": "content.js",
-    "size": 38320,
-    "sha256": "10423a1d0b19b9863ec2a3b7e35a98ce6c25b3c8721632bd4481865b7f93aced"
+    "size": 38148,
+    "sha256": "8ae5080cd95120de154a1202506ad971dad85e44c9ba2834be21b6475e53d819"
   },
   {
     "path": "editions.js",
-    "size": 166,
-    "sha256": "378db09b921732f2f99439fc3df2aa6ec2b02a158e2170c730146d020bb619d0"
+    "size": 163,
+    "sha256": "b1ab7db7dde13f7992da8cf18422c78c2333ce6fb1a2087cd346fb8301d9ae07"
   },
   {
     "path": "everyday-objects-3d.js",
-    "size": 7324,
-    "sha256": "c9bf5f188cf64686ed977393dd8652ba7cf305177d1be897f1e3b8e89e64c911"
+    "size": 7249,
+    "sha256": "93562739927c1469fcbdf1a5d5f5dedd9b4b8dcaf213a04e21ef61d40df60d6d"
   },
   {
     "path": "everyday-objects.js",
-    "size": 7405,
-    "sha256": "4fd723463a1de147afd823e76a24e39f46a899c30dabf28e82141b9f92b3ef50"
+    "size": 7341,
+    "sha256": "a22cb6fe06cf0f6f274cad137d7abda1e81de0fa6475b0c311bf4cd1b085978d"
   },
   {
     "path": "graphics.js",
-    "size": 12626,
-    "sha256": "dea901e19eb17233b1361008a709f2eafff5f611d74489cc52093241ccd56851"
+    "size": 12565,
+    "sha256": "a84ab7db2be10dcef2fcbdaaedae8f356f47713b10760844ea720694fac21542"
   },
   {
     "path": "guide-theme.css",
-    "size": 28919,
-    "sha256": "1179c1ccd78f151f56bd3d24457e7313c00372209589a12bb076901a719d2b5c"
+    "size": 28627,
+    "sha256": "785a3803643a70c1e35e67d72f02fb08ac4302117f80e4db051db69ca29370ff"
   },
   {
     "path": "index.html",
-    "size": 4565,
-    "sha256": "c999f5cf7934461ad6e39ad7f993a07ffbb70e1919b0ecb9fe511e842d8fc093"
+    "size": 4555,
+    "sha256": "88e915f746ee7577c5f3a71578ffa7cc5bd7febcb3b3a8f473bd969c6dadd83a"
   },
   {
     "path": "inquiry-pages.js",
-    "size": 5019,
-    "sha256": "1371369fd8f1b6e068ec4ae15367f64d2353021e995568a41abe479f1a9a68ee"
+    "size": 5008,
+    "sha256": "3e8032fcd6f6ac3181a73f011b2f70417f9706ec8f1ae1152c232a089b3da717"
   },
   {
     "path": "inquiry.js",
-    "size": 17972,
-    "sha256": "d6b0cdb59079bfa4ca7239c6cc4e4b46760397ba300dc5f65e67fbbeb388dc44"
+    "size": 17886,
+    "sha256": "b352c352106facd1c18be22234863887ccd84bbfee8bef3bd9dd8f05672f182b"
   },
   {
     "path": "lab3d.js",
-    "size": 17621,
-    "sha256": "f239c9cb5e9ea684b765f0b3e31e46118cdef972fbafadb5ae0f68d088ebc087"
+    "size": 17479,
+    "sha256": "d1736285e831ad377c72a6050736b2b644a77e37e3f011b0f30fe365ae063415"
   },
   {
     "path": "lesson-print-pages.js",
-    "size": 17187,
-    "sha256": "9722c333d50b43abaa79b8b64466beade78482077d833a106f4d306e9c70898f"
+    "size": 17136,
+    "sha256": "416d61df035b2c9679359e0a1b4e1dacb74627fccbbb675fc66abe1b3f6865ae"
   },
   {
     "path": "lesson-print.css",
-    "size": 32292,
-    "sha256": "04fddd667db6631c0a341db85b98a2c0a1fec322da4d34e0f9f79852dbf37a1b"
+    "size": 31936,
+    "sha256": "caa29041f499939b53f89d9fb9ab17ac351fd708c54ef9f5286b58a79ceb635a"
   },
   {
     "path": "media/spring-observation.mp4",
@@ -741,8 +741,8 @@
   },
   {
     "path": "photos/CREDITS.md",
-    "size": 3860,
-    "sha256": "eb4f5514839c57fc0ff71803d71673d0457e56dbc92027c41f9819ac92c13381"
+    "size": 3836,
+    "sha256": "f6e07082fe693a131172d970c2515f97887e786d300aef411be27e180013fc26"
   },
   {
     "path": "photos/apple.jpg",
@@ -821,8 +821,8 @@
   },
   {
     "path": "physics.js",
-    "size": 1893,
-    "sha256": "d5c358da7e70e68dfbbd98e133a684ea666dfd7b30c0ba59ebc44d27950c9e89"
+    "size": 1868,
+    "sha256": "ea87722dcd41fe74fd656b5c952402fac033740067084116f90674e9c8457910"
   },
   {
     "path": "print/student.pdf",
@@ -836,8 +836,8 @@
   },
   {
     "path": "qr-map.js",
-    "size": 3193,
-    "sha256": "7b33b14a0c814ea780b9f2561edcf5f70868eb33a1e549f843a9405efbaa8e57"
+    "size": 3104,
+    "sha256": "170875c3d48b45f706850e2138b4cd353f9d81a24457a2c1885f074c9edf7a6d"
   },
   {
     "path": "qr/P1.png",
@@ -1056,28 +1056,28 @@
   },
   {
     "path": "qr/manifest.json",
-    "size": 2744,
-    "sha256": "35561b3c2a5a618262564b7c3b6662df3e9285d1757ee25fc5cab40d8d4eaf28"
+    "size": 2663,
+    "sha256": "37d3d2260ead2c9c692a38b11a7c56e3f59fc67bfad3d1490505d526515bb47c"
   },
   {
     "path": "reading-art.js",
-    "size": 4337,
-    "sha256": "84a76f449401f8d08960eccf61a8b7ec23b0eb661516012b97c475fe4c592f35"
+    "size": 4326,
+    "sha256": "3e5435f6dfdf583cb42f536ec6ffac787c4a56d2b3b99788d59490b0b209ea13"
   },
   {
     "path": "review.js",
-    "size": 11128,
-    "sha256": "ff9e7f8e832a28ea166528dfd823cc9550a7ded7d89b9a293b4b22348523868a"
+    "size": 11059,
+    "sha256": "c7c84143414ef1d663b69f2d0a8e5e0b54b82782dcf49280253f7f74db19ef6d"
   },
   {
     "path": "self-flow.js",
-    "size": 3320,
-    "sha256": "a4f7a851ffa9d6b0b8d3685ff9eda2dc2b37175cfbbdc6f12b7586226b256eca"
+    "size": 3292,
+    "sha256": "8ad746ba006cedfc8a25d76722b2ff40f4de570c608ffb8eeb18c80b42c325f5"
   },
   {
     "path": "source-coverage.json",
-    "size": 1235,
-    "sha256": "fd05ffe4d53f4f6f4243306930102b7c7fddf0861482eb0b2c954e1e533304d0"
+    "size": 1177,
+    "sha256": "965a4bf9651de20f44a538cf640d0d4229dea30c07026e1ca47d6f07f7154486"
   },
   {
     "path": "source/p10.webp",
@@ -1146,18 +1146,18 @@
   },
   {
     "path": "style.css",
-    "size": 42493,
-    "sha256": "6ca791381a588c0753f556e34c9fdfb86705bd7e4c7e659a013d6b9e4ce3ca47"
+    "size": 42394,
+    "sha256": "5a7616f8d0fef4b8b158a9509fa37b3b6e5445ee1382b19f8a110285c417678f"
   },
   {
     "path": "teacher-notes.html",
-    "size": 1147,
-    "sha256": "87c48616faa33cedb8f7a89a6c17988dc8a6f6fb13503c263fd23a2ce241714d"
+    "size": 1146,
+    "sha256": "f75559535505f41758bef992214a953be7d8f7775b8e010501c921cc5ab3dd92"
   },
   {
     "path": "teacher-notes.js",
-    "size": 865,
-    "sha256": "854625eb9ee663e240010ecba65fa75f0da42cf63fefeed0c8d5d23dd5d623cd"
+    "size": 861,
+    "sha256": "33039ce64de72568705ab01b48a0f2476058061f7707b7bc03982a6f12fc7185"
   },
   {
     "path": "teacher.html",
@@ -1166,37 +1166,37 @@
   },
   {
     "path": "vendor/OrbitControls.js",
-    "size": 42479,
-    "sha256": "585121dd267043b8cb9a2c13db5e156a5ac124b8834abd89867bfcd1c51982e7"
+    "size": 40516,
+    "sha256": "3f40137b0620b375637d6bce55dc830d86d79cb80b4d93aaf1b8ca6c5cb4741a"
   },
   {
     "path": "vendor/PAGE-FLIP-LICENSE.txt",
-    "size": 1084,
-    "sha256": "5cf9ffb1b699e1438411507d6e5ddad9c8f53a8e2ed4c4c4758fe749add8a0dd"
+    "size": 1063,
+    "sha256": "88d7b609a3be5efa2abe8648ddc35d5489579db5e06299545760df45c2c32d66"
   },
   {
     "path": "vendor/THREE-LICENSE.txt",
-    "size": 1102,
-    "sha256": "5d5dad8147523d59bc15cca838ae0bdaae7075230ec49132c551a1d18e7b3412"
+    "size": 1081,
+    "sha256": "8b378ebe60e2fe500158cb0ac71cb5e8b7d92953c2abcc63a0eb90499653b5bc"
   },
   {
     "path": "vendor/page-flip.browser.js",
-    "size": 44059,
-    "sha256": "3c36fca4cb3c5b6cf34d12734350067c738d2c3a79041ca4350a169bf2195f96"
+    "size": 44058,
+    "sha256": "bbaca0bbef57a22bb66a3fc69d67baf9a17fb9a9c89ec9ed35e2b91abe4bd1e7"
   },
   {
     "path": "vendor/three.core.js",
-    "size": 1487229,
-    "sha256": "539a9bbdae302ecd175d09925fb400d5df755cf982a1dec461c11d1725dd5531"
+    "size": 1427497,
+    "sha256": "368dc78835287709a48939e8eb9a7a61d0732098bdf916e56840d458aae9ccf3"
   },
   {
     "path": "vendor/three.module.js",
-    "size": 668513,
-    "sha256": "dcd9e9aefd41f795fe65205a5a650ab2b46abc1d37697f6244da5968b27ccddd"
+    "size": 648961,
+    "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
   },
   {
     "path": "zero-gate.js",
-    "size": 1843,
-    "sha256": "5a88ccf2e99aadc39acfe05f842dc78eec1a0bcb5418d2e41f2668fdbfab9d23"
+    "size": 1829,
+    "sha256": "1c9e23514f1b9545db74665538a442c1bfc90ef9fe53217ad10471c6f0e77787"
   }
 ]
