@@ -1,14 +1,17 @@
 #!/usr/bin/env python3
 """쇼릴 배경음악 — 코드로 직접 합성한 원곡(저작권 걱정 없음). 96 BPM, C–G–Am–F, 48kHz 스테레오.
 구성: 인트로(패드+상승음) → 드롭(킥·박수·하이햇·베이스·플럭) → 마지막 두 마디 패드로 마무리.
-사용: python3 music.py out.wav 초 [드롭시각초]"""
+사용: python3 music.py out.wav 초 [드롭시각초] [soft]
+soft: 내레이션 밑에 까는 잔잔한 판(북·베이스 없이 패드 + 느린 뜯는 소리)"""
 import sys, numpy as np
 
 SR = 48000
 BPM = 96
 BEAT = 60 / BPM
 dur = float(sys.argv[2]) if len(sys.argv) > 2 else 56
+SOFT = len(sys.argv) > 4 and sys.argv[4] == 'soft'
 drop = float(sys.argv[3]) if len(sys.argv) > 3 else BEAT * 8
+if SOFT: drop = 1e9   # 리듬 없이
 N = int(SR * (dur + 2))
 L = np.zeros(N); R = np.zeros(N)
 t_all = np.arange(N) / SR
@@ -49,7 +52,7 @@ for b in range(nbars):
     add(L, t0, sig, gain=0.34)
 
 # 상승음(인트로 → 드롭)
-n = int(drop * SR); t = np.arange(n) / SR
+n = 0 if SOFT else int(drop * SR); t = np.arange(n) / SR
 noise = rng.standard_normal(n); rise = lowpass(noise, 3000) * (t / drop) ** 2 * 0.25
 add(L, 0, rise)
 
@@ -91,6 +94,14 @@ while True:
     for k in range(4):
         add(L, tb + k * BEAT / 4, pluck(ch[(beat * 4 + k) % 4] + 12), pan=(-0.4 if k % 2 else 0.4), gain=0.16)
     beat += 1
+
+# 잔잔한 판: 두 박마다 코드음 하나씩 부드럽게 뜯는다
+if SOFT:
+    k = 0; tb = BEAT * 2
+    while tb < dur - bar:
+        b = int(tb // bar); ch = chords[b % 4]
+        add(L, tb, lowpass(pluck(ch[(k * 3) % 4] + 12, 0.9), 1800), pan=(-0.3 if k % 2 else 0.3), gain=0.10)
+        k += 1; tb += BEAT * 2
 
 # 킥에 맞춘 사이드체인(패드·베이스가 숨쉬듯)
 duck = np.ones(N)

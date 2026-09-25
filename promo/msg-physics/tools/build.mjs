@@ -1,4 +1,5 @@
-// MSG 소개 영상 만들기: node promo/msg-physics/tools/build.mjs [--retake] [--only id,id]
+// MSG 소개 영상 만들기: node promo/msg-physics/tools/build.mjs [--retake] [--only id,id] [--assemble]
+// --assemble: 만들어 둔 장면으로 이어 붙이기·음악만 다시
 // 전제: 저장소 루트에서 python3 -m http.server 8790 이 떠 있을 것(앱·틀 모두 이 주소로 연다).
 // 1) 장면별 PNG(배경·제목·캐릭터·자막) 2) 실제 앱 녹화(takes.js) 3) ffmpeg 합성 4) 이어 붙이기 + SRT + 포스터
 import { chromium } from '/opt/node22/lib/node_modules/playwright/index.mjs';
@@ -9,10 +10,11 @@ import { fileURLToPath } from 'node:url';
 import { scenes as introScenes, demoScenes, BRAND } from '../storyboard.js';
 import { takes } from './takes.js';
 import { recordTake } from './take.mjs';
+import { vtake } from './vtake.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url)), OUT = join(HERE, '..'), WORK = join(OUT, 'work');
 const ROOT = 'http://127.0.0.1:8790/', AUDIO = join(HERE, '../../../sample-v2/audio');
-const args = process.argv.slice(2), retake = args.includes('--retake'), only = (args[args.indexOf('--only') + 1] || '').split(',').filter((x) => args.includes('--only') && x);
+const args = process.argv.slice(2), retake = args.includes('--retake'), assemble = args.includes('--assemble'), only = (args[args.indexOf('--only') + 1] || '').split(',').filter((x) => args.includes('--only') && x);
 mkdirSync(WORK, { recursive: true });
 const scenes = args.includes('--demo') ? demoScenes : introScenes;
 const lib = JSON.parse(readFileSync(join(AUDIO, 'voice-library.json'), 'utf8')).clips;
@@ -28,13 +30,14 @@ function clipOf(id) {
   drafts++; return { text: l.text, seconds: Math.max(3, l.text.replace(/\s/g, '').length * 0.155), file: null };
 }
 const LEAD = 0.5, TAIL = 0.8;
+const VIDEO_SCENES = new Set(['story', 'media']);
 const ff = (a) => { const r = spawnSync('ffmpeg', ['-v', 'error', '-y', ...a], { encoding: 'utf8', maxBuffer: 1 << 26 }); if (r.status) throw new Error(r.stderr.slice(-2000)); };
 
 // 자막: 문장 단위, 길면 쉼표·띄어쓰기에서 나눈다. 시간은 글자 수 비례.
 function chunks(text) {
   const out = [];
   for (let s of text.replace(/\s+/g, ' ').trim().split(/(?<=[.?!])\s+/)) {
-    while (s.length > 40) { let k = s.lastIndexOf(', ', 34); if (k < 12) k = s.lastIndexOf(' ', 34); if (k < 12) k = 34; out.push(s.slice(0, k + 1).trim()); s = s.slice(k + 1).trim(); }
+    while (s.length > 46) { let k = s.lastIndexOf(', ', 42); if (k < 12) k = s.lastIndexOf(' ', 42); if (k < 12) k = 42; out.push(s.slice(0, k + 1).trim()); s = s.slice(k + 1).trim(); }
     if (s) out.push(s);
   }
   return out;
@@ -51,7 +54,7 @@ const shot = async (q, file) => {
 const MASK = join(WORK, 'mask.png');
 if (!existsSync(MASK)) spawnSync('python3', ['-c', `from PIL import Image,ImageDraw\nm=Image.new('L',(1440,810),0);ImageDraw.Draw(m).rounded_rectangle((0,0,1439,809),26,fill=255);m.save('${MASK}')`]);
 
-const srt = [], parts = []; let T = 0;
+const srt = [], parts = [], sceneDur = []; let T = 0;
 const ts = (s) => { const h = Math.floor(s / 3600), m = Math.floor(s / 60) % 60, x = s % 60; return `${String(h).padStart(2, '0')}:${String(m).padStart(2, '0')}:${x.toFixed(3).padStart(6, '0').replace('.', ',')}`; };
 for (const [n, s] of scenes.entries()) {
   const clip = clipOf(s.clip);
@@ -60,7 +63,7 @@ for (const [n, s] of scenes.entries()) {
   const subs = cs.map((c) => { const d = clip.seconds * c.length / total, r = { text: c, a: t, b: t + d }; t += d; return r; });
   subs.forEach((x) => srt.push({ a: T + x.a, b: T + x.b, text: x.text }));
   const out = join(dir, 'scene.mp4');
-  if (!only.length || only.includes(s.id)) {
+  if ((!only.length || only.includes(s.id)) && !(assemble && existsSync(out))) {
     for (const [i, x] of subs.entries()) await shot({ mode: 'bubble', text: x.text }, join(dir, `sub${i}.png`));
     const audioIn = clip.file ? ['-i', clip.file] : ['-f', 'lavfi', '-t', String(dur), '-i', 'anullsrc=r=48000:cl=stereo'];
     const subIn = subs.flatMap((x, i) => ['-loop', '1', '-t', String(dur), '-i', join(dir, `sub${i}.png`)]);
@@ -76,8 +79,13 @@ for (const [n, s] of scenes.entries()) {
       const take = join(WORK, `${s.id}.take.mp4`);
       if (retake || !existsSync(take)) {
         const T0 = takes[s.id] || {};
-        const r = await recordTake(b, { url: ROOT + 'sample-v2/' + s.url, seconds: dur, out: take, setup: T0.setup, focusSel: T0.focus?.sel, script: T0.script || (async (p, at) => { for (const [sec, a] of s.acts || []) { await at(sec); if (a.click) await p.click(a.click).catch(() => {}); } }) });
-        console.log(`  녹화 ${s.id}: ${r.frames}프레임 (${r.fps.toFixed(1)}fps)`, r.errs.length ? r.errs : '');
+        // 가상 시계로 한 장씩(느린 컴퓨터에서도 매끈한 30fps). 대본 속 waitForTimeout도 가상 시간으로 흘려 애니메이션이 제대로 진행되게 한다.
+        // 영상(<video>)을 트는 장면은 가상 시계가 못 움직이므로 실시간 녹화.
+        const rec = VIDEO_SCENES.has(s.id) || T0.real ? recordTake : (br, o) => vtake(br, { ...o, script: o.script && ((p, at) => { let now = 0; const at2 = async (x) => { now = Math.max(now, x); await at(now); };
+          const pp = new Proxy(p, { get: (t, k) => (k === 'waitForTimeout' ? (ms) => at2(now + ms / 1000) : typeof t[k] === 'function' ? t[k].bind(t) : t[k]) });
+          return o.script(pp, at2); }) });
+        const r = await rec(b, { url: ROOT + 'sample-v2/' + s.url, seconds: dur, out: take, width: 1600, height: 900, setup: T0.setup, focusSel: T0.focus?.sel, script: T0.script || (async (p, at) => { for (const [sec, a] of s.acts || []) { await at(sec); if (a.click) await p.click(a.click).catch(() => {}); } }) });
+        console.log(`  녹화 ${s.id}: ${r.frames}프레임 (${(r.fps || 0).toFixed(1)}fps)`, r.errs.length ? r.errs : '');
         if (r.rect) writeFileSync(take + '.rect.json', JSON.stringify(r.rect));
       }
       let z = takes[s.id]?.zoom;
@@ -94,13 +102,22 @@ for (const [n, s] of scenes.entries()) {
     ff([...ins, '-filter_complex', fc, '-map', '[vo]', '-map', '[ao]', '-t', String(dur), '-r', '30', '-c:v', 'libx264', '-crf', '19', '-preset', 'medium', '-c:a', 'aac', '-b:a', '160k', '-ar', '48000', '-ac', '2', out]);
     console.log(`장면 ${n + 1}/${scenes.length} ${s.id} ${dur}s`);
   }
-  parts.push(out); T += dur;
+  parts.push(out); sceneDur.push(dur); T += dur;
 }
 await b.close();
 if (only.length) { console.log('일부 장면만 만들었어요(이어 붙이기 생략).'); process.exit(0); }
 writeFileSync(join(WORK, 'parts.txt'), parts.map((p) => `file '${p}'`).join('\n'));
-const FINAL = join(OUT, 'msg-physics-promo.mp4');
-ff(['-f', 'concat', '-safe', '0', '-i', join(WORK, 'parts.txt'), '-c', 'copy', '-movflags', '+faststart', FINAL]);
+const FINAL = join(OUT, 'msg-physics-promo.mp4'), RAW = join(WORK, 'promo-raw.mp4');
+ff(['-f', 'concat', '-safe', '0', '-i', join(WORK, 'parts.txt'), '-c', 'copy', RAW]);
+// 소리: 우루사쌤 내레이션 + 잔잔한 배경음악(말할 때 더 낮아짐) + 장면이 바뀔 때 작은 '휙'
+const MUS = join(WORK, 'promo-music.wav'), FX = join(WORK, 'promo-sfx.wav'), EVF = join(WORK, 'promo-sfx.json');
+spawnSync('python3', [join(HERE, 'music.py'), MUS, T.toFixed(2), '0', 'soft'], { stdio: 'inherit' });
+let acc = 0; const ev = []; scenes.forEach((s, i) => { if (i) ev.push([acc - 0.2, 'whoosh', 0.45]); acc += sceneDur[i]; });
+ev.push([0, 'impact', 0.5]); ev.push([T - sceneDur.at(-1), 'sparkle', 0.7]);
+writeFileSync(EVF, JSON.stringify(ev)); spawnSync('python3', [join(HERE, 'sfx.py'), FX, T.toFixed(2), EVF], { stdio: 'inherit' });
+ff(['-i', RAW, '-i', MUS, '-i', FX, '-filter_complex',
+  `[0:a]asplit[n1][n2];[1:a]volume=0.32[m];[m][n1]sidechaincompress=threshold=0.03:ratio=5:attack=40:release=500[md];[2:a]volume=0.7[fx];[n2][md][fx]amix=inputs=3:normalize=0,loudnorm=I=-16:TP=-1.5:LRA=11[ao]`,
+  '-map', '0:v', '-map', '[ao]', '-c:v', 'copy', '-c:a', 'aac', '-b:a', '192k', '-ar', '48000', '-movflags', '+faststart', FINAL]);
 writeFileSync(join(OUT, 'msg-physics-promo.srt'), srt.map((x, i) => `${i + 1}\n${ts(x.a)} --> ${ts(x.b)}\n${x.text}\n`).join('\n'));
 ff(['-ss', '2', '-i', join(WORK, scenes[0].id, 'scene.mp4'), '-frames:v', '1', '-q:v', '3', join(OUT, 'msg-physics-promo-poster.jpg')]);
 console.log(`완성: ${FINAL} · ${T.toFixed(1)}초${drafts ? ` · 초안(음성 없는 장면 ${drafts}개 — 원장 PC에서 omnivoice-promo.cmd 실행 후 다시 build)` : ''}`);

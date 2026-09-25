@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="ko">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>초·과·심 LIVE — 우루사쌤이 소개하는 살아 움직이는 초등과학심화</title>
+<meta name="description" content="대치 MSG 영재교육 초·과·심(초등과학심화) LIVE 소개 영상">
+<link rel="stylesheet" href="../../sample-v2/fonts/fonts.css">
+<style>
+  *{box-sizing:border-box}
+  :root{--green:#1d4d33;--green2:#2d6b47;--ink:#1f2a24;--muted:#5b6a60;--line:#dbe6de;--bg:#f3f7f3;--orange:#f0892c;--gold:#f5c542}
+  body{margin:0;background:var(--bg);color:var(--ink);word-break:keep-all;font-family:"Pretendard Variable","Pretendard","Noto Sans KR",system-ui,sans-serif}
+  main{width:min(1220px,calc(100% - 32px));margin:34px auto 64px}
+  .top{display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+  .top img{width:84px;height:auto;mix-blend-mode:multiply}
+  .eyebrow{color:var(--green2);font-size:13px;font-weight:900;letter-spacing:.08em}
+  h1{margin:8px 0 22px;font-size:clamp(28px,4.5vw,52px);line-height:1.16;letter-spacing:-.045em}
+  h1 em{font-style:normal;color:var(--orange)}
+  .live{display:inline-block;margin-left:6px;padding:2px 12px 3px;border-radius:999px;background:#e5483b;color:#fff;font-size:.42em;vertical-align:.5em;letter-spacing:.02em}
+  .player{position:relative;overflow:hidden;border:1px solid var(--line);border-radius:24px;background:#fff;box-shadow:0 20px 52px rgba(29,77,51,.16)}
+  video{display:block;width:100%;aspect-ratio:16/9;background:#0e1b14}
+  .play-cover{position:absolute;inset:0;display:grid;place-items:center;background:rgba(29,77,51,.08);border:0;cursor:pointer}
+  .play-cover span{display:inline-flex;align-items:center;gap:12px;padding:17px 28px;border-radius:18px;background:var(--green);color:#fff;font-size:20px;font-weight:900;box-shadow:0 12px 28px rgba(29,77,51,.32)}
+  .play-cover[hidden]{display:none}
+  .tabs{display:flex;gap:8px;margin:0 0 12px}
+  .tabs button{border:1px solid var(--line);background:#fff;color:var(--muted);border-radius:999px;padding:9px 16px;font:inherit;font-weight:800;font-size:15px;cursor:pointer}
+  .tabs button[aria-pressed=true]{background:var(--green);border-color:var(--green);color:#fff}
+  .actions{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:20px}
+  .button{display:flex;min-height:62px;align-items:center;justify-content:center;border:0;border-radius:17px;padding:0 18px;text-align:center;text-decoration:none;font:inherit;font-weight:900;font-size:17px;cursor:pointer}
+  .video-button{background:var(--ink);color:#fff}
+  .try{background:var(--orange);color:#fff}
+  .book{background:var(--green);color:#fff}
+  .note{margin-top:18px;padding:20px 22px;border:1px solid var(--line);border-radius:18px;background:#fff;color:var(--muted);line-height:1.7}
+  .note strong{color:var(--ink)}
+  .points{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:18px}
+  .points div{padding:16px 18px;border:1px solid var(--line);border-radius:16px;background:#fff;line-height:1.55;color:var(--muted);font-size:15px}
+  .points b{display:block;color:var(--green);font-size:16px;margin-bottom:4px}
+  @media(max-width:900px){.points{grid-template-columns:1fr 1fr}}
+  @media(max-width:760px){main{margin-top:18px}.actions{grid-template-columns:1fr}.button{min-height:56px}.play-cover span{font-size:17px}.points{grid-template-columns:1fr}.top img{width:64px}}
+</style>
+<main>
+  <div class="top">
+    <img src="../../sample-v2/art/urusaem.png" alt="우루사쌤">
+    <div>
+      <div class="eyebrow">대치 MSG 영재교육 × 초·과·심 LIVE</div>
+      <h1>초등과학심화,<br><em>이제 살아 움직인다</em><span class="live">LIVE</span></h1>
+    </div>
+  </div>
+  <div class="tabs" role="group" aria-label="영상 고르기">
+    <button type="button" data-src="msg-physics-promo" aria-pressed="true">우루사쌤 소개 영상</button>
+    <button type="button" data-src="chogwasim-live-showreel" aria-pressed="false">1분 쇼릴</button>
+  </div>
+  <div class="player">
+    <video id="lessonVideo" controls playsinline preload="metadata" poster="msg-physics-promo-poster.jpg">
+      <source src="msg-physics-promo.mp4" type="video/mp4">
+    </video>
+    <button class="play-cover" id="playCover" type="button" aria-label="영상 재생">
+      <span>▶ 영상으로 보기</span>
+    </button>
+  </div>
+  <div class="actions">
+    <button class="button video-button" id="playButton" type="button">▶ 영상으로 보기</button>
+    <a class="button try" href="../../sample-v2/start.html" target="_blank" rel="noopener">직접 체험해 보기</a>
+    <a class="button book" href="../../sample-v2/book.html?page=1" target="_blank" rel="noopener">살아있는 책 펼쳐 보기</a>
+  </div>
+  <div class="points">
+    <div><b>예습 → 본수업</b>교재를 한 번 읽어 오고, 수업에서 함께 고민하고 직접 해 봐요.</div>
+    <div><b>3D 실험</b>영점을 맞추고, 매달고, 기다리고, 읽어요. 진짜 저울처럼 늘어나고 흔들려요.</div>
+    <div><b>채점 · 첨삭 · 처방</b>틀리면 답 대신 질문으로. 두 번 헷갈리면 비슷한 문제로 다시 확인해요.</div>
+    <div><b>두 팀 배틀</b>교실에서는 같은 물건을 두 팀이 각자 재 보고 함께 확인해요.</div>
+  </div>
+  <div class="note"><strong>초·과·심 = 초등과학심화.</strong> 처음 과학을 만나는 아이의 마음으로 만든 교재가 화면 속에서 살아 움직입니다. 스스로 공부하기 · 가르치기 · 살아있는 책 · A4 인쇄까지, 하나의 교재로 이어집니다.</div>
+</main>
+<script>
+  const video=document.getElementById('lessonVideo');
+  const cover=document.getElementById('playCover');
+  const play=()=>{cover.hidden=true;video.scrollIntoView({behavior:'smooth',block:'center'});video.play();};
+  cover.addEventListener('click',play);
+  document.getElementById('playButton').addEventListener('click',play);
+  video.addEventListener('play',()=>cover.hidden=true);
+  // 소개 영상 ↔ 쇼릴
+  document.querySelectorAll('.tabs button').forEach((b)=>b.addEventListener('click',()=>{
+    document.querySelectorAll('.tabs button').forEach((x)=>x.setAttribute('aria-pressed',x===b));
+    const s=b.dataset.src; video.pause(); video.poster=s+'-poster.jpg'; video.querySelector('source').src=s+'.mp4'; video.load(); play();
+  }));
+</script>
+</html>

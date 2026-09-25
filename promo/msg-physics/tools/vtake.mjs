@@ -37,7 +37,7 @@ const SHIM = `(() => {
   };
 })();`;
 
-export async function vtake(browser, { url, seconds, setup, script, css = '', out, width = 1920, height = 1080, fps = 30, warm = 1800, dpr = 1 }) {
+export async function vtake(browser, { url, seconds, setup, script, css = '', out, width = 1920, height = 1080, fps = 30, warm = 1800, dpr = 1, focusSel }) {
   const dir = out + '.frames'; rmSync(dir, { recursive: true, force: true }); mkdirSync(dir, { recursive: true });
   const ctx = await browser.newContext({ viewport: { width, height }, deviceScaleFactor: dpr });
   await ctx.addInitScript(SHIM);
@@ -57,9 +57,11 @@ export async function vtake(browser, { url, seconds, setup, script, css = '', ou
   const at = async (s) => { while (n < Math.min(total, Math.round(s * fps))) await frame(); };
   if (script) await script(page, at).catch((e) => errs.push('script: ' + e.message));
   await at(seconds);
+  // 확대할 요소(예: 3D 캔버스)의 위치 — take.mjs와 같은 약속
+  const rect = focusSel ? await page.evaluate((sel) => { const e = [...document.querySelectorAll(sel)].find((x) => x.offsetParent); if (!e) return null; const r = e.getBoundingClientRect(); return [r.x, r.y, r.width, r.height]; }, focusSel).catch(() => null) : null;
   await ctx.close();
   const r = spawnSync('ffmpeg', ['-v', 'error', '-y', '-framerate', String(fps), '-i', join(dir, '%05d.jpg'), '-vf', `scale=${width * dpr}:${height * dpr}:flags=lanczos,format=yuv420p`, '-c:v', 'libx264', '-crf', '16', '-preset', 'medium', out], { encoding: 'utf8' });
   if (r.status) errs.push('ffmpeg: ' + r.stderr);
   rmSync(dir, { recursive: true, force: true });
-  return { frames: n, errs };
+  return { frames: n, fps, errs, rect };
 }
