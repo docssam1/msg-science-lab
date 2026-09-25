@@ -30,6 +30,18 @@ body[data-edition="student"] .speech-result strong{font-size:18px}
 body[data-edition="student"] .speech-result p{margin:6px 0}
 body[data-edition="student"] .speech-self-choices{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
 body[data-edition="student"] .speech-self-choices button{white-space:normal;min-height:42px}
+body[data-edition="student"] .assessment-photo{margin:28px 0 12px;padding:20px;border:2px solid #bdd1df;border-radius:22px;background:#f4f8fc;line-height:1.55}
+body[data-edition="student"] .assessment-photo h2{margin:0 0 6px;font-size:22px;color:#214b67}
+body[data-edition="student"] .assessment-photo>p{margin:5px 0 13px;font-size:15px}
+body[data-edition="student"] .photo-controls{display:flex;flex-wrap:wrap;gap:9px;align-items:center}
+body[data-edition="student"] .photo-pick{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:10px 16px;border-radius:12px;background:#265c7c;color:white;font-size:15px;font-weight:800;cursor:pointer}
+body[data-edition="student"] .photo-pick:focus-within{outline:3px solid #e49f38;outline-offset:3px}
+body[data-edition="student"] .photo-pick input{position:absolute;width:1px;height:1px;opacity:0}
+body[data-edition="student"] .photo-remove{min-height:46px}
+body[data-edition="student"] .photo-preview{margin-top:14px;padding:12px;border:1px solid #aec7d5;border-radius:14px;background:white}
+body[data-edition="student"] .photo-preview img{display:block;max-width:100%;max-height:330px;object-fit:contain;margin:auto}
+body[data-edition="student"] .photo-name{display:block;margin-top:7px;color:#526f80;font-size:13px;overflow-wrap:anywhere}
+body[data-edition="student"] .photo-status{font-size:13px!important;color:#426477}
 body[data-edition="student"] .guide-action{display:block;width:100%;white-space:normal;min-height:44px;margin:10px 0 0;background:#2f7d4f;color:white;border-color:#2f7d4f;font-size:14px}
 body[data-edition="student"] .guide-action[hidden]{display:none}
 body[data-edition="student"] .guide-target{outline:3px solid #f3b341;outline-offset:3px;animation:student-guide-glow 1.5s ease-in-out infinite}
@@ -58,7 +70,7 @@ body[data-edition="student"].student-zoom #mobile-reader .paper{zoom:1.16;width:
  body[data-edition="student"] .transport{align-content:center}
 }
 @media(prefers-reduced-motion:reduce){body[data-edition="student"] .guide-target{animation:none;box-shadow:0 0 0 4px #f3b34199}}
-@media print{.speech-answer{display:none!important}}
+@media print{.speech-answer,.assessment-photo{display:none!important}}
 /* In a live lesson the teacher speaks and controls the materials. */
 body[data-edition="teacher"] .teacher-dock,
 body[data-edition="teacher"] #start,
