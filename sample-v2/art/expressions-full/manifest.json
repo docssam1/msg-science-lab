@@ -1,0 +1,105 @@
+{
+  "source": [
+    "./art/urusaem.png",
+    "./art/expressions/*.png"
+  ],
+  "policy": "Approved expression heads placed whole on the approved full body (principal approved 2026-09-26). No generated faces, mouths or eyes.",
+  "expressions": {
+    "listen": {
+      "path": "./art/expressions-full/listen.png",
+      "affine": [
+        [
+          1.479,
+          -0.1243,
+          187.541
+        ],
+        [
+          0.1243,
+          1.479,
+          -138.745
+        ]
+      ],
+      "inliers": 41
+    },
+    "explain": {
+      "path": "./art/expressions-full/explain.png",
+      "affine": [
+        [
+          1.4494,
+          -0.1719,
+          215.6514
+        ],
+        [
+          0.1719,
+          1.4494,
+          -136.6504
+        ]
+      ],
+      "inliers": 20
+    },
+    "think": {
+      "path": "./art/expressions-full/think.png",
+      "affine": [
+        [
+          1.4427,
+          -0.2001,
+          219.5623
+        ],
+        [
+          0.2001,
+          1.4427,
+          -139.7548
+        ]
+      ],
+      "inliers": 10
+    },
+    "surprise": {
+      "path": "./art/expressions-full/surprise.png",
+      "affine": [
+        [
+          1.4772,
+          -0.0488,
+          158.1633
+        ],
+        [
+          0.0488,
+          1.4772,
+          -115.8456
+        ]
+      ],
+      "inliers": 21
+    },
+    "praise": {
+      "path": "./art/expressions-full/praise.png",
+      "affine": [
+        [
+          1.4953,
+          -0.1035,
+          179.9279
+        ],
+        [
+          0.1035,
+          1.4953,
+          -139.4631
+        ]
+      ],
+      "inliers": 21
+    },
+    "encourage": {
+      "path": "./art/expressions-full/encourage.png",
+      "affine": [
+        [
+          1.4884,
+          -0.1457,
+          196.0096
+        ],
+        [
+          0.1457,
+          1.4884,
+          -151.9928
+        ]
+      ],
+      "inliers": 24
+    }
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "source": "../*.png (art/expressions-full, principal-approved full-body expressions)",
+  "derivation": "Resized only: 1024x1536 -> 512x768 (Pillow LANCZOS), saved as WebP q88 for the web app. Same canvas and figure position as the source; no drawing, retouching or compositing.",
+  "why": "The app stacks all six and swaps them while 우루사쌤 talks; six source PNGs are ~4.4 MB, these are ~0.3 MB.",
+  "source_sha256": {"listen":"e69b5336d9f699835944a32dcd809ef5ab7b129613f035f58bfd8b720f835d4f","explain":"ffa8af4f7ea86e7863e980a1cae00c45cf3c6d51f7d3436b87bdc02b12b47a31","think":"b0ce65a675e9c5c49f197b1827c877fca9085e6ad6678eb5f665f733725b49f1","surprise":"5f76127ab05135c6a1d66a524aeeb0f6b15e937251583eb912d85d18aecaaaf6","praise":"4cd7de63e3f92fec94ca7e7bfd2950057b57da5f10f91e088f291b49b228b12a","encourage":"767ef05c399307ebc8c32cee40a80d098abd473a77f0aa88608ace320ff62407"}
+}

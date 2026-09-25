@@ -67,7 +67,7 @@ for (const [n, s] of scenes.entries()) {
     for (const [i, x] of subs.entries()) await shot({ mode: 'bubble', text: x.text }, join(dir, `sub${i}.png`));
     // 말하는 우루사쌤: 승인된 표정 그림을 소리에 맞춰 바꿔 끼운다(talker.py). 장면 표정 = s.mood
     const TALK = join(dir, 'talk');
-    spawnSync('python3', [join(HERE, 'talker.py'), TALK, String(dur), String(LEAD), clip.file || '-', s.mood || 'listen', '330'], { stdio: 'inherit' });
+    spawnSync('python3', [join(HERE, 'talker.py'), TALK, String(dur), String(LEAD), clip.file || '-', s.mood || 'listen', '520'], { stdio: 'inherit' });
     const talkIn = ['-framerate', '30', '-i', join(TALK, '%05d.png')];
     const audioIn = clip.file ? ['-i', clip.file] : ['-f', 'lavfi', '-t', String(dur), '-i', 'anullsrc=r=48000:cl=stereo'];
     const subIn = subs.flatMap((x, i) => ['-loop', '1', '-t', String(dur), '-i', join(dir, `sub${i}.png`)]);

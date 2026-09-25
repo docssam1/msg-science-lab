@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""말하는 우루사쌤 — 영상에 겹칠 캐릭터 트랙(30fps PNG 연속, 투명 배경)을 만든다.
+"""말하는 우루사쌤(전신) — 영상에 겹칠 캐릭터 트랙(30fps PNG 연속, 투명 배경)을 만든다.
 승인된 표정 그림(sample-v2/art/expressions, 얼굴 합성·그려 넣기 금지)을 **통째로 바꿔 끼우기만** 한다.
   · 말하는 동안: 내레이션 소리 크기에 맞춰 explain(입 벌림) ↔ listen(입 다묾)을 번갈아 → 입이 움직인다
   · 말하지 않을 때: 장면의 표정(mood) — listen / think / surprise / praise / encourage / explain
@@ -9,10 +9,10 @@ import sys, os, math, subprocess, numpy as np
 from PIL import Image, ImageFilter
 
 out, dur, lead, mp3, mood = sys.argv[1], float(sys.argv[2]), float(sys.argv[3]), sys.argv[4], sys.argv[5]
-H = int(sys.argv[6]) if len(sys.argv) > 6 else 330
+H = int(sys.argv[6]) if len(sys.argv) > 6 else 520
 FPS = 30; N = int(round(dur * FPS))
 HERE = os.path.dirname(os.path.abspath(__file__))
-EXP = os.path.join(HERE, '..', '..', '..', 'sample-v2', 'art', 'expressions')
+EXP = os.path.join(HERE, '..', '..', '..', 'sample-v2', 'art', 'expressions-full')   # 전신 표정(승인 머리 + 승인 몸)
 os.makedirs(out, exist_ok=True)
 for f in os.listdir(out):
     if f.endswith('.png'): os.remove(os.path.join(out, f))
@@ -26,7 +26,7 @@ for im in raw.values():
     box = b if box is None else (min(box[0], b[0]), min(box[1], b[1]), max(box[2], b[2]), max(box[3], b[3]))
 W0 = box[2] - box[0]; H0 = box[3] - box[1]; Wd = int(round(W0 * H / H0))
 face = {n: im.crop(box).resize((Wd, H), Image.LANCZOS) for n, im in raw.items()}
-PAD = 26; CW, CH = Wd + PAD * 2, H + PAD   # 기울기·들썩임 여유(아래는 화면 끝에 붙는다)
+PAD = 40; CW, CH = Wd + PAD * 2, H + PAD   # 기울기·들썩임 여유(아래는 화면 끝에 붙는다)
 
 # 그림자(한 번만)
 def shadowed(img):
@@ -71,15 +71,15 @@ for i in range(N):
     if talk[i]:
         name = 'explain' if mouth[i] else 'listen'
         dy = -abs(math.sin(2 * math.pi * 1.7 * t)) * 7 - env[i] * 4
-        rot = math.sin(2 * math.pi * 0.85 * t) * 2.4
+        rot = math.sin(2 * math.pi * 0.85 * t) * 1.6
     else:
         name = mood
         dy = math.sin(2 * math.pi * 0.45 * t) * 2.5; rot = math.sin(2 * math.pi * 0.3 * t) * 0.8
         after = (i - last_talk) / FPS if last_talk >= 0 and i > last_talk else t
         if mood == 'praise': dy -= max(0.0, math.sin(min(math.pi, after * 5))) * 16    # 톡 뛰기
         if mood == 'surprise': rot += math.sin(after * 40) * 3 * math.exp(-after * 6)    # 흠칫
-        if mood == 'think': rot += 3.5                                                    # 갸웃
-    img = face[name].rotate(rot, resample=Image.BICUBIC, expand=False, center=(Wd / 2 + PAD / 2, H))
+        if mood == 'think': rot += 2.2                                                    # 갸웃
+    img = face[name].rotate(rot, resample=Image.BICUBIC, expand=False, center=(Wd / 2, H))
     c = Image.new('RGBA', (CW, CH), (0, 0, 0, 0))
     c.alpha_composite(img, (PAD, int(round(PAD + dy))))
     c.save(os.path.join(out, f'{i:05d}.png'), compress_level=1)

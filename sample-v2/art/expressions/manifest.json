@@ -81,5 +81,6 @@
       ]
     }
   },
-  "source_sha256": "430e545e4c9c1e49ad3a418d4928f37a8008e04b1bb5d0fd5e88c7a6c992ae7e"
+  "source_sha256": "430e545e4c9c1e49ad3a418d4928f37a8008e04b1bb5d0fd5e88c7a6c992ae7e",
+  "policy_update_2026_09_26": "원장 승인: 승인된 표정 그림의 머리 전체를 승인된 전신 몸에 올려 전신 표정(art/expressions-full)을 만들어도 된다. 얼굴·입·눈을 새로 그리거나 일부만 합성하는 것은 여전히 금지."
 }
