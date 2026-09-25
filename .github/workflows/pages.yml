@@ -32,6 +32,9 @@ jobs:
           mkdir -p _site
           cp index.html _site/index.html
           cp -a sample-v2 _site/sample-v2
+          # 소개 영상 페이지(영상·쇼릴·포스터·자막) — 페이지는 ../../sample-v2 를 가리킨다
+          mkdir -p _site/promo/msg-physics
+          cp promo/msg-physics/msg-physics-promo.html promo/msg-physics/*.mp4 promo/msg-physics/*-poster.jpg promo/msg-physics/*.srt _site/promo/msg-physics/
 
       - name: Upload site
         uses: actions/upload-pages-artifact@v3

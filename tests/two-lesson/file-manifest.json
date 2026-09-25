@@ -11,8 +11,8 @@
   },
   {
     "path": "app.js",
-    "size": 28491,
-    "sha256": "0e99c9ba7b787a042d019736b61f41ec886bbc74117c2add301a070f3de4d084"
+    "size": 38609,
+    "sha256": "c5d4d61f9e72a9bba92f5fbd8cd7757a005d2662bf06fc1284f384f28dff345a"
   },
   {
     "path": "art/FUTURE-IMAGE-PROMPTS.md",
@@ -28,6 +28,76 @@
     "path": "art/daily-parts.png",
     "size": 22786,
     "sha256": "fb06549647919e93d88b9fb5897ae6599810dbbd88b31604c1b3a880611cbdd0"
+  },
+  {
+    "path": "art/expressions-full/encourage.png",
+    "size": 739919,
+    "sha256": "767ef05c399307ebc8c32cee40a80d098abd473a77f0aa88608ace320ff62407"
+  },
+  {
+    "path": "art/expressions-full/explain.png",
+    "size": 734884,
+    "sha256": "ffa8af4f7ea86e7863e980a1cae00c45cf3c6d51f7d3436b87bdc02b12b47a31"
+  },
+  {
+    "path": "art/expressions-full/listen.png",
+    "size": 735132,
+    "sha256": "e69b5336d9f699835944a32dcd809ef5ab7b129613f035f58bfd8b720f835d4f"
+  },
+  {
+    "path": "art/expressions-full/manifest.json",
+    "size": 1898,
+    "sha256": "c81a5a71ca1391f3ac39d2ee89669f49cccac511833880f93db6a7a83141f1e1"
+  },
+  {
+    "path": "art/expressions-full/praise.png",
+    "size": 741654,
+    "sha256": "4cd7de63e3f92fec94ca7e7bfd2950057b57da5f10f91e088f291b49b228b12a"
+  },
+  {
+    "path": "art/expressions-full/surprise.png",
+    "size": 728673,
+    "sha256": "5f76127ab05135c6a1d66a524aeeb0f6b15e937251583eb912d85d18aecaaaf6"
+  },
+  {
+    "path": "art/expressions-full/think.png",
+    "size": 738553,
+    "sha256": "b0ce65a675e9c5c49f197b1827c877fca9085e6ad6678eb5f665f733725b49f1"
+  },
+  {
+    "path": "art/expressions-full/web/encourage.webp",
+    "size": 48170,
+    "sha256": "2aeb6bd2d80c7a545e424b5e59106d594e6081c13f0e545a4fc5629595b038b1"
+  },
+  {
+    "path": "art/expressions-full/web/explain.webp",
+    "size": 48312,
+    "sha256": "4fb9980ef05b780e0c108c92273d312bf66413b319ac63b0a46294c3a5873ec5"
+  },
+  {
+    "path": "art/expressions-full/web/listen.webp",
+    "size": 48008,
+    "sha256": "0e156e97103c2ca13e1f0fb7ff96ef6976769ccb87b6401eaf2be0dbd20c157a"
+  },
+  {
+    "path": "art/expressions-full/web/manifest.json",
+    "size": 892,
+    "sha256": "a33a147268764e0ce98dbfbc70fc01d7854184e7d01c0df12f437f09b1976c15"
+  },
+  {
+    "path": "art/expressions-full/web/praise.webp",
+    "size": 48418,
+    "sha256": "874ce9e5e33c19a153c3e04dbc0682bca3a8d95b772f45dd56974720304f13d7"
+  },
+  {
+    "path": "art/expressions-full/web/surprise.webp",
+    "size": 47766,
+    "sha256": "815d1c4a45dcf6886ba3755b3f5d4610c7b7da0c363a2f2b737eab09f13c2e34"
+  },
+  {
+    "path": "art/expressions-full/web/think.webp",
+    "size": 48660,
+    "sha256": "eca7d06044266e4242647982926962f7253e89fdca18c0130d6a582ef7aeb5d5"
   },
   {
     "path": "art/expressions/encourage.png",
@@ -46,8 +116,8 @@
   },
   {
     "path": "art/expressions/manifest.json",
-    "size": 1455,
-    "sha256": "bbeb741cb40ded4c8ee6f6474f24915ea697b292c3f7eb3dc45b5b232418a2ff"
+    "size": 1726,
+    "sha256": "cb4d28290d8e44f708aae12fd3aa373928c85f20ea15df4b8b71849f2f280eed"
   },
   {
     "path": "art/expressions/praise.png",
@@ -98,6 +168,16 @@
     "path": "art/urusaem.png",
     "size": 1206458,
     "sha256": "1bf57b2623e9e20e9c5fed40b47e1961c0a1925b0189397da1df68ee3b5c75f7"
+  },
+  {
+    "path": "assessment-photo.js",
+    "size": 4070,
+    "sha256": "3aa979e082700e8846d5d3086c83431a1a5fc44fb7d531eee677b8aa94b091b4"
+  },
+  {
+    "path": "assessment-speech.js",
+    "size": 6180,
+    "sha256": "dc16297ff1e849d83ed3ef3580e431bf92740bf96ba92163b4e52a89297727b8"
   },
   {
     "path": "audio/ask-part-handle.mp3",
@@ -283,6 +363,96 @@
     "path": "audio/predict-first.mp3",
     "size": 66284,
     "sha256": "4b2e518a1d82224102d2b5bfbb83ca1b570567b098b69dd10a4d670da89b2ed4"
+  },
+  {
+    "path": "audio/promo/p01-hello.mp3",
+    "size": 93356,
+    "sha256": "21c5260dcf5572e65b28a122fa97fbe88cc8993c1127711b76a5a008de30fdfe"
+  },
+  {
+    "path": "audio/promo/p02-name.mp3",
+    "size": 72332,
+    "sha256": "0b5d2d195a2e837302b46add904181a64ae0ef6a4f2c3a629cbdc739811852b6"
+  },
+  {
+    "path": "audio/promo/p03-who.mp3",
+    "size": 95372,
+    "sha256": "fa79a2f6561453fa679a2284a564a5aff68aa76a0a136179cf774011923b9cb9"
+  },
+  {
+    "path": "audio/promo/p04-design.mp3",
+    "size": 91052,
+    "sha256": "2d3071f1593e79f00bb1a842331e68ddaf5324a4f0a94acad5c4ec6ae7c7294a"
+  },
+  {
+    "path": "audio/promo/p05-story.mp3",
+    "size": 98540,
+    "sha256": "156f0e69a30104dd7503c75d37c37e534d63e1a6cb28c0713c77166e61b16413"
+  },
+  {
+    "path": "audio/promo/p06-test.mp3",
+    "size": 97100,
+    "sha256": "4ac3ab45fadecc396e30ba2a984cd9f5f67d8ed4c796c5dc23d2a703ddbf4148"
+  },
+  {
+    "path": "audio/promo/p07-howto.mp3",
+    "size": 100268,
+    "sha256": "3eb61d7e6c9958ebe462cacdceb02ff3a4aca9165cf88ab771b3a356721ced83"
+  },
+  {
+    "path": "audio/promo/p08-screen.mp3",
+    "size": 100268,
+    "sha256": "1acc19644e218650263b96d853f206c8d8781c64f830a34c10def229576ae0a4"
+  },
+  {
+    "path": "audio/promo/p09-self.mp3",
+    "size": 77516,
+    "sha256": "46d060141b8f06ead8e41fbd8bbe10aee2e41b4797db76efb19b5f876e7abc44"
+  },
+  {
+    "path": "audio/promo/p10-lab.mp3",
+    "size": 79532,
+    "sha256": "c44b93becd7071b8e21a1e3ebac058e0412df41c47ff702be02af61d623f037c"
+  },
+  {
+    "path": "audio/promo/p11-mistake.mp3",
+    "size": 78092,
+    "sha256": "48962810fb8e8ae53e66eea1daa33100cb86d55ef036a121cfd33c51bf5d1559"
+  },
+  {
+    "path": "audio/promo/p11b-grade.mp3",
+    "size": 116972,
+    "sha256": "bead0e4c189a3ba03d9df630b69ad6cabea9bafe05f0e6cf4942bba2cde0ac44"
+  },
+  {
+    "path": "audio/promo/p12-battle.mp3",
+    "size": 85868,
+    "sha256": "96c8fb9658b8e3501662b59d04b8d6879c47e9d077ac4113d10031fa8a648349"
+  },
+  {
+    "path": "audio/promo/p13-tree.mp3",
+    "size": 109484,
+    "sha256": "c8d00ff8b32115287d29ad67a247cd31eb3822bebad05e57788cd02f2a374757"
+  },
+  {
+    "path": "audio/promo/p14-tree2.mp3",
+    "size": 102572,
+    "sha256": "a00cdf0ba180263113c3ef5fd9dd0d4230f50e99d126eb02fd29d3a71f6c28e3"
+  },
+  {
+    "path": "audio/promo/p15-video.mp3",
+    "size": 76076,
+    "sha256": "b9ff3768b6ce5a0319724cb2a803cc166013f142f47a6ced6cde93367ec6676e"
+  },
+  {
+    "path": "audio/promo/p16-end.mp3",
+    "size": 73772,
+    "sha256": "2e99d1a1045d644d9f2af5f0e2e6b9b05774749fd6fbfe0e61b322c554bb1b7f"
+  },
+  {
+    "path": "audio/promo/듣기.html",
+    "size": 2069252,
+    "sha256": "6acb926bfe514f93550a25558486e47b316a4b82d512d2fd421f61533e8406eb"
   },
   {
     "path": "audio/question-correct.mp3",
@@ -646,13 +816,13 @@
   },
   {
     "path": "battle.css",
-    "size": 4525,
-    "sha256": "bf0b57b1e95f5de3208f1f8bbb4016376bdf920e6a6a1cf418ed6633ed758d9d"
+    "size": 33361,
+    "sha256": "4bb44bf3a7dd32ca09bcd3a5f0a0e295e58d299b3c68b8a88c05f9d0110d6bd3"
   },
   {
     "path": "battle.js",
-    "size": 9922,
-    "sha256": "aa348194b127ebca013d7acef2bd85ed119309763c4e5838aab02b2f48f3c10e"
+    "size": 28255,
+    "sha256": "14dc268afeddd382bfe809d7864cd2f7f584a5cf87079aafbdf1a3e5cabb12b3"
   },
   {
     "path": "book.html",
@@ -660,9 +830,24 @@
     "sha256": "3104fadaa169519c9be26645f7bd81c430344cf3fd3d9d31ec6d36f1bb90057b"
   },
   {
+    "path": "coach-face.js",
+    "size": 9971,
+    "sha256": "3947e728cdb3d6c6bdb35b629eee88a4e4aaf648dab9b7f2f57e938f49193f2c"
+  },
+  {
+    "path": "coach-stage.js",
+    "size": 6155,
+    "sha256": "442b67a459f84073310589fb40a77effe0e200792ca5473117a24da8ad3c4ebf"
+  },
+  {
     "path": "content.js",
     "size": 38148,
     "sha256": "8ae5080cd95120de154a1202506ad971dad85e44c9ba2834be21b6475e53d819"
+  },
+  {
+    "path": "daily-grading.js",
+    "size": 20555,
+    "sha256": "eee1b9e5c6e7c18e8e2d6220449d9dbb561de219db42f7901166fa155189c0ff"
   },
   {
     "path": "editions.js",
@@ -671,13 +856,28 @@
   },
   {
     "path": "everyday-objects-3d.js",
-    "size": 8507,
-    "sha256": "6bfbb31f386e591e3a5bd16b643c149304d3bb4a455f0085cccfa81351ad1da5"
+    "size": 18028,
+    "sha256": "4cca52fd5a923dc25cfc947ab1560199c24ff26883d5164c516eb33db8fe7f49"
   },
   {
     "path": "everyday-objects.js",
     "size": 7341,
     "sha256": "a22cb6fe06cf0f6f274cad137d7abda1e81de0fa6475b0c311bf4cd1b085978d"
+  },
+  {
+    "path": "fonts/OFL-Pretendard.txt",
+    "size": 4816,
+    "sha256": "82e9c8a4b203261f10ddba1296422d64914ff3d4b7bd8a12896d03f0f088d70a"
+  },
+  {
+    "path": "fonts/fonts.css",
+    "size": 569,
+    "sha256": "ad99cf204a900ef2194bf5984c7f98b97cada52c0e1c983ad2b6cf45cdd82ca6"
+  },
+  {
+    "path": "fonts/pretendard-var.woff2",
+    "size": 459584,
+    "sha256": "8714e39cba3b106fd116325e8e0ce9785c7d34ea2693fac7f2668b98fc9cc886"
   },
   {
     "path": "graphics.js",
@@ -691,8 +891,8 @@
   },
   {
     "path": "index.html",
-    "size": 4351,
-    "sha256": "6379c01effd4d1057083301652ab46a7c60572543eb448d7a6543b3a7224dc21"
+    "size": 4877,
+    "sha256": "015a4f242881354bd5197ced81dc27f14aa4fbaffe9a7ae9901128e3619a75b4"
   },
   {
     "path": "inquiry-pages.js",
@@ -706,13 +906,13 @@
   },
   {
     "path": "lab3d.js",
-    "size": 17479,
-    "sha256": "d1736285e831ad377c72a6050736b2b644a77e37e3f011b0f30fe365ae063415"
+    "size": 31301,
+    "sha256": "0d3884fe284c04d5e4256ea174aeb023ee0a086e5a0bfddb25110e60b2ff1c93"
   },
   {
     "path": "lesson-print-pages.js",
-    "size": 17136,
-    "sha256": "416d61df035b2c9679359e0a1b4e1dacb74627fccbbb675fc66abe1b3f6865ae"
+    "size": 17081,
+    "sha256": "cb3366cc3805d973feffef2f0158aa62530af86fc51a3d59aaa205dd06a2017d"
   },
   {
     "path": "lesson-print.css",
@@ -843,6 +1043,11 @@
     "path": "physics.js",
     "size": 1868,
     "sha256": "ea87722dcd41fe74fd656b5c952402fac033740067084116f90674e9c8457910"
+  },
+  {
+    "path": "polish.css",
+    "size": 1945,
+    "sha256": "096ccddb7ee8791c0470259bdfb5780904f2efa1ab16e313dc4998e1dafe16cd"
   },
   {
     "path": "print/student.pdf",
@@ -1085,6 +1290,11 @@
     "sha256": "3e5435f6dfdf583cb42f536ec6ffac787c4a56d2b3b99788d59490b0b209ea13"
   },
   {
+    "path": "remedy-bank.js",
+    "size": 12591,
+    "sha256": "bc077af4e55c9d288f4359ad43e3009f6a6766c37794dd5274af216d7b0884a0"
+  },
+  {
     "path": "review.js",
     "size": 11059,
     "sha256": "c7c84143414ef1d663b69f2d0a8e5e0b54b82782dcf49280253f7f74db19ef6d"
@@ -1098,6 +1308,11 @@
     "path": "source-coverage.json",
     "size": 1177,
     "sha256": "965a4bf9651de20f44a538cf640d0d4229dea30c07026e1ca47d6f07f7154486"
+  },
+  {
+    "path": "source-lessons.js",
+    "size": 2191,
+    "sha256": "2df8029828a569bd9f45c7fc601f759935123a506613bff3cf6d5348e708a880"
   },
   {
     "path": "source/p10.webp",
@@ -1160,6 +1375,26 @@
     "sha256": "da6d8d1269258378b1375439a1aabc4c840a1463c2827f4803da8de938d5574a"
   },
   {
+    "path": "stage.css",
+    "size": 32570,
+    "sha256": "f4e3f751756bb7b0a9813300690d5664d8906377df1e46ef8327222cd1144058"
+  },
+  {
+    "path": "start.html",
+    "size": 7005,
+    "sha256": "2c30f920bfab030b384f6741252f85550ad4b03c30a13a0fa54bef2b757edd4a"
+  },
+  {
+    "path": "student-guide.css",
+    "size": 7635,
+    "sha256": "7ae3ddbe67c105b91268caf2fa4f912079c2878f4a3026c28518cdcdd1b60bb6"
+  },
+  {
+    "path": "student-guide.js",
+    "size": 2406,
+    "sha256": "4d9ac0b51f750b56175340a2df5b52f85f5f8618aadf1d5afa61dc15eeccf4d7"
+  },
+  {
     "path": "student.html",
     "size": 442,
     "sha256": "8203ddd29e26dea90739768947a7c05a44bed91f3175bf17cf3dc47163cb288b"
@@ -1171,13 +1406,13 @@
   },
   {
     "path": "teacher-notes.html",
-    "size": 1146,
-    "sha256": "f75559535505f41758bef992214a953be7d8f7775b8e010501c921cc5ab3dd92"
+    "size": 2423,
+    "sha256": "2c3f2e2ca2e8e3a8c054130bdc12c21e38eb1fd1fde2a95aab5cd973f78282f7"
   },
   {
     "path": "teacher-notes.js",
-    "size": 861,
-    "sha256": "33039ce64de72568705ab01b48a0f2476058061f7707b7bc03982a6f12fc7185"
+    "size": 3428,
+    "sha256": "c438f93dace7914aabf47d413257b3883e8e37747300a77a1488ed9f87bd107e"
   },
   {
     "path": "teacher.html",
