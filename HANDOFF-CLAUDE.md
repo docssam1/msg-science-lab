@@ -44,3 +44,9 @@
 - **채점** `daily-grading.js`: 확인된 정답과 같으면 ○, 원문 어휘(P1 부분 이름 6개·4번 그림 기호 ㄱㄴㄷ)의 다른 답이면 ×, 그 밖의 글자 답은 '검토 필요'(추측하지 않음). 2차시 9–11번은 항상 '검토 필요' — 점수·분모·진단에서 제외. 12번 그래프는 점을 찍은 뒤에만. 결과마다 `answerKey: 'dt-2026-09-26'`(remedy-bank의 ANSWER_KEY)와 원래 답을 저장해 정답표가 고쳐지면 다시 채점할 수 있다(`results`, `grading-log`).
 - **첨삭·진단·처방** (`remedy-bank.js` 자료는 코디네이터 작성, 도우미 `firstAttemptRecord`·`bankRecord`만 추가): 첫 시도 오답 → 오개념 기록(`remedy-log`). 틀린 카드 = 오개념 되묻기 → '해설 보기'에 why + 바로잡기(fix) + 관련 실험 쪽. 진단 카드 = 의심/확정/해소 + 근거 문항. 확정되면 '처방 문제 풀기'(말풍선 단추로도) — 첫 오답은 되묻기만, 풀이 보기는 한 번 푼 뒤, 첫 시도만 기록, 두 개 맞히면 해소.
 - 테스트: `tests/daily-remedy.test.mjs`(4) 추가 → `npm test` 27/27. Edge용 `tests/student-guide-browser.mjs`를 새 도구 줄·채점에 맞게 고쳤고 Chromium으로 통과.
+
+## main 반영 (2026-09-26, 원장 승인)
+- `claude/jolly-allen-w57yqh` → main. 이 브랜치는 review 스냅샷에서 출발해 main과 이력이 이어져 있지 않았다(스냅샷이 main 내용을 모두 포함함을 파일별로 확인). `git merge -s ours --allow-unrelated-histories origin/main`으로 main 이력을 부모로 남기고 내용은 브랜치 그대로 올렸다(b408dac).
+- 배포(`.github/workflows/pages.yml`)는 공개 후 `tests/two-lesson/file-manifest.json`의 해시로 검증한다 — **sample-v2 파일을 바꾸면 이 목록도 다시 만들 것**(안 그러면 배포는 되지만 검증이 빨간불). 이번에 291개로 갱신.
+- Pages에 `promo/msg-physics`(영상 페이지·영상·포스터·자막)도 올린다. 공개 주소: https://docssam1.github.io/msg-science-lab/promo/msg-physics/msg-physics-promo.html
+
