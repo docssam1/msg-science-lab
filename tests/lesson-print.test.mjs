@@ -1,5 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
+import {existsSync} from 'node:fs';
 import {studentPrintPages,studentCover} from '../sample-v2/lesson-print-pages.js';
 import {q1,q2,history1,history2,history3,coilHistory,future} from '../sample-v2/content.js';
 import {qrForPage} from '../sample-v2/qr-map.js';
@@ -51,4 +52,17 @@ test('reading spreads retain every source sentence and open the intended existin
   assert.match(qrForPage(page),new RegExp(`activity=${video}$`));
   assert.doesNotMatch(visible,/본책 13쪽|본책 14쪽/);
  }
+});
+
+test('watch photo is real and all future concept images are disclosed',()=>{
+ const watch=studentPrintPages[8].body,futurePage=studentPrintPages[9].body;
+ assert.match(watch,/watch-mainspring-real\.jpg/);
+ assert.match(watch,/실제 시계 태엽 사진/);
+ for(const name of ['future-microcoil-concept.png','future-4d-printing-concept.png','future-2d-material-concept.png']){
+  assert.match(futurePage,new RegExp(name.replaceAll('.','\\.')));
+  assert.ok(existsSync(new URL(`../sample-v2/art/${name}`,import.meta.url)),name);
+ }
+ assert.match(futurePage,/가상 실사/);
+ assert.match(futurePage,/실제 장치나 실험 결과 사진이 아닙니다/);
+ assert.ok(existsSync(new URL('../sample-v2/photos/watch-mainspring-real.jpg',import.meta.url)));
 });

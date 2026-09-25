@@ -1,6 +1,6 @@
-# P3–P5 예시 사진 출처
+# 실사 사진과 미래 개념 이미지 출처
 
-이 사진은 다섯 생활 물건의 모양을 살펴보는 예시입니다. 앱의 N 값은 사진 속 물건의 실측값이 아닌 가상 탐구 설정입니다. 원본 사진 파일을 약 700px 미리보기 크기로 저장했으며 이미지 자체를 합성하지 않았습니다.
+생활 물건과 저울 사진은 모양을 살펴보는 예시입니다. 앱의 N 값은 사진 속 물건의 실측값이 아닌 가상 탐구 설정입니다. 생활 물건 사진은 미리보기 크기로 저장했고, 시계 태엽 사진은 원본 해상도로 사용합니다. 실사 사진 자체를 합성하지 않았습니다.
 
 | 파일 | 촬영자 | 원본 | 라이선스 |
 | --- | --- | --- | --- |
@@ -17,5 +17,8 @@
 | `pogo.jpg` | Srd2005 | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Pogo_Stick.jpg) | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) |
 | `trampoline.jpg` | Ludraman | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Hometrampoline.jpg) | Public domain |
 | `trap.jpg` | Jeremy Noble | [Wikimedia Commons](https://commons.wikimedia.org/wiki/File:Mousetrap_(81577985).jpg) | [CC BY 2.0](https://creativecommons.org/licenses/by/2.0/) |
+| `watch-mainspring-real.jpg` | Hustvedt | [Wikimedia Commons · Watch automatic mainspring](https://commons.wikimedia.org/wiki/File:Watch_automatic_mainspring.jpg) | [CC BY-SA 3.0](https://creativecommons.org/licenses/by-sa/3.0/) |
+
+11쪽의 `future-microcoil-concept.png`, `future-4d-printing-concept.png`, `future-2d-material-concept.png`는 ImageGen으로 만든 **가상 실사 이미지**입니다. 극소 코일, 자극에 따라 모양이 변하는 인쇄 구조, 얇은 재료의 활용을 설명하기 위한 시각화이며 실제 장치·실험 사진이나 특정 연구 성과의 증거가 아닙니다. 사용한 제작 지시는 `sample-v2/art/FUTURE-IMAGE-PROMPTS.md`에 기록합니다.
 
 출처 화면에는 이 문서의 촬영자·원본·라이선스를 함께 표시해야 합니다. CC BY-SA 사진을 편집하거나 다른 형식으로 재배포할 때는 해당 라이선스의 조건을 확인합니다.
