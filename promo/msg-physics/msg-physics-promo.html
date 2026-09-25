@@ -24,18 +24,32 @@
   .tabs{display:flex;gap:8px;margin:0 0 12px}
   .tabs button{border:1px solid var(--line);background:#fff;color:var(--muted);border-radius:999px;padding:9px 16px;font:inherit;font-weight:800;font-size:15px;cursor:pointer}
   .tabs button[aria-pressed=true]{background:var(--green);border-color:var(--green);color:#fff}
-  .actions{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:20px}
+  .enter-h{margin:30px 0 12px;font-size:22px;letter-spacing:-.03em}
+  .enter-h small{margin-left:8px;color:var(--muted);font-size:15px;font-weight:600}
+  .enter{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+  .card{position:relative;display:flex;flex-direction:column;gap:10px;min-height:230px;padding:22px 20px 20px;border:1px solid var(--line);border-radius:20px;background:linear-gradient(180deg,#fff,#f4f9f5);color:var(--ink);text-decoration:none;box-shadow:0 8px 22px rgba(29,77,51,.08);transition:transform .18s,box-shadow .18s,border-color .18s}
+  .card:hover,.card:focus-visible{transform:translateY(-3px);border-color:#b9d4c1;box-shadow:0 16px 34px rgba(29,77,51,.16);outline:none}
+  .card .ico{display:grid;place-items:center;width:52px;height:52px;border-radius:15px;background:linear-gradient(135deg,var(--green2),var(--green));color:#fff}
+  .card .ico svg{width:28px;height:28px}
+  .card.c2 .ico{background:linear-gradient(135deg,#f5a14b,var(--orange))}
+  .card.c3 .ico{background:linear-gradient(135deg,#3b6fb8,#23498a)}
+  .card.c4 .ico{background:linear-gradient(135deg,#6c7a72,#3e4a43)}
+  .card b{font-size:20px;letter-spacing:-.03em}
+  .card p{margin:0;color:var(--muted);font-size:15px;line-height:1.6;flex:1}
+  .card .go{display:inline-flex;align-items:center;justify-content:center;min-height:44px;border-radius:12px;background:var(--green);color:#fff;font-weight:900;font-size:15px}
+  .card.c2 .go{background:var(--orange)}.card.c3 .go{background:#23498a}.card.c4 .go{background:#3e4a43}
+  .card .pair{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+  .card .pair a{display:flex;align-items:center;justify-content:center;min-height:44px;border-radius:12px;background:#3e4a43;color:#fff;font-weight:900;font-size:14px;text-decoration:none}
+  .card .pair a:hover{background:#2c3530}
   .button{display:flex;min-height:62px;align-items:center;justify-content:center;border:0;border-radius:17px;padding:0 18px;text-align:center;text-decoration:none;font:inherit;font-weight:900;font-size:17px;cursor:pointer}
-  .video-button{background:var(--ink);color:#fff}
-  .try{background:var(--orange);color:#fff}
-  .book{background:var(--green);color:#fff}
   .note{margin-top:18px;padding:20px 22px;border:1px solid var(--line);border-radius:18px;background:#fff;color:var(--muted);line-height:1.7}
   .note strong{color:var(--ink)}
   .points{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-top:18px}
   .points div{padding:16px 18px;border:1px solid var(--line);border-radius:16px;background:#fff;line-height:1.55;color:var(--muted);font-size:15px}
   .points b{display:block;color:var(--green);font-size:16px;margin-bottom:4px}
-  @media(max-width:900px){.points{grid-template-columns:1fr 1fr}}
-  @media(max-width:760px){main{margin-top:18px}.actions{grid-template-columns:1fr}.button{min-height:56px}.play-cover span{font-size:17px}.points{grid-template-columns:1fr}.top img{width:64px}}
+  @media(max-width:1000px){.enter{grid-template-columns:1fr 1fr}.points{grid-template-columns:1fr 1fr}}
+  @media(max-width:560px){.enter{grid-template-columns:1fr}.card{min-height:0}}
+  @media(max-width:760px){main{margin-top:18px}.play-cover span{font-size:17px}.points{grid-template-columns:1fr}.top img{width:64px}}
 </style>
 <main>
   <div class="top">
@@ -57,10 +71,32 @@
       <span>▶ 영상으로 보기</span>
     </button>
   </div>
-  <div class="actions">
-    <button class="button video-button" id="playButton" type="button">▶ 영상으로 보기</button>
-    <a class="button try" href="../../sample-v2/start.html" target="_blank" rel="noopener">직접 체험해 보기</a>
-    <a class="button book" href="../../sample-v2/book.html?page=1" target="_blank" rel="noopener">살아있는 책 펼쳐 보기</a>
+  <h2 class="enter-h">바로 들어가 보기 <small>한 교재로 네 가지 수업</small></h2>
+  <div class="enter">
+    <a class="card c1" href="../../sample-v2/book.html?page=0" target="_blank" rel="noopener">
+      <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M2 5.5C4.5 4 8 4 12 6c4-2 7.5-2 10-.5V19c-2.5-1.5-6-1.5-10 .5-4-2-7.5-2-10-.5z"/><path d="M12 6v13.5"/></svg></span>
+      <b>살아 움직이는 교재</b>
+      <p>종이 교재를 펼치듯 넘기다가, 필요한 곳에서 3D 실험과 영상이 바로 열려요.</p>
+      <span class="go">책 펼치기 →</span>
+    </a>
+    <a class="card c2" href="../../sample-v2/student.html?page=0" target="_blank" rel="noopener">
+      <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1.5-4 4.5-6 8-6s6.5 2 8 6"/></svg></span>
+      <b>스스로 학습</b>
+      <p>우루사쌤이 한 단계씩 안내해요. 예상하고, 재 보고, 기록하고, 데일리 테스트로 확인해요.</p>
+      <span class="go">학생 화면 열기 →</span>
+    </a>
+    <a class="card c3" href="../../sample-v2/teacher.html?page=0" target="_blank" rel="noopener">
+      <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M8 20h8M12 16v4"/></svg></span>
+      <b>가르치기</b>
+      <p>전자칠판에 띄우는 강의용 교안. 정답 공개, 교사 노트, 두 팀 배틀까지.</p>
+      <span class="go">교안 열기 →</span>
+    </a>
+    <div class="card c4">
+      <span class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9V3h12v6"/><rect x="3" y="9" width="18" height="8" rx="2"/><path d="M7 14h10v7H7z"/></svg></span>
+      <b>인쇄하기</b>
+      <p>화면에서 배운 그대로 A4 교재로. 학생용 교재와 교사용 교안을 PDF로 받아요.</p>
+      <div class="pair"><a href="../../sample-v2/print/student.pdf" target="_blank" rel="noopener">학생용 PDF</a><a href="../../sample-v2/print/teacher.pdf" target="_blank" rel="noopener">교사용 PDF</a></div>
+    </div>
   </div>
   <div class="points">
     <div><b>예습 → 본수업</b>교재를 한 번 읽어 오고, 수업에서 함께 고민하고 직접 해 봐요.</div>
@@ -75,7 +111,6 @@
   const cover=document.getElementById('playCover');
   const play=()=>{cover.hidden=true;video.scrollIntoView({behavior:'smooth',block:'center'});video.play();};
   cover.addEventListener('click',play);
-  document.getElementById('playButton').addEventListener('click',play);
   video.addEventListener('play',()=>cover.hidden=true);
   // 소개 영상 ↔ 쇼릴
   document.querySelectorAll('.tabs button').forEach((b)=>b.addEventListener('click',()=>{
