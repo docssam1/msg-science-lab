@@ -45,6 +45,7 @@ try{
  assert.equal(await page.locator('#guide-action').getAttribute('data-guide-action'),'activity');
  assert.equal(await page.locator('#guide-action').getAttribute('data-guide-kind'),'parts');
  assert.match(await page.locator('#coach-copy').innerText(),/실험/);
+ assert.match(await page.locator('#coach-copy').innerText(),/영점조절나사/);
  assert((await page.locator('.guide-target').count())>0);
  await page.screenshot({path:join(out,'student-experiment-cue-1366.png')});
 
