@@ -1,7 +1,8 @@
 // 가상 시계 녹화 — 소프트웨어 렌더링(느린 컴퓨터)에서도 끊김 없는 30fps.
 // 페이지의 시간(requestAnimationFrame·setTimeout·setInterval·performance.now·Date·CSS 애니메이션)을
 // 우리가 1/30초씩 직접 넘기고, 넘길 때마다 한 장씩 찍는다. 실제로 몇 초가 걸리든 영상은 매끈하다.
-// 사용: await vtake(browser, { url, seconds, setup, script: async (p, at) => {...}, css, out, width, height })
+// 사용: await vtake(browser, { url, seconds, setup, script: async (p, at) => {...}, css, out, width, height, dpr })
+//   dpr: 2면 두 배 해상도로 찍는다(나중에 일부를 크게 확대할 컷).
 //   at(초): 가상 시계가 그 시각이 될 때까지 프레임을 찍으며 진행. script 안에서는 at()만 쓴다(실시간 대기 금지).
 import { spawnSync } from 'node:child_process';
 import { mkdirSync, rmSync, writeFileSync } from 'node:fs';
@@ -36,9 +37,9 @@ const SHIM = `(() => {
   };
 })();`;
 
-export async function vtake(browser, { url, seconds, setup, script, css = '', out, width = 1920, height = 1080, fps = 30, warm = 1800 }) {
+export async function vtake(browser, { url, seconds, setup, script, css = '', out, width = 1920, height = 1080, fps = 30, warm = 1800, dpr = 1 }) {
   const dir = out + '.frames'; rmSync(dir, { recursive: true, force: true }); mkdirSync(dir, { recursive: true });
-  const ctx = await browser.newContext({ viewport: { width, height }, deviceScaleFactor: 1 });
+  const ctx = await browser.newContext({ viewport: { width, height }, deviceScaleFactor: dpr });
   await ctx.addInitScript(SHIM);
   const page = await ctx.newPage(); const errs = [];
   page.on('pageerror', (e) => errs.push(e.message));
@@ -57,7 +58,7 @@ export async function vtake(browser, { url, seconds, setup, script, css = '', ou
   if (script) await script(page, at).catch((e) => errs.push('script: ' + e.message));
   await at(seconds);
   await ctx.close();
-  const r = spawnSync('ffmpeg', ['-v', 'error', '-y', '-framerate', String(fps), '-i', join(dir, '%05d.jpg'), '-vf', `scale=${width}:${height}:flags=lanczos,format=yuv420p`, '-c:v', 'libx264', '-crf', '16', '-preset', 'medium', out], { encoding: 'utf8' });
+  const r = spawnSync('ffmpeg', ['-v', 'error', '-y', '-framerate', String(fps), '-i', join(dir, '%05d.jpg'), '-vf', `scale=${width * dpr}:${height * dpr}:flags=lanczos,format=yuv420p`, '-c:v', 'libx264', '-crf', '16', '-preset', 'medium', out], { encoding: 'utf8' });
   if (r.status) errs.push('ffmpeg: ' + r.stderr);
   rmSync(dir, { recursive: true, force: true });
   return { frames: n, errs };

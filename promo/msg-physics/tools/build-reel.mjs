@@ -19,6 +19,8 @@ const ff = (a) => { const r = spawnSync('ffmpeg', ['-v', 'error', '-y', ...a], {
 const FULL3D = `.activity,#activity,.workspace,.book-pane{transform:none!important;filter:none!important;contain:none!important}
 #activity .scene{position:fixed!important;inset:0!important;width:100vw!important;height:100vh!important;max-width:none!important;max-height:none!important;z-index:99999!important;border-radius:0!important;margin:0!important}
 #activity .scene canvas{width:100%!important;height:100%!important}#activity .scene .scene-tag,#activity .scene .scene-hint{display:none!important}`;
+// 교구의 물체는 click이 아니라 포인터/키로 매단다 — Enter 키로 누른다(드래그 없이 매달기와 같은 경로)
+const hang = (p, sel, text) => p.evaluate(([sel, text]) => { const e = [...document.querySelectorAll(sel)].find((x) => !text || x.textContent.replace(/\s+/g, ' ').includes(text)); if (!e) return false; e.focus(); e.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true })); return true; }, [sel, text]);
 const click = (p, sel, text) => p.evaluate(([sel, text]) => { const e = [...document.querySelectorAll(sel)].find((x) => !text || x.textContent.replace(/\s+/g, ' ').includes(text)); e?.click(); return !!e; }, [sel, text]);
 const range = (p, v, sel = '#activity input[type=range]') => p.evaluate(([v, sel]) => { const r = document.querySelector(sel); if (!r) return; r.value = String(+r.min + (+r.max - +r.min) * v); r.dispatchEvent(new Event('input', { bubbles: true })); r.dispatchEvent(new Event('change', { bubbles: true })); }, [v, sel]);
 const open = async (p) => { await p.click('#guide-action'); await p.waitForTimeout(2600); };
@@ -32,10 +34,10 @@ const cuts = [
     script: async (p, at) => { for (let k = 0; k <= 36; k++) { await at(0.2 + k * 0.055); await range(p, k / 36); } await at(3.0); await click(p, '#activity button', '힘을 놓기'); },
     lines: [[0.15, 'k', '실제 구동 · 탄성'], [0.35, 'h', '당기면<br><em>늘어나고</em>'], [2.9, 's', '놓으면 원래 모양으로 돌아와요']] },
   { id: 'zero', kind: '3d', dur: 5.2, num: '02', kicker: '용수철저울', url: 'student.html?page=5', setup: predict,
-    script: async (p, at) => { await at(0.4); await click(p, '[data-confirm-empty]'); await at(1.4); await click(p, '#activity .weight-item', '사과 한 개'); },
+    script: async (p, at) => { await at(0.4); await click(p, '[data-confirm-empty]'); await at(1.4); await hang(p, '#activity .weight-item', '사과 한 개'); },
     lines: [[0.15, 'k', '영점부터'], [0.5, 'h', '매달고,<br>기다리고,<br><em>읽는다</em>']] },
   { id: 'measure', kind: '3d', dur: 5.0, num: '03', kicker: '추의 무게와 늘어난 길이', url: 'student.html?page=15', setup: open,
-    script: async (p, at) => { for (const [i, g] of ['10 g', '20 g', '30 g'].entries()) { await at(0.3 + i * 1.5); if (i) await click(p, '#activity button', '물체 빼기'); await click(p, '#activity .weight-item', g); } },
+    script: async (p, at) => { for (const [i, g] of ['10 g', '20 g', '30 g'].entries()) { await at(0.3 + i * 1.5); if (i) await click(p, '#activity button', '물체 빼기'); await hang(p, '#activity .weight-item', g); } },
     lines: [[0.15, 'k', '추 10 · 20 · 30 g'], [0.4, 'h', '하나씩 더하면<br><em>3 · 6 · 9 cm</em>']] },
   { id: 'eye', kind: '3d', dur: 4.6, num: '04', kicker: '시선과 눈금', url: 'student.html?page=6', setup: open,
     script: async (p, at) => { for (const [i, v] of ['위에서', '같은 높이', '아래에서', '같은 높이'].entries()) { await at(0.3 + i * 1.05); await click(p, '#activity button', v); } },
@@ -44,8 +46,10 @@ const cuts = [
     script: async (p, at) => { for (let k = 0; k <= 30; k++) { await at(0.2 + k * 0.06); await range(p, k / 30); } await at(2.8); await click(p, '#activity button', '힘을 없애기'); },
     lines: [[0.15, 'k', '누르는 힘'], [0.4, 'h', '누르면<br><em>짧아져요</em>']] },
   { id: 'error', kind: 'ui', dur: 5.4, num: '06', kicker: '스스로 점검', url: 'student.html?page=5', setup: predict,
-    script: async (p, at) => { await at(0.5); await click(p, '#activity .weight-item', '신발 한 짝'); },
-    lines: [[0.3, 'h', '실수하면 답 대신 <em>질문</em>으로']], vo: ['method-error', 0.6] },
+    script: async (p, at) => { await at(0.5); await hang(p, '#activity .weight-item', '신발 한 짝'); await at(0.9); await p.evaluate(() => document.querySelector('#activity [data-method-review]')?.closest('.lab-controls, .feedback, div')?.scrollIntoView({ block: 'center' })); },
+    lines: [[0.3, 'h', '실수하면 답 대신 <em>질문</em>으로']], vo: ['method-error', 0.6], zoom: [0.68, 0.5, 1.45, 1.2, 2.4],
+    // 오류가 난 뒤에만 경고 상자에 주황 빛 테두리(쇼릴에서 눈이 가도록 — 앱 자체는 그대로)
+    css: `#activity .lab-controls:has([data-method-review]:not([hidden])) [data-inquiry-feedback]{position:relative;z-index:2;box-shadow:0 0 0 3px #ff8a3d,0 0 30px 8px rgba(255,138,61,.5)!important;animation:reelGlow 1.1s ease-in-out infinite alternate}@keyframes reelGlow{from{box-shadow:0 0 0 3px #ff8a3d,0 0 14px 2px rgba(255,138,61,.35)}to{box-shadow:0 0 0 3px #ff8a3d,0 0 34px 10px rgba(255,138,61,.6)}}` },
   { id: 'graph', kind: 'ui', dur: 4.6, num: '07', kicker: '표에서 그래프로', url: 'student.html?page=16', setup: open,
     script: async (p, at) => { for (const [i, [g, c]] of [[10, 3], [20, 6], [30, 9]].entries()) { await at(0.4 + i * 1.2); await p.evaluate(([g, c]) => { const [a, b] = document.querySelectorAll('#activity input[type=number]'); if (a) { a.value = g; a.dispatchEvent(new Event('input', { bubbles: true })); } if (b) { b.value = c; b.dispatchEvent(new Event('input', { bubbles: true })); } }, [g, c]); await click(p, '#activity button', '점 찍기'); } },
     lines: [[0.3, 'h', '숫자가 점이 되고, <em>관계가 보여요</em>']] },
@@ -94,7 +98,7 @@ for (const c of cuts) {
     const take = join(d, 'take.mp4');
     if (retake || !existsSync(take)) {
       const t0 = Date.now(); const is3d = c.kind === '3d';
-      const opts = { url: APP + c.url, seconds: c.dur + 0.3, setup: c.setup, script: c.script, out: take, css: is3d ? FULL3D : '', width: is3d ? 960 : 1920, height: 1080 };
+      const opts = { url: APP + c.url, seconds: c.dur + 0.3, setup: c.setup, script: c.script, out: take, css: is3d ? FULL3D : (c.css || ''), width: is3d ? 960 : 1920, height: 1080, dpr: c.zoom ? 2 : 1 };
       const r = c.real ? await recordTake(b, { ...opts, width: 1920, height: 1080 }) : await vtake(b, opts);
       console.log(`  녹화 ${c.id}: ${r.frames}장 · ${((Date.now() - t0) / 1000).toFixed(0)}초`, r.errs?.length ? r.errs : '');
     }
@@ -111,7 +115,10 @@ for (const c of cuts) {
     let fc;
     if (c.kind === '3d') fc = `[1:v]scale=960:1080,setpts=PTS-STARTPTS[tk];[0:v][tk]overlay=0:0[b0]`;
     // 화면 녹화 컷: 천천히 다가가는 카메라 + 아래 그라데이션·자막
-    else fc = `[1:v]scale=2016:1134,zoompan=z='1+0.06*on/(${c.dur}*30)':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=1:s=1920x1080:fps=30[tk];[tk][0:v]overlay=0:0[b0]`;
+    else if (!c.zoom) fc = `[1:v]scale=2016:1134,zoompan=z='1+0.06*on/(${c.dur}*30)':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=1:s=1920x1080:fps=30[tk];[tk][0:v]overlay=0:0[b0]`;
+    // zoom: [가로 비율, 세로 비율, 배율, 시작 초, 끝 초] — 그 지점으로 부드럽게 다가간다(2배 해상도 녹화라 글자가 선명)
+    else { const [cx, cy, Z, t0, t1] = c.zoom, e = `(clip((on/30-${t0})/${t1 - t0},0,1)*clip((on/30-${t0})/${t1 - t0},0,1)*(3-2*clip((on/30-${t0})/${t1 - t0},0,1)))`;
+      fc = `[1:v]scale=4032:2268,zoompan=z='1+0.04*on/(${c.dur}*30)+${Z - 1}*${e}':x='clip(iw/2+(${cx}-0.5)*iw*${e}-iw/zoom/2,0,iw-iw/zoom)':y='clip(ih/2+(${cy}-0.5)*ih*${e}-ih/zoom/2,0,ih-ih/zoom)':d=1:s=1920x1080:fps=30[tk];[tk][0:v]overlay=0:0[b0]`; }
     let last = 'b0';
     pngs.forEach(([, t0], i) => { fc += `;[${i + 2}:v]format=rgba,fade=t=in:st=${t0}:d=0.35:alpha=1[t${i}];[${last}][t${i}]overlay=${ovX(t0)}[o${i}]`; last = `o${i}`; });
     ff([...ins, '-filter_complex', fc + `;[${last}]format=yuv420p[vo]`, '-map', '[vo]', '-t', String(c.dur), '-r', '30', '-c:v', 'libx264', '-crf', '17', out]);
