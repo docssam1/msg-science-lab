@@ -1,33 +1,25 @@
-# MSG Science Lab — 1·2차시 수업 샘플
+# MSG 초·과·심 물리 1·2차시
 
-본문 원본: 《초과심_물리》 printed pp.10–21. 18쪽으로 재편집, 원본 평가 6+12문항.
+구현 기준: `docs/lesson-framework/README.md`, `WORK-HANDOFF-v2.md`.
 
-`index.html`을 HTTP 서버에서 엽니다. `print/student.pdf`, `print/teacher.pdf`는 같은 지면의 인쇄본입니다.
+`npm start` 후 `/sample-v2/index.html`을 열어 `스스로 공부하기`, `가르치기`, `살아있는 책`을 선택합니다. 세 화면은 같은 P0–P20 학생 지면을 사용하며, 인쇄 메뉴는 학생용 A4 21면 또는 학생 지면과 교사 노트를 짝지은 강사용 A4 41면을 만듭니다. 원본 Daily Test의 두 열 배치와 문항별 간격을 살리기 위해 분할했던 시험 지면을 합쳤습니다. 교사 공개 기록은 학생 기록과 분리됩니다.
 
-StPageFlip 2.0.7, Three.js 0.184.0과 OrbitControls(MIT)는 vendor에 버전 고정하여 포함했습니다. 라이선스 원문도 동봉했습니다.
+## 자료와 출처
 
-## 실제 영상
-- HowaWatchWork1949.ogv: Handy(Jam) Organization / Hamilton Watch Company, Prelinger Archives, Public Domain. 5:42–6:21 및 11:20–11:47 발췌, 원음 제거. 원본 400×300 역사영상. https://commons.wikimedia.org/wiki/File:HowaWatchWork1949.ogv
-- Hookeslawexample.ogv: Walter Lewin / MIT8.01, CC BY3.0. 0:29–0:43 발췌, 원음 제거, 출력규격 패딩. https://commons.wikimedia.org/wiki/File:Hookeslawexample.ogv / https://creativecommons.org/licenses/by/3.0/
-이 관찰영상은 본책의 특정 실험 수치를 검증하는 영상이 아닙니다.
+- P0는 사용자 제공 《초과심_물리》 원본 PDF의 앞표지를 오른쪽 표지 영역에서 추출한 파일입니다. 출처 PDF SHA-256: `b2187a8cdcb37da707177b722d856ceaf91b60f334c8fce5b0abc9d721f32b6f`. 추출 파일 `art/original-physics-cover.png` SHA-256: `8eb5c279b41bf583bf7dfaee9f5d396183f58986ee8d5d52095fbfa95cbc0373` (대소문자 무관). 원본 PDF 전체는 이 폴더에 복사하지 않았습니다.
+- 본책 10–21쪽의 원문은 기존 `content.js`와 `source/` 대조 화면에 보존됩니다. 학생 지면은 짧은 발문과 실험 중심으로 재편집했습니다. 원본 일일평가 1차시 6문항과 2차시 12문항은 한 번씩 실었습니다.
+- P3–P5·P7·P18의 추가 사진과 P9의 실제 시계 태엽 사진은 `photos/CREDITS.md`에 촬영자, 원본, 라이선스를 적었습니다. 사진 속 물건의 실제 무게와 앱의 가상 측정값은 다릅니다. P18 완력기는 구조 개념 도해입니다.
+- 기존 `media/` 시계 기록영상 및 용수철 관찰영상과 기존 OmniVoice MP3를 재사용합니다. 영상 원본과 이용 조건은 앱의 자료 출처 화면에 표시됩니다. 승인된 `art/expressions/` 표정만 사용합니다. 음성이 없는 문장은 자막으로 남고 브라우저 기기 TTS로 대체되지 않습니다.
+- 인쇄 9–11쪽(P8–P10)의 읽을거리는 원문 문장을 유지하면서 두 열, 큰 핵심 낱말, 세로 제목, 둥근 테두리로 재편집했습니다. 10쪽 태엽은 실제 시계 속 태엽 사진을 사용했습니다. 11쪽 극소 코일·4D 프린팅·2D 재료는 ImageGen으로 만든 가상 실사이며 실제 연구 사진이 아니라고 지면에 명시했습니다. 제작 지시는 `art/FUTURE-IMAGE-PROMPTS.md`에 기록했습니다. 세 쪽의 영상 미리보기와 QR은 기존 영상으로 연결되며, 11쪽 영상은 미래 기술 시연이 아닌 현재 용수철의 운동 관찰입니다.
 
-## 음성
-18개 장면 도입 해설은 선생님 참조 녹음으로 생성한 OmniVoice 합성입니다. audio/narration-manifest.json에 대사/생성엔진/길이를 기록했습니다. 전체 본문 읽기와 즉석 멘트는 브라우저 기기 한국어 음성이며 UI에서 구분합니다. 원본 참조 녹음은 포함하지 않습니다.
+## 학습 동작
 
-## 출처와 검수
-원본 그림/표/문항 대조는 source/의 해당 쪽에서 가능합니다. source-coverage.json을 참조하세요. 역사/미래 원문과 편집 보완 설명을 분리했습니다. 학생 답안은 기기 내 저장만 사용합니다.
+- P5에서는 물체를 거는 순간 빈 저울의 기준 확인을 검사합니다. 실패 시 힘을 적용하지 않고 지정한 중립 경고를 먼저 보여 줍니다. 자기 점검, 조절, 확인, 재시도 사건을 로컬에 기록합니다.
+- 스스로 공부하기는 예상 → 조작 → 기록 → 피드백 → 재확인을 학생이 직접 진행합니다. 처음 예상과 기록을 보존합니다.
+- 가르치기는 질문을 먼저 투사하고 교사가 자료와 정답을 별도로 공개합니다. 교사 노트는 별도 창에서 현재 쪽을 따라갑니다.
+- 살아있는 책은 읽던 지면을 유지한 채 옆에서 실험·영상·큰 글씨 읽기를 열고 닫습니다.
+- 본문 실험 A는 `10/20/30 g → 3/6/9 cm`, 평가 12번 B는 `10/20/30 g → 4/8/12 cm`이며 저장 키도 분리됩니다.
 
-## 한계
-실물 전자칠판에서의 동시 멀티터치는 별도 확인이 필요합니다. 실험은 이상적 교육 모형입니다. 모든 제품의 실제 내부 구조를 재현한 3D 모델은 아니며, 도구 원리는 개념 도해로 구분합니다.
+## 검수 경계
 
-
-## Inquiry / QR update
-Two authored introduction pages precede the unchanged 18 textbook-based pages (20 printed pages total). Each page has a tested deep-link QR. Prediction and method validity are assessed independently: no preparatory zero verdict, generic method-error feedback only after a submitted faulty measurement, correction and final explanation. New inquiry narration uses explicitly labelled device speech; existing18OmniVoiceclips are unchanged.
-
-
-## Five familiar objects
-Replaces anonymous pouches and the 2+3 split with one ordering of five familiar items: one shoe, one apple, two mandarins as one bundle, one phone and a filled pencil case. Detailed vector illustrations and individual 3D models share one transparent carrier. A smooth object-closeup button allows inspection without changing its load. Similar virtual loads use a dedicated 0–5 N scale with 0.1 N graduations; original 30 N textbook activities are unchanged. No weights or calibration verdict precede measurement. The new storage key preserves older inquiry records. Both 20-page QR editions regenerated. These are designed model weights, not empirically measured consumer products.
-
-
-## Framed guide editions
-Restyled from the original lete-on science-lab book CSS: chapter bands, double frames, ribbons, green concept boxes, navy observation panels, yellow cautions and red teacher annotations. Dedicated student.html, teacher.html and book.html entries share the same original20contentpages. Student PDF22pages (cover/navigation+20); instructor PDF27pages (cover/navigation+2lesson plans+2existing-note pages+21content sheets, one dense question section split rather than reduced type). Student routing never inherits instructor key visibility. Instructor projected pages initially conceal keys; explicit reveal opens annotated reading. Existing18questions, source text, five-object inquiry, delayed method feedback, QRtargets, media and physics are unchanged.
+실제 검수 결과와 남은 판단은 `docs/lesson-framework/DESIGN-QA.md`에 기록합니다. 본문 p17의 반비례 표현, 평가 9–11번 해설, 정확한 대상 학년과 도구 사용 지도 조건은 검토 보류입니다. QR 그림 20개는 현재 쪽별 주소와 일치하지만 공개 사이트는 이전 버전이며 새 교재 파일이 아직 없습니다. 검토본에는 `공개 전 QR`로 표시했습니다. 검수 완료 전 `main` 병합·배포 금지입니다.

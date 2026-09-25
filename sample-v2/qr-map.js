@@ -29,7 +29,7 @@ export const qrById={
   },
   "l1-past": {
     "url": "https://docssam1.github.io/msg-science-lab/sample-v2/?s=l1-past&lab=1",
-    "action": "history"
+    "action": "watch"
   },
   "l1-watch": {
     "url": "https://docssam1.github.io/msg-science-lab/sample-v2/?s=l1-watch&lab=1",
@@ -37,7 +37,7 @@ export const qrById={
   },
   "l1-future": {
     "url": "https://docssam1.github.io/msg-science-lab/sample-v2/?s=l1-future&lab=1",
-    "action": "future"
+    "action": "spring-film"
   },
   "l1-test-a": {
     "url": "https://docssam1.github.io/msg-science-lab/sample-v2/?s=l1-test-a&lab=1",
@@ -80,3 +80,10 @@ export const qrById={
     "action": "assessment-graph"
   }
 };
+
+// Page-specific links keep repeated source scenes on the printed page scanned.
+export function qrForPage(page){
+ const number=Number(page.printId?.slice(1));
+ if(!Number.isInteger(number)||number<1||number>20)throw new Error('Invalid lesson QR page');
+ return `https://docssam1.github.io/msg-science-lab/sample-v2/index.html?edition=student&page=${number}&activity=${encodeURIComponent(page.action||'source')}`;
+}

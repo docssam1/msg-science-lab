@@ -9,7 +9,21 @@ export function springArt({mode='pull',large=false}={}){
  const heights=mode==='compress'?[178,135,92]:[100,148,192];
  return svg('0 0 680 350',`<defs><linearGradient id="steel" x1="0" x2="1"><stop stop-color="#677784"/><stop offset=".48" stop-color="#dce8eb"/><stop offset="1" stop-color="#4b6274"/></linearGradient></defs>`+heights.map((h,i)=>`<g transform="translate(${60+i*222} 20)"><path d="M-5 0H155" stroke="#163955" stroke-width="9"/><path d="${coil(43,12,62,h)}" stroke="url(#steel)" stroke-width="6" stroke-linejoin="round" fill="none"/><path d="M74 ${h+12}v15" stroke="#486475" stroke-width="5"/>${i?(mode==='compress'?`<path d="M74 ${h+42+i*22}v${-i*22}" stroke="#da6548" stroke-width="5"/><path d="M62 ${h+54}l12-13 12 13" stroke="#da6548" stroke-width="5" fill="none"/>`:`<path d="M74 ${h+33}v${i*20}" stroke="#da6548" stroke-width="5"/><path d="M62 ${h+23+i*20}l12 13 12-13" stroke="#da6548" stroke-width="5" fill="none"/>`):''}<text x="74" y="313" text-anchor="middle" font-size="19" fill="#173955">${['힘을 주기 전','작은 힘','큰 힘'][i]}</text></g>`).join(''),mode==='compress'?'누르는 힘에 따른 용수철 길이 비교':'잡아당기는 힘에 따른 용수철 길이 비교');
 }
-export function scaleArt({force=12,labels=true}={}){
+export function springActionArt(action='pull'){
+ const height={pull:202,compress:104,release:149}[action]??149;
+ const arrow=action==='pull'
+  ?'<path d="M204 110v110m-11-13 11 16 11-16" stroke="#c36645" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" fill="none"/>'
+  :action==='compress'
+   ?'<path d="M204 225V123m-11 15 11-16 11 16" stroke="#c36645" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" fill="none"/>'
+   :'<path d="M202 215q31-40 0-83m-11 12 11-14 11 14" stroke="#2a8066" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" fill="none"/>';
+ return svg('35 0 200 340',`<path d="M38 34h140" stroke="#173e55" stroke-width="9" stroke-linecap="round"/><path d="M108 39v18" stroke="#506e7b" stroke-width="5"/><path d="${coil(73,59,70,height,11)}" stroke="#637f8a" stroke-width="6" stroke-linejoin="round" fill="none"/><path d="M108 ${height+60}v20" stroke="#506e7b" stroke-width="5"/><path d="M86 ${height+81}h44" stroke="#173e55" stroke-width="8" stroke-linecap="round"/>${arrow}`,{'pull':'용수철 아래를 당겨 길어지는 모습','compress':'용수철 아래를 위로 밀어 짧아지는 모습','release':'힘을 놓아 원래 길이로 돌아오는 모습'}[action]);
+}
+export function factorArt(factor='material'){
+ const config=factor==='diameter'?[[42,55,35,5,'#607d8b'],[158,55,68,5,'#607d8b']]:factor==='wire'?[[42,55,51,3,'#607d8b'],[158,55,51,8,'#607d8b']]:[[42,55,51,5,'#607d8b'],[158,55,51,5,'#b37b52']];
+ const body=config.map(([x,y,w,stroke,color])=>`<path d="M${x} 36h${w+24}" stroke="#173e55" stroke-width="7" stroke-linecap="round"/><path d="${coil(x+11,y,w,182,10)}" stroke="${color}" stroke-width="${stroke}" stroke-linejoin="round" fill="none"/><path d="M${x+w/2+11} 245v17" stroke="#506e7b" stroke-width="4"/>`).join('');
+ return svg('25 0 220 285',body,{'material':'같은 크기와 모양의 다른 재질 용수철 두 개','wire':'같은 재질과 지름의 가는 철사와 굵은 철사 용수철','diameter':'같은 재질과 철사 굵기의 좁은 코일과 넓은 코일'}[factor]);
+}
+export function scaleArt({force=12,labels=true,showWeight=true}={}){
  const py=219+force*5.9;
  const names=[['손잡이',440,50,328,55],['영점조절나사',440,115,322,125],['용수철',48,214,302,194],['표시자',440,py,321,py],['눈금',440,430,360,419],['고리',60,560,317,py+225]];
  return svg('0 0 680 720',`<defs><linearGradient id="case" x1="0" x2="1"><stop stop-color="#234d67"/><stop offset=".26" stop-color="#80a5b6"/><stop offset=".52" stop-color="#f0f6f8"/><stop offset="1" stop-color="#375f78"/></linearGradient><linearGradient id="wire" x1="0" x2="1"><stop stop-color="#405f6e"/><stop offset=".5" stop-color="#d8e6ec"/><stop offset="1" stop-color="#234656"/></linearGradient></defs>
@@ -22,7 +36,7 @@ export function scaleArt({force=12,labels=true}={}){
  <text x="353" y="190" font-size="24" fill="#183b52">N</text>
  <path d="M308 ${py+5}v197q0 27 17 21t-2-23" fill="none" stroke="#436477" stroke-width="8"/>
  <path d="M284 ${py+4}h78" stroke="#db694a" stroke-width="8"/>
- <g transform="translate(288 ${py+228})"><path d="M20 0v14" stroke="#456173" stroke-width="5"/><path d="M0 18q20-10 41 0v58q-20 9-41 0z" fill="#bf955d"/><ellipse cx="20" cy="18" rx="21" ry="7" fill="#e3c59b"/><text x="20" y="54" text-anchor="middle" fill="#fff" font-size="14">${force} N</text></g>
+ ${showWeight?`<g transform="translate(288 ${py+228})"><path d="M20 0v14" stroke="#456173" stroke-width="5"/><path d="M0 18q20-10 41 0v58q-20 9-41 0z" fill="#bf955d"/><ellipse cx="20" cy="18" rx="21" ry="7" fill="#e3c59b"/><text x="20" y="54" text-anchor="middle" fill="#fff" font-size="14">${force} N</text></g>`:''}
  ${labels?names.map(([n,x,y,px,py])=>`<g><path d="M${px} ${py}L${x<100?x+133:x-12} ${y}" stroke="#7695a6" stroke-width="1.8"/><circle cx="${px}" cy="${py}" r="4" fill="#da6548"/><text x="${x}" y="${y+6}" fill="#173955" font-weight="700" font-size="21">${n}</text></g>`).join(''):''}`,'용수철저울의 여섯 부분과 표시자의 윗부분');
 }
 export function eyeArt(){return svg('0 0 700 370',`<rect x="435" y="25" width="84" height="300" rx="12" fill="#e5eff2"/>${Array.from({length:16},(_,i)=>`<path d="M448 ${45+i*17}h${i%5===0?55:32}" stroke="#466779" stroke-width="2"/>`).join('')}<path d="M369 183H484" stroke="#dd694d" stroke-width="10"/><text x="335" y="215" font-size="17" fill="#9d4433">표시자 윗부분</text>${[76,178,284].map((y,i)=>`<path d="M173 ${y}L389 178L480 ${178+(178-y)*91/216}" fill="none" stroke="${i===1?'#177c76':'#cb9b63'}" stroke-width="2.5" stroke-dasharray="8 6"/><g transform="translate(155 ${y})"><path d="M-23 0Q0-25 23 0Q0 25-23 0" fill="#fff" stroke="#1e4056" stroke-width="3"/><circle r="7" fill="#173955"/></g><text x="30" y="${y+5}" font-size="18" fill="#173955">${['① 위','② 수평','③ 아래'][i]}</text>`).join('')}`,'같은 표시자를 위·같은 높이·아래에서 바라볼 때의 시선');}

@@ -76,7 +76,7 @@ export const q1=[
 export const q2=[
 {id:'b1',n:1,kind:'pair',q:'다음 제시된 내용을 읽고 문장에 맞도록 ○표를 하시오.',passage:'한 개의 용수철에 여러 가지 물체를 매달았을 때 물체의 무게가 무거울수록 용수철이 ㉠(조금, 많이) 늘어나고 물체의 무게가 가벼울수록 용수철이 ㉡(조금, 많이) 늘어납니다.',answer:['많이','조금'],concept:'extend',why:'같은 용수철에서는 무거운 물체일수록 더 많이 늘어납니다.'},
 {id:'b2',n:2,kind:'choice',q:'용수철저울에 물체를 매달았을 때 용수철의 상태를 올바르게 예측한 것을 고르시오.',options:['아무 변화가 없다.','용수철의 길이가 줄어든다.','용수철의 길이가 늘어난다.','용수철의 굵기가 굵어진다.','용수철의 굵기가 가늘어진다.'],answer:2,concept:'extend',why:'물체를 매달면 용수철의 길이가 늘어납니다.'},
-{id:'b3',n:3,kind:'choice',q:'다음 중 물체의 무게와 용수철의 늘어난 길이 사이의 관계를 바르게 나타낸 그래프를 고르시오.',graphic:'choices',options:['①','②','③','④'],answer:2,concept:'graph',why:'늘어난 길이는 추를 매달지 않았을 때 0이고, 같은 용수철에서 무게에 비례합니다. 원점을 지나는 증가 그래프 ③입니다.'},
+{id:'b3',n:3,kind:'choice',q:'다음 중 물체의 무게와 용수철이 늘어난 길이 사이의 관계를 바르게 나타낸 그래프를 고르시오.',graphic:'choices',options:['①','②','③','④'],answer:2,concept:'graph',why:'늘어난 길이는 추를 매달지 않았을 때 0이고, 같은 용수철에서 무게에 비례합니다. 원점을 지나는 증가 그래프 ③입니다.'},
 {id:'b4',n:4,kind:'choice',q:'힘을 주어 늘어나게 하거나 줄어들게 하여도 힘이 사라지면 원래의 모양으로 되돌아가려는 성질이 가장 강한 것은 어느 것인지 고르시오.',options:['실','철사','용수철','색종이','고무 찰흙'],answer:2,concept:'elastic',why:'보기 중 탄성을 나타내는 대표적인 물체는 용수철입니다.'},
 {id:'b5',n:5,kind:'choice',q:'다음 문장에 맞는 표현에 ○표를 하시오.',passage:'물체에 준 힘을 제거하면 원래 모양으로 되돌아가는 성질을 (탄성, 소성)이라고 한다.',options:['탄성','소성'],answer:0,concept:'elastic',why:'힘을 없애면 원래 모양으로 돌아가려는 성질은 탄성입니다.'},
 {id:'b6',n:6,kind:'choice',q:'다음 문장에 맞는 표현에 ○표를 하시오.',passage:'용수철에 매단 추의 개수가 증가하면 용수철 길이는 (일정하게, 불규칙하게) 늘어난다.',options:['일정하게','불규칙하게'],answer:0,concept:'extend',why:'무게가 같은 추를 하나씩 더 매다는 본문의 조건에서는 일정하게 늘어납니다.'},
@@ -88,11 +88,13 @@ export const q2=[
 {id:'b12',n:12,kind:'graph',q:'다음 표는 용수철에 매단 추의 무게에 따라 늘어난 용수철의 길이를 측정한 결과이다. 이 결과 표를 이용해 다음 그래프를 완성하시오.',answer:[[10,4],[20,8],[30,12]],concept:'graph',why:'(10,4), (20,8), (30,12)를 표시합니다. 본문 실험의 3·6·9 cm가 아니라 이 문항의 4·8·12 cm를 사용해야 합니다.'}
 ];
 export function questionHTML(q,{print=false}={}){
- const prefix=`<div class="question" data-q="${q.id}"><header><span>${String(q.n).padStart(2,'0')}</span><p>${q.q}</p></header>`;
- let b=q.passage?`<div class="given">${q.passage}</div>`:'';
+ const inlineOptions=print&&q.kind==='choice'&&q.passage&&q.options&&q.passage.includes(`(${q.options.join(', ')})`);
+ const prefix=`<div class="question" data-q="${q.id}"><header><span>${String(q.n).padStart(2,'0')}</span>${inlineOptions?'':`<p>${q.q}</p>`}</header>`;
+ const passage=inlineOptions?q.passage.replace(`(${q.options.join(', ')})`,`(${q.options.map((option,i)=>`<label class="inline-test-option"><input type="radio" name="${q.id}" value="${i}" data-answer-field>${option}</label>`).join(', ')})`):q.passage;
+ let b=passage?`<div class="given">${passage}</div>`:'';
  if(q.image)b+=`<img class="q-image ${q.kind==='parts'?'parts':''}" src="./art/${q.image}" alt="${q.id==='a1'?'ㄱ·ㄴ·ㄷ·ㄹ을 표시한 원본 용수철저울 그림':'ㄱ·ㄴ·ㄷ의 눈높이를 표시한 원본 그림'}">`;
  if(q.graphic)b+=art(graphChoices(),'q-graphs');
- if(q.kind==='choice')b+=`<div class="q-options">${q.options.map((t,i)=>`<label><input type="radio" name="${q.id}" value="${i}" data-answer-field><span>${q.graphic?'':`<i>${'①②③④⑤'[i]}</i>`}${t}</span></label>`).join('')}</div>`;
+ if(q.kind==='choice'&&!inlineOptions)b+=`<div class="q-options">${q.options.map((t,i)=>`<label><input type="radio" name="${q.id}" value="${i}" data-answer-field><span>${q.graphic?'':`<i>${'①②③④⑤'[i]}</i>`}${t}</span></label>`).join('')}</div>`;
  if(q.kind==='text')b+=`<label class="short-answer">답 <input name="${q.id}" data-answer-field autocomplete="off" maxlength="40"></label>`;
  if(q.kind==='parts')b+=`<div class="parts-answers">${['ㄱ','ㄴ','ㄷ','ㄹ'].map((v,i)=>`<label>${v}<input name="${q.id}-${i}" data-answer-field autocomplete="off" maxlength="20"></label>`).join('')}</div>`;
  if(q.kind==='pair')b+=`<div class="pair-answers">${['㉠','㉡'].map((v,i)=>`<label>${v}<select name="${q.id}-${i}" data-answer-field><option value="">선택</option><option>조금</option><option>많이</option></select></label>`).join('')}</div>`;
@@ -144,7 +146,8 @@ page('l2-test-graph',2,[21],'DAILY TEST · 일일평가','이번에는 다른 �
 
 export const lessonNames={1:'용수철저울의 구조 익히기',2:'추의 무게에 따른 용수철의 길이 변화'};
 export const questions=[...q1,...q2];
-export const gradeGroups={'1a':q1.slice(0,3),'1b':q1.slice(3),'2a':q2.slice(0,4),'2b':q2.slice(4,11)};
+export {history1,history2,history3,coilHistory,future};
+export const gradeGroups={'1a':q1.slice(0,3),'1b':q1.slice(3),'2a':q2.slice(0,4),'2b':q2.slice(4,8)};
 pages.forEach((p,i)=>p.layoutIndex=i);
 pages.unshift(...inquiryPages);
 export const narration=Object.fromEntries(pages.map(p=>[p.id,{id:p.id,text:({

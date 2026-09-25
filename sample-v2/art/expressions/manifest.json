@@ -1,0 +1,85 @@
+{
+  "source": "assets/teacher-approved-sheet.png",
+  "policy": "Cropped approved expressions; no generated face, mouth, eye overlay or facial compositing",
+  "expressions": {
+    "listen": {
+      "path": "./art/expressions/listen.png",
+      "crop": [
+        475,
+        79,
+        814,
+        497
+      ],
+      "canvas": [
+        480,
+        520
+      ]
+    },
+    "explain": {
+      "path": "./art/expressions/explain.png",
+      "crop": [
+        821,
+        79,
+        1161,
+        497
+      ],
+      "canvas": [
+        480,
+        520
+      ]
+    },
+    "think": {
+      "path": "./art/expressions/think.png",
+      "crop": [
+        1166,
+        79,
+        1525,
+        497
+      ],
+      "canvas": [
+        480,
+        520
+      ]
+    },
+    "surprise": {
+      "path": "./art/expressions/surprise.png",
+      "crop": [
+        475,
+        517,
+        816,
+        940
+      ],
+      "canvas": [
+        480,
+        520
+      ]
+    },
+    "praise": {
+      "path": "./art/expressions/praise.png",
+      "crop": [
+        826,
+        520,
+        1165,
+        941
+      ],
+      "canvas": [
+        480,
+        520
+      ]
+    },
+    "encourage": {
+      "path": "./art/expressions/encourage.png",
+      "crop": [
+        1173,
+        517,
+        1523,
+        940
+      ],
+      "canvas": [
+        480,
+        520
+      ]
+    }
+  },
+  "source_sha256": "430e545e4c9c1e49ad3a418d4928f37a8008e04b1bb5d0fd5e88c7a6c992ae7e"
+}

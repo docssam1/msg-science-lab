@@ -1,0 +1,356 @@
+@media print {
+  #print-root .paper {padding:12mm;overflow:hidden;}
+  #print-root .paper .page-body {font-size:12pt;line-height:1.5;}
+  #print-root .paper .page-heading h1 {font-size:26pt;line-height:1.2;}
+  #print-root .paper .page-body h2 {font-size:15pt;line-height:1.35;margin:9mm 0 4mm;}
+  #print-root .prediction-slots {display:grid;grid-template-columns:repeat(5,1fr);gap:3mm;margin:10mm 0;}
+  #print-root .prediction-slots div {border:1px solid #526570;height:20mm;padding:2mm;text-align:center;}
+  #print-root [data-print-id="P5"] .inquiry-log td,
+  #print-root [data-print-id="P5"] .inquiry-log th {height:12mm!important;}
+  #print-root .original-cover {padding:0;border:0;}
+}
+.original-cover{padding:0!important;background:white;overflow:hidden}
+.original-cover img{width:100%;height:100%;object-fit:contain;display:block}
+.lesson-hero{margin:12px auto;text-align:center;max-width:90%;height:550px;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.lesson-hero img{max-height:520px;max-width:100%;object-fit:contain}
+.lesson-hero figcaption{font-size:13px;color:#5b6e77;text-align:center}
+.part-labels{text-align:center;font-size:20px;font-weight:700;line-height:2.1}
+.lesson-three,.lesson-six{display:grid;gap:16px;margin:18px 0}
+.lesson-three{grid-template-columns:repeat(3,1fr)}
+.lesson-six{grid-template-columns:repeat(3,1fr)}
+.lesson-three figure,.lesson-six figure,.factor-trio section{margin:0;padding:10px;text-align:center;border:1px solid #b6cad0;background:#f5f8f6}
+.lesson-three svg{width:100%;height:220px}
+.lesson-three figcaption,.lesson-six figcaption{text-align:center;font-size:17px;font-weight:700}
+.lesson-six svg{width:100%;height:135px}
+.lesson-six small{display:block;font-size:11px;line-height:1.4;font-weight:400}
+.lesson-large-art{height:420px;display:flex;justify-content:center;align-items:center}
+.lesson-large-art svg{height:100%;max-width:100%}
+.length-pair{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.length-pair section{padding:12px 18px;background:#eef5f4;border-top:3px solid #2a7777}
+.lesson-graph{height:385px;margin:10px auto;text-align:center}
+.lesson-graph svg{height:100%;max-width:100%}
+.extension{padding:10px 14px;background:#fff2d8;font-size:15px;line-height:1.5}
+@media print{#print-root .lesson-hero{height:140mm}#print-root .lesson-three svg{height:56mm}#print-root .lesson-six svg{height:32mm}#print-root .lesson-large-art{height:95mm}#print-root .lesson-graph{height:90mm}}
+#teach-overlay{position:absolute;inset:12px;z-index:30;background:#f8f6ee;border:3px solid #193a51;box-shadow:0 12px 40px #18344733;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:5vw;gap:22px}
+#teach-overlay[hidden]{display:none}
+#teach-overlay span{font-size:14px;letter-spacing:.18em;color:#277870;font-weight:800}
+#teach-overlay h2{font-size:clamp(30px,4vw,58px);line-height:1.3;color:#173955;max-width:900px}
+#teach-overlay button{font-size:20px;padding:14px 30px;border:0;background:#217870;color:white;border-radius:5px;cursor:pointer}
+.character-figure #teacher-expression{object-fit:contain;object-position:center bottom}
+@media print{#teach-overlay{display:none!important}}
+.self-flow{padding:26px;overflow:auto;width:100%;max-width:780px;margin:auto;font-size:17px;line-height:1.6}
+.self-flow small{color:#557780;font-weight:700}.self-flow h3{font-size:30px;margin:8px 0 12px;color:#173955}
+.self-steps{background:#eaf2ef;border-left:4px solid #247976;padding:9px 14px;margin:14px 0 24px;font-size:14px}
+.self-flow label{display:block;font-weight:700}.self-flow textarea{display:block;width:100%;font:inherit;margin:10px 0 14px;padding:12px;border:1px solid #9db8bb;border-radius:5px}
+.self-flow button{display:block;background:#227770;color:white;border:0;min-height:46px;padding:10px 18px;margin:12px 0;white-space:normal}
+.self-compare{display:grid;grid-template-columns:1fr 1fr;gap:15px}.self-compare section{background:#f4f7f4;border:1px solid #c9d9d7;padding:15px}
+@media(max-width:600px){.self-flow{padding:15px;font-size:15px}.self-compare{grid-template-columns:1fr}}
+.lesson-object-photos{gap:8px!important;align-items:stretch!important}
+.p3-objects .lesson-object-photos{display:grid;grid-template-columns:repeat(3,1fr);justify-items:stretch;margin:18px 0}
+.p3-objects .lesson-object-photos figure{max-width:none}
+.p3-objects .lesson-object-photos .object-photo{height:205px}
+.lesson-object-photos figure{min-width:0;display:flex;flex-direction:column;justify-content:end}
+.lesson-object-photos .object-photo{width:100%;height:142px;object-fit:contain;background:#f5f6f4}
+.object-photo{display:block;max-width:100%;object-fit:contain}
+.order-handle .object-photo{height:70px;width:100%}
+.inquiry-load .object-photo{width:100%;height:64px}
+.everyday-results .object-photo{width:100%;height:82px}
+@media print{#print-root .lesson-object-photos .object-photo{height:38mm}#print-root .p3-objects .lesson-object-photos .object-photo{height:48mm}}
+.p5-visual{display:grid;grid-template-columns:185px minmax(0,1fr);gap:12px;align-items:center}
+.p5-visual>figure{margin:0;text-align:center;font-size:13px}
+.p5-visual>figure svg{width:100%;height:300px}
+.p5-visual .lesson-object-photos{display:grid;grid-template-columns:repeat(3,1fr);gap:6px!important;margin:0}
+.p5-visual .lesson-object-photos figure{max-width:none}
+.p5-visual .lesson-object-photos .object-photo{height:85px}
+.p5-visual .lesson-object-photos figcaption{font-size:12px;line-height:1.25}
+@media print{#print-root .p5-visual>figure svg{height:58mm}#print-root .p5-visual .lesson-object-photos .object-photo{height:21mm}}
+#mobile-reader{display:none}
+@media(max-width:700px){
+ #book-transform{visibility:hidden}
+ #mobile-reader{display:block;position:absolute;inset:0;z-index:6;overflow:auto;background:#f5f5f1;padding:8px 8px 24px}
+ #mobile-reader .paper{width:100%;height:auto;min-height:0;padding:18px 18px 45px;font-size:16px;line-height:1.6;overflow:visible;box-shadow:0 2px 8px #18394e24}
+ #mobile-reader .paper:before{inset:3px;border-width:2px}
+ #mobile-reader .paper:after{inset:7px}
+ #mobile-reader .page-tab{display:none}
+ #mobile-reader .original-cover{padding:0;min-height:0;aspect-ratio:210/297}
+ #mobile-reader .page-top{font-size:10px;margin-bottom:13px}
+ #mobile-reader .page-heading h1{font-size:29px;line-height:1.25;letter-spacing:-1px}
+ #mobile-reader .page-lead{font-size:14px}
+ #mobile-reader .page-body{font-size:15px;zoom:1!important;width:100%!important}
+ #mobile-reader .page-body h2{font-size:18px}
+ #mobile-reader .page-foot{position:static;margin-top:24px}
+ #mobile-reader .lab-qr{transform:scale(.7);transform-origin:top right}
+ #mobile-reader .lesson-object-photos{display:grid;grid-template-columns:repeat(2,1fr)}
+ #mobile-reader .lesson-object-photos .object-photo{height:130px}
+ #mobile-reader .p5-visual{display:block}
+ #mobile-reader .p5-visual>figure svg{height:190px}
+ #mobile-reader .p5-visual .lesson-object-photos{grid-template-columns:repeat(2,1fr)}
+ #mobile-reader .lesson-three,#mobile-reader .lesson-six{grid-template-columns:1fr 1fr}
+ #mobile-reader .lesson-three svg{height:150px}
+ #mobile-reader .lesson-large-art{height:240px}
+ #mobile-reader .lesson-graph{height:250px}
+ #mobile-reader .test-grid{grid-template-columns:1fr}
+ #mobile-reader .source-test-columns{grid-template-columns:1fr;gap:12px}
+ #mobile-reader .source-test-list.test-column{min-height:0;gap:12px}
+ #mobile-reader .source-test-list .question[data-q="a1"]{display:block}
+ #mobile-reader .daily-test-banner{width:61%;height:42px;margin:0 0 17px;border-radius:11px;gap:5px}
+ #mobile-reader .daily-test-banner span{font-size:21px}
+ #mobile-reader .daily-test-banner small{font-size:8px}
+ #mobile-reader .question{font-size:15px}
+ #mobile-reader .page-launch{position:static;display:flex;flex-wrap:wrap}
+ #mobile-reader .page-body .page-action{display:none}
+ #mobile-reader .page-action{font-size:14px;white-space:normal}
+ #mobile-reader .book-table{font-size:12px}
+ #mobile-reader .book-table th,#mobile-reader .book-table td{min-width:0;padding:6px}
+}
+.teacher-note-paper section{border-top:2px solid #adcbc6;padding:16px 8px;margin:14px 0;font-size:18px;line-height:1.7}
+
+/* Supplied reading prose is printed on the student sheets, beside distinct diagrams. */
+.reading-page .page-heading{min-height:0;margin-bottom:9px;padding-bottom:8px}
+.reading-page .page-heading h1{font-size:30px;margin-bottom:2px}
+.reading-page .page-body{font-size:13px;line-height:1.48}
+.reading-page .page-body h2,.reading-page .page-body .reading-subtitle{font-size:16px;line-height:1.3;margin:10px 0 5px;text-align:left}
+.reading-page .original-reading{background:#f6f9f7;border-left:4px solid #497e65;padding:8px 11px;text-align:left;word-break:keep-all}
+.reading-page .original-reading p{margin:0 0 7px}
+.reading-page .original-reading p:last-child{margin-bottom:0}
+.reading-history-top{display:grid;grid-template-columns:175px 1fr;gap:13px;align-items:start}
+.reading-history-top figure,.reading-visual{margin:0}
+.reading-history-top img{width:100%;height:148px;object-fit:cover;object-position:top}
+.reading-history-top figcaption,.reading-visual figcaption{font-size:11px;line-height:1.35;color:#526b68;text-align:center}
+.reading-history-top section{font-size:12px;line-height:1.48;text-align:left}
+.reading-history-top section h2{margin-top:0!important}
+.reading-history-top section p{margin:0}
+.reading-diagram{display:block;width:100%;height:auto;max-height:245px}
+.future-diagram{max-height:165px}
+.archive-link{display:flex;align-items:center;gap:12px;padding:5px 10px;margin-top:5px;background:#fbf4e5;font-size:12px}
+.archive-link img{width:105px;height:60px;object-fit:cover}
+.reading-context{font-size:11px;color:#536b63;margin:7px 0}
+
+/* Original Daily Test: two columns on one page, with question starts spaced down each column. */
+.source-test .page-heading{min-height:0;height:0;padding:0;margin:0;border:0;overflow:hidden}
+.source-test .page-body{font-size:14px;line-height:1.45}
+.daily-test-banner{width:66%;height:49px;margin:0 auto 19px;border-radius:16px;background:#d7e5f6;color:#153e59;display:flex;justify-content:center;align-items:center;gap:13px}
+.daily-test-banner span{font-size:28px;font-weight:900;line-height:1}
+.daily-test-banner small{font-size:11px;font-weight:800;letter-spacing:.05em}
+.test-shared{font-size:12px;line-height:1.4;margin:0 0 6px;color:#214a64;text-align:left}
+.source-test-columns{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:20px;align-items:start}
+.source-test-list{display:flex;flex-direction:column;gap:13px}
+.source-test-list.test-column{min-height:760px;justify-content:space-between}
+.source-test-list .question{margin:0;padding:5px 2px 7px;border:0;border-bottom:1px solid #c4d4dc;border-radius:0;background:white;font-size:15px;line-height:1.43}
+.source-test-list .question header{display:block}
+.source-test-list .question header>span{display:block;background:none;color:#153e59;width:auto;height:auto;min-width:0;font-size:27px;line-height:1.15;margin:0 0 4px}
+.source-test-list .question header p{font-size:15px;line-height:1.43;margin:0 0 6px}
+.source-test-list .given{font-size:14px;line-height:1.5;padding:6px 8px;margin:5px 0}
+.source-test-list .inline-test-option{display:inline-flex;align-items:center;gap:3px;white-space:nowrap;cursor:pointer}
+.source-test-list .inline-test-option input{width:13px;height:13px;min-width:13px;margin:0;accent-color:#234b77}
+.source-test-list .q-options{font-size:14px;line-height:1.35;gap:2px}
+.source-test-list .q-image{max-height:170px;max-width:180px;float:none;display:block;margin:3px auto 7px}
+.source-test-list .q-image.parts{width:auto;height:170px;max-width:130px}
+.source-test-list .question[data-q="a1"]{display:grid;grid-template-columns:43% minmax(0,1fr);column-gap:5px;align-items:start}
+.source-test-list .question[data-q="a1"] header{grid-column:1/-1}
+.source-test-list .question[data-q="a1"] .q-image.parts{grid-column:1;grid-row:2;margin:0 auto}
+.source-test-list .question[data-q="a1"] .parts-answers{grid-column:2;grid-row:2;display:flex;flex-direction:column;gap:4px;margin:1px 0}
+.source-test-list .question[data-q="a1"] .teacher-answer,.source-test-list .question[data-q="a1"] .question-feedback{grid-column:1/-1}
+.source-test-list .parts-answers{display:grid;grid-template-columns:1fr 1fr;gap:3px 12px;margin:6px 0}
+.source-test-list .parts-answers label{gap:5px}
+.source-test-list .parts-answers input{width:100%;max-width:145px;height:24px;font-size:13px}
+.source-test-list .short-answer{margin:5px 0}
+.source-test-list .short-answer input{height:26px}
+.source-test-list .q-graphs{height:170px;margin:2px 0}
+.source-test-list .print-graph{height:290px}
+.source-test-list .book-table{font-size:11px;margin:5px 0}
+.source-test-list .book-table th,.source-test-list .book-table td{height:24px;padding:3px}
+.source-test-list .question[data-q="b12"]{margin-top:6px}
+@media print{
+ #print-root .reading-page .page-body{font-size:9.7pt;line-height:1.42}
+ #print-root .reading-page .page-body h2{font-size:12pt;margin:2mm 0 1mm}
+ #print-root .reading-history-top img{height:35mm}
+ #print-root .reading-diagram{max-height:53mm}
+ #print-root .future-diagram{max-height:41mm}
+ #print-root .source-test .page-body{font-size:11pt;line-height:1.42}
+ #print-root .daily-test-banner{height:12mm;margin-bottom:4mm}
+ #print-root .source-test-list.test-column{min-height:195mm}
+ #print-root .source-test-list .question header p{font-size:11pt}
+ #print-root .source-test-list .question{font-size:11pt}
+ #print-root .source-test-list .q-options{font-size:10pt}
+ /* The final six questions share one sheet; make the short prompts and graph
+    large enough to use that space while keeping the source's two columns. */
+ #print-root .paper[data-print-id="P20"] .source-test-list .question,
+ #print-root .paper[data-print-id="P20"] .source-test-list .question header p{font-size:13pt;line-height:1.48}
+ #print-root .paper[data-print-id="P20"] .source-test-list .given{font-size:12.5pt;line-height:1.55;padding:8px 10px}
+ #print-root .paper[data-print-id="P20"] .source-test-list .book-table{font-size:11pt}
+ #print-root .paper[data-print-id="P20"] .source-test-list .print-graph{height:335px}
+}
+.teacher-note-paper section h2{font-size:22px;color:#1b6866;margin:0 0 8px}
+.teacher-note-paper section p{margin:0;white-space:pre-wrap}
+.teacher-note-paper section li{padding:4px 0}
+@media print{#print-root[data-edition="teacher"] .teacher-note-paper{padding:15mm}#print-root[data-edition="teacher"] .teacher-note-paper .page-heading h1{font-size:27pt}#print-root[data-edition="teacher"] .teacher-note-paper section{font-size:13pt;padding:4mm 2mm;margin:3mm 0}#print-root[data-edition="teacher"] .teacher-note-paper section h2{font-size:16pt}}
+.lesson-four,.scale-photo-three,.future-visual{display:grid;gap:12px;margin:15px 0}
+.lesson-four{grid-template-columns:repeat(4,1fr)}
+.lesson-four figure{margin:0;padding:10px;border:1px solid #bfd1d0;text-align:center;background:#f7faf8}
+.lesson-four figure>b{display:block;color:#1a6c65}
+.lesson-four svg{width:100%;height:275px}
+.lesson-four figcaption{font-size:17px;font-weight:700;text-align:center}
+.scale-photo-three,.future-visual{grid-template-columns:repeat(3,1fr)}
+.scale-photo-three figure{margin:0;border:1px solid #bfd1d0;background:#f7faf8;text-align:center}
+.scale-photo-three img{width:100%;height:320px;object-fit:contain;background:#fff}
+.scale-photo-three figcaption{padding:8px}
+.scale-photo-three small{display:block;font-size:14px;line-height:1.4}
+.history-photos{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin:14px 0}
+.history-photos figure{margin:0;text-align:center}
+.history-photos img,.history-photos svg{width:100%;height:350px;object-fit:contain}
+.watch-hero img{max-width:100%;width:100%;height:430px;object-fit:contain}
+.future-visual section{text-align:center;padding:12px;border:1px solid #bfd1d0;background:#f7faf8}
+.future-visual svg{width:100%;height:300px}
+.future-visual h2{margin:8px 0;font-size:22px}
+.future-visual p{font-size:15px}
+.tool-photos img,.tool-photos svg{width:100%;height:150px;object-fit:contain}
+.short-check{text-align:center;padding:15px;background:#eff6ef;font-weight:700}
+@media print{#print-root .lesson-four svg{height:57mm}#print-root .scale-photo-three img{height:82mm}#print-root .history-photos img,#print-root .history-photos svg{height:90mm}#print-root .watch-hero img{height:105mm}#print-root .future-visual svg{height:65mm}#print-root .tool-photos img,#print-root .tool-photos svg{height:36mm}}
+@media print{#print-root [data-print-id="P20"] .print-graph{height:260px}}
+@media print{#print-root[data-edition="teacher"] .student-graphic{display:block!important}#print-root[data-edition="teacher"] .teacher-graphic{display:none!important}.teacher-note-graph{height:45mm;max-width:95mm;margin:3mm auto}.teacher-note-graph svg{height:100%;width:100%}}
+@media print{#print-root[data-edition="teacher"] .teacher-assessment-note{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);column-gap:5mm}#print-root[data-edition="teacher"] .teacher-assessment-note h2{grid-column:1/-1}#print-root[data-edition="teacher"] .teacher-assessment-note ol{grid-column:1;margin:0;padding-left:7mm}#print-root[data-edition="teacher"] .teacher-assessment-note .teacher-note-graph{grid-column:2;height:42mm;max-width:100%;margin:0}}
+.large-reading .page-body .page-action{display:none}
+.large-reading .page-launch{display:flex;position:static;justify-content:flex-start;margin-top:15px}
+
+/* Reading features: source prose remains complete, but gets a magazine reading rhythm. */
+.reading-page .page-heading{border-bottom:0;margin-bottom:12px;padding-bottom:0}
+.reading-page .page-heading h1{font-size:43px;line-height:1.1;letter-spacing:-1.6px;margin:2px 0 5px}
+.reading-page .page-lead{font-size:17px;margin:0;line-height:1.45;color:#496769}
+.reading-page .page-body{position:relative;padding-left:25px;font-size:15px;line-height:1.62;color:#233e41}
+.reading-page .story-vertical{position:absolute;left:0;top:8px;writing-mode:vertical-rl;font-size:11px;font-weight:850;letter-spacing:.24em;color:#2a7158;border-right:2px solid #b8d5c2;padding-right:6px}
+.reading-page .story-vertical span{font-size:19px;letter-spacing:0;margin-top:13px}
+.story-chapter{display:block;font-size:10px;font-weight:850;letter-spacing:.12em;color:#b35e37;margin-bottom:6px}
+.story-origin{display:grid;grid-template-columns:170px 1fr;gap:17px;padding:14px 17px;border:2px solid #75a68c;border-radius:23px 7px 23px 7px;background:#fafcf8}
+.story-origin figure{margin:0;align-self:start}
+.story-origin img{width:100%;height:144px;object-fit:cover;object-position:top;border-radius:15px 4px 15px 4px}
+.story-origin figcaption,.story-watch-hero figcaption,.story-future-hero figcaption{font-size:11px;line-height:1.35;color:#496767;text-align:left;margin-top:4px}
+.reading-page .story-origin h2{font-size:24px;line-height:1.19;margin:0 0 7px!important;color:#245d48}
+.story-origin h2 em{font-style:normal;color:#b45b35}
+.story-origin p{font-size:14px;line-height:1.48;margin:0!important}
+.story-section-title{display:flex;align-items:baseline;gap:12px;border-bottom:2px solid #276d53;margin:14px 0 8px;padding-bottom:5px}
+.story-section-title>span{font-size:11px;font-weight:900;letter-spacing:.08em;color:#b45b35;flex:none}
+.reading-page .story-section-title h2{font-size:22px;line-height:1.2;margin:0!important;color:#215a46}
+.story-section-title h2 strong{font-weight:900;color:#1d664e}
+.story-copy-columns{column-count:2;column-gap:23px;column-rule:1px solid #c9ddd3;font-size:16px;line-height:1.64;text-align:left;word-break:keep-all}
+.story-copy-block{break-inside:auto;page-break-inside:auto;margin:0 0 14px}
+.story-copy-block .story-chapter{margin:0 0 4px}
+.reading-page .story-copy-block p{margin:0!important;orphans:2;widows:2}
+.story-word{font-weight:900;font-size:1.12em;line-height:1.1;color:#145e46}
+.story-copy-block:first-child p:first-letter{font-size:1.55em;font-weight:900;color:#ba6038}
+.story-video{display:grid;grid-template-columns:78px 1fr 35px;gap:12px;align-items:center;border:1.5px solid #92b4a0;border-radius:18px 5px 18px 5px;padding:6px 11px;margin:11px 0 0;background:#f6f9f4;cursor:pointer}
+.story-video:hover,.story-video:focus-visible{background:#eaf3eb;border-color:#276d53}
+.story-video:focus-visible{outline:3px solid #dc975a;outline-offset:3px}
+.story-video img{width:78px;height:48px;object-fit:cover;border-radius:10px 2px 10px 2px}
+.story-video span{display:block;font-size:10px;letter-spacing:.1em;font-weight:850;color:#af603b}
+.story-video strong{display:block;font-size:16px;line-height:1.25;color:#205b45}
+.story-video small{display:block;font-size:10px;line-height:1.3;color:#607776}
+.story-video>b{display:grid;place-items:center;width:31px;height:31px;border-radius:50%;background:#206b50;color:white;font-size:13px}
+.story-watch-hero,.story-future-hero{border:2px solid #75a68c;border-radius:25px 6px 25px 6px;background:#f8fbf7;padding:10px 16px 8px}
+.story-watch-hero .reading-visual,.story-future-hero .reading-visual{margin:0}
+.story-watch-hero .watch-photo{display:block;width:100%;height:197px;object-fit:cover;object-position:center 49%;border-radius:17px 4px 17px 4px}
+.future-photo-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+.future-photo-grid figure{min-width:0;margin:0;background:#fff;border:1px solid #c6d8cf;border-radius:15px 4px 15px 4px;overflow:hidden}
+.future-photo-grid img{display:block;width:100%;height:136px;object-fit:cover}
+.future-photo-grid figcaption{display:flex;justify-content:space-between;align-items:baseline;gap:4px;padding:4px 7px!important;margin:0!important;white-space:nowrap}
+.future-photo-grid figcaption b{font-size:15px;color:#205b45}
+.future-photo-grid figcaption small{font-size:10px;color:#587069}
+.future-photo-note{font-size:11px;line-height:1.3;color:#4d6760;margin:6px 0 0!important}
+.story-context{font-size:11px;line-height:1.45;color:#526c69;border-top:1px solid #c9ddd3;padding-top:5px;margin:8px 0 0!important}
+.story-watch .story-copy-columns{font-size:17px;line-height:1.68;margin-top:12px}
+.story-future .story-copy-columns{font-size:16px;line-height:1.65}
+.story-observe{margin-top:21px;padding:12px 17px 16px;border:2px solid #8db4a1;border-radius:21px 5px 21px 5px;background:#fbfcf8}
+.story-observe span{display:block;color:#af603b;font-size:11px;font-weight:850;letter-spacing:.07em}
+.story-observe strong{display:block;color:#205b45;font-size:18px;line-height:1.3;margin:3px 0 6px}
+.story-observe i{display:block;height:18px;border-bottom:1px solid #a8c6b5}
+@media print{
+ #print-root .reading-page .page-heading h1{font-size:29pt}
+ #print-root .reading-page .page-body{font-size:11pt;line-height:1.55}
+ #print-root .story-copy-columns{font-size:11.4pt;line-height:1.57}
+ #print-root .story-watch .story-copy-columns{font-size:11.6pt;line-height:1.62}
+ #print-root .story-origin img{height:34mm}
+ #print-root .story-watch-hero .watch-photo{height:47mm}
+ #print-root .future-photo-grid img{height:32mm}
+}
+@media(max-width:700px){
+ #mobile-reader .reading-page .page-body{padding-left:18px;font-size:15px}
+ #mobile-reader .reading-page .story-vertical{font-size:9px;padding-right:5px}
+ #mobile-reader .story-origin{display:block;padding:13px}
+ #mobile-reader .story-origin figure{float:left;width:100px;margin:0 12px 7px 0}
+ #mobile-reader .story-origin img{height:112px}
+ #mobile-reader .story-origin h2{font-size:21px}
+ #mobile-reader .story-copy-columns{column-count:1;font-size:16px;line-height:1.68}
+ #mobile-reader .story-copy-block{margin-bottom:18px}
+ #mobile-reader .story-watch-hero .watch-photo{height:180px}
+ #mobile-reader .future-photo-grid{grid-template-columns:1fr}
+ #mobile-reader .future-photo-grid img{height:150px}
+ #mobile-reader .story-video{grid-template-columns:65px 1fr 29px;gap:8px}
+ #mobile-reader .story-video img{width:65px;height:47px}
+ #mobile-reader .story-video strong{font-size:14px}
+ #mobile-reader .story-video small{font-size:9px}
+}
+.factor-activity{padding:24px;overflow:auto;font-size:16px;line-height:1.6}
+.factor-activity h3{font-size:24px;margin:0 0 14px}
+.factor-tabs{display:flex;gap:8px;flex-wrap:wrap}
+.factor-tabs button[aria-pressed="true"]{background:#205c67;color:white}
+.factor-pair{display:grid;grid-template-columns:1fr 1fr;gap:14px;max-width:620px;margin:14px auto}
+.factor-pair figure{margin:0;padding:10px;border:1px solid #b7cece;text-align:center;background:#f5f8f6}
+.factor-pair svg{height:210px;max-width:100%}
+.factor-pair figcaption{font-weight:700}
+.factor-activity label{display:block;font-weight:700}
+.factor-activity textarea{display:block;width:100%;max-width:620px;margin:8px 0;padding:10px;font:inherit}
+@media(max-width:600px){.factor-activity{padding:14px;font-size:14px}.factor-pair svg{height:155px}}
+@media(max-width:700px){#mobile-reader .lesson-four{grid-template-columns:repeat(2,1fr)}#mobile-reader .lesson-four svg{height:145px}#mobile-reader .scale-photo-three{grid-template-columns:1fr}#mobile-reader .scale-photo-three img{height:220px}#mobile-reader .history-photos{grid-template-columns:1fr}#mobile-reader .history-photos img,#mobile-reader .history-photos svg{height:220px}#mobile-reader .future-visual{grid-template-columns:1fr}#mobile-reader .future-visual svg{height:160px}#mobile-reader .watch-hero img{height:220px}#mobile-reader .tool-photos img,#mobile-reader .tool-photos svg{height:110px}}
+
+/* Editorial rhythm shared by the observation pages, leaving the original tests untouched. */
+@media screen and (min-width:701px), print{
+ :is(#flipbook,#print-root,.large-reading) .paper.has-lab-qr:not(.reading-page):not(.source-test) .page-heading h1{font-size:42px;line-height:1.13;letter-spacing:-1.4px}
+ :is(#flipbook,#print-root,.large-reading) .paper.has-lab-qr:not(.reading-page):not(.source-test) .page-body h2{font-size:24px;line-height:1.28;font-weight:900;color:#205d47}
+ :is(#flipbook,#print-root,.large-reading) .paper.has-lab-qr:not(.reading-page):not(.source-test) .page-tab{font-size:12px;font-weight:850;border-radius:12px 0 0 12px;padding:14px 5px}
+ :is(#flipbook,#print-root,.large-reading) .paper.has-lab-qr:not(.reading-page):not(.source-test) :is(.lesson-hero,.lesson-four figure,.lesson-three figure,.lesson-six figure,.scale-photo-three figure,.factor-trio section,.eye-hero){border:2px solid #9bbdab;border-radius:23px 6px 23px 6px;background:#fbfcf9;overflow:hidden}
+ :is(#flipbook,#print-root,.large-reading) .paper.has-lab-qr:not(.reading-page):not(.source-test) :is(.lesson-four figcaption,.lesson-three figcaption,.lesson-six figcaption,.scale-photo-three figcaption){font-size:18px;font-weight:850;color:#225e49;line-height:1.3}
+ :is(#flipbook,#print-root,.large-reading) .paper.has-lab-qr:not(.reading-page):not(.source-test) .write-lines i{height:42px}
+ :is(#flipbook,#print-root,.large-reading) .paper[data-print-id="P1"] .lesson-hero{height:710px;max-width:100%;padding:18px}
+ :is(#flipbook,#print-root,.large-reading) .paper[data-print-id="P1"] .lesson-hero svg{height:620px;width:100%;max-width:100%}
+ :is(#flipbook,#print-root,.large-reading) .paper[data-print-id="P1"] .part-labels{font-size:22px;line-height:1.5;margin-top:11px;color:#205d47}
+ :is(#flipbook,#print-root,.large-reading) .paper[data-print-id="P2"] .lesson-four svg{height:490px}
+ :is(#flipbook,#print-root,.large-reading) .paper[data-print-id="P2"] .lesson-four figure{padding:18px 8px}
+ :is(#flipbook,#print-root,.large-reading) .paper[data-print-id="P2"] .short-check{font-size:22px;padding:21px;border:2px solid #a7c6b2;border-radius:20px 5px 20px 5px;margin-top:24px}
+ :is(#flipbook,#print-root,.large-reading) .paper[data-print-id="P3"] .lesson-object-photos .object-photo{height:244px}
+ :is(#flipbook,#print-root,.large-reading) .paper[data-print-id="P4"] .lesson-object-photos .object-photo{height:190px}
+ :is(#flipbook,#print-root,.large-reading) .paper[data-print-id="P5"] .write-lines i{height:33px}
+ :is(#flipbook,#print-root,.large-reading) .paper[data-print-id="P5"] .p5-visual>figure svg{height:51mm}
+ :is(#flipbook,#print-root,.large-reading) .paper[data-print-id="P5"] .lesson-object-photos .object-photo{height:19mm}
+ :is(#flipbook,#print-root,.large-reading) .paper[data-print-id="P3"] .lesson-object-photos figure,:is(#flipbook,#print-root,.large-reading) .paper[data-print-id="P4"] .lesson-object-photos figure{border:1.5px solid #9bbdab;border-radius:18px 5px 18px 5px;overflow:hidden;background:#fbfcf9}
+ :is(#flipbook,#print-root,.large-reading) .paper[data-print-id="P3"] .lesson-object-photos figcaption,:is(#flipbook,#print-root,.large-reading) .paper[data-print-id="P4"] .lesson-object-photos figcaption{font-size:16px;font-weight:850;color:#205d47}
+ :is(#flipbook,#print-root,.large-reading) .paper[data-print-id="P7"] .scale-photo-three{grid-template-columns:.9fr 1.1fr;grid-template-rows:repeat(2,minmax(0,1fr));height:700px}
+ :is(#flipbook,#print-root,.large-reading) .paper[data-print-id="P7"] .scale-photo-three figure:first-child{grid-row:1/3}
+ :is(#flipbook,#print-root,.large-reading) .paper[data-print-id="P7"] .scale-photo-three figure:first-child img{height:596px}
+ :is(#flipbook,#print-root,.large-reading) .paper[data-print-id="P7"] .scale-photo-three figure:not(:first-child) img{height:254px}
+ :is(#flipbook,#print-root,.large-reading) .paper[data-print-id="P7"] .scale-photo-three figcaption{padding:14px 8px}
+ :is(#flipbook,#print-root,.large-reading) .paper[data-print-id="P12"] .lesson-three svg{height:440px}
+ :is(#flipbook,#print-root,.large-reading) .paper[data-print-id="P13"] .lesson-large-art{height:450px}
+ :is(#flipbook,#print-root,.large-reading) .paper[data-print-id="P14"] .lesson-large-art{height:440px}
+ :is(#flipbook,#print-root,.large-reading) .paper[data-print-id="P15"] .lesson-three svg{height:400px}
+ :is(#flipbook,#print-root,.large-reading) .paper[data-print-id="P16"] .lesson-graph{height:535px}
+ :is(#flipbook,#print-root,.large-reading) .paper[data-print-id="P17"] .lesson-three svg{height:340px}
+ :is(#flipbook,#print-root,.large-reading) .paper[data-print-id="P18"] .tool-photos img,:is(#flipbook,#print-root,.large-reading) .paper[data-print-id="P18"] .tool-photos svg{height:245px}
+}
+@media screen and (max-width:700px){
+ #mobile-reader .paper.has-lab-qr:not(.reading-page):not(.source-test) .page-body h2{font-size:21px;line-height:1.3;font-weight:900;color:#205d47}
+ #mobile-reader .paper.has-lab-qr:not(.reading-page):not(.source-test) :is(.lesson-hero,.lesson-four figure,.lesson-three figure,.lesson-six figure,.scale-photo-three figure,.factor-trio section){border:1.5px solid #9bbdab;border-radius:18px 5px 18px 5px;background:#fbfcf9;overflow:hidden}
+ #mobile-reader .paper[data-print-id="P1"] .lesson-hero{height:380px;max-width:100%;padding:8px}
+ #mobile-reader .paper[data-print-id="P1"] .lesson-hero svg{width:100%;height:340px}
+ #mobile-reader .paper[data-print-id="P1"] .part-labels{font-size:16px;line-height:1.5;color:#205d47}
+ #mobile-reader .paper[data-print-id="P2"] .lesson-four svg{height:250px}
+ #mobile-reader .paper[data-print-id="P12"] .lesson-three,#mobile-reader .paper[data-print-id="P17"] .factor-trio{grid-template-columns:1fr}
+ #mobile-reader .paper[data-print-id="P12"] .lesson-three svg{height:250px}
+ #mobile-reader .paper[data-print-id="P17"] .factor-trio svg{height:200px}
+}
+@media screen and (min-width:701px){
+ :is(#flipbook,.large-reading) .paper[data-print-id="P20"] .source-test-list .question,
+ :is(#flipbook,.large-reading) .paper[data-print-id="P20"] .source-test-list .question header p{font-size:18px;line-height:1.48}
+ :is(#flipbook,.large-reading) .paper[data-print-id="P20"] .source-test-list .given{font-size:17px;line-height:1.55;padding:8px 10px}
+ :is(#flipbook,.large-reading) .paper[data-print-id="P20"] .source-test-list .book-table{font-size:15px}
+ :is(#flipbook,.large-reading) .paper[data-print-id="P20"] .source-test-list .print-graph{height:335px}
+}
