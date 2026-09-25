@@ -1,4 +1,4 @@
-// 초·과·심 LIVE 쇼릴 — node promo/msg-physics/tools/build-reel.mjs [--retake] [--only id,id]
+// 초·과·심 LIVE 쇼릴 — node promo/msg-physics/tools/build-reel.mjs [--retake] [--only id,id] [--assemble]
 // 전제: 저장소 루트에서 python3 -m http.server 8790
 // 실제 앱을 가상 시계로 한 장씩 찍어(vtake) 끊김 없는 30fps 컷을 만들고, 큰 자막·브랜드 카드·음악·우루사쌤 목소리로 편집한다.
 import { chromium } from '/opt/node22/lib/node_modules/playwright/index.mjs';
@@ -11,7 +11,7 @@ import { recordTake } from './take.mjs';
 
 const HERE = dirname(fileURLToPath(import.meta.url)), OUT = join(HERE, '..'), W = join(OUT, 'work', 'reel');
 const ROOT = 'http://127.0.0.1:8790/', APP = ROOT + 'sample-v2/', VO = join(HERE, '../../../sample-v2/audio');
-const args = process.argv.slice(2), retake = args.includes('--retake'), only = args.includes('--only') ? args[args.indexOf('--only') + 1].split(',') : [];
+const args = process.argv.slice(2), retake = args.includes('--retake'), assemble = args.includes('--assemble'), only = args.includes('--only') ? args[args.indexOf('--only') + 1].split(',') : [];
 mkdirSync(W, { recursive: true });
 const ff = (a) => { const r = spawnSync('ffmpeg', ['-v', 'error', '-y', ...a], { encoding: 'utf8', maxBuffer: 1 << 26 }); if (r.status) throw new Error(r.stderr.slice(-3000)); };
 
@@ -65,7 +65,7 @@ const cuts = [
       await at(0.5); await p.evaluate(() => document.querySelector('#guide-action')?.click());
       await at(2.8); await p.evaluate(() => document.querySelector('.dt-card.wrong summary')?.click());
     },
-    lines: [[0.3, 'h', '채점하고, <em>왜 틀렸는지</em>까지']], zoom: [0.27, 0.5, 1.9, 2.0, 3.2], sfx: [[0.5, 'tick'], [0.85, 'ding', 0.7], [2.0, 'swell'], [2.8, 'tick']] },
+    lines: [[0.3, 'h', '채점하고, <em>왜 틀렸는지</em>까지']], zoom: [0.27, 0.63, 1.9, 2.0, 3.2], sfx: [[0.5, 'tick'], [0.85, 'ding', 0.7], [2.0, 'swell'], [2.8, 'tick']] },
   { id: 'remedy', kind: 'ui', dur: 5.0, num: '08', kicker: '오개념 처방', url: 'student.html?page=11',
     setup: async (p) => { await answer(p); await p.click('#guide-action'); await p.waitForTimeout(1600); },
     script: async (p, at) => {
@@ -123,6 +123,7 @@ const ovX = (t0, dx = 60) => `x='${dx}*max(0\\,1-(t-${t0})/0.35)':y=0:enable='gt
 for (const c of cuts) {
   if (only.length && !only.includes(c.id)) continue;
   const d = join(W, c.id); mkdirSync(d, { recursive: true }); const out = join(d, 'cut.mp4');
+  if (assemble && existsSync(out)) continue;   // --assemble: 만들어 둔 컷으로 이어 붙이기·소리만 다시
   if (c.kind === 'hook') {
     for (const [i, [, html]] of c.steps.entries()) await shot({ mode: 'rhook', html }, join(d, `h${i}.png`), false);
     const ins = c.steps.flatMap((_, i) => ['-loop', '1', '-t', String(c.dur), '-i', join(d, `h${i}.png`)]);
@@ -132,7 +133,7 @@ for (const c of cuts) {
   } else if (c.kind === 'card') {
     await shot({ mode: 'rcard', tag: c.tag, small: c.small, logo: c.logo }, join(d, 'card.png'), false);
     // 살짝 다가오는 카메라(1.0 → 1.05)
-    ff(['-loop', '1', '-t', String(c.dur), '-i', join(d, 'card.png'), '-filter_complex', `[0:v]scale=2016:1134,zoompan=z='1+0.05*on/(${c.dur}*30)':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=1:s=1920x1080:fps=30,format=yuv420p[vo]`, '-map', '[vo]', '-t', String(c.dur), '-c:v', 'libx264', '-crf', '17', out]);
+    ff(['-framerate', '30', '-loop', '1', '-t', String(c.dur), '-i', join(d, 'card.png'), '-filter_complex', `[0:v]scale=2016:1134,zoompan=z='1+0.05*on/(${c.dur}*30)':x='iw/2-(iw/zoom/2)':y='ih/2-(ih/zoom/2)':d=1:s=1920x1080:fps=30,format=yuv420p[vo]`, '-map', '[vo]', '-t', String(c.dur), '-c:v', 'libx264', '-crf', '17', out]);
   } else {
     const take = join(d, 'take.mp4');
     if (retake || !existsSync(take)) {
@@ -172,11 +173,11 @@ if (only.length) { console.log('일부 컷만 만들었어요.'); process.exit(0
 
 // 이어 붙이기: 훅→브랜드는 음악 드롭에 맞춰 짧게, 나머지는 0.4초 교차
 const ins = cuts.flatMap((c) => ['-i', join(W, c.id, 'cut.mp4')]);
-let fc = '', last = '0:v', off = 0; const starts = [0];
+let fc = '[0:v]settb=AVTB,setsar=1,fps=30,format=yuv420p[n0]', last = 'n0', off = 0; const starts = [0];
 for (let i = 1; i < cuts.length; i++) {
   const x = i === 1 ? 0.15 : XF, kind = i === 1 ? 'fadewhite' : ['smoothleft', 'fade', 'slideleft', 'fade'][i % 4];
   off += cuts[i - 1].dur - x; starts.push(off);
-  fc += `${fc ? ';' : ''}[${last}][${i}:v]xfade=transition=${kind}:duration=${x}:offset=${off.toFixed(3)}[x${i}]`; last = `x${i}`;
+  fc += `${fc ? ';' : ''}[${i}:v]settb=AVTB,setsar=1,fps=30,format=yuv420p[n${i}];[${last}][n${i}]xfade=transition=${kind}:duration=${x}:offset=${off.toFixed(3)}[x${i}]`; last = `x${i}`;
 }
 const TOTAL = off + cuts.at(-1).dur;
 // 소리: 음악(드롭 = 브랜드 카드 시작) + 우루사쌤 목소리 몇 마디(나올 때 음악을 살짝 낮춤)
@@ -198,7 +199,7 @@ cuts.forEach((c, i) => { if (c.vo) vos.push([c.vo[0], starts[i] + c.vo[1], c.vo[
 const aIns = ['-i', MUSIC, ...vos.flatMap(([id]) => ['-i', join(VO, `${id}.mp3`)]), '-i', SFX];
 let afc = '';
 vos.forEach(([, t, len], i) => { afc += `[${cuts.length + 1 + i}:a]${len ? `atrim=0:${len},` : ''}aresample=48000,aformat=channel_layouts=stereo,volume=1.6,adelay=${Math.round(t * 1000)}|${Math.round(t * 1000)}[v${i}];`; });
-afc += `${vos.map((_, i) => `[v${i}]`).join('')}amix=inputs=${vos.length}:normalize=0[vox];[vox]asplit[vx1][vx2];[${cuts.length}:a]volume=0.55[mus];[mus][vx1]sidechaincompress=threshold=0.05:ratio=6:attack=20:release=300[duck];[${cuts.length + 1 + vos.length}:a]volume=0.8[fx];[duck][vx2][fx]amix=inputs=3:normalize=0,loudnorm=I=-15:TP=-1.5:LRA=11[ao]`;
+afc += `${vos.map((_, i) => `[v${i}]`).join('')}amix=inputs=${vos.length}:normalize=0,apad=whole_dur=${TOTAL.toFixed(2)}[vox];[vox]asplit[vx1][vx2];[${cuts.length}:a]volume=0.55[mus];[mus][vx1]sidechaincompress=threshold=0.05:ratio=6:attack=20:release=300[duck];[${cuts.length + 1 + vos.length}:a]volume=0.8[fx];[duck][vx2][fx]amix=inputs=3:normalize=0,loudnorm=I=-15:TP=-1.5:LRA=11[ao]`;
 const FINAL = join(OUT, 'chogwasim-live-showreel.mp4');
 ff([...ins, ...aIns, '-filter_complex', `${fc};[${last}]format=yuv420p[vo];${afc}`, '-map', '[vo]', '-map', '[ao]', '-t', TOTAL.toFixed(2), '-r', '30', '-c:v', 'libx264', '-crf', '18', '-preset', 'slow', '-c:a', 'aac', '-b:a', '192k', '-movflags', '+faststart', FINAL]);
 ff(['-ss', String((starts[2] + 1.6).toFixed(2)), '-i', FINAL, '-frames:v', '1', '-q:v', '2', join(OUT, 'chogwasim-live-showreel-poster.jpg')]);
