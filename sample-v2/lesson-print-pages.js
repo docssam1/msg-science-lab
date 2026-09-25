@@ -7,8 +7,9 @@ import {toolRows} from './content.js';
 
 const byId=Object.fromEntries(pages.map(page=>[page.id,page]));
 const base=(id,printId,overrides={})=>({...byId[id],printId,...overrides});
-const questions=(items,group,{shared='',sharedAfter=0}={})=>`<div class="daily-test-banner"><span>daily test</span><small>일일 테스트</small></div><div class="source-test-list">${items.map((q,i)=>`${shared&&i===sharedAfter?`<p class="test-shared">${shared}</p>`:''}${questionHTML(q,{print:true})}`).join('')}</div>${group?`<button class="page-action" data-grade="${group}">답 제출하고 확인하기</button>`:''}`;
-const testPage=(id,printId,items,group,options={})=>base(id,printId,{title:`Daily Test ${String(items[0].n).padStart(2,'0')}–${String(items.at(-1).n).padStart(2,'0')}`,lead:'문항을 읽고 답을 고른 까닭을 말해 보세요.',printClass:'source-test',body:questions(items,group,options)});
+const testColumn=(items,shared,sharedAfter=0)=>`<div class="source-test-list test-column">${items.map((q,i)=>`${shared&&i===sharedAfter?`<p class="test-shared">${shared}</p>`:''}${questionHTML(q,{print:true})}`).join('')}</div>`;
+const questions=(left,right,group,{shared='',sharedAfter=0,buttonLabel='답 제출하고 확인하기'}={})=>`<div class="daily-test-banner"><span>daily test</span><small>일일 테스트</small></div><div class="source-test-columns">${testColumn(left)}${testColumn(right,shared,sharedAfter)}</div>${group?`<button class="page-action" data-grade="${group}">${buttonLabel}</button>`:''}`;
+const testPage=(id,printId,left,right,group,options={})=>base(id,printId,{title:`Daily Test ${String(left[0].n).padStart(2,'0')}–${String(right.at(-1).n).padStart(2,'0')}`,lead:'문항을 읽고 답을 고른 까닭을 말해 보세요.',printClass:'source-test',body:questions(left,right,group,options)});
 const objects=()=>`<div class="print-objects lesson-object-photos">${inquiryObjects.map(o=>`<figure>${objectPhoto(o)}<figcaption>${o.name}</figcaption></figure>`).join('')}</div>`;
 const lines=n=>`<div class="write-lines">${'<i></i>'.repeat(n)}</div>`;
 const act=(kind,label)=>`<button class="page-action" data-action="${kind}">${label}</button>`;
@@ -25,8 +26,7 @@ export const studentPrintPages=[
  base('l1-past','P8',{title:'용수철의 과거',lead:'원본 과학 이야기를 그림과 함께 읽어 봐요.',printClass:'reading-page',body:`<div class="reading-history-top"><figure><img src="./art/historical-engraving.png" alt="원본 교재의 옛 투석기 기록 그림"><figcaption>본책 13쪽의 역사 그림</figcaption></figure><section><h2>용수철의 이름이 붙여진 유래</h2><p>동양의 한자문화권에서 쓰는 龍鬚鐵(용수철)은 용수(龍鬚)의 성질을 가진 쇠를 가리킨다. 이때 용수는 돌돌 말린 용의 수염을 일컫는데, 이 용의 수염을 잡아당겨 길게 펴더라도 돌돌 말린 모양으로 되돌아간다고 전해진다. 용수철이란 이름은 이러한 탄성체의 복원력을 빗대어 붙여진 이름이다.</p></section></div><h2 class="reading-subtitle">용수철의 과거</h2><div class="original-reading"><p>${history1}</p><p>${history2}</p><p>${history3}</p></div>${act('history','과거 자료 살펴보기')}`}),
  base('l1-watch','P9',{title:'시계 속 태엽',lead:'태엽의 움직임과 원본 이야기를 함께 읽어 봐요.',printClass:'reading-page',body:`<figure class="reading-visual">${watchDiagram()}<figcaption>태엽통과 밸런스 스프링은 다른 부품입니다. 작동을 이해하기 위한 개념 도해입니다.</figcaption></figure><div class="archive-link"><img src="./media/watch-poster.jpg" alt="기존 1949년 기록영상의 실제 장면"><span>기존 기록영상 · 1949<br><b>태엽이 풀리며 움직이는 장면 보기</b></span></div><h2 class="reading-subtitle">코일 형태 용수철의 등장</h2><div class="original-reading"><p>${coilHistory}</p></div>${act('watch','기존 기록영상 보기')}`}),
  base('l1-future','P10',{title:'용수철의 미래',lead:'원본의 전망을 읽고 세 가지 기술을 구분해 봐요.',printClass:'reading-page',body:`<figure class="reading-visual">${futureDiagram()}<figcaption>극소 코일 · 4D 프린팅 · 2D 재료를 설명하는 개념 도해입니다.</figcaption></figure><h2 class="reading-subtitle">원본 교재의 읽을거리</h2><div class="original-reading"><p>${future}</p></div><p class="reading-context">원본 집필 당시의 기술 전망입니다. 기관·성능 수치는 최신 제품의 성능을 뜻하지 않습니다.</p>${act('future','미래 기술 개념 살펴보기')}`}),
- testPage('l1-test-a','P11',q1.slice(0,3),'p11'),
- testPage('l1-test-b','P12',q1.slice(3,6),'p12',{shared:'[05~06] 다음 〈보기〉에 제시된 내용을 읽고 문장에 맞도록 ○표를 하시오.',sharedAfter:1}),
+ testPage('l1-test-a','P11',q1.slice(0,3),q1.slice(3,6),'p11',{shared:'[05~06] 다음 〈보기〉에 제시된 내용을 읽고 문장에 맞도록 ○표를 하시오.',sharedAfter:1}),
  base('l2-elastic','P13',{title:'힘을 주면 어떻게 변할까요?',lead:'관찰한 뒤 움직임을 기록하세요.',body:`<div class="lesson-three">${[['잡아당기기','pull'],['누르기','compress'],['놓기','pull']].map(([t,m])=>`<figure>${springArt({mode:m})}<figcaption>${t}</figcaption></figure>`).join('')}</div><h2>손을 놓으면 어떤 일이 일어날까요?</h2>${lines(4)}`}),
  base('l2-elastic','P14',{title:'다시 돌아오는 성질',lead:'관찰한 움직임에 이름을 붙여 보세요.',body:`<div class="lesson-large-art">${springArt({large:true})}</div><div class="definition"><b>탄성</b><p>힘을 없애면 원래 모양으로 돌아가려는 성질</p></div><h2>다른 물체에서도 볼 수 있을까요?</h2>${lines(3)}`}),
  base('l2-compress','P15',{title:'전체 길이와 변한 길이',lead:'두 길이를 구분해 표시하세요.',body:`<div class="lesson-large-art">${springArt({mode:'compress',large:true})}</div><div class="length-pair"><section><b>전체 길이</b><p>용수철의 양 끝 사이</p></section><section><b>줄어든 길이</b><p>처음보다 짧아진 만큼</p></section></div><h2>힘을 더 크게 주면 어느 길이가 달라질까요?</h2>${lines(3)}`}),
@@ -34,11 +34,11 @@ export const studentPrintPages=[
  base('l2-graph','P17',{title:'표를 그래프로 나타내요',lead:'본문 실험 A의 점을 직접 옮겨 보세요.',body:`<table class="book-table"><thead><tr><th>추의 무게 (g)</th><th>10</th><th>20</th><th>30</th></tr></thead><tbody><tr><th>늘어난 길이 (cm)</th><td>3</td><td>6</td><td>9</td></tr></tbody></table><div class="lesson-graph">${graphSVG({points:[],max:9,step:3,labels:true})}</div><p>가로축: 추의 무게 (g) · 세로축: 늘어난 길이 (cm)</p><aside class="extension"><b>확장 탐구</b> 같은 관계가 이어진다고 가정하면, 40 g에서는 얼마나 늘어날까요?</aside>`}),
  base('l2-tools','P18',{title:'용수철이 달라지면?',lead:'한 번에 한 조건만 바꿔 비교하세요.',action:'factors',body:`<div class="lesson-three factor-trio">${[['재질','같은 모양에서 재료 바꾸기'],['철사 굵기','같은 재료에서 굵기 바꾸기'],['코일 지름','같은 철사에서 지름 바꾸기']].map(([t,d])=>`<section>${springArt()}<h2>${t}</h2><p>${d}</p></section>`).join('')}</div><h2>무엇을 같게 두어야 할까요?</h2>${lines(4)}${act('factors','한 조건씩 비교하기')}`}),
  base('l2-tools','P19',{title:'생활 속 용수철',lead:'도구마다 용수철이 하는 일을 살펴보세요.',body:`<div class="lesson-six tool-photos">${toolRows.map(([id,name,desc])=>`<figure>${id==='expander'?toolIcon(id):`<img src="./photos/${{stapler:'stapler',pen:'pen',pogo:'pogo',trampoline:'trampoline',trap:'trap'}[id]}.jpg" alt="${name} 실사 사진">`}<figcaption><b>${name}</b><small>${desc}</small></figcaption></figure>`).join('')}</div><p>완력기는 구조를 보여 주는 개념 도해입니다. 제품마다 내부 구조는 다를 수 있습니다.</p>${act('tools','도구의 역할 비교하기')}`}),
- testPage('l2-test-a','P20',q2.slice(0,3),'p20'),
- testPage('l2-test-b','P21',q2.slice(3,6),'p21',{shared:'[05~11] 다음 보기에 제시된 내용을 읽고 문장에 맞도록 ○표를 하시오.',sharedAfter:1}),
- testPage('l2-test-b','P22',q2.slice(6,9),'p22'),
- testPage('l2-test-graph','P23',q2.slice(9,12),null)
+ testPage('l2-test-a','P19',q2.slice(0,3),q2.slice(3,6),'p19',{shared:'[05~11] 다음 보기에 제시된 내용을 읽고 문장에 맞도록 ○표를 하시오.',sharedAfter:1}),
+ testPage('l2-test-graph','P20',q2.slice(6,10),q2.slice(10,12),'p20',{buttonLabel:'7–8번 확인하기'})
 ];
+// Keep printed folios and QR destinations aligned after source-faithful test spreads are merged.
+studentPrintPages.forEach((page,index)=>{page.printId=`P${index+1}`;});
 
 export function studentCover(){
  return `<article class="paper original-cover" data-book-page="0" data-print-id="P0" aria-label="초과심 물리 원본 앞표지"><img src="./art/original-physics-cover.png" alt="사용자 제공 초과심 물리 교재의 원본 앞표지"></article>`;

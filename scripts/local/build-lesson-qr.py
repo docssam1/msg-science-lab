@@ -1,4 +1,4 @@
-"""Build the P1-P23 QR artwork from the active lesson page plan.
+"""Build the P1-P20 QR artwork from the active lesson page plan.
 
 Requires qrcode[pil]. The existing source-scene QR files are left intact.
 """
@@ -26,7 +26,7 @@ def main():
         ["node", "--input-type=module", "-e", JS], cwd=ROOT, text=True
     )
     pages = json.loads(raw)
-    assert [p["id"] for p in pages] == [f"P{i}" for i in range(1, 24)]
+    assert [p["id"] for p in pages] == [f"P{i}" for i in range(1, 21)]
     for page in pages:
         number = int(page["id"][1:])
         action = quote(page["action"] or "source", safe="")

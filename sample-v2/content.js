@@ -147,7 +147,7 @@ page('l2-test-graph',2,[21],'DAILY TEST · 일일평가','이번에는 다른 �
 export const lessonNames={1:'용수철저울의 구조 익히기',2:'추의 무게에 따른 용수철의 길이 변화'};
 export const questions=[...q1,...q2];
 export {history1,history2,history3,coilHistory,future};
-export const gradeGroups={'1a':q1.slice(0,3),'1b':q1.slice(3),'2a':q2.slice(0,4),'2b':q2.slice(4,11)};
+export const gradeGroups={'1a':q1.slice(0,3),'1b':q1.slice(3),'2a':q2.slice(0,4),'2b':q2.slice(4,8)};
 pages.forEach((p,i)=>p.layoutIndex=i);
 pages.unshift(...inquiryPages);
 export const narration=Object.fromEntries(pages.map(p=>[p.id,{id:p.id,text:({
