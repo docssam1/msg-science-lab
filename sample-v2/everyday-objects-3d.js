@@ -70,6 +70,19 @@ export function createEverydayAssembly(){
  for(let i=0;i<17;i++){const t=i/16,x=-.55+t*1.1;const y=.31+.04*Math.sin(t*Math.PI);line([[x,y,.305],[x+.024,y+.023,.305]],.009,cream,pcRoot);}
  rounded(.055,.13,.022,.015,copperMaterial(),pcRoot,.50,.30,.315);
  function copperMaterial(){return material('#c19b64',{metalness:.6});}
+ const pen=newObject('pen');const penRoot=new THREE.Group();pen.add(penRoot);penRoot.rotation.z=-Math.PI/2;penRoot.position.set(0,.23,0);
+ const penBlue=material('#2874aa',{roughness:.32}),penClear=material('#d8e8e9',{transparent:true,opacity:.72});
+ const penBody=add(new THREE.CylinderGeometry(.055,.052,.92,24),penClear,penRoot);penBody.position.y=.48;
+ const penInk=add(new THREE.CylinderGeometry(.018,.018,.73,12),penBlue,penRoot);penInk.position.y=.44;
+ const penCap=add(new THREE.CylinderGeometry(.062,.062,.17,24),penBlue,penRoot);penCap.position.y=.90;
+ const penTip=add(new THREE.ConeGeometry(.047,.15,24),steel,penRoot);penTip.rotation.z=Math.PI;penTip.position.y=-.05;
+ line([[.065,.85,0],[.09,.62,0]],.012,penBlue,penRoot);
+ const stapler=newObject('stapler');const stapleRoot=new THREE.Group();stapler.add(stapleRoot);stapleRoot.rotation.y=-.22;
+ const stapleDark=material('#315371',{roughness:.42}),stapleMetal=material('#9aa9ad',{metalness:.72,roughness:.3});
+ rounded(.96,.12,.32,.045,stapleDark,stapleRoot,0,.12,0);
+ const stapleTop=rounded(.88,.18,.31,.055,stapleDark,stapleRoot,-.035,.31,0);stapleTop.rotation.z=.10;
+ rounded(.67,.025,.18,.008,stapleMetal,stapleRoot,.02,.215,0);
+ sphere(.075,stapleMetal,stapleRoot,-.43,.22,0,[.3,1,1]);
  let current=null;
  return {group,set(id){current=objects.has(id)?id:null;objects.forEach((o,k)=>o.visible=k===current);group.userData.objectId=current;},get objectId(){return current;},dispose(){geometry.forEach(g=>g.dispose());materials.forEach(m=>m.dispose());}};
 }

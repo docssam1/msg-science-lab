@@ -1,8 +1,8 @@
 [
   {
     "path": "README.md",
-    "size": 4426,
-    "sha256": "15548655cab1b623f4489d8a11f9fe9b3f171f13b9b2a2838c97e19c56225768"
+    "size": 4693,
+    "sha256": "bb3ea32b13c116e19156bdcdc340bfed348e66b1673c56dd8f4fc5bfc34a77ed"
   },
   {
     "path": "activities.js",
@@ -635,19 +635,24 @@
     "sha256": "a3784e949a3b64bca154135f8e445603a2c15dbf88108b024182415a1ccac988"
   },
   {
+    "path": "battle-rounds.js",
+    "size": 962,
+    "sha256": "22db0092329cebd9559e075d14de7fff77dc914875e28b5d2aa8fb2cfeb47c68"
+  },
+  {
     "path": "battle-state.js",
     "size": 843,
     "sha256": "205682925ec9dc541527bd8cdc926d4f771effe069cd60979c8c5ed33c7bc205"
   },
   {
     "path": "battle.css",
-    "size": 4438,
-    "sha256": "d52125f13254be81c2b850596470e4d9cd0276bd7086e755fe2157079f06365b"
+    "size": 4525,
+    "sha256": "bf0b57b1e95f5de3208f1f8bbb4016376bdf920e6a6a1cf418ed6633ed758d9d"
   },
   {
     "path": "battle.js",
-    "size": 9075,
-    "sha256": "e90d2482c8091d69ca45bf4d62785da91b10cfee6e78933bf1fa03b0215f8961"
+    "size": 9922,
+    "sha256": "aa348194b127ebca013d7acef2bd85ed119309763c4e5838aab02b2f48f3c10e"
   },
   {
     "path": "book.html",
@@ -666,8 +671,8 @@
   },
   {
     "path": "everyday-objects-3d.js",
-    "size": 7249,
-    "sha256": "93562739927c1469fcbdf1a5d5f5dedd9b4b8dcaf213a04e21ef61d40df60d6d"
+    "size": 8507,
+    "sha256": "6bfbb31f386e591e3a5bd16b643c149304d3bb4a455f0085cccfa81351ad1da5"
   },
   {
     "path": "everyday-objects.js",

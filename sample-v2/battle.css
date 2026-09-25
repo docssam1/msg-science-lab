@@ -1,6 +1,7 @@
 .battle-arena{height:100%;min-height:0;display:flex;flex-direction:column;gap:10px;padding:10px;background:#edf4f0;overflow:auto}
 .battle-top{display:flex;align-items:center;justify-content:space-between;gap:14px;background:#fff;border:1px solid #cadbd2;border-radius:16px;padding:10px 16px}
 .battle-top strong{font-size:22px;color:#173955}.battle-top p{margin:2px 0 0;font-size:14px;line-height:1.45;color:#50656a}.battle-top-actions{display:flex;gap:8px;flex-wrap:wrap}
+.battle-top strong small{font-size:14px;font-weight:700;color:#396d67;margin-left:8px}
 .battle-top-actions button:first-child{background:#185d57;color:#fff;border-color:#185d57}
 .battle-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;flex:1;min-height:0}
 .battle-team{min-width:0;min-height:0;overflow:auto;background:#fff;border:2px solid #6dafa1;border-radius:18px;padding:8px;display:flex;flex-direction:column;gap:4px}
