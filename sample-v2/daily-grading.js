@@ -190,7 +190,7 @@ ${codes.map(code=>`<section class="rx-group" data-rx-group="${code}"><header cla
     else special=false;}
    el.querySelectorAll('.rx-opt').forEach(o=>o.classList.remove('picked','no'));
    if(ok){opt.classList.add('picked','ok');el.classList.add('solved');el.querySelector('.rx-mark').innerHTML='<span class="dt-stamp ok" aria-label="맞음">○</span>';reveal();if(!special)coach(st.tries===1?'맞았어요! 풀이를 읽고 이유까지 확인해 봐요.':'다시 생각해서 맞혔어요. 풀이로 이유를 확인해 봐요.','good');}
-   else{opt.classList.add('picked','no');const code=b.wrong[i]||b.m;fb.innerHTML=`<div class="dt-coach">${character?`<img src="${face('think')}" alt="생각하는 우루사쌤">`:''}<div class="dt-coach-say"><span>우루사쌤이 되물어요</span><p>${esc(misconceptions[code].label)} 한 번 더 골라 볼까요?</p></div></div>`;sol.hidden=false;if(!special)coach(`${misconceptions[code].label} 다시 골라 봐요.`,'check');}
+   else{opt.classList.add('picked','no');const code=b.wrong[i]||b.m;fb.innerHTML=`<div class="dt-coach">${character?`<img src="${face('think')}" alt="생각하는 우루사쌤">`:''}<div class="dt-coach-say"><span>우루사쌤이 되물어요</span><p>${esc(misconceptions[code].label)} 한 번 더 골라 볼까요?</p></div></div>`;sol.hidden=false;if(!special)coach(`${misconceptions[code].label} 다시 골라 봐요.`,'check','think');}
   });
   sol.onclick=reveal;
  });

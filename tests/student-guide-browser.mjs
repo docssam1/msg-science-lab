@@ -30,9 +30,10 @@ try{
  assert.match(await page.locator('#coach-copy').innerText(),/다음 페이지/);
  assert.equal(await page.locator('#guide-action').getAttribute('data-guide-action'),'next');
  assert.equal(await page.locator('#mobile-reader').isVisible(),true);
- assert.match(await page.locator('#teacher-expression').getAttribute('src'),/urusaem\.png/);
+ assert.equal(await page.locator('.teacher-dock .coach-face .coach-bob img').count(),6,'six approved full-body expressions are stacked for swapping');
+ assert.match(await page.locator('.coach-face img.on').getAttribute('src'),/art\/expressions-full\/web\/(listen|explain)\.webp$/);
  assert.equal(await page.locator('#book-pane .teacher-dock').count(),1,'coach stands inside the book area');
- assert((await page.locator('#teacher-expression').evaluate(img=>img.naturalHeight))>1000,'approved full-body image loads');
+ await page.waitForFunction(()=>[...document.querySelectorAll('.coach-face .coach-bob img')].every(img=>img.complete&&img.naturalWidth===512),null,{timeout:5000});   // approved full-body expressions (web size 512×768), preloaded
  await page.screenshot({path:join(out,'student-cover-1366.png')});
  await page.emulateMedia({media:'print'});
  assert.equal(await page.locator('#print-root').isVisible(),true);
@@ -150,5 +151,5 @@ try{
   if(i===10)await mobile.screenshot({path:join(out,'student-reading-390.png')});
  }
  assert.deepEqual(errors,[]);
- console.log('student guidance and assessment: speech drawer/self-check, grading with review items, local photo attach/restore/delete, full-body image, locked keys, print/teacher separation, 21 pages at 390px passed');
+ console.log('student guidance and assessment: speech drawer/self-check, grading with review items, local photo attach/restore/delete, approved full-body expressions, locked keys, print/teacher separation, 21 pages at 390px passed');
 }finally{await browser.close();}

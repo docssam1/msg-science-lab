@@ -13,6 +13,7 @@ import {mountAssessmentPhoto} from './assessment-photo.js';
 import {ANSWER_KEY_VERSION,gradeItem,summarize,reportHTML,mountRemedy,dxRows,nameOf} from './daily-grading.js';
 import {diagnose,prescribe,firstAttemptRecord} from './remedy-bank.js';
 import {mountCoachStage} from './coach-stage.js';
+import {voiceStarted,voiceStopped} from './coach-face.js';
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const edition=['student','teacher','book'].includes(new URLSearchParams(location.search).get('edition'))?new URLSearchParams(location.search).get('edition'):'book';
 const isTeacher=edition==='teacher';
@@ -89,13 +90,14 @@ function buildBook(){rebuilding=true;const old=current;book?.destroy();$('#book-
  book.loadFromHTML(el.querySelectorAll('.paper'));book.on('flip',e=>{if(rebuilding)return;current=Math.min(pages.length-1,e.data);updateMeta();restoreFields(el);});
  book.turnToPage(old);current=old;fit();fitPageBodies();requestAnimationFrame(fitPageBodies);updateMeta();rebuilding=false;
 }
-function expression(name){const img=$('#teacher-expression');if(img){const src=!isTeacher?'./art/urusaem.png':`./art/expressions/${name}.png`;if(img.getAttribute('src')!==src)img.src=src;img.alt=!isTeacher?'전신 모습의 우루사쌤':`우루사쌤 ${name==='explain'?'설명하는':'듣는'} 표정`;}}
-function stopVoice(){voiceToken++;audio?.pause();if(audio){audio.removeAttribute('src');audio.load();}audio=null;if(window.speechSynthesis)speechSynthesis.cancel();utterance=null;voiceResolve?.(false);voiceResolve=null;document.body.classList.remove('talking');expression('listen');reading=false;$('#start').textContent=isStudent?(started?'▶ 안내 다시 듣기':'▶ 안내 소리 시작'):(started?'▶ 해설 다시 듣기':'▶ 수업 시작');}
+// 스스로 공부하기·살아있는 책의 얼굴은 coach-face.js(승인된 표정 6장 바꿔 끼우기)가 맡는다.
+function expression(name){if(!isTeacher)return;const img=$('#teacher-expression');if(img){const src=`./art/expressions/${name}.png`;if(img.getAttribute('src')!==src)img.src=src;img.alt=`우루사쌤 ${name==='explain'?'설명하는':'듣는'} 표정`;}}
+function stopVoice(){voiceToken++;audio?.pause();if(audio){audio.removeAttribute('src');audio.load();}audio=null;if(window.speechSynthesis)speechSynthesis.cancel();utterance=null;voiceResolve?.(false);voiceResolve=null;voiceStopped();document.body.classList.remove('talking');expression('listen');reading=false;$('#start').textContent=isStudent?(started?'▶ 안내 다시 듣기':'▶ 안내 소리 시작'):(started?'▶ 해설 다시 듣기':'▶ 수업 시작');}
 async function say(text,clipId=null){stopVoice();$('#coach-copy').textContent=text;if(!sound||document.hidden)return false;const token=voiceToken;reading=true;$('#start').textContent='Ⅱ 해설 멈추기';document.body.classList.add('talking');
- return new Promise(resolve=>{voiceResolve=resolve;let done=false;const finish=ok=>{if(done)return;done=true;if(token===voiceToken){document.body.classList.remove('talking');reading=false;$('#start').textContent=isStudent?'▶ 안내 다시 듣기':'▶ 해설 다시 듣기';voiceResolve=null;}resolve(ok&&token===voiceToken);};
+ return new Promise(resolve=>{voiceResolve=resolve;let done=false;const finish=ok=>{if(done)return;done=true;if(token===voiceToken){voiceStopped();document.body.classList.remove('talking');reading=false;$('#start').textContent=isStudent?'▶ 안내 다시 듣기':'▶ 해설 다시 듣기';voiceResolve=null;}resolve(ok&&token===voiceToken);};
   const unavailable=()=>{if(token!==voiceToken)return finish(false);expression('listen');$('#voice-kind').textContent='음성을 재생할 수 없어요 · 자막을 읽어 주세요';toast('음성을 재생할 수 없어요. 다시 듣기를 눌러 주세요.');finish(false);};
   const matchedId=clipId||clipByText.get(normalizeVoiceText(text));
-  if(matchedId&&files[matchedId]?.path){audio=new Audio(new URL(files[matchedId].path,import.meta.url).href);$('#voice-kind').textContent='우루사쌤 · OmniVoice 생성 해설';expression('explain');audio.onended=()=>{expression('listen');finish(true);};audio.onerror=()=>{audio=null;unavailable();};audio.play().catch(()=>{audio=null;unavailable();});}else{$('#voice-kind').textContent='기존 음성 없음 · 자막으로 확인';expression('listen');finish(false);}
+  if(matchedId&&files[matchedId]?.path){audio=new Audio(new URL(files[matchedId].path,import.meta.url).href);$('#voice-kind').textContent='우루사쌤 · OmniVoice 생성 해설';expression('explain');voiceStarted(audio);audio.onended=()=>{expression('listen');finish(true);};audio.onerror=()=>{audio=null;unavailable();};audio.play().catch(()=>{audio=null;unavailable();});}else{$('#voice-kind').textContent='기존 음성 없음 · 자막으로 확인';expression('listen');finish(false);}
  });
 }
 async function narrateCurrent(){started=true;if(!sound){if(isStudent)showStudentGuide();return;}const p=pages[current];if(!p.id||p.printId==='P0'){if(isStudent)showStudentGuide();return;}if(isTeacher&&teachStage===0){toast('자료를 보여준 뒤 설명 음성을 재생해 주세요.');return;}const voice=pageVoice(p);if(!voice.id||!files[voice.id]?.path){if(isStudent){showStudentGuide();return;}toast('이 장면은 글과 실험으로 확인해 주세요.');return;}await say(voice.text,voice.id);if(isStudent&&!$('#workspace').classList.contains('active'))showStudentGuide();}
@@ -129,7 +131,7 @@ function remedyLog(){const v=load('remedy-log',[]);return Array.isArray(v)?v:[];
 function addRemedy(rec){if(!rec)return;save('remedy-log',[...remedyLog(),{at:Date.now(),...rec}].slice(-300));}
 function pageLab(i){const p=pages[i];return p?.action&&activityNames[p.action]?{kind:p.action,name:activityNames[p.action]}:null;}
 function gotoLab(i){if(!pages[i])return;navigate(i);if(pages[i].action)openActivity(pages[i].action);}
-function coachSay(text,mood=''){if(isTeacher)return;$('#coach-copy').textContent=text;const dock=document.querySelector('.teacher-dock');if(dock)dock.dataset.mood=mood;}
+function coachSay(text,mood='',face=''){if(isTeacher)return;$('#coach-copy').textContent=text;const dock=document.querySelector('.teacher-dock');if(dock){dock.dataset.mood=mood;if(face)dock.dataset.face=face;else delete dock.dataset.face;}}
 function coachAction(label,act){if(!isStudent)return;const b=$('#guide-action');b.textContent=label;b.dataset.guideAction=act;delete b.dataset.guideKind;b.hidden=false;b.classList.add('guide-target');}
 function openDailyReport(lesson,fresh=[],gradedAt=Date.now()){const list=lesson===1?q1:q2,selfChecks=load('self-check',{})||{};
  const items=list.map(q=>{const r=results[q.id];if(!r){if(q.kind==='graph'&&fresh.includes(q))return {q,value:valueFor(q),...gradeItem(q,valueFor(q))};return {q,status:'unsubmitted'};}const g=gradeItem(q,r.value);return {q,value:r.value,...g,status:g.status==='blank'?'unsubmitted':g.status};});

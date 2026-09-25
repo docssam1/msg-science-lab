@@ -17,7 +17,9 @@ h1{font-size:clamp(32px,5vw,56px);line-height:1.12;margin:10px 0 12px;letter-spa
 h1 em{font-style:normal;background:linear-gradient(90deg,#1f7a4f,#1f6fb8);-webkit-background-clip:text;background-clip:text;color:transparent}
 .lead{margin:0 0 6px;color:var(--sub);font-size:17px}
 .hero figure{margin:0;position:relative;height:260px}
-.hero figure img{position:absolute;right:0;bottom:-18px;height:262px;filter:drop-shadow(0 16px 24px rgba(31,90,60,.2))}
+.hero figure img{position:absolute;right:0;bottom:-18px;height:262px;filter:drop-shadow(0 16px 24px rgba(31,90,60,.2));transform-origin:50% 100%;animation:hero-sway 5.6s ease-in-out infinite}
+@keyframes hero-sway{0%,100%{transform:rotate(-1.4deg) translateY(0)}50%{transform:rotate(1.4deg) translateY(-3px)}}
+@media(prefers-reduced-motion:reduce){.hero figure img{animation:none}}
 .hero figure figcaption{position:absolute;left:-10px;top:10px;max-width:190px;padding:10px 14px;border-radius:16px 16px 4px 16px;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow);font-size:14px;font-weight:700;line-height:1.45}
 .cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:22px;position:relative}
 .card{display:flex;flex-direction:column;min-height:290px;padding:24px;border-radius:22px;background:linear-gradient(180deg,var(--card-top) 52%,var(--card-bot));border:1px solid var(--line);box-shadow:var(--shadow);transition:transform .18s ease,box-shadow .18s ease}
