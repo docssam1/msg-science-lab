@@ -71,6 +71,15 @@ try{
  assert.match(await question.locator('.speech-result').innerText(),/맞았어요/);
  await question.locator('[data-self="understood"]').click();
  assert.equal(await question.locator('.speech-result').getAttribute('data-self-check'),'understood');
+ const choice=page.locator('#mobile-reader .question[data-q="a5"]');
+ await choice.locator('.speech-draft').fill('①');
+ await choice.locator('.speech-apply').click();
+ assert.equal(await choice.locator('input[type="radio"][value="0"]').isChecked(),true);
+ const parts=page.locator('#mobile-reader .question[data-q="a1"]');
+ await parts.locator('.speech-slot').selectOption('1');
+ await parts.locator('.speech-draft').fill('학생이 고친 말');
+ await parts.locator('.speech-apply').click();
+ assert.equal(await parts.locator('input[name="a1-1"]').inputValue(),'학생이 고친 말');
  await page.screenshot({path:join(out,'student-speech-selfcheck-1366.png')});
  await page.emulateMedia({media:'print'});
  assert.equal(await page.locator('#print-root .speech-answer').count(),0,'print source remains unchanged');
