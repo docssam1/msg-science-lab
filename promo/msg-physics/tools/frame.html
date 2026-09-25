@@ -1,0 +1,86 @@
+<!doctype html><html lang="ko"><head><meta charset="utf-8">
+<link rel="stylesheet" href="../../../sample-v2/fonts/fonts.css">
+<style>
+/* 1920×1080 영상 틀 — mode=bg(배경+틀) | chrome(캐릭터·제목, 투명) | bubble(자막만, 투명) | slide(표지·마지막 장) */
+*{box-sizing:border-box}html,body{margin:0;width:1920px;height:1080px;overflow:hidden;font-family:"Pretendard Variable",Pretendard,sans-serif;letter-spacing:-.5px;color:#15261d}
+body.m-bg{background:radial-gradient(1100px 700px at 85% -10%,#dcefe3 0%,transparent 60%),radial-gradient(900px 600px at -10% 110%,#e2ecf9 0%,transparent 55%),#f3f8f5}
+body:not(.m-bg):not(.m-slide){background:transparent}
+.chip{position:absolute;left:72px;top:46px;padding:14px 26px;border-radius:14px;background:#111;color:#fff;font-size:26px;font-weight:800;letter-spacing:-.4px}
+.count{position:absolute;right:56px;top:40px;padding:8px 20px;border-radius:999px;background:#fff;border:1px solid #dce8e0;color:#5a6b61;font-size:20px;font-weight:600}
+.frame{position:absolute;left:420px;top:112px;width:1440px;height:810px;border-radius:26px;background:#fff;box-shadow:0 30px 70px rgba(23,63,44,.22),0 0 0 1px #dce8e0}
+.frame::after{content:'';position:absolute;inset:0;border-radius:26px;box-shadow:inset 0 0 0 1px rgba(0,0,0,.04)}
+.live{position:absolute;left:444px;top:84px;padding:6px 14px 6px 12px;border-radius:999px;background:#e23b2e;color:#fff;font-size:17px;font-weight:800;display:flex;gap:8px;align-items:center}
+.live i{width:10px;height:10px;border-radius:50%;background:#fff}
+.side{position:absolute;left:72px;top:150px;width:320px}
+.side .k{font-size:21px;font-weight:800;color:#2b7a52;letter-spacing:.02em}
+.side h2{margin:10px 0 16px;font-size:44px;line-height:1.18;font-weight:850;letter-spacing:-1.4px}
+.side p{margin:0;font-size:24px;line-height:1.5;color:#44564b;font-weight:600}
+.side .bar{width:84px;height:8px;border-radius:4px;background:linear-gradient(90deg,#2b7a52,#1f6fb8);margin:0 0 20px}
+.char{position:absolute;left:18px;bottom:0;height:520px;filter:drop-shadow(0 18px 26px rgba(23,63,44,.25))}
+.bubble{position:absolute;left:300px;right:44px;bottom:28px;min-height:128px;padding:22px 40px;border-radius:30px;background:#fff;border:3px solid #173f2c;box-shadow:0 14px 34px rgba(0,0,0,.18);
+  display:flex;align-items:center;font-size:40px;line-height:1.35;font-weight:800;letter-spacing:-1px;color:#15261d}
+.bubble::before{content:'';position:absolute;left:-30px;bottom:34px;border:16px solid transparent;border-right:24px solid #173f2c}
+.bubble::after{content:'';position:absolute;left:-22px;bottom:37px;border:13px solid transparent;border-right:20px solid #fff}
+/* 표지·마지막 장 */
+body.m-slide{background:linear-gradient(120deg,#173f2c 0%,#1f5a3c 46%,#f3f8f5 46.1%)}
+.s-copy{position:absolute;left:120px;top:150px;width:820px;color:#fff}
+.s-copy .k{display:inline-block;padding:10px 20px;border-radius:12px;background:rgba(255,255,255,.14);font-size:26px;font-weight:800}
+.s-copy h1{margin:26px 0 24px;font-size:88px;white-space:nowrap;line-height:1.12;font-weight:880;letter-spacing:-3px}
+.s-copy h1 em{font-style:normal;color:#ffd166}
+.s-copy p{font-size:30px;line-height:1.5;font-weight:600;color:#d6ecdf;margin:0}
+.s-art{position:absolute;right:120px;top:150px;width:720px;height:700px;display:grid;place-items:center}
+.s-art img.cover{height:640px;border-radius:18px;box-shadow:0 30px 60px rgba(0,0,0,.28);transform:rotate(3deg)}
+.s-art img.logo{position:absolute;right:10px;top:-40px;height:110px}
+.s-art .shots{position:relative;width:720px;height:620px}
+.s-art .shots img{position:absolute;width:520px;border-radius:18px;box-shadow:0 24px 50px rgba(0,0,0,.25);border:6px solid #fff}
+/* 설명 장(deck): 흰 바탕 + 왼쪽 위 제목 + 카드. 캐릭터는 왼쪽 아래(자막은 따로 겹친다) */
+body.m-deck{background:radial-gradient(1000px 600px at 90% -10%,#e3f1e8 0%,transparent 60%),#f7faf8}
+.d-h{position:absolute;left:96px;top:120px;right:96px}
+.d-h .k{font-size:24px;font-weight:800;color:#2b7a52;letter-spacing:.02em}
+.d-h h2{margin:8px 0 0;font-size:62px;line-height:1.15;font-weight:880;letter-spacing:-2px}
+.d-h h2 em{font-style:normal;background:linear-gradient(90deg,#1f7a4f,#1f6fb8);-webkit-background-clip:text;background-clip:text;color:transparent}
+.d-body{position:absolute;left:380px;right:96px;top:330px;bottom:200px;display:flex;gap:28px;align-items:stretch}
+.d-card{flex:1;border-radius:28px;padding:40px 40px;justify-content:center;background:linear-gradient(180deg,#fff 55%,#eef7f1);border:1px solid #dce8e0;box-shadow:0 18px 40px rgba(23,63,44,.12);display:flex;flex-direction:column;gap:12px}
+.d-card .n{width:76px;height:76px;border-radius:22px;display:grid;place-items:center;font-size:36px;font-weight:880;color:#fff;background:linear-gradient(135deg,#34a86a,#1f7ab8)}
+.d-card b{font-size:44px;font-weight:850;letter-spacing:-1px;line-height:1.25}
+.d-card p{margin:0;font-size:32px;line-height:1.5;color:#4a5b50;font-weight:600}
+.d-card.hl{background:linear-gradient(180deg,#24684a,#173f2c);color:#fff;border-color:transparent}.d-card.hl p{color:#d5eadd}
+.d-arrow{align-self:center;font-size:48px;color:#9cc3ad;font-weight:800}
+.meaning{position:absolute;left:380px;right:96px;top:300px;display:grid;grid-template-columns:repeat(3,1fr);gap:26px}
+.meaning div{border-radius:30px;padding:36px 30px;background:#fff;border:1px solid #dce8e0;box-shadow:0 18px 40px rgba(23,63,44,.12);text-align:center}
+.meaning span{display:block;font-size:150px;line-height:1;font-weight:900;background:linear-gradient(135deg,#1f7a4f,#1f6fb8);-webkit-background-clip:text;background-clip:text;color:transparent}
+.meaning b{display:block;margin-top:14px;font-size:44px;font-weight:850}
+.phil{position:absolute;left:380px;right:96px;top:700px;font-size:34px;font-weight:800;color:#2b7a52;text-align:center}
+.tree{position:absolute;left:380px;right:80px;top:300px;display:flex;align-items:center;gap:14px}
+.tree .st{flex:1;min-height:300px;border-radius:26px;padding:30px 24px;justify-content:center;background:#fff;border:1px solid #dce8e0;box-shadow:0 14px 30px rgba(23,63,44,.10);display:flex;flex-direction:column;gap:10px}
+.tree .st:first-child{background:linear-gradient(180deg,#24684a,#173f2c);color:#fff;border:0}
+.tree .st small{font-size:24px;font-weight:800;color:#2b7a52;letter-spacing:.04em}.tree .st:first-child small{color:#9fe0bb}
+.tree .st b{font-size:38px;line-height:1.3;font-weight:850;letter-spacing:-.8px}
+.tree i{font-style:normal;font-size:40px;color:#9cc3ad;font-weight:900}
+.brandbig{position:absolute;right:96px;top:112px;display:flex;align-items:center;gap:14px}
+.brandbig img{height:64px}.brandbig span{font-size:34px;font-weight:900;letter-spacing:-1px}
+.live-tag{display:inline-block;margin-left:8px;padding:4px 12px;border-radius:10px;background:#e23b2e;color:#fff;font-size:.62em;vertical-align:middle;letter-spacing:0}
+</style></head><body>
+<script>
+const q = JSON.parse(decodeURIComponent(location.hash.slice(1) || '%7B%7D'));
+const b = document.body, esc = (s) => String(s ?? '').replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
+b.className = "m-" + q.mode;
+const A = '../../../sample-v2/';
+if (q.mode === 'bg') b.innerHTML = `<div class="chip">${esc(q.chip || 'MSG 초·과·심')}</div><div class="count">실제 구동 화면 ${q.n}</div><div class="frame"></div>`;
+if (q.mode === 'chrome') b.innerHTML = `<div class="live"><i></i>실제 구동</div><div class="side"><div class="k">${esc(q.kicker || '')}</div><h2>${esc(q.label)}</h2><div class="bar"></div><p>${esc(q.note || '')}</p></div><img class="char" src="${A}art/urusaem.png">`;
+if (q.mode === 'bubble') b.innerHTML = `<div class="bubble">${esc(q.text)}</div>`;
+if (q.mode === 'slide') b.innerHTML = `<div class="chip" style="background:#fff;color:#173f2c">${esc(q.chip)}</div>
+  <div class="s-copy"><span class="k">${esc(q.kicker)}</span><h1>${esc(q.title[0])}<br><em>${esc(q.title[1])}</em></h1><p>${esc(q.sub)}</p></div>
+  <div class="s-art">${q.art === 'cover' ? `<img class="cover" src="${A}art/original-physics-cover.png"><img class="logo" src="../../../assets/msg-logo.png">`
+    : `<div class="shots">${(q.shots || []).map((s, i) => `<img src="${s}" style="left:${i * 90}px;top:${i * 110}px;transform:rotate(${(i - 1) * 3}deg)">`).join('')}</div>`}</div>
+  <img class="char" src="${A}art/urusaem.png">`;
+if (q.mode === 'deck') {
+  const H = `<div class="chip">${esc(q.chip)}</div><div class="d-h"><div class="k">${esc(q.kicker || '')}</div><h2>${q.titleHtml || esc(q.title)}</h2></div>`;
+  let B = '';
+  if (q.layout === 'meaning') B = `<div class="meaning">${q.items.map(([c, w]) => `<div><span>${esc(c)}</span><b>${esc(w)}</b></div>`).join('')}</div><div class="phil">${esc(q.phil)}</div>`;
+  if (q.layout === 'cards' || q.layout === 'flow') B = `<div class="d-body">${q.items.map((it, i) => `${q.layout === 'flow' && i ? '<div class="d-arrow">→</div>' : ''}<div class="d-card${it.hl ? ' hl' : ''}"><div class="n">${esc(it.n ?? i + 1)}</div><b>${esc(it.t)}</b><p>${esc(it.p || '')}</p></div>`).join('')}</div>`;
+  if (q.layout === 'tree') B = `<div class="tree">${q.items.map((it, i) => `${i ? '<i>→</i>' : ''}<div class="st"><small>${esc(it.s)}</small><b>${esc(it.t)}</b></div>`).join('')}</div>`;
+  b.innerHTML = H + B + `<img class="char" src="${A}art/urusaem.png">`;
+}
+document.fonts.ready.then(() => { document.title = 'ready'; });
+</script></body></html>
