@@ -1,5 +1,46 @@
 <!doctype html>
 <html lang="ko"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#245a40"><title>MSG 초·과·심 · 시작하기</title>
+<link rel="stylesheet" href="./fonts/fonts.css">
 <style>
-*{box-sizing:border-box}body{margin:0;min-height:100dvh;background:#eaf2eb;color:#193b2a;font:17px/1.5 system-ui,'Malgun Gothic',sans-serif;word-break:keep-all}header{padding:18px 24px;background:#245a40;color:white;font-weight:800}header small{display:block;font-weight:500;font-size:13px}main{max-width:1060px;margin:auto;padding:clamp(20px,5vw,60px) 20px 80px}h1{font-size:clamp(30px,5vw,52px);line-height:1.16;margin:0 0 14px}p{margin:0 0 28px}.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}.card{display:flex;flex-direction:column;min-height:295px;padding:26px;background:white;border:2px solid #c8dccc;border-radius:24px;box-shadow:0 10px 26px #1e513222}.card b{font-size:18px;color:#2a7750}.card h2{font-size:29px;line-height:1.2;margin:12px 0}.card p{font-size:16px;flex:1;margin:0 0 18px}.card a,.print-links a{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:10px 17px;border-radius:12px;background:#2b7951;color:white;font-size:16px;font-weight:800;text-decoration:none;text-align:center}.card a:hover,.print-links a:hover{background:#1f603e}.card a:focus-visible,.print-links a:focus-visible{outline:4px solid #eeac43;outline-offset:3px}.print-links{margin-top:26px;padding:23px;border:1px solid #c3dac9;border-radius:20px;background:#f8fbf6}.print-links h2{margin:0 0 6px;font-size:22px}.print-links p{font-size:14px;margin:0 0 16px}.print-links>div{display:flex;flex-wrap:wrap;gap:10px}.print-links a{background:#244d68}.print-links a:hover{background:#183c55}@media(max-width:730px){.cards{grid-template-columns:1fr}.card{min-height:0;padding:20px}.card h2{font-size:25px}.card p{margin-bottom:15px}}
-</style></head><body><header>MSG 초·과·심<small>물리 1·2차시 · 용수철과 무게 재기</small></header><main><h1>어떻게 시작할까요?</h1><p>지금 할 일을 고르면 바로 교재가 열려요.</p><div class="cards"><section class="card"><b>01 · 학생</b><h2>스스로 공부하기</h2><p>우루사쌤의 안내를 따라 읽고, 실험을 직접 해 봐요.</p><a href="./student.html?page=0">학생 화면 열기</a></section><section class="card"><b>02 · 교사</b><h2>가르치기</h2><p>질문을 먼저 보여 주고, 자료·실험·영상을 수업 순서에 맞춰 엽니다.</p><a href="./teacher.html?page=0">강의용 교안 열기</a></section><section class="card"><b>03 · 함께 읽기</b><h2>살아있는 책</h2><p>책장을 보다가 필요한 실험과 영상을 곁에서 열어 봅니다.</p><a href="./book.html?page=0">책 열기</a></section></div><section class="print-links"><h2>종이 교재가 필요하다면</h2><p>검수용 PDF가 새 창에서 열립니다. 브라우저의 인쇄 메뉴에서 용지를 출력할 수 있어요.</p><div><a href="./print/student.pdf" target="_blank" rel="noopener">학생용 교재 PDF</a><a href="./print/teacher.pdf" target="_blank" rel="noopener">교사용 교안 PDF</a></div></section></main></body></html>
+/* 첫 화면 — 성향 검사 「AI 맞춤 상담」 카드 결: 흰→연하늘 카드, 가는 테두리, 푸른 그림자, 짙은 초록 주 단추 */
+:root{--ink:#16261d;--sub:#5a6b61;--line:#DCE8E0;--brand:#1f5a3c;--brand2:#2b7a52;--card-top:#fff;--card-bot:#EEF7F1;--shadow:0 10px 28px rgba(31,90,60,.12);--shadow-hi:0 16px 36px rgba(31,90,60,.18);--badge:linear-gradient(135deg,#34a86a,#1f7ab8)}
+*{box-sizing:border-box}
+body{margin:0;min-height:100dvh;color:var(--ink);font:17px/1.55 "Pretendard Variable",Pretendard,"Apple SD Gothic Neo","Noto Sans KR",sans-serif;letter-spacing:-.2px;word-break:keep-all;
+  background:radial-gradient(1200px 600px at 85% -10%,#dff1e6 0%,transparent 60%),radial-gradient(900px 500px at -10% 110%,#e3eefb 0%,transparent 55%),#f5f9f6}
+header{display:flex;align-items:center;gap:14px;padding:14px 28px;background:rgba(255,255,255,.72);backdrop-filter:blur(10px);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:2}
+header img{height:34px}header b{font-size:17px;font-weight:800;letter-spacing:-.4px}header small{display:block;font-size:12.5px;color:var(--sub);font-weight:600}
+main{max-width:1120px;margin:auto;padding:clamp(18px,4vw,44px) 22px 70px}
+.hero{display:grid;grid-template-columns:1fr 250px;gap:24px;align-items:end}
+.kick{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:800;letter-spacing:.06em;color:var(--brand2)}
+.kick i{width:22px;height:22px;border-radius:7px;background:var(--badge);display:inline-block}
+h1{font-size:clamp(32px,5vw,56px);line-height:1.12;margin:10px 0 12px;letter-spacing:-1.6px;font-weight:850}
+h1 em{font-style:normal;background:linear-gradient(90deg,#1f7a4f,#1f6fb8);-webkit-background-clip:text;background-clip:text;color:transparent}
+.lead{margin:0 0 6px;color:var(--sub);font-size:17px}
+.hero figure{margin:0;position:relative;height:260px}
+.hero figure img{position:absolute;right:0;bottom:-18px;height:262px;filter:drop-shadow(0 16px 24px rgba(31,90,60,.2))}
+.hero figure figcaption{position:absolute;left:-10px;top:10px;max-width:190px;padding:10px 14px;border-radius:16px 16px 4px 16px;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow);font-size:14px;font-weight:700;line-height:1.45}
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:22px;position:relative}
+.card{display:flex;flex-direction:column;min-height:290px;padding:24px;border-radius:22px;background:linear-gradient(180deg,var(--card-top) 52%,var(--card-bot));border:1px solid var(--line);box-shadow:var(--shadow);transition:transform .18s ease,box-shadow .18s ease}
+.card:hover{transform:translateY(-3px);box-shadow:var(--shadow-hi)}
+.card .ico{width:48px;height:48px;border-radius:15px;display:grid;place-items:center;font-size:24px;background:var(--badge);box-shadow:0 8px 18px rgba(31,122,184,.25);margin-bottom:14px}
+.card b{font-size:13px;font-weight:800;color:var(--brand2);letter-spacing:.04em}
+.card h2{font-size:27px;line-height:1.2;margin:6px 0 8px;letter-spacing:-.8px;font-weight:850}
+.card p{font-size:15.5px;flex:1;margin:0 0 18px;color:var(--sub)}
+.card a,.print-links a{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:50px;padding:10px 18px;border-radius:14px;font-size:16px;font-weight:800;text-decoration:none;text-align:center;letter-spacing:-.3px;transition:transform .15s,box-shadow .15s}
+.card a{background:linear-gradient(180deg,#2b7a52,#1f5a3c);color:#fff;box-shadow:0 8px 18px rgba(31,90,60,.28)}
+.card.primary{background:linear-gradient(180deg,#24684a,#173f2c);border-color:transparent;color:#fff;box-shadow:0 16px 34px rgba(23,63,44,.32)}
+.card.primary b{color:#9fe0bb}.card.primary p{color:#d5eadd}.card.primary a{background:#fff;color:#1f5a3c}
+.card a:hover,.print-links a:hover{transform:translateY(-1px)}
+.card a:focus-visible,.print-links a:focus-visible{outline:4px solid #eeac43;outline-offset:3px}
+.print-links{display:flex;align-items:center;gap:18px;flex-wrap:wrap;margin-top:18px;padding:18px 22px;border:1px solid var(--line);border-radius:20px;background:rgba(255,255,255,.75)}
+.print-links h2{margin:0;font-size:18px;font-weight:800}.print-links p{font-size:13.5px;margin:2px 0 0;color:var(--sub)}
+.print-links>div:last-child{display:flex;flex-wrap:wrap;gap:10px;margin-left:auto}
+.print-links a{background:linear-gradient(180deg,#fff 52%,#EEF4FB);color:#1d3b58;border:1px solid #D6E2F0;box-shadow:0 6px 16px rgba(30,99,200,.10);min-height:46px}
+@media(max-width:860px){.hero{grid-template-columns:1fr}.hero figure{display:none}.cards{grid-template-columns:1fr}.card{min-height:0}.print-links>div:last-child{margin-left:0}}
+</style></head><body><header><img src="../assets/msg-logo.png" alt="MSG"><div><b>초·과·심 물리</b><small>1·2차시 · 용수철과 무게 재기</small></div></header>
+<main><section class="hero"><div><span class="kick"><i></i>MSG 초·과·심 사이언스 랩</span><h1>용수철저울,<br><em>직접 재 보며</em> 배워요</h1><p class="lead">지금 할 일을 고르면 바로 교재가 열려요.</p></div>
+<figure><img src="./art/urusaem.png" alt="우루사쌤"><figcaption>안녕! 오늘은 무게를 직접 재 볼 거야.</figcaption></figure></section>
+<div class="cards"><section class="card primary"><span class="ico" aria-hidden="true">🧪</span><b>01 · 학생</b><h2>스스로 공부하기</h2><p>우루사쌤의 안내를 따라 읽고, 3D 저울로 실험을 직접 해 봐요.</p><a href="./student.html?page=0">학생 화면 열기 →</a></section>
+<section class="card"><span class="ico" aria-hidden="true">🖥️</span><b>02 · 교사</b><h2>가르치기</h2><p>질문 → 자료·실험·영상 → 두 팀 배틀까지 수업 순서대로 엽니다.</p><a href="./teacher.html?page=0">강의용 교안 열기 →</a></section>
+<section class="card"><span class="ico" aria-hidden="true">📖</span><b>03 · 함께 읽기</b><h2>살아있는 책</h2><p>책장을 넘기다 필요한 실험과 영상을 곁에서 열어 봅니다.</p><a href="./book.html?page=0">책 열기 →</a></section></div>
+<section class="print-links"><div><h2>종이 교재가 필요하다면</h2><p>A4 PDF가 새 창에서 열려요. 브라우저 인쇄 메뉴로 출력하세요.</p></div><div><a href="./print/student.pdf" target="_blank" rel="noopener">📄 학생용 교재 PDF</a><a href="./print/teacher.pdf" target="_blank" rel="noopener">📄 교사용 교안 PDF</a></div></section></main></body></html>

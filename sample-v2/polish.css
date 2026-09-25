@@ -1,0 +1,18 @@
+/* 화면 다듬기(2026-09-26) — 기능은 그대로, 모양만. 글꼴 Pretendard(사이트 자체 탑재) + 단추는 흰→연하늘 카드 결.
+   배틀 화면은 battle.css가 맡는다. 인쇄에는 영향 없음(@media screen). */
+@media screen {
+  :root { --font: "Pretendard Variable", Pretendard, "Apple SD Gothic Neo", "Noto Sans KR", sans-serif; }
+  body { letter-spacing: -0.2px; }
+  .app-header { background: linear-gradient(90deg, #173f2c, #1f5a3c 60%, #22603f); box-shadow: 0 6px 18px rgba(23, 63, 44, .18); }
+  .app-header .global-tools button, .app-header .edition-picker select { border-radius: 12px; }
+  .book-bottom button, .transport button, .read-controls button, .teacher-dock button:not(.guide-action) {
+    border: 1px solid #DCE6EE; border-radius: 14px; background: linear-gradient(180deg, #fff 52%, #EEF4FB); color: #1b2f3f; font-weight: 700;
+    box-shadow: 0 6px 16px rgba(30, 99, 200, .10); transition: transform .15s ease, box-shadow .15s ease; }
+  .book-bottom button:hover, .transport button:hover, .read-controls button:hover { transform: translateY(-1px); box-shadow: 0 10px 22px rgba(30, 99, 200, .16); }
+  .start-button, #start { background: linear-gradient(180deg, #2b7a52, #1f5a3c) !important; color: #fff !important; border-color: transparent !important; box-shadow: 0 8px 18px rgba(31, 90, 60, .28) !important; }
+  .guide-action, #guide-action { border-radius: 16px !important; background: linear-gradient(180deg, #2b7a52, #1f5a3c) !important; color: #fff !important; font-weight: 800; letter-spacing: -.3px;
+    box-shadow: 0 10px 22px rgba(31, 90, 60, .30), 0 0 0 3px rgba(238, 172, 67, .55) !important; }
+  .teacher-dock { border-radius: 22px; box-shadow: 0 14px 34px rgba(23, 63, 44, .14); }
+}
+/* 안내 캐릭터 그림(흰 바탕 PNG)이 노란·크림 바탕 위에서 흰 상자로 보이지 않게 */
+@media screen { .character-figure img, .teacher-dock img { mix-blend-mode: multiply; } }
