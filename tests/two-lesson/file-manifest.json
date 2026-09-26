@@ -6,13 +6,13 @@
   },
   {
     "path": "activities.js",
-    "size": 29797,
-    "sha256": "4d8ddca6140e26d5eb4ba615587e0ff5272ac3c90432edae3884f6e7080d6dea"
+    "size": 29864,
+    "sha256": "43cccab3bb02d31421f9dee45801a83a5d6f47b958d897d668811f90841438cc"
   },
   {
     "path": "app.js",
-    "size": 38609,
-    "sha256": "c5d4d61f9e72a9bba92f5fbd8cd7757a005d2662bf06fc1284f384f28dff345a"
+    "size": 44447,
+    "sha256": "f5e91c9b96e2af785cf7b5292bf57ea39f978f45ed511b29d4b4e20f8fda301b"
   },
   {
     "path": "art/FUTURE-IMAGE-PROMPTS.md",
@@ -836,8 +836,8 @@
   },
   {
     "path": "coach-stage.js",
-    "size": 6155,
-    "sha256": "442b67a459f84073310589fb40a77effe0e200792ca5473117a24da8ad3c4ebf"
+    "size": 12286,
+    "sha256": "bdd1e39810878a3da8486317f2af81a15a79861338120aa2cb7140944eed0247"
   },
   {
     "path": "content.js",
@@ -891,8 +891,8 @@
   },
   {
     "path": "index.html",
-    "size": 4877,
-    "sha256": "015a4f242881354bd5197ced81dc27f14aa4fbaffe9a7ae9901128e3619a75b4"
+    "size": 5118,
+    "sha256": "38ba3ca27e594702e5560ee1223a8ab1770bffba98efd53fe09f4df0f3f3e5b1"
   },
   {
     "path": "inquiry-pages.js",
@@ -901,8 +901,8 @@
   },
   {
     "path": "inquiry.js",
-    "size": 17886,
-    "sha256": "b352c352106facd1c18be22234863887ccd84bbfee8bef3bd9dd8f05672f182b"
+    "size": 17949,
+    "sha256": "a987cb48746b36a2b23dfdd29c3daaa308899bd0d1f05f9c353d73039c11848c"
   },
   {
     "path": "lab3d.js",
@@ -918,6 +918,11 @@
     "path": "lesson-print.css",
     "size": 31936,
     "sha256": "caa29041f499939b53f89d9fb9ab17ac351fd708c54ef9f5286b58a79ceb635a"
+  },
+  {
+    "path": "live-book.css",
+    "size": 16428,
+    "sha256": "484a74d91dcc2d8858a816027e6703fd074045790ca0a7216b0c6de98569aa7d"
   },
   {
     "path": "media/spring-observation.mp4",

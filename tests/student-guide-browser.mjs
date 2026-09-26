@@ -6,7 +6,7 @@ const {chromium}=await import(process.env.MSG_PLAYWRIGHT_URL||'playwright');
 const base=process.env.QA_BASE||'http://127.0.0.1:4320/sample-v2/';
 const out=process.env.QA_OUT||'.proofs/student-guide';
 mkdirSync(out,{recursive:true});
-const browser=await chromium.launch({executablePath:process.env.EDGE_PATH||'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe',headless:true});
+const browser=await chromium.launch({executablePath:process.env.EDGE_PATH||'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe',headless:true,args:['--use-gl=swiftshader','--enable-unsafe-swiftshader']});
 const errors=[];
 try{
  const page=await browser.newPage({viewport:{width:1366,height:768}});
@@ -29,10 +29,14 @@ try{
  assert.equal(await page.locator('.lesson-bar').evaluate(el=>getComputedStyle(el).display),'none');
  assert.match(await page.locator('#coach-copy').innerText(),/다음 페이지/);
  assert.equal(await page.locator('#guide-action').getAttribute('data-guide-action'),'next');
- assert.equal(await page.locator('#mobile-reader').isVisible(),true);
+ // 넓은 화면: 책과 같은 A4 한 쪽이 무대에 꼭 맞게(안쪽 스크롤 없이) 보인다
+ assert.equal(await page.locator('body').evaluate(el=>el.classList.contains('page-fit')),true);
+ assert.equal(await page.locator('#mobile-reader').isVisible(),false);
+ assert.equal(await page.evaluate(()=>{const ws=document.querySelector('#workspace').getBoundingClientRect();return [...document.querySelectorAll('#flipbook .paper')].filter(p=>p.offsetParent&&getComputedStyle(p).display!=='none').map(p=>p.getBoundingClientRect()).filter(r=>r.width>100).every(r=>r.top>=ws.top-1&&r.bottom<=ws.bottom+1&&r.height>ws.height*.85);}),true,'whole page visible and filling the stage height');
  assert.equal(await page.locator('.teacher-dock .coach-face .coach-bob img').count(),6,'six approved full-body expressions are stacked for swapping');
  assert.match(await page.locator('.coach-face img.on').getAttribute('src'),/art\/expressions-full\/web\/(listen|explain)\.webp$/);
- assert.equal(await page.locator('#book-pane .teacher-dock').count(),1,'coach stands inside the book area');
+ assert.equal(await page.locator('#workspace > .teacher-dock').count(),1,'coach sits in a corner of the stage');
+ assert((await page.locator('.teacher-dock').evaluate(el=>el.getBoundingClientRect().width))<=440,'coach bubble stays small');
  await page.waitForFunction(()=>[...document.querySelectorAll('.coach-face .coach-bob img')].every(img=>img.complete&&img.naturalWidth===512),null,{timeout:5000});   // approved full-body expressions (web size 512×768), preloaded
  await page.screenshot({path:join(out,'student-cover-1366.png')});
  await page.emulateMedia({media:'print'});
@@ -44,19 +48,21 @@ try{
  await page.waitForFunction(()=>window.__sample.current===1);
  await page.waitForTimeout(700);
  assert((await page.evaluate(()=>window.__guidedAudio.length))>0,'existing narration should start after a page action');
- assert.equal(await page.locator('#guide-action').getAttribute('data-guide-action'),'activity');
- assert.equal(await page.locator('#guide-action').getAttribute('data-guide-kind'),'parts');
- assert.match(await page.locator('#coach-copy').innerText(),/실험/);
+ // 실험이 있는 쪽: 버튼 없이 책 옆(오른쪽 면)에 실험이 바로 열리고, 안내는 지금 할 일 하나
+ await page.waitForFunction(()=>window.__sample.live==='parts'&&document.querySelector('#workspace').classList.contains('split'));
+ await page.waitForFunction(()=>document.querySelector('#activity-content .lab-controls'));
+ assert.equal(await page.locator('#book-pane').isVisible(),true,'the page stays visible beside the lab');
  assert.match(await page.locator('#coach-copy').innerText(),/영점조절나사/);
- assert((await page.locator('.guide-target').count())>0);
- await page.screenshot({path:join(out,'student-experiment-cue-1366.png')});
-
- await page.locator('#guide-action').click();
- await page.waitForFunction(()=>document.querySelector('#workspace').classList.contains('active'));
- await page.waitForFunction(()=>document.querySelector('#activity-content').children.length>0);
- await page.waitForTimeout(750);
  assert.match(await page.locator('#coach-copy').innerText(),/부분을 하나씩/);
+ assert.equal(await page.locator('#guide-action').isVisible(),false,'one thing at a time: do the lab first');
  await page.screenshot({path:join(out,'student-activity-1366.png')});
+ await page.locator('#activity-content .lab-controls button').first().click();
+ assert.equal(await page.locator('#guide-action').getAttribute('data-guide-action'),'next','after trying the lab the next page is offered');
+ assert.equal(await page.locator('#guide-action').isVisible(),true);
+ await page.locator('#coach-fold').click();
+ assert.equal(await page.locator('.teacher-dock').evaluate(el=>el.classList.contains('folded')),true);
+ await page.locator('.teacher-dock .character-figure').click();
+ assert.equal(await page.locator('.teacher-dock').evaluate(el=>el.classList.contains('folded')),false);
  await page.locator('#close-activity').click();
  assert.equal(await page.locator('#guide-action').getAttribute('data-guide-action'),'next');
  assert.equal(await page.locator('#self-study').isVisible(),false);
@@ -133,10 +139,10 @@ try{
  assert.equal(await mobile.locator('.speech-answer').count(),0,'learning pages do not show assessment input');
  assert.equal(await mobile.locator('.assessment-photo').count(),0,'learning pages do not show photo input');
  assert.equal(await mobile.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
- await mobile.locator('#focus-reading').tap();
+ await mobile.locator('#read-text').tap();
  assert.equal(await mobile.locator('body').evaluate(el=>el.classList.contains('student-zoom')),true);
  assert.equal(await mobile.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
- await mobile.locator('#focus-reading').tap();
+ await mobile.locator('#read-text').tap();
  await mobile.screenshot({path:join(out,'student-experiment-cue-390.png')});
  await mobile.locator('#guide-action').tap();
  await mobile.waitForFunction(()=>document.querySelector('#workspace').classList.contains('active'));

@@ -1,0 +1,160 @@
+/* 살아 있는 책 무대(2026-09-26) — 화면 전용, 마지막에 로드. 인쇄(@media print·#print-root)에는 손대지 않는다.
+   ① 크롬을 줄여 지면이 화면을 채운다: 얇은 머리 막대(차시 탭 포함) + 얇은 아래 알약 도구 줄, 어두운 무대.
+   ② 실험·영상이 있는 쪽은 넓은 화면에서 책 옆(오른쪽 면)에 곧바로 살아난다(#workspace.split).
+   ③ 우루사쌤은 구석의 작은 말풍선(coach-stage.js가 자리를 고른다). */
+@media screen {
+/* ── 크기 ─────────────────────────────────────────────────────────── */
+body[data-edition]{--header:50px;--bar:0px;--bottom:54px;--stage-bg:#16241d}
+
+/* ── 머리 막대: 차시 탭을 안으로 ─────────────────────────────────── */
+body .app-header{height:var(--header);padding:0 14px;gap:14px}
+body .brand{font-size:14px;gap:10px}
+body .brand-mark{font-size:24px}
+body .brand small{font-size:9.5px;margin-top:1px}
+body .app-header .lesson-bar{height:auto;padding:0;margin:0;background:none;border:0;flex-direction:row;display:flex;align-items:center}
+body .app-header .lesson-bar nav{height:auto;gap:3px;padding:3px;border-radius:999px;background:rgba(0,0,0,.2);box-shadow:inset 0 0 0 1px rgba(255,255,255,.1)}
+body .app-header .lesson-bar nav button{min-height:30px;height:30px;padding:0 13px;border-radius:999px;gap:6px;color:#cfe3d5!important}
+body .app-header .lesson-bar nav button b{font-size:13px}
+body .app-header .lesson-bar nav button span{font-size:12px}
+body .app-header .lesson-bar nav .selected{background:#fff!important;color:#1f5a3c!important}
+body .app-header .lesson-bar nav .selected:after{display:none}
+body .app-header .global-tools{gap:6px;align-items:center}
+body .app-header .global-tools button{min-height:32px;height:32px;padding:0 13px;font-size:12px;border-radius:999px}
+body .app-header .edition-picker{min-height:32px;height:32px;border-radius:999px;padding:0 10px;font-size:12px}
+
+/* ── 아래 도구 줄: 알약 단추 ─────────────────────────────────────── */
+body .transport{height:var(--bottom);display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);align-items:center;gap:12px;padding:0 14px;background:#0f1914;border-top:1px solid rgba(255,255,255,.07)}
+body .transport .read-controls{justify-self:start;gap:6px;flex-wrap:nowrap;min-width:0}
+body .transport .progress-control{justify-self:center;margin:0;gap:6px}
+body .transport .view-tools{justify-self:end;display:flex;gap:6px}
+body .transport .status-label{display:none}
+body .transport button,body .transport select{min-height:34px;height:34px;padding:0 13px;border-radius:999px;font-size:12.5px;font-weight:700;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.17);color:#e8f2eb;box-shadow:none}
+body .transport button:hover{background:rgba(255,255,255,.14);box-shadow:none;transform:none}
+body .transport button[aria-pressed="true"]{background:rgba(238,172,67,.16);border-color:rgba(238,172,67,.55);color:#ffe2b3}
+body .transport #start{padding:0 16px}
+body .transport .progress-control>button{width:38px;padding:0;font-size:17px}
+body .transport #page-select{max-width:270px;padding:0 12px;appearance:auto;cursor:pointer}
+body .transport #page-select option{color:#1b2f3f;background:#fff}
+body .transport .guide-target{outline:3px solid #f3b341;outline-offset:2px}
+
+/* ── 무대 ────────────────────────────────────────────────────────── */
+body[data-edition] #workspace{background:radial-gradient(120% 95% at 50% 32%,#2d4337 0%,#1b2c23 55%,#111c16 100%);padding:10px 14px;gap:0}
+body #workspace .paper-meta,body #workspace .book-bottom{display:none}
+body #book-transform{filter:drop-shadow(0 18px 28px rgba(0,0,0,.42))}
+body.coach-stage[data-edition]:not(.hide-character) .book-pane{padding-bottom:0}
+body #teach-overlay{inset:6px;border-radius:14px}
+
+/* 학생 · 넓은 화면: 책과 같은 A4 한 쪽을 화면에 꼭 맞게(안쪽 스크롤 없음) */
+body.page-fit[data-edition="student"] #book-transform{visibility:visible}
+body.page-fit[data-edition="student"] #mobile-reader{display:none}
+/* 학생 · 시험지(Daily Test)·본문 크게: 글씨를 줄이지 않는 한 쪽, 어두운 무대 위 */
+body[data-edition="student"]:not(.page-fit) #mobile-reader{background:transparent;padding:4px 8px 150px;container-type:inline-size}
+body[data-edition="student"]:not(.page-fit) #mobile-reader .paper.assessment{width:min(100%,1120px)}
+@container (min-width:960px){
+ body[data-edition="student"] #mobile-reader .paper.assessment .source-test-columns{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:22px 30px;align-items:start}
+}
+
+/* ── 책 옆에서 살아나는 실험·영상(펼친 책의 오른쪽 면) ────────────── */
+body[data-edition] #workspace.active.split .book-pane{display:flex!important;flex:0 0 var(--page-w,42%)!important;width:var(--page-w,42%);max-width:50%;padding:0}
+body[data-edition] #workspace.active.split .activity{flex:1 1 auto;min-width:0;opacity:1;transform:none;border:0!important;border-radius:4px 16px 16px 4px;background:#fbfcfa;box-shadow:0 18px 34px rgba(0,0,0,.38);position:relative}
+body[data-edition] #workspace.active.split .activity::before{content:"";position:absolute;z-index:5;left:0;top:0;bottom:0;width:22px;pointer-events:none;background:linear-gradient(90deg,rgba(20,40,30,.22),rgba(20,40,30,0))}
+body #workspace.active.split .activity-head{padding:7px 14px 7px 26px;min-height:0;border-bottom-width:2px}
+body #workspace.active.split .activity-head span{font-size:9.5px;letter-spacing:1.4px}
+body #workspace.active.split .activity-head h2{font-size:16.5px;margin:1px 0}
+body #workspace.active.split .activity-head>button{min-height:30px;height:30px;padding:0 12px;border-radius:999px;font-size:11.5px}
+body #workspace.active.split #activity-content{container-type:inline-size}
+body #workspace.active.split .film-stage{padding:12px 16px 10px 28px}
+body #workspace.active.split .film-stage video{border-radius:12px;max-height:calc(100% - 150px)}
+/* 영상 아래 왼쪽은 우루사쌤 말풍선 자리로 비워 두고, 출처·재생 단추는 오른쪽에 */
+body #workspace.active.split .film-stage .media-credit,body #workspace.active.split .film-stage [data-video-play]{align-self:flex-end;max-width:52%;text-align:right}
+body #workspace.active.split .film-stage [data-video-play]{min-height:40px;border-radius:999px;padding:0 20px}
+/* 지면 위 어느 단추의 실험이 옆에 열려 있는지 */
+.live-source{outline:3px solid #EE9B3A!important;outline-offset:2px;border-radius:12px;box-shadow:0 0 0 7px rgba(238,155,58,.18)}
+/* 넓은 실험 면: 예상 단계를 두 단으로(아래로 내리지 않고 한 화면에) */
+@container (min-width:820px){
+ .inquiry-stage.everyday-inquiry{display:grid;grid-template-columns:minmax(0,1.35fr) minmax(0,1fr);column-gap:30px;align-items:start;max-width:1180px;padding:16px 24px 16px 30px}
+ .inquiry-stage.everyday-inquiry .inq-col{min-width:0}
+ .inquiry-stage.everyday-inquiry .inq-side{padding-top:44px}
+ .inquiry-stage.everyday-inquiry h3{margin:6px 0 6px}
+ .inquiry-stage.everyday-inquiry .everyday-order{flex-wrap:wrap}
+ .factor-activity{display:grid;grid-template-columns:minmax(0,1.05fr) minmax(0,1fr);column-gap:28px;align-content:start;padding:18px 24px 18px 30px}
+ .factor-activity>*{grid-column:2;min-width:0}
+ .factor-activity>.factor-pair{grid-column:1;grid-row:1 / span 6;align-self:start;max-width:none;margin:4px 0 0}
+ .factor-activity h3{margin:0 0 10px}
+ .factor-activity textarea{width:100%;box-sizing:border-box}
+}
+
+/* 좁은 화면의 지면 속 실제 영상 */
+figure.inline-film{margin:12px 0;border-radius:14px;overflow:hidden;background:#0f1e17;box-shadow:0 6px 16px rgba(15,30,23,.25)}
+figure.inline-film video{display:block;width:100%;aspect-ratio:16/9;background:#000;object-fit:contain}
+figure.inline-film figcaption{padding:8px 12px;color:#e6f0ea;font-size:13px;line-height:1.4}
+figure.inline-film figcaption b{color:#ffd28f;margin-right:4px}
+
+/* ── 우루사쌤: 구석의 작은 말풍선 ───────────────────────────────── */
+body.coach-stage:not(.hide-character) #workspace .teacher-dock{display:block;position:absolute;z-index:45;left:var(--dock-x,10px);right:auto;top:auto;bottom:10px;transform:none;width:auto;max-width:min(440px,calc(100% - 20px));height:auto;flex:none;margin:0;padding:0 0 0 104px;border:0;border-radius:0;background:none;box-shadow:none;pointer-events:none;overflow:visible;transition:none}
+body.coach-stage #workspace .teacher-dock>*{pointer-events:auto}
+body.coach-stage:not(.hide-character) #workspace .teacher-dock .character-figure{position:absolute;left:-4px;right:auto;top:auto;bottom:-8px;width:100px;height:150px;margin:0;border-radius:0;overflow:visible;background:none;box-shadow:none;transform:scaleX(-1);pointer-events:none}
+body.coach-stage #workspace .teacher-dock .coach-note{display:flex;flex-wrap:wrap;align-items:center;gap:6px 8px;width:min(326px,calc(100vw - 150px));min-height:0;max-height:none;margin:0;padding:10px 12px 9px 14px;border-radius:18px;box-shadow:0 14px 30px rgba(0,0,0,.30),0 2px 6px rgba(0,0,0,.12)}
+body.coach-stage #workspace .teacher-dock .coach-note::before{left:-7px;bottom:20px;width:13px;height:13px}
+body.coach-stage #workspace .teacher-dock .coach-note>span{flex:1 1 auto;font-size:11px}
+body.coach-stage #workspace #voice-kind{display:none}
+body.coach-stage #workspace #coach-copy{flex:1 1 100%;margin:0;font-size:14.5px;font-weight:700;line-height:1.45;letter-spacing:-.3px;max-height:5.8em;overflow:auto}
+body.coach-stage #workspace #coach-status{flex:1 1 100%;margin:0;font-size:12.5px;line-height:1.4;max-height:4.3em;overflow:auto}
+body.coach-stage #workspace .teacher-dock #guide-action{flex:0 0 auto;min-height:34px;height:34px;margin:2px 0 0;padding:0 15px;font-size:13.5px;border-radius:999px!important;box-shadow:0 6px 14px rgba(31,90,60,.28),0 0 0 3px rgba(238,172,67,.5)!important}
+body.coach-stage #workspace .coach-tools{display:flex;gap:5px;margin:2px 0 0 auto}
+body.coach-stage #workspace .coach-tools button{min-height:28px;height:28px;padding:0 10px;border-radius:999px;font-size:11.5px;font-weight:750;background:#F1F6F2;border:1px solid #D4E4D9;color:#2b5a41;box-shadow:none}
+body.coach-stage #workspace .coach-tools button:hover{background:#E4EFE7}
+/* 오른쪽에 앉을 때: 그림이 오른쪽, 꼬리도 오른쪽 */
+body.coach-stage:not(.hide-character) #workspace .teacher-dock[data-side="right"]{padding:0 104px 0 0}
+body.coach-stage:not(.hide-character) #workspace .teacher-dock[data-side="right"] .character-figure{left:auto;right:-4px;transform:none}
+body.coach-stage #workspace .teacher-dock[data-side="right"] .coach-note::before{left:auto;right:-7px;transform:rotate(-135deg)}
+/* 접힘: 동그란 얼굴만(누르면 다시 펼침). 스스로 접혔을 때 새 안내가 오면 점이 뜬다 */
+body.coach-stage:not(.hide-character) #workspace .teacher-dock.folded{padding:0;width:66px;height:66px}
+body.coach-stage #workspace .teacher-dock.folded .coach-note{display:none}
+body.coach-stage:not(.hide-character) #workspace .teacher-dock.folded .character-figure{left:0;right:auto;bottom:0;width:62px;height:62px;border-radius:50%;overflow:hidden;transform:none;cursor:pointer;pointer-events:auto;background:radial-gradient(circle at 50% 35%,#F3FAF5,#D6EADD);box-shadow:0 6px 16px rgba(0,0,0,.35),0 0 0 3px rgba(255,255,255,.85)}
+body.coach-stage #workspace .teacher-dock.folded .coach-face::before{display:none}
+body.coach-stage #workspace .teacher-dock.folded .coach-face .coach-bob{filter:none}
+body.coach-stage #workspace .teacher-dock.folded .coach-face .coach-bob img{inset:auto;left:-34px;top:-8px;width:130px;height:auto;object-fit:fill}
+body.coach-stage #workspace .teacher-dock.folded .coach-face[data-motion] .coach-act{animation:none}
+body.coach-stage #workspace .teacher-dock.folded[data-unread]::after{content:"";position:absolute;right:-1px;top:-1px;width:16px;height:16px;border-radius:50%;background:#EE9B3A;box-shadow:0 0 0 3px #fff;animation:coach-pulse 1.2s ease-in-out infinite}
+body.coach-stage #workspace .teacher-dock.folded .character-figure:focus-visible{outline:3px solid #f3b341;outline-offset:3px}
+
+/* ── 좁은 화면(휴대폰) ──────────────────────────────────────────── */
+@media (max-width:820px){
+ body[data-edition]{--header:52px;--bottom:96px}
+ body .app-header{gap:8px;padding:0 8px}
+ body .app-header .lesson-bar{display:none}
+ body .transport{display:flex;flex-wrap:wrap;justify-content:center;align-content:center;gap:5px 6px;padding:6px 8px}
+ body .transport .view-tools{display:none}
+ body .transport button,body .transport select{min-height:32px;height:32px;padding:0 10px;font-size:11.5px}
+ body[data-edition] #workspace{padding:6px 6px 4px}
+}
+@media (max-width:760px){
+ body.coach-stage:not(.hide-character) #workspace .teacher-dock{left:6px;right:6px;bottom:6px;max-width:none;padding:0}
+ body.coach-stage:not(.hide-character) #workspace .teacher-dock .character-figure{left:7px;top:50%;bottom:auto;width:40px;height:40px;margin-top:-20px;border-radius:50%;overflow:hidden;transform:none;background:radial-gradient(circle at 50% 35%,#F3FAF5,#D6EADD);box-shadow:0 3px 9px rgba(23,63,44,.18)}
+ body.coach-stage #workspace .teacher-dock .coach-face .coach-bob img{inset:auto;left:-22px;top:-5px;width:84px;height:auto;object-fit:fill}
+ body.coach-stage #workspace .teacher-dock .coach-note{width:auto;flex-wrap:nowrap;gap:6px;padding:6px 6px 6px 54px;border-radius:16px;min-height:52px}
+ body.coach-stage #workspace .teacher-dock .coach-note>span,body.coach-stage #workspace #coach-status{display:none}
+ body.coach-stage #workspace #coach-copy{flex:1 1 auto;min-width:0;font-size:13px;line-height:1.35;max-height:none;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+ body.coach-stage #workspace .teacher-dock #guide-action{min-height:36px;height:36px;padding:0 11px;font-size:12.5px;margin:0}
+ body.coach-stage #workspace .coach-tools{margin:0;flex-direction:column;gap:3px}
+ body.coach-stage #workspace .coach-tools button{min-height:22px;height:22px;padding:0 7px;font-size:10.5px}
+ body.coach-stage #workspace .teacher-dock.folded{left:6px;right:auto;width:50px;height:50px}
+ body.coach-stage:not(.hide-character) #workspace .teacher-dock.folded .character-figure{top:auto;bottom:0;margin:0;width:48px;height:48px}
+ body.coach-stage #workspace .teacher-dock.folded .coach-face .coach-bob img{left:-26px;top:-6px;width:100px}
+ body.coach-stage:not(.hide-character) #mobile-reader{padding-bottom:84px}
+ body.coach-stage:not(.hide-character) #workspace.active .activity{padding-bottom:66px}
+ body[data-edition="student"]:not(.page-fit) #mobile-reader{padding:4px 4px 84px}
+}
+}
+/* 책 양옆 여백이 좁을 때: 말풍선을 그림 위로 세운다 */
+@media screen and (min-width:761px){
+ body.coach-stage:not(.hide-character) #workspace .teacher-dock[data-shape="stack"]:not(.folded){padding:0 0 132px 0;width:var(--dock-w,280px);max-width:none}
+ body.coach-stage #workspace .teacher-dock[data-shape="stack"]:not(.folded) .coach-note{width:100%}
+ body.coach-stage:not(.hide-character) #workspace .teacher-dock[data-shape="stack"]:not(.folded) .character-figure{left:8px;right:auto;bottom:-6px;width:86px;height:130px;transform:scaleX(-1)}
+ body.coach-stage:not(.hide-character) #workspace .teacher-dock[data-shape="stack"][data-side="right"]:not(.folded) .character-figure{left:auto;right:8px;transform:none}
+ body.coach-stage #workspace .teacher-dock[data-shape="stack"] .coach-note::before{left:40px;right:auto;bottom:-7px;transform:rotate(-45deg)}
+ body.coach-stage #workspace .teacher-dock[data-shape="stack"][data-side="right"] .coach-note::before{left:auto;right:40px}
+}
+@media screen{body[data-edition="student"] .transport .view-tools{display:none}}
+@media screen{body[data-edition="student"] .app-header .lesson-bar{display:none}}
