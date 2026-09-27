@@ -13,20 +13,21 @@ try{
  const errors=[];page.on('pageerror',error=>errors.push(error.message));
  await page.goto(base+'index.html');
  await page.waitForURL(/start\.html$/);
- assert.equal(await page.locator('.card').count(),3);
- assert.equal(await page.locator('.print-links a').count(),2);
+ assert.equal(await page.locator('.card').count(),4);
+ assert.equal(await page.locator('.card a[href$=".pdf"]').count(),2);
  for(const file of ['student.pdf','teacher.pdf']){
   const response=await context.request.get(base+'print/'+file);
   assert.equal(response.status(),200,`${file} should open from the first screen`);
   assert.match(response.headers()['content-type']||'',/pdf/);
  }
  await page.screenshot({path:join(out,'entry-1366.png')});
- await page.getByRole('link',{name:'학생 화면 열기'}).click();
+ await page.getByRole('link',{name:'살아있는 교재 열기'}).click();
  await page.waitForFunction(()=>document.documentElement.dataset.ready==='true');
  assert.equal(await page.locator('body').getAttribute('data-edition'),'student');
 
  await page.goto(base+'teacher.html?page=20');
  await page.waitForFunction(()=>document.documentElement.dataset.ready==='true');
+ await page.locator('.lesson-tools summary').click();
  assert.equal(await page.locator('#teacher-notes').isVisible(),true);
  const popupPromise=page.waitForEvent('popup');
  await page.locator('#teacher-notes').click();

@@ -11,8 +11,8 @@
   },
   {
     "path": "app.js",
-    "size": 44447,
-    "sha256": "f5e91c9b96e2af785cf7b5292bf57ea39f978f45ed511b29d4b4e20f8fda301b"
+    "size": 45708,
+    "sha256": "62b05ea3670311efa08f751eb24710c7c17506a55dd60e8b76c2b3de022096ed"
   },
   {
     "path": "art/FUTURE-IMAGE-PROMPTS.md",
@@ -826,8 +826,8 @@
   },
   {
     "path": "book.html",
-    "size": 433,
-    "sha256": "3104fadaa169519c9be26645f7bd81c430344cf3fd3d9d31ec6d36f1bb90057b"
+    "size": 436,
+    "sha256": "b230000c8c971ac6ff52a273ffb594e1012b6bb9938aaad33171f7346603e025"
   },
   {
     "path": "coach-face.js",
@@ -836,8 +836,8 @@
   },
   {
     "path": "coach-stage.js",
-    "size": 12286,
-    "sha256": "bdd1e39810878a3da8486317f2af81a15a79861338120aa2cb7140944eed0247"
+    "size": 12556,
+    "sha256": "0d4e161ef4e12b9e9ad280560ed0fcd30050ae4e67dc8818e51423e248b57334"
   },
   {
     "path": "content.js",
@@ -891,8 +891,8 @@
   },
   {
     "path": "index.html",
-    "size": 5118,
-    "sha256": "38ba3ca27e594702e5560ee1223a8ab1770bffba98efd53fe09f4df0f3f3e5b1"
+    "size": 5013,
+    "sha256": "4ba81e41a7ce1988d3d46875d53ccba22b0ca90d8430f0b823cfdc634599bc13"
   },
   {
     "path": "inquiry-pages.js",
@@ -901,8 +901,8 @@
   },
   {
     "path": "inquiry.js",
-    "size": 17949,
-    "sha256": "a987cb48746b36a2b23dfdd29c3daaa308899bd0d1f05f9c353d73039c11848c"
+    "size": 18278,
+    "sha256": "880091a99f2985c75f7ef6aebd4c20edb99dce6bc4977c60056ba1e513b91591"
   },
   {
     "path": "lab3d.js",
@@ -921,8 +921,8 @@
   },
   {
     "path": "live-book.css",
-    "size": 16428,
-    "sha256": "484a74d91dcc2d8858a816027e6703fd074045790ca0a7216b0c6de98569aa7d"
+    "size": 28708,
+    "sha256": "0b6aa4f33bb795a9b854454c50b5c049be63a1b753753bcd2da081ff9ba5ac29"
   },
   {
     "path": "media/spring-observation.mp4",
@@ -1386,8 +1386,8 @@
   },
   {
     "path": "start.html",
-    "size": 7005,
-    "sha256": "2c30f920bfab030b384f6741252f85550ad4b03c30a13a0fa54bef2b757edd4a"
+    "size": 7399,
+    "sha256": "6c51049235de0dd27c416dbe1b62bdafa320f85f231faed38281e702621e1acd"
   },
   {
     "path": "student-guide.css",

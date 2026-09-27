@@ -21,8 +21,8 @@ h1 em{font-style:normal;background:linear-gradient(90deg,#1f7a4f,#1f6fb8);-webki
 @keyframes hero-sway{0%,100%{transform:rotate(-1.4deg) translateY(0)}50%{transform:rotate(1.4deg) translateY(-3px)}}
 @media(prefers-reduced-motion:reduce){.hero figure img{animation:none}}
 .hero figure figcaption{position:absolute;left:-10px;top:10px;max-width:190px;padding:10px 14px;border-radius:16px 16px 4px 16px;background:#fff;border:1px solid var(--line);box-shadow:var(--shadow);font-size:14px;font-weight:700;line-height:1.45}
-.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:22px;position:relative}
-.card{display:flex;flex-direction:column;min-height:290px;padding:24px;border-radius:22px;background:linear-gradient(180deg,var(--card-top) 52%,var(--card-bot));border:1px solid var(--line);box-shadow:var(--shadow);transition:transform .18s ease,box-shadow .18s ease}
+.cards{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px;margin-top:22px;position:relative}
+.card{display:flex;flex-direction:column;min-height:270px;padding:22px;border-radius:22px;background:linear-gradient(180deg,var(--card-top) 52%,var(--card-bot));border:1px solid var(--line);box-shadow:var(--shadow);transition:transform .18s ease,box-shadow .18s ease}
 .card:hover{transform:translateY(-3px);box-shadow:var(--shadow-hi)}
 .card .ico{width:48px;height:48px;border-radius:15px;display:grid;place-items:center;font-size:24px;background:var(--badge);box-shadow:0 8px 18px rgba(31,122,184,.25);margin-bottom:14px}
 .card b{font-size:13px;font-weight:800;color:var(--brand2);letter-spacing:.04em}
@@ -38,11 +38,13 @@ h1 em{font-style:normal;background:linear-gradient(90deg,#1f7a4f,#1f6fb8);-webki
 .print-links h2{margin:0;font-size:18px;font-weight:800}.print-links p{font-size:13.5px;margin:2px 0 0;color:var(--sub)}
 .print-links>div:last-child{display:flex;flex-wrap:wrap;gap:10px;margin-left:auto}
 .print-links a{background:linear-gradient(180deg,#fff 52%,#EEF4FB);color:#1d3b58;border:1px solid #D6E2F0;box-shadow:0 6px 16px rgba(30,99,200,.10);min-height:46px}
-@media(max-width:860px){.hero{grid-template-columns:1fr}.hero figure{display:none}.cards{grid-template-columns:1fr}.card{min-height:0}.print-links>div:last-child{margin-left:0}}
+@media(max-width:1100px){main{padding:24px 22px 36px}.hero{grid-template-columns:1fr}.hero figure{display:none}.cards{grid-template-columns:repeat(4,minmax(0,1fr))}.card{min-height:180px;padding:18px}.card .ico{width:40px;height:40px;margin-bottom:8px}.card h2{font-size:24px}.card p{font-size:14px;margin-bottom:10px}}
+@media(max-width:850px){.cards{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:620px){.hero{grid-template-columns:1fr}.hero figure{display:none}.cards{grid-template-columns:1fr}.card{min-height:0}}
 </style></head><body><header><img src="../assets/msg-logo.png" alt="MSG"><div><b>초·과·심 물리</b><small>1·2차시 · 용수철과 무게 재기</small></div></header>
 <main><section class="hero"><div><span class="kick"><i></i>MSG 초·과·심 사이언스 랩</span><h1>용수철저울,<br><em>직접 재 보며</em> 배워요</h1><p class="lead">지금 할 일을 고르면 바로 교재가 열려요.</p></div>
 <figure><img src="./art/urusaem.png" alt="우루사쌤"><figcaption>안녕! 오늘은 무게를 직접 재 볼 거야.</figcaption></figure></section>
-<div class="cards"><section class="card primary"><span class="ico" aria-hidden="true">🧪</span><b>01 · 학생</b><h2>스스로 공부하기</h2><p>우루사쌤의 안내를 따라 읽고, 3D 저울로 실험을 직접 해 봐요.</p><a href="./student.html?page=0">학생 화면 열기 →</a></section>
-<section class="card"><span class="ico" aria-hidden="true">🖥️</span><b>02 · 교사</b><h2>가르치기</h2><p>질문 → 자료·실험·영상 → 두 팀 배틀까지 수업 순서대로 엽니다.</p><a href="./teacher.html?page=0">강의용 교안 열기 →</a></section>
-<section class="card"><span class="ico" aria-hidden="true">📖</span><b>03 · 함께 읽기</b><h2>살아있는 책</h2><p>책장을 넘기다 필요한 실험과 영상을 곁에서 열어 봅니다.</p><a href="./book.html?page=0">책 열기 →</a></section></div>
-<section class="print-links"><div><h2>종이 교재가 필요하다면</h2><p>A4 PDF가 새 창에서 열려요. 브라우저 인쇄 메뉴로 출력하세요.</p></div><div><a href="./print/student.pdf" target="_blank" rel="noopener">📄 학생용 교재 PDF</a><a href="./print/teacher.pdf" target="_blank" rel="noopener">📄 교사용 교안 PDF</a></div></section></main></body></html>
+<div class="cards"><section class="card primary"><span class="ico" aria-hidden="true">🧪</span><b>01 · 학생</b><h2>스스로 공부하기</h2><p>살아있는 교재를 넘기면 실험과 영상이 책 곁에서 열려요. 우루사쌤이 다음 행동을 안내합니다.</p><a href="./student.html?page=0">살아있는 교재 열기 →</a></section>
+<section class="card"><span class="ico" aria-hidden="true">🖥️</span><b>02 · 교사</b><h2>가르치기</h2><p>교재를 가리지 않고 질문·실험·영상을 보여주고, 두 팀 배틀로 참여해요.</p><a href="./teacher.html?page=0">수업 화면 열기 →</a></section>
+<section class="card"><span class="ico" aria-hidden="true">📗</span><b>03 · 인쇄</b><h2>학생용 교재</h2><p>스스로 쓰고 기록할 수 있는 A4 교재입니다. PDF로 열어 인쇄하세요.</p><a href="./print/student.pdf" target="_blank" rel="noopener">학생용 PDF 열기 →</a></section>
+<section class="card"><span class="ico" aria-hidden="true">📕</span><b>04 · 인쇄</b><h2>교사용 교안</h2><p>수업 준비와 지도에 쓰는 A4 교안입니다. PDF로 열어 인쇄하세요.</p><a href="./print/teacher.pdf" target="_blank" rel="noopener">교사용 PDF 열기 →</a></section></div></main></body></html>

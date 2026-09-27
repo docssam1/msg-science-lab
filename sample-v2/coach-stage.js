@@ -48,6 +48,8 @@ export function mountCoachStage(edition){
    const small=innerWidth<=760;dock.classList.toggle('compact',small);
    if(userFolded&&!userOpened){setFold(true,'user');if(!small)seat(obstacles(),true);return;}
    if(small){setFold(false,'');dock.dataset.side='left';dock.style.removeProperty('--dock-x');return;}
+   // 태블릿의 실험 화면에서는 안내를 하단 빈 줄에 두므로 자동 접기가 필요 없다.
+   if(innerWidth>=900&&innerWidth<=1199&&ws.classList.contains('active')&&ws.classList.contains('split')){setFold(false,'');dock.dataset.side='left';return;}
    const list=obstacles();
    setFold(false,'');
    if(userOpened){seat(list,false);return;}

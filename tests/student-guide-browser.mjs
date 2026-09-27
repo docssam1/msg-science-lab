@@ -122,7 +122,7 @@ try{
  await page.goto(base+'index.html?edition=teacher&page=1');
  await page.waitForFunction(()=>document.documentElement.dataset.ready==='true');
  assert.equal(await page.locator('#guide-action').isVisible(),false);
- assert.equal(await page.locator('#start').isVisible(),false);
+ assert.equal(await page.locator('#start').isVisible(),false,'teacher narration is tucked into the tools menu');
  assert.equal(await page.locator('.speech-answer').count(),0);
  assert.equal(await page.locator('.assessment-photo').count(),0);
  assert.notEqual(await page.locator('.lesson-bar').evaluate(el=>getComputedStyle(el).display),'none');
@@ -139,9 +139,11 @@ try{
  assert.equal(await mobile.locator('.speech-answer').count(),0,'learning pages do not show assessment input');
  assert.equal(await mobile.locator('.assessment-photo').count(),0,'learning pages do not show photo input');
  assert.equal(await mobile.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
+ await mobile.locator('.lesson-tools summary').tap();
  await mobile.locator('#read-text').tap();
  assert.equal(await mobile.locator('body').evaluate(el=>el.classList.contains('student-zoom')),true);
  assert.equal(await mobile.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
+ await mobile.locator('.lesson-tools summary').tap();
  await mobile.locator('#read-text').tap();
  await mobile.screenshot({path:join(out,'student-experiment-cue-390.png')});
  await mobile.locator('#guide-action').tap();
