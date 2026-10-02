@@ -26,13 +26,14 @@ async function photoRecord(key,operation,value){
 }
 
 export function mountAssessmentPhoto(root,printId){
- const page=root.querySelector(`.paper.assessment[data-print-id="${printId}"]`);
+ const page=root.querySelector(`.paper.assessment[data-print-id="${printId}"]`)
+  ||root.querySelector(`.student-lesson[data-stage-page="${printId}"]`);
  if(!page)return ()=>{};
  const area=document.createElement('section');
  area.className='assessment-photo';
  area.setAttribute('aria-label','종이에 쓴 답안 사진');
  area.innerHTML='<h2>종이에 쓴 답도 남겨요</h2><p>답안을 찍거나 사진을 골라 이 쪽에 붙여 두세요.</p><div class="photo-controls"><label class="photo-pick">📷 사진 찍어 첨부<input type="file" accept="image/*" capture="environment" aria-label="답안 사진 선택 또는 촬영"></label><button type="button" class="photo-remove" hidden>사진 삭제</button></div><div class="photo-preview" hidden><img alt="첨부한 답안 사진 미리보기"><span class="photo-name"></span></div><p class="photo-status" role="status" aria-live="polite">사진은 이 기기에만 보관돼요. 선생님께 자동 전송되지 않아요.</p>';
- page.querySelector('.page-body').after(area);
+ (page.querySelector('.page-body')||page.querySelector('.stage-student-actions')).after(area);
  const input=area.querySelector('input');
  const preview=area.querySelector('.photo-preview');
  const img=area.querySelector('img');

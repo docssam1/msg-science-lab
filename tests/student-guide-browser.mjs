@@ -29,10 +29,11 @@ try{
  assert.equal(await page.locator('.lesson-bar').evaluate(el=>getComputedStyle(el).display),'none');
  assert.match(await page.locator('#coach-copy').innerText(),/다음 페이지/);
  assert.equal(await page.locator('#guide-action').getAttribute('data-guide-action'),'next');
- // 넓은 화면: 책과 같은 A4 한 쪽이 무대에 꼭 맞게(안쪽 스크롤 없이) 보인다
- assert.equal(await page.locator('body').evaluate(el=>el.classList.contains('page-fit')),true);
+ // 원본 표지는 웹에서는 가로 수업 시작 장면으로 열고, 인쇄본은 그대로 보존한다.
+ assert.equal(await page.locator('#lesson-stage .stage-cover').isVisible(),true);
+ assert.match(await page.locator('#lesson-stage .stage-cover-image').getAttribute('src'),/original-physics-cover\.png$/);
+ assert.equal(await page.locator('#book-space').isVisible(),false);
  assert.equal(await page.locator('#mobile-reader').isVisible(),false);
- assert.equal(await page.evaluate(()=>{const ws=document.querySelector('#workspace').getBoundingClientRect();return [...document.querySelectorAll('#flipbook .paper')].filter(p=>p.offsetParent&&getComputedStyle(p).display!=='none').map(p=>p.getBoundingClientRect()).filter(r=>r.width>100).every(r=>r.top>=ws.top-1&&r.bottom<=ws.bottom+1&&r.height>ws.height*.85);}),true,'whole page visible and filling the stage height');
  assert.equal(await page.locator('.teacher-dock .coach-face .coach-bob img').count(),6,'six approved full-body expressions are stacked for swapping');
  assert.match(await page.locator('.coach-face img.on').getAttribute('src'),/art\/expressions-full\/web\/(listen|explain)\.webp$/);
  assert.equal(await page.locator('#workspace > .teacher-dock').count(),1,'coach sits in a corner of the stage');
@@ -48,7 +49,11 @@ try{
  await page.waitForFunction(()=>window.__sample.current===1);
  await page.waitForTimeout(700);
  assert((await page.evaluate(()=>window.__guidedAudio.length))>0,'existing narration should start after a page action');
- // 실험이 있는 쪽: 버튼 없이 책 옆(오른쪽 면)에 실험이 바로 열리고, 안내는 지금 할 일 하나
+ // 살아 있는 학생 교재: 먼저 교재와 안내를 보여 주고, 학생이 실험을 열면 나란히 전환한다.
+ assert.equal(await page.locator('#lesson-stage').isVisible(),true);
+ assert.equal(await page.locator('#workspace').evaluate(el=>el.classList.contains('active')),false);
+ assert.equal(await page.locator('#guide-action').getAttribute('data-guide-kind'),'parts');
+ await page.locator('#guide-action').click();
  await page.waitForFunction(()=>window.__sample.live==='parts'&&document.querySelector('#workspace').classList.contains('split'));
  await page.waitForFunction(()=>document.querySelector('#activity-content .lab-controls'));
  assert.equal(await page.locator('#book-pane').isVisible(),true,'the page stays visible beside the lab');
@@ -69,21 +74,23 @@ try{
 
  await page.goto(base+'student.html?page=11');
  await page.waitForFunction(()=>document.documentElement.dataset.ready==='true');
- const photo=page.locator('#mobile-reader .assessment-photo');
+ const photo=page.locator('#lesson-stage .assessment-photo');
  await photo.locator('input[type="file"]').setInputFiles(join(out,'student-cover-1366.png'));
- await page.waitForFunction(()=>!document.querySelector('#mobile-reader .assessment-photo .photo-preview').hidden);
+ await page.waitForFunction(()=>!document.querySelector('#lesson-stage .assessment-photo .photo-preview').hidden);
  assert.match(await photo.locator('.photo-status').innerText(),/이 기기에/);
  await page.reload();
  await page.waitForFunction(()=>document.documentElement.dataset.ready==='true');
- await page.waitForFunction(()=>!document.querySelector('#mobile-reader .assessment-photo .photo-preview').hidden);
+ await page.waitForFunction(()=>!document.querySelector('#lesson-stage .assessment-photo .photo-preview').hidden);
  await photo.scrollIntoViewIfNeeded();
  await page.screenshot({path:join(out,'student-photo-1366.png')});
- await page.locator('#mobile-reader .assessment-photo .photo-remove').click();
- await page.waitForFunction(()=>document.querySelector('#mobile-reader .assessment-photo .photo-preview').hidden);
- const question=page.locator('#mobile-reader .question[data-q="a3"]');
+ await page.locator('#lesson-stage .assessment-photo .photo-remove').click();
+ await page.waitForFunction(()=>document.querySelector('#lesson-stage .assessment-photo .photo-preview').hidden);
+ const nextQuestion=page.locator('#lesson-stage [data-stage-question="next"]');
+ await nextQuestion.click();await nextQuestion.click();
+ const question=page.locator('#lesson-stage .question[data-q="a3"]');
  await question.locator('.dt-speak').click();
  await question.locator('.speech-start').click();
- await page.waitForFunction(()=>document.querySelector('#mobile-reader .question[data-q="a3"] .speech-draft').value==='표시 자');
+ await page.waitForFunction(()=>document.querySelector('#lesson-stage .question[data-q="a3"] .speech-draft').value==='표시 자');
  assert.equal(await question.locator('input[name="a3"]').inputValue(),'','dictation must remain a draft');
  await question.locator('.speech-draft').fill('표시자');
  await question.locator('.speech-apply').click();
@@ -91,12 +98,17 @@ try{
  await question.locator('[data-self="sure"]').click();
  assert.equal(await question.locator('[data-self="sure"]').getAttribute('aria-pressed'),'true');
  assert.doesNotMatch(await question.innerText(),/표시자입니다/,'self-check never reveals the answer before grading');
- const choice=page.locator('#mobile-reader .question[data-q="a5"]');
+ await nextQuestion.click();await nextQuestion.click();
+ const choice=page.locator('#lesson-stage .question[data-q="a5"]');
  await choice.locator('.dt-speak').click();
  await choice.locator('.speech-draft').fill('①');
  await choice.locator('.speech-apply').click();
  assert.equal(await choice.locator('input[type="radio"][value="0"]').isChecked(),true);
- const parts=page.locator('#mobile-reader .question[data-q="a1"]');
+ await page.locator('#lesson-stage [data-stage-question="prev"]').click();
+ await page.locator('#lesson-stage [data-stage-question="prev"]').click();
+ await page.locator('#lesson-stage [data-stage-question="prev"]').click();
+ await page.locator('#lesson-stage [data-stage-question="prev"]').click();
+ const parts=page.locator('#lesson-stage .question[data-q="a1"]');
  await parts.locator('.dt-speak').click();
  await parts.locator('.speech-slot').selectOption('1');
  await parts.locator('.speech-draft').fill('학생이 고친 말');
@@ -110,7 +122,10 @@ try{
 
  await page.goto(base+'student.html?page=20');
  await page.waitForFunction(()=>document.documentElement.dataset.ready==='true');
- for(const [n,v] of [['b7',0],['b8',0],['b9',0],['b10',1],['b11',0]])await page.locator(`#mobile-reader input[name="${n}"][value="${v}"]`).check();
+ for(const [n,v] of [['b7',0],['b8',0],['b9',0],['b10',1],['b11',0]]){
+  await page.locator(`#lesson-stage input[name="${n}"][value="${v}"]`).check();
+  await page.locator('#lesson-stage [data-stage-question="next"]').click();
+ }
  await page.locator('#guide-action').click();
  await page.waitForFunction(()=>document.querySelector('.dt-report'));
  const locked=page.locator('.dt-card[data-dt-item="b9"]');
@@ -139,12 +154,7 @@ try{
  assert.equal(await mobile.locator('.speech-answer').count(),0,'learning pages do not show assessment input');
  assert.equal(await mobile.locator('.assessment-photo').count(),0,'learning pages do not show photo input');
  assert.equal(await mobile.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
- await mobile.locator('.lesson-tools summary').tap();
- await mobile.locator('#read-text').tap();
- assert.equal(await mobile.locator('body').evaluate(el=>el.classList.contains('student-zoom')),true);
- assert.equal(await mobile.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true);
- await mobile.locator('.lesson-tools summary').tap();
- await mobile.locator('#read-text').tap();
+ assert.equal(await mobile.locator('#lesson-stage').isVisible(),true,'the guided scene replaces PDF zoom');
  await mobile.screenshot({path:join(out,'student-experiment-cue-390.png')});
  await mobile.locator('#guide-action').tap();
  await mobile.waitForFunction(()=>document.querySelector('#workspace').classList.contains('active'));
@@ -154,8 +164,11 @@ try{
   await mobile.waitForFunction(()=>document.documentElement.dataset.ready==='true');
   assert((await mobile.locator('#coach-copy').innerText()).length>8,`guide text for page ${i}`);
   assert.equal(await mobile.evaluate(()=>document.documentElement.scrollWidth<=innerWidth),true,`viewport width on page ${i}`);
-  assert.equal(await mobile.locator('#mobile-reader').evaluate(el=>el.scrollWidth<=el.clientWidth+1),true,`book width on page ${i}`);
-  if([11,19,20].includes(i))assert.equal(await mobile.locator('#mobile-reader .page-launch [data-grade]').isVisible(),true,`test grading button on page ${i}`);
+  if(i>0){
+   assert.equal(await mobile.locator('#lesson-stage .student-lesson').isVisible(),true,`guided scene on page ${i}`);
+   assert.equal(await mobile.locator('#lesson-stage').evaluate(el=>el.scrollWidth<=el.clientWidth+1),true,`lesson width on page ${i}`);
+  }
+  if([11,19,20].includes(i))assert.equal(await mobile.locator('#lesson-stage .stage-question-nav').isVisible(),true,`guided test navigation on page ${i}`);
   if(i===10)await mobile.screenshot({path:join(out,'student-reading-390.png')});
  }
  assert.deepEqual(errors,[]);

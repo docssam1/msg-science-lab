@@ -1,0 +1,176 @@
+/* Screen-only classroom deck and printed-book companion. A4 print CSS is unchanged. */
+@media screen {
+ body.lesson-stage-mode #book-space,
+ body.lesson-stage-mode #mobile-reader,
+ body.lesson-stage-mode #teach-overlay,
+ body.lesson-stage-mode #book-pane .paper-meta,
+ body.lesson-stage-mode #book-pane .book-bottom{display:none!important}
+ body.lesson-stage-mode #book-pane{display:flex!important;flex:1 1 auto;width:100%;min-width:0;min-height:0;padding:0!important;overflow:hidden}
+ body.lesson-stage-mode #lesson-stage{display:flex!important;align-items:center;justify-content:center;flex:1 1 auto;min-width:0;min-height:0;height:100%;container-type:inline-size}
+ body.lesson-stage-mode #lesson-stage[hidden]{display:none!important}
+ body[data-edition="teacher"] .teacher-dock,
+ body[data-edition="teacher"] #start,
+ body[data-edition="teacher"] #sound,
+ body[data-edition="teacher"] #character{display:none!important}
+ body.lesson-stage-mode #focus-reading,
+ body.lesson-stage-mode #read-text,
+ body.lesson-stage-mode #spread,
+ body.lesson-stage-mode #motion,
+ body.lesson-stage-mode #teacher{display:none!important}
+ .lesson-stage{--stage-ink:#142d3d;--stage-line:#d4dfde;display:flex;flex-direction:column;box-sizing:border-box;width:100%;height:100%;min-width:0;min-height:0;background:#fff;color:var(--stage-ink);border:1px solid #c7d9d4;border-radius:7px;overflow:hidden;box-shadow:0 18px 40px rgba(0,0,0,.2)}
+ .lesson-stage button{cursor:pointer}
+ .lesson-stage button:focus-visible,.lesson-stage input:focus-visible,.lesson-stage select:focus-visible,.lesson-stage textarea:focus-visible{outline:3px solid #2456c4;outline-offset:2px}
+ .lesson-stage button:disabled{opacity:.45;cursor:default}
+ .lesson-stage-head{flex:none;display:flex;justify-content:space-between;align-items:center;gap:20px;padding:14px 22px 12px;border-bottom:2px solid #23704a;background:#f8fbf9}
+ .lesson-stage-head span,.stage-eyebrow{font-size:12px;font-weight:800;letter-spacing:.08em;color:#26734c}
+ .lesson-stage-head h1{margin:3px 0 0;font-size:clamp(21px,2vw,30px);line-height:1.2;color:#15374b}
+ .lesson-stage-head>strong{flex:none;font-size:14px;color:#34556a}
+ .lesson-stage-body{display:grid;grid-template-columns:minmax(0,1.07fr) minmax(0,.93fr);flex:1 1 auto;min-height:0}
+ .lesson-stage-visual{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;min-width:0;min-height:0;overflow:hidden;padding:18px;background:#edf4f1;border:0;border-right:1px solid var(--stage-line);color:inherit;text-align:center}
+ .lesson-stage-visual.media-trigger{width:100%;position:relative}
+ .lesson-stage-visual.media-trigger:hover{background:#e7f2ec}
+ .lesson-stage-visual.media-trigger>span{position:absolute;left:18px;right:18px;bottom:14px;z-index:1;display:block;padding:10px 14px;background:#173e32;color:#fff;font-size:14px;font-weight:800;border-radius:4px}
+ .lesson-stage-visual>svg{display:block;width:100%;height:100%;max-height:470px;object-fit:contain}
+ .stage-cover-image{display:block;max-width:100%;max-height:100%;object-fit:contain;box-shadow:0 8px 24px #183b332e}
+ .stage-cover .lesson-stage-content>p{max-width:560px;margin:0;font-size:clamp(18px,1.6vw,23px)}
+ .stage-cover-outline{margin:0 0 8px;padding-left:22px;font-size:clamp(15px,1.25vw,19px);line-height:1.6}
+ .stage-cover-outline li+li{margin-top:10px}
+ .lesson-stage-content{display:flex;flex-direction:column;align-items:flex-start;justify-content:center;gap:14px;min-width:0;min-height:0;padding:24px clamp(20px,3vw,48px);overflow:auto}
+ .lesson-stage-content h2{margin:0;font-size:clamp(23px,2.5vw,38px);line-height:1.28;letter-spacing:-.035em;word-break:keep-all}
+ .lesson-stage-content p{line-height:1.55}
+ .stage-teacher-controls,.stage-student-actions{display:flex;flex-wrap:wrap;gap:9px;width:100%;margin-top:7px}
+ .stage-teacher-controls button,.stage-primary,.stage-question-nav button{min-height:46px;padding:9px 16px;border:1px solid #265c45;border-radius:5px;background:#1e6548;color:#fff;font-size:15px;font-weight:800}
+ .stage-teacher-controls button+button,.stage-question-nav button{background:#fff;color:#205640}
+ .stage-answer,.stage-explanation{width:100%;box-sizing:border-box;padding:14px 17px;border-left:4px solid #1d7752;background:#f0f8f3;text-align:left}
+ .stage-answer[hidden],.stage-explanation[hidden]{display:none!important}
+ .stage-answer strong,.stage-explanation strong{display:block;margin-bottom:5px;font-size:13px;color:#1d6649}
+ .stage-answer p,.stage-explanation p{margin:0;font-size:17px;font-weight:700}
+ .stage-explanation{border-color:#5178ae;background:#f2f6fb}
+ .stage-explanation strong{color:#315d97}
+ .lesson-stage-foot{display:flex;justify-content:space-between;align-items:center;gap:14px;min-height:45px;padding:7px 19px;border-top:1px solid var(--stage-line);font-size:12px;color:#516471}
+ .stage-question-nav{display:flex;align-items:center;gap:8px;margin-left:auto}
+ .stage-question-nav button{min-height:34px;padding:5px 10px;font-size:12px}
+ .stage-question-nav span{min-width:41px;text-align:center;font-weight:800}
+ .stage-objects{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;align-items:center;width:100%}
+ .stage-objects figure{min-width:0;margin:0;padding:8px 5px;background:#fff;border:1px solid #d6e4dd;border-radius:5px}
+ .stage-objects img,.stage-objects svg{display:block;width:100%;height:110px;object-fit:contain}
+ .stage-objects figcaption{margin-top:5px;font-size:12px;font-weight:800}
+ .stage-p5-visual{display:grid;grid-template-rows:minmax(0,1fr) auto;width:100%;height:calc(100% - 70px);min-height:0}
+ .stage-p5-visual>svg{width:100%;height:100%;min-height:0}
+ .stage-p5-visual .stage-objects img,.stage-p5-visual .stage-objects svg{height:60px}
+ .stage-p5-visual .stage-objects figcaption{font-size:10px}
+ .stage-visual-tiles{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));align-items:stretch;gap:9px;width:100%;height:calc(100% - 67px);min-height:0}
+ .stage-visual-tiles:not(.stage-six-tiles){align-items:center}
+ .stage-visual-tiles:not(.stage-six-tiles) figure{height:auto;min-height:250px;max-height:100%;box-sizing:border-box;justify-content:center}
+ .stage-visual-tiles:not(.stage-six-tiles) figure>img,.stage-visual-tiles:not(.stage-six-tiles) figure>svg{height:200px;flex:0 1 auto}
+ .stage-visual-tiles.stage-six-tiles{grid-template-rows:repeat(2,minmax(0,1fr))}
+ .stage-visual-tiles figure{display:flex;flex-direction:column;min-width:0;min-height:0;margin:0;padding:7px;background:#fff;border:1px solid #d6e4dd;border-radius:5px}
+ .stage-visual-tiles figure>img,.stage-visual-tiles figure>svg{display:block;width:100%;flex:1 1 auto;min-height:0;object-fit:contain}
+ .stage-visual-tiles figcaption{flex:none;padding-top:6px;font-size:12px;line-height:1.3;overflow-wrap:anywhere}
+ .stage-visual-tiles figcaption strong,.stage-visual-tiles figcaption small{display:block}
+ .stage-visual-tiles figcaption small{margin-top:2px;color:#576c6c}
+ .stage-measure-visual,.stage-graph-visual{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:11px;width:100%;height:calc(100% - 67px);min-height:0}
+ .stage-measure-visual>svg,.stage-graph-visual>svg{width:100%;flex:1 1 auto;min-height:0}
+ .stage-measure-visual table{width:100%;border-collapse:collapse;background:#fff;font-size:13px}
+ .stage-measure-visual th,.stage-measure-visual td{padding:8px 5px;border:1px solid #cbd8d2;text-align:center}
+ .stage-graph-visual p{margin:0;font-size:13px;font-weight:800}
+ .stage-context{padding:10px 12px;border-left:3px solid #b58331;background:#fff8e9;color:#684b1e;font-size:14px}
+ .stage-film-poster{display:block;width:100%;height:100%;max-height:480px;object-fit:contain}
+ .stage-question-image{display:block;width:min(100%,470px);max-height:440px;object-fit:contain}
+ .stage-passage{max-width:700px;margin:0;padding:17px;background:#fff;border:1px solid #d5dfdb;font-size:clamp(17px,1.8vw,26px);line-height:1.5;text-align:left}
+ .stage-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;width:100%;margin:0;padding:0;list-style:none;counter-reset:option}
+ .stage-options li{counter-increment:option;padding:10px;border:1px solid #d5dfdb;background:#fff;text-align:left;font-size:17px}
+ .stage-options li::before{content:counter(option) '  ';font-weight:900;color:#2c6f4d}
+ .teacher-deck .lesson-stage-content h2{font-size:clamp(22px,2.4vw,38px)}
+ .student-lesson{background:#fff}
+ .student-lesson .lesson-stage-head{background:#f8fbf9}
+ .student-lesson .lesson-stage-content{justify-content:flex-start;padding-bottom:95px}
+ .stage-student-task{width:100%}
+ .stage-student-task h2{margin:8px 0 14px}
+ .stage-student-task>p{font-size:clamp(17px,1.7vw,23px)}
+ .stage-note-label{display:block;margin-top:18px;font-size:14px;font-weight:800}
+ .stage-note-label textarea{display:block;box-sizing:border-box;width:100%;margin-top:7px;padding:10px;border:1px solid #566274;border-radius:4px;font:inherit;font-size:16px;resize:vertical}
+ .stage-student-actions{flex:0 0 auto;margin-top:10px}
+ .stage-student-actions:empty{display:none}
+ .stage-question-paper{flex:0 0 auto;width:100%}
+ .stage-question-paper .question{box-sizing:border-box;width:100%;min-height:0;margin:0;padding:0;border:0;background:none;box-shadow:none}
+ .stage-question-paper .question header{display:flex;align-items:flex-start;gap:10px}
+ .stage-question-paper .question header p{font-size:clamp(18px,1.8vw,25px);line-height:1.4}
+ .stage-question-paper .question .given{font-size:17px;line-height:1.5}
+ .stage-question-paper .question .q-image{max-width:min(100%,470px);max-height:260px;object-fit:contain}
+ .student-lesson[data-stage-question-visual="true"] .stage-question-paper .q-image,
+ .student-lesson[data-stage-question-visual="true"] .stage-question-paper .q-graphs,
+ .student-lesson[data-stage-question-visual="true"] .stage-question-paper .student-graphic,
+ .student-lesson[data-stage-question-visual="true"] .stage-question-paper .page-action{display:none}
+ .student-lesson[data-stage-question-text="true"] .lesson-stage-body{grid-template-columns:1fr}
+ .student-lesson[data-stage-question-text="true"] .lesson-stage-visual{display:none}
+ .student-lesson[data-stage-question-text="true"] .lesson-stage-content{width:min(100%,930px);box-sizing:border-box;margin:0 auto;padding:28px 38px 100px}
+ .stage-question-paper .q-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:7px}
+ .stage-question-paper input,.stage-question-paper select{font-size:16px}
+ .stage-question-paper .teacher-answer{display:none!important}
+ .student-lesson .assessment-photo{flex:0 0 auto;width:100%;box-sizing:border-box;margin:10px 0 0;padding:12px;border:1px solid var(--stage-line);border-radius:5px;background:#f8fbf9}
+ .student-lesson .assessment-photo h2{margin:0 0 4px;font-size:17px}
+ .student-lesson .assessment-photo p{margin:4px 0;font-size:13px}
+ .student-lesson .assessment-photo .photo-preview img{max-height:160px;object-fit:contain}
+ body.lesson-stage-mode #workspace.active.split .book-pane{flex:0 0 37%!important;width:37%!important;max-width:none!important;min-width:0!important;transition:flex-basis .26s ease,width .26s ease}
+ body.lesson-stage-mode #workspace.active.split .activity{flex:1 1 63%;min-width:0;transition:flex .26s ease}
+ body.lesson-stage-mode #workspace.active.split .lesson-stage-head{padding:9px 13px}
+ body.lesson-stage-mode #workspace.active.split .lesson-stage-head h1{font-size:17px}
+ body.lesson-stage-mode #workspace.active.split .lesson-stage-head>strong{font-size:10px}
+ body.lesson-stage-mode #workspace.active.split .lesson-stage-body{display:flex;flex-direction:column}
+ body.lesson-stage-mode #workspace.active.split .student-lesson[data-stage-question-text="true"] .lesson-stage-body{display:block}
+ body.lesson-stage-mode #workspace.active.split .lesson-stage-visual{flex:0 0 36%;height:36%;padding:8px;border-right:0;border-bottom:1px solid var(--stage-line)}
+ body.lesson-stage-mode #workspace.active.split .lesson-stage-visual>svg{max-height:100%}
+ body.lesson-stage-mode #workspace.active.split .lesson-stage-visual.media-trigger>span{left:8px;right:8px;bottom:5px;padding:5px;font-size:10px}
+ body.lesson-stage-mode #workspace.active.split .lesson-stage-content{justify-content:flex-start;gap:7px;padding:12px;overflow:auto}
+ body.lesson-stage-mode #workspace.active.split .lesson-stage-content h2{font-size:clamp(17px,1.7vw,24px)}
+ body.lesson-stage-mode #workspace.active.split .stage-answer p,body.lesson-stage-mode #workspace.active.split .stage-explanation p{font-size:14px}
+ body.lesson-stage-mode #workspace.active.split .stage-objects img,body.lesson-stage-mode #workspace.active.split .stage-objects svg{height:52px}
+ body.lesson-stage-mode #workspace.active.split .stage-p5-visual{height:calc(100% - 35px)}
+ body.lesson-stage-mode #workspace.active.split .stage-visual-tiles,
+ body.lesson-stage-mode #workspace.active.split .stage-measure-visual,
+ body.lesson-stage-mode #workspace.active.split .stage-graph-visual{height:calc(100% - 32px)}
+ body.lesson-stage-mode #workspace.active.split .stage-visual-tiles figcaption{font-size:9px}
+ body.lesson-stage-mode #workspace.active.split .stage-visual-tiles:not(.stage-six-tiles) figure{min-height:0;height:100%}
+ body.lesson-stage-mode #workspace.active.split .stage-visual-tiles:not(.stage-six-tiles) figure>img,
+ body.lesson-stage-mode #workspace.active.split .stage-visual-tiles:not(.stage-six-tiles) figure>svg{height:auto;flex:1 1 auto}
+ body.lesson-stage-mode #workspace.active.split .stage-objects figcaption{font-size:9px}
+ body.lesson-stage-mode #workspace.active.split .lesson-stage-foot{min-height:33px;padding:5px 10px;font-size:9px}
+ body.lesson-stage-mode #workspace.active.split .stage-question-nav button{min-height:30px;padding:4px 7px;font-size:10px}
+ /* In class, the question slide remains visible beside the measuring lab. */
+ body.lesson-stage-mode[data-edition="teacher"] #workspace.active.split:has(#activity[data-kind="inquiry"][data-phase="measure"]) .book-pane{display:flex!important;flex:0 0 32%!important;width:32%!important;max-width:none!important}
+ body.lesson-stage-mode[data-edition="teacher"] #workspace.active.split:has(#activity[data-kind="inquiry"][data-phase="measure"]) .activity{flex:1 1 68%!important;width:auto!important;max-width:none!important}
+ body.lesson-stage-mode[data-edition="teacher"] #workspace.active.split:has(#activity[data-kind="inquiry"][data-phase="measure"]) .inquiry-lab{grid-template-columns:minmax(0,1fr) minmax(300px,42%)}
+}
+@media screen and (max-width:850px){
+ .stage-visual-tiles:not(.stage-six-tiles) figure{min-height:0;height:100%}
+ .stage-visual-tiles:not(.stage-six-tiles) figure>img,.stage-visual-tiles:not(.stage-six-tiles) figure>svg{height:auto;flex:1 1 auto}
+ .lesson-stage-head{padding:10px 14px}
+ .lesson-stage-head h1{font-size:20px}
+ .lesson-stage-head>strong{font-size:11px}
+ .lesson-stage-body{grid-template-columns:1fr;grid-template-rows:minmax(180px,42%) minmax(0,1fr)}
+ .lesson-stage-visual{padding:8px;border-right:0;border-bottom:1px solid var(--stage-line)}
+ .lesson-stage-visual>svg{max-height:100%}
+ .lesson-stage-visual.media-trigger>span{left:8px;right:8px;bottom:5px;padding:6px;font-size:11px}
+ .lesson-stage-content{justify-content:flex-start;gap:9px;padding:15px 17px 80px;overflow:auto}
+ .lesson-stage-content h2{font-size:22px}
+ .lesson-stage-foot{font-size:10px;padding:5px 10px}
+ .stage-objects img,.stage-objects svg{height:75px}
+ .stage-question-nav button{padding:3px 6px}
+}
+@media screen and (max-width:620px){
+ .student-lesson[data-stage-question-visual="true"] .lesson-stage-body{grid-template-rows:minmax(150px,35%) minmax(0,1fr)}
+ .lesson-stage-head>strong{max-width:96px;text-align:right}
+ .stage-objects{gap:3px}
+ .stage-objects figure{padding:3px}
+ .stage-objects img,.stage-objects svg{height:49px}
+ .stage-objects figcaption{font-size:9px}
+ .stage-options,.stage-question-paper .q-options{grid-template-columns:1fr}
+ .lesson-stage-foot>span{display:none}
+ .stage-question-nav{margin:auto}
+}
+@media (prefers-reduced-motion:reduce){
+ body.lesson-stage-mode #workspace.active.split .book-pane,
+ body.lesson-stage-mode #workspace.active.split .activity{transition:none}
+}
+@media print{#lesson-stage{display:none!important}}

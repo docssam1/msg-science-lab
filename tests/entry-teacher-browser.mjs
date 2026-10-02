@@ -21,7 +21,7 @@ try{
   assert.match(response.headers()['content-type']||'',/pdf/);
  }
  await page.screenshot({path:join(out,'entry-1366.png')});
- await page.getByRole('link',{name:'살아있는 교재 열기'}).click();
+ await page.getByRole('link',{name:'우루사쌤 수업 열기'}).click();
  await page.waitForFunction(()=>document.documentElement.dataset.ready==='true');
  assert.equal(await page.locator('body').getAttribute('data-edition'),'student');
 

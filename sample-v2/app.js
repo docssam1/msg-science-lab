@@ -14,6 +14,7 @@ import {ANSWER_KEY_VERSION,gradeItem,summarize,reportHTML,mountRemedy,dxRows,nam
 import {diagnose,prescribe,firstAttemptRecord} from './remedy-bank.js';
 import {mountCoachStage} from './coach-stage.js';
 import {voiceStarted,voiceStopped} from './coach-face.js';
+import {hasLessonStage,stageQuestionCount,stageQuestion,stageActivity,renderLessonStage} from './lesson-stage.js';
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 // 살아있는 책은 스스로 공부하기와 같은 경험이다. 이전 ?edition=book 링크도 학생용으로 연다.
 const edition=new URLSearchParams(location.search).get('edition')==='teacher'?'teacher':'student';
@@ -31,8 +32,9 @@ function save(k,v){if(k==='graph-assessment-result'){{const value=load('graph-as
 
 let current=0,book=null,activity=null,currentActivityKind=null,activityToken=0,voiceToken=0,voiceResolve=null,audio=null,utterance=null,started=false,reading=false,studentEngaged=false,studentVoiceSeq=0;
 let teachPage=-1,teachStage=0;
-// 살아 있는 지면: 실험·영상이 있는 쪽은 넓은 화면에서 책 옆(펼친 책의 오른쪽 면)에 곧바로 열린다.
-// 버튼을 눌러 화면 전체를 바꾸지 않는다. 좁은 화면(휴대폰·세로 태블릿)에서는 지금처럼 활동을 따로 연다.
+let stagePage=-1,stageQuestionIndex=0,stageAnswerOpen=false,stageExplanationOpen=false;
+// 아직 새 장면으로 전환하지 않은 지면은 기존 자동 병행 화면을 유지한다.
+// 대표 장면은 먼저 학생 안내/교사 슬라이드를 보여 주고 명시적 조작으로 활동을 연다.
 const VIDEO_KINDS=['watch','balance','spring-film'];
 const TAKEOVER=new Set(['battle','reading']);
 const NOT_LIVE=new Set(['assessment','battle','reading','source','credits']);
@@ -40,12 +42,13 @@ let liveKind=null,liveDismissed=-1;
 const reducedMotion=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
 function splitCapable(){return innerWidth>=900&&innerWidth/Math.max(1,innerHeight)>=1.15;}
 function liveFor(i){const p=pages[i];if(!p?.action||!activityNames[p.action]||NOT_LIVE.has(p.action))return null;if(p.assessment&&p.action!=='assessment-graph')return null;return p.action;}
-function autoLiveOn(){return !isTeacher&&splitCapable();}
+// Every lesson scene first shows its printed-book cue. The learner or QR opens its lab.
+function autoLiveOn(i=current){return isStudent&&splitCapable()&&!hasLessonStage(pages[i]);}
 // 학생 화면: 넓은 화면에서는 책(펼침 지면)과 같은 A4 한 쪽을 화면에 꼭 맞게 보여 준다(안쪽 스크롤 없음).
 // 시험지(Daily Test)와 '본문 크게'는 글씨를 줄이지 않고 읽기 쉬운 한 쪽(#mobile-reader)으로 보여 준다.
 function studentPageFit(){return isStudent&&innerWidth>700&&!studentZoom&&!pages[current]?.assessment;}
 function syncPageFit(){const on=studentPageFit();if(document.body.classList.contains('page-fit')!==on){document.body.classList.toggle('page-fit',on);requestAnimationFrame(()=>{fit();fitPageBodies();});}}
-let clearPageSpeech=()=>{},clearActivitySpeech=()=>{},clearPagePhoto=()=>{},clearActivityPhoto=()=>{};
+let clearPageSpeech=()=>{},clearActivitySpeech=()=>{},clearPagePhoto=()=>{},clearActivityPhoto=()=>{},clearStageSpeech=()=>{},clearStagePhoto=()=>{};
 let wantSpread=load('spread:'+edition,edition==='book'),motion=load('motion',true),sound=load('sound',true),showCharacter=isStudent?true:load('character',true),studentZoom=load('student-zoom',false),rebuilding=false;
 const studentVisited=new Set(Array.isArray(load('guide-visited',[]))?load('guide-visited',[]):[]);
 const answers=load('answers',{}),results=load('results',{});
@@ -81,9 +84,30 @@ function fitPageBodies(){
  });
 }
 function restoreFields(root=document){root.querySelectorAll('[data-answer-field]').forEach(el=>{const v=answers[el.name];if(el.type==='radio')el.checked=String(v)===el.value;else if(v!==undefined)el.value=v;});}
-function pageVoice(p){if(!isTeacher&&p.printId==='P5')return {text:'다섯 물건을 하나씩 재고 처음 예상과 비교해 보세요.',id:null};if(!isTeacher&&p.printId==='P12')return {text:'먼저 모양의 변화를 관찰하고, 힘을 없애면 어떻게 될지 예상해 보세요.',id:null};if(!isTeacher&&p.printId==='P16')return {text:'표를 보고 그래프에 점을 직접 찍어 보세요.',id:null};if(p.printId==='P17')return {text:'재질·철사 굵기·코일 지름을 한 번에 하나씩 바꿔 비교해 보세요.',id:null};return {text:files[p.id]?.text||narration[p.id]?.text||'그림을 보고 직접 관찰해 보세요.',id:p.id};}
-function renderMobilePage(){if(innerWidth>700&&!isStudent)return;clearPageSpeech();clearPagePhoto();const host=$('#mobile-reader');host.innerHTML=paper(pages[current],current,current+1);host.scrollTop=0;restoreFields(host);if(isStudent&&pages[current].assessment){clearPageSpeech=mountAssessmentSpeech(host,questions,valueFor,{load,save});clearPagePhoto=mountAssessmentPhoto(host,pages[current].printId);}if(isStudent&&pages[current].assessment)markPaper(host);inlineVideos(host);}
-function updateMeta(){const p=pages[current];if(isTeacher&&teachPage!==current){teachPage=current;teachStage=0;keysVisible=false;document.body.classList.remove('teacher-mode');$('#teacher').setAttribute('aria-pressed','false');$('#teacher').textContent='교안·정답 공개';}if(isTeacher){$('#teach-overlay').hidden=teachStage>0||$('#workspace').classList.contains('active');$('#teach-question').textContent=p.title.replace('\n',' ');}$('#current-section').textContent=p.printId==='P0'?'원본 표지':`${p.lesson}차시 · ${p.kicker.split('·')[1]||p.kicker}`;$('#page-source').textContent=p.printId==='P0'?'사용자 제공 원본 표지':`${p.printClass?.includes('reading-page')?'과학 이야기':'본책 '+p.source.join('·')+'쪽'} · ${p.printId||current+1}/${pages.length}`;$('#page-select').value=current;$('#prev').disabled=current===0;$('#next').disabled=current>=pages.length-1;$$('button[data-lesson]').forEach(b=>b.classList.toggle('selected',+b.dataset.lesson===p.lesson));$('#teacher-guide').textContent=p.teacher||'';$('#teacher-guide').hidden=true;$('#self-study').hidden=isStudent||isTeacher||p.assessment||['P0','P3','P4','P5'].includes(p.printId);$('#coach-copy').textContent=isTeacher&&teachStage===0?'질문을 먼저 보여 주고 학생의 생각을 들어 보세요.':pageVoice(p).text;$('#lesson-state').textContent=p.assessment?'생각하고 답한 뒤 제출해 보세요.':isTeacher?'질문 → 자료 → 학생 조작 → 정리':'예상 → 조작 → 기록 → 확인';syncPageFit();renderMobilePage();if(isStudent)showStudentGuide();save(isTeacher?'page:teacher':'page:learner',current);requestAnimationFrame(fitPageBodies);}
+function renderModeStage(){
+ const page=pages[current],active=hasLessonStage(page),host=$('#lesson-stage');
+ clearStageSpeech();clearStagePhoto();clearStageSpeech=()=>{};clearStagePhoto=()=>{};
+ document.body.classList.toggle('lesson-stage-mode',active);
+ host.hidden=!active;
+ $('#teacher').hidden=!isTeacher||active;
+ if(!active){host.replaceChildren();return;}
+ if(stagePage!==current){stagePage=current;stageQuestionIndex=Math.max(0,Math.min(stageQuestionCount(page)-1,Number(load('stage-question:'+page.printId,0))||0));stageAnswerOpen=false;stageExplanationOpen=false;}
+ host.innerHTML=renderLessonStage(page,current,edition,{questionIndex:stageQuestionIndex,answerOpen:stageAnswerOpen,explanationOpen:stageExplanationOpen,studentBody});
+ restoreFields(host);
+ if(isStudent){
+  if(page.assessment){clearStageSpeech=mountAssessmentSpeech(host,questions,valueFor,{load,save});clearStagePhoto=mountAssessmentPhoto(host,page.printId);}
+  markPaper(host);const note=host.querySelector('[data-stage-note]');if(note)note.value=load('stage-note:'+page.printId,'');
+ }
+}
+function changeStageQuestion(delta){
+ const page=pages[current];if(!hasLessonStage(page)||!page.assessment)return;
+ const next=Math.max(0,Math.min(stageQuestionCount(page)-1,stageQuestionIndex+delta));
+ if(next===stageQuestionIndex)return;
+ stageQuestionIndex=next;stageAnswerOpen=false;stageExplanationOpen=false;save('stage-question:'+page.printId,next);renderModeStage();if(isStudent)showStudentGuide();
+}
+function pageVoice(p){if(!isTeacher&&p.printId==='P12')return {text:'먼저 모양의 변화를 관찰하고, 힘을 없애면 어떻게 될지 예상해 보세요.',id:null};if(!isTeacher&&p.printId==='P16')return {text:'표를 보고 그래프에 점을 직접 찍어 보세요.',id:null};if(p.printId==='P17')return {text:'재질·철사 굵기·코일 지름을 한 번에 하나씩 바꿔 비교해 보세요.',id:null};return {text:files[p.id]?.text||narration[p.id]?.text||'그림을 보고 직접 관찰해 보세요.',id:p.id};}
+function renderMobilePage(){if(innerWidth>700&&!isStudent)return;clearPageSpeech();clearPagePhoto();const host=$('#mobile-reader');host.innerHTML=paper(pages[current],current,current+1);host.scrollTop=0;restoreFields(host);if(isStudent&&pages[current].assessment&&!hasLessonStage(pages[current])){clearPageSpeech=mountAssessmentSpeech(host,questions,valueFor,{load,save});clearPagePhoto=mountAssessmentPhoto(host,pages[current].printId);markPaper(host);}inlineVideos(host);}
+function updateMeta(){const p=pages[current];if(isTeacher&&teachPage!==current){teachPage=current;teachStage=0;keysVisible=false;document.body.classList.remove('teacher-mode');$('#teacher').setAttribute('aria-pressed','false');$('#teacher').textContent='교안·정답 공개';}if(isTeacher){$('#teach-overlay').hidden=teachStage>0||$('#workspace').classList.contains('active');$('#teach-question').textContent=p.title.replace('\n',' ');}$('#current-section').textContent=p.printId==='P0'?'원본 표지':`${p.lesson}차시 · ${p.kicker.split('·')[1]||p.kicker}`;$('#page-source').textContent=p.printId==='P0'?'사용자 제공 원본 표지':`${p.printClass?.includes('reading-page')?'과학 이야기':'본책 '+p.source.join('·')+'쪽'} · ${p.printId||current+1}/${pages.length}`;$('#page-select').value=current;$('#prev').disabled=current===0;$('#next').disabled=current>=pages.length-1;$$('button[data-lesson]').forEach(b=>b.classList.toggle('selected',+b.dataset.lesson===p.lesson));$('#teacher-guide').textContent=p.teacher||'';$('#teacher-guide').hidden=true;$('#self-study').hidden=isStudent||isTeacher||p.assessment||['P0','P3','P4','P5'].includes(p.printId);$('#coach-copy').textContent=isTeacher&&teachStage===0?'질문을 먼저 보여 주고 학생의 생각을 들어 보세요.':pageVoice(p).text;$('#lesson-state').textContent=p.assessment?'생각하고 답한 뒤 제출해 보세요.':isTeacher?'질문 → 자료 → 학생 조작 → 정리':'예상 → 조작 → 기록 → 확인';syncPageFit();renderMobilePage();renderModeStage();if(isStudent)showStudentGuide();save(isTeacher?'page:teacher':'page:learner',current);requestAnimationFrame(fitPageBodies);}
 function showStudentGuide(){
  if(!isStudent)return;
  const action=$('#guide-action'),active=$('#workspace').classList.contains('active');
@@ -96,6 +120,15 @@ function showStudentGuide(){
    if(liveKind&&current<pages.length-1&&((!inquiryPhase&&studentVisited.has(current))||inquiryPhase==='complete')){action.hidden=false;action.textContent='다음 페이지';action.dataset.guideAction='next';delete action.dataset.guideKind;$('#next').classList.add('guide-target');}
   else action.hidden=true;
   return;}
+ if(pages[current].assessment&&hasLessonStage(pages[current])){
+  const question=stageQuestion(pages[current],stageQuestionIndex);
+  $('#coach-copy').textContent=question.kind==='graph'?'인쇄한 교재의 12번 표는 본문 표와 수치가 달라요. 그림을 눌러 이 문제의 점 세 개를 직접 찍어 보세요.':`인쇄한 교재의 ${question.n}번을 읽고 화면에서 답을 고르거나 써 보세요. 모르면 책에 먼저 표시해도 좋아요.`;
+  action.hidden=false;
+  action.textContent=stageQuestionIndex<stageQuestionCount(pages[current])-1?'다음 문항':'여섯 문항 채점하기';
+  action.dataset.guideAction=stageQuestionIndex<stageQuestionCount(pages[current])-1?'stage-question-next':'grade';
+  delete action.dataset.guideKind;
+  return;
+ }
  let guide=studentGuideFor(pages[current],current,pages.length-1,studentVisited.has(current));
  if(guide.action==='grade'&&pageGraded(current)&&current<pages.length-1)guide={text:'채점을 마쳤어요. 답을 고쳤다면 다시 채점하고, 아니면 다음 페이지로 넘어가 보세요.',action:'next',label:'다음 페이지',kind:null};
  $('#coach-copy').textContent=guide.text;
@@ -115,14 +148,14 @@ function buildBook(){rebuilding=true;const old=current;book?.destroy();$('#book-
 // 스스로 공부하기·살아있는 책의 얼굴은 coach-face.js(승인된 표정 6장 바꿔 끼우기)가 맡는다.
 function expression(name){if(!isTeacher)return;const img=$('#teacher-expression');if(img){const src=`./art/expressions/${name}.png`;if(img.getAttribute('src')!==src)img.src=src;img.alt=`우루사쌤 ${name==='explain'?'설명하는':'듣는'} 표정`;}}
 function stopVoice(){voiceToken++;audio?.pause();if(audio){audio.removeAttribute('src');audio.load();}audio=null;if(window.speechSynthesis)speechSynthesis.cancel();utterance=null;voiceResolve?.(false);voiceResolve=null;voiceStopped();document.body.classList.remove('talking');expression('listen');reading=false;$('#start').textContent=isStudent?(started?'▶ 안내 다시 듣기':'▶ 안내 소리 시작'):(started?'▶ 해설 다시 듣기':'▶ 수업 시작');}
-async function say(text,clipId=null){stopVoice();$('#coach-copy').textContent=text;if(!sound||document.hidden)return false;const token=voiceToken;reading=true;$('#start').textContent='Ⅱ 해설 멈추기';document.body.classList.add('talking');
+async function say(text,clipId=null){if(isTeacher)return false;stopVoice();$('#coach-copy').textContent=text;if(!sound||document.hidden)return false;const token=voiceToken;reading=true;$('#start').textContent='Ⅱ 해설 멈추기';document.body.classList.add('talking');
  return new Promise(resolve=>{voiceResolve=resolve;let done=false;const finish=ok=>{if(done)return;done=true;if(token===voiceToken){voiceStopped();document.body.classList.remove('talking');reading=false;$('#start').textContent=isStudent?'▶ 안내 다시 듣기':'▶ 해설 다시 듣기';voiceResolve=null;}resolve(ok&&token===voiceToken);};
   const unavailable=()=>{if(token!==voiceToken)return finish(false);expression('listen');$('#voice-kind').textContent='음성을 재생할 수 없어요 · 자막을 읽어 주세요';toast('음성을 재생할 수 없어요. 다시 듣기를 눌러 주세요.');finish(false);};
   const matchedId=clipId||clipByText.get(normalizeVoiceText(text));
   if(matchedId&&files[matchedId]?.path){audio=new Audio(new URL(files[matchedId].path,import.meta.url).href);$('#voice-kind').textContent='우루사쌤 · OmniVoice 생성 해설';expression('explain');voiceStarted(audio);audio.onended=()=>{expression('listen');finish(true);};audio.onerror=()=>{audio=null;unavailable();};audio.play().catch(()=>{audio=null;unavailable();});}else{$('#voice-kind').textContent='기존 음성 없음 · 자막으로 확인';expression('listen');finish(false);}
  });
 }
-async function narrateCurrent(){started=true;if(!sound){if(isStudent)showStudentGuide();return;}const p=pages[current];if(!p.id||p.printId==='P0'){if(isStudent)showStudentGuide();return;}if(isTeacher&&teachStage===0){toast('자료를 보여준 뒤 설명 음성을 재생해 주세요.');return;}const voice=pageVoice(p);if(!voice.id||!files[voice.id]?.path){if(isStudent){showStudentGuide();return;}toast('이 장면은 글과 실험으로 확인해 주세요.');return;}await say(voice.text,voice.id);if(isStudent&&(!$('#workspace').classList.contains('active')||liveKind))showStudentGuide();}
+async function narrateCurrent(){if(isTeacher)return;started=true;if(!sound){showStudentGuide();return;}const p=pages[current];if(!p.id||p.printId==='P0'){showStudentGuide();return;}const voice=pageVoice(p);if(!voice.id||!files[voice.id]?.path){showStudentGuide();return;}await say(voice.text,voice.id);if(!$('#workspace').classList.contains('active')||liveKind)showStudentGuide();}
 async function openActivity(kind,auto=false,custom=null,{live=false}={}){if(kind==='battle'&&!isTeacher)return;if(isStudent&&!live){studentVoiceSeq++;studentEngaged=true;if(!['reading','assessment','source','credits'].includes(kind)){studentVisited.add(current);save('guide-visited',[...studentVisited]);}}if(live&&liveKind===kind&&currentActivityKind===kind&&$('#workspace').classList.contains('active')){markLiveSource();if(isStudent)showStudentGuide();return;}liveKind=live||(liveKind&&!custom&&!TAKEOVER.has(kind)&&splitCapable())?kind:null;currentActivityKind=kind;$('#activity').dataset.kind=kind;document.body.classList.toggle('battle-active',kind==='battle');$('#battle').setAttribute('aria-pressed',String(kind==='battle'));if(!live)stopVoice();activityToken++;const token=activityToken;activity?.destroy();clearActivitySpeech();clearActivityPhoto();clearActivitySpeech=()=>{};clearActivityPhoto=()=>{};activity=null;window.__lab=null;const wasActive=$('#workspace').classList.contains('active');const split=splitCapable()&&!TAKEOVER.has(kind)&&!(kind==='assessment'&&!custom);$('#workspace').classList.add('active');$('#workspace').classList.toggle('split',split);$('#workspace').classList.toggle('live',!!liveKind);$('#close-activity').textContent=split?'책만 보기 ✕':'교재로 돌아가기 ↙';$('#activity').setAttribute('aria-hidden','false');$('#activity-title').textContent=activityNames[kind]||'개념 다시 확인';$('#activity-kicker').textContent=['watch','balance','spring-film'].includes(kind)?'ACTUAL FOOTAGE · 실제 기록영상':'SMART LAB · 교재 연계 활동';$('#activity-status').textContent='';$('#activity-content').innerHTML='';if(!wasActive)buildBook();else fit();markLiveSource();if(isStudent)showStudentGuide();
  if(isTeacher)$('#teach-overlay').hidden=true;
  const ctx={say,status:t=>$('#activity-status').textContent=t,load,save,setLab:l=>window.__lab=l,setLabFocus:phase=>{const panel=$('#activity');panel.dataset.phase=phase;$('#close-activity').textContent=phase==='measure'?'교재로 돌아가기 ↙':$('#workspace').classList.contains('split')?'책만 보기 ✕':'교재로 돌아가기 ↙';requestAnimationFrame(()=>{fit();if(isStudent)showStudentGuide();});},auto,open:openActivity,close:closeActivity,writable};
@@ -134,14 +167,14 @@ async function openActivity(kind,auto=false,custom=null,{live=false}={}){if(kind
  try{const inst=await mountActivity(kind,$('#activity-content'),ctx);if(token!==activityToken)inst?.destroy();else activity=inst;}catch(e){$('#activity-content').innerHTML='<div class="large-reading"><h3>활동을 열지 못했습니다.</h3><p>'+esc(e.message)+'</p></div>';console.error(e);}
 }
 function closeActivity(){if(liveKind)liveDismissed=current;liveKind=null;$('#workspace').classList.remove('split','live');document.body.classList.remove('battle-active');$('#battle').setAttribute('aria-pressed','false');stopVoice();activityToken++;activity?.destroy();clearActivitySpeech();clearActivityPhoto();clearActivitySpeech=()=>{};clearActivityPhoto=()=>{};activity=null;currentActivityKind=null;delete $('#activity').dataset.kind;window.__lab=null;$('#activity-content').innerHTML='';$('#activity').setAttribute('aria-hidden','true');$('#workspace').classList.remove('active');markLiveSource();buildBook();if(isTeacher)$('#teach-overlay').hidden=teachStage>0;}
-function navigate(i,{animated=false}={}){if(i<0||i>=pages.length)return;if(isStudent)studentEngaged=true;stopVoice();const nextLive=autoLiveOn()?liveFor(i):null,keepLive=!!(liveKind&&nextLive&&$('#workspace').classList.contains('split'));if($('#workspace').classList.contains('active')&&!keepLive)closeActivity();liveDismissed=-1;const old=current;current=i;const sameSpread=isSpread()&&Math.floor(old/2)===Math.floor(i/2);
+function navigate(i,{animated=false}={}){if(i<0||i>=pages.length)return;if(isStudent)studentEngaged=true;stopVoice();const nextLive=autoLiveOn(i)?liveFor(i):null,keepLive=!!(liveKind&&nextLive&&$('#workspace').classList.contains('split'));if($('#workspace').classList.contains('active')&&!keepLive)closeActivity();liveDismissed=-1;const old=current;current=i;const sameSpread=isSpread()&&Math.floor(old/2)===Math.floor(i/2);
  const goLive=()=>{if(nextLive&&current===i)openLive(i);};
  if(animated&&motion&&!matchMedia('(prefers-reduced-motion: reduce)').matches&&!sameSpread){book.flip(i);setTimeout(()=>{current=i;updateMeta();goLive();},550);}else{book.turnToPage(i);current=i;updateMeta();goLive();}
  $('#voice-kind').textContent=isStudent?'기존 우루사쌤 음성이 있으면 자동으로 들려요.':started?'해설 다시 듣기로 시작합니다.':'소리는 수업 시작 후 재생됩니다.';
  if(isStudent&&studentEngaged&&i!==old){const seq=++studentVoiceSeq;setTimeout(()=>{if(seq===studentVoiceSeq&&current===i&&(!$('#workspace').classList.contains('active')||liveKind))narrateCurrent();},animated&&motion&&!sameSpread?620:0);}
 }
 // 이 쪽의 실험·영상을 책 옆에 곧바로 연다(영상은 소리 없이 자동 재생 — 움직임 줄이기 설정이면 멈춘 첫 장면).
-function openLive(i=current){const kind=liveFor(i);if(!kind||!autoLiveOn()||liveDismissed===i)return;openActivity(kind,VIDEO_KINDS.includes(kind)&&!reducedMotion(),null,{live:true});}
+function openLive(i=current){const kind=liveFor(i);if(!kind||!autoLiveOn(i)||liveDismissed===i)return;openActivity(kind,VIDEO_KINDS.includes(kind)&&!reducedMotion(),null,{live:true});}
 // 지면 위 어느 단추의 실험이 옆에 열려 있는지 표시
 function markLiveSource(){$$('.live-source').forEach(el=>el.classList.remove('live-source'));if(!currentActivityKind||!$('#workspace').classList.contains('split'))return;$$(`[data-book-page="${current}"] [data-action="${CSS.escape(currentActivityKind)}"]`).forEach(el=>{if(!el.closest('#print-root'))el.classList.add('live-source');});}
 // 좁은 화면: 지면의 '실제 영상' 자리에 영상을 그대로 넣는다(첫 장면이 바로 보이고, 누르면 그 자리에서 재생).
@@ -186,6 +219,18 @@ document.body.dataset.edition=edition;document.body.classList.toggle('student-zo
 mountCoachStage(edition);printBuild();buildBook();
 $('#teach-show').onclick=()=>{teachStage=1;$('#teach-overlay').hidden=true;updateMeta();const kind=liveFor(current);if(kind)openActivity(kind,false,null,{live:true});};
 $('#teacher-notes').onclick=()=>window.open(`./teacher-notes.html?page=${current}`,'msg-teacher-notes','width=650,height=760');
+$('#lesson-stage').addEventListener('click',event=>{
+ const button=event.target.closest('button');if(!button)return;
+ if(button.hasAttribute('data-stage-next')){navigate(1,{animated:false});return;}
+ if(button.dataset.stageMedia){openActivity(button.dataset.stageMedia,false,null,{live:splitCapable()});return;}
+ if(button.dataset.stageQuestion){changeStageQuestion(button.dataset.stageQuestion==='next'?1:-1);return;}
+ if(button.hasAttribute('data-stage-reveal')&&isTeacher){stageAnswerOpen=!stageAnswerOpen;if(!stageAnswerOpen)stageExplanationOpen=false;renderModeStage();return;}
+ if(button.hasAttribute('data-stage-explain')&&isTeacher&&stageAnswerOpen){stageExplanationOpen=!stageExplanationOpen;renderModeStage();return;}
+ if(button.dataset.stageGrade&&isStudent)grade(button.dataset.stageGrade);
+});
+$('#lesson-stage').addEventListener('input',event=>{if(event.target.matches('[data-stage-note]'))save('stage-note:'+event.target.dataset.stageNote,event.target.value);});
+// Browser audio needs a learner gesture. Start the approved clip on the first lesson action.
+document.addEventListener('pointerdown',event=>{if(isStudent&&!started&&event.target.closest('#lesson-stage,#guide-action'))narrateCurrent();},true);
 $('#battle').onclick=()=>document.body.classList.contains('battle-active')?closeActivity():openActivity('battle');
 $('#self-study').onclick=()=>{const p=pages[current];if(isTeacher||p.assessment||['P0','P3','P4','P5'].includes(p.printId))return;openActivity('self-flow',false,(host,ctx)=>{$('#activity-title').textContent='스스로 공부하기';return mountSelfFlow(host,ctx,p);});};
 $('#edition').onchange=e=>{stopVoice();const url=new URL(location.href);url.searchParams.set('edition',e.target.value);url.searchParams.delete('s');url.searchParams.set('page',String(current));location.href=url.href;};
@@ -194,7 +239,7 @@ lessonTools?.addEventListener('click',e=>{if(e.target.closest('button'))lessonTo
 document.addEventListener('pointerdown',e=>{if(lessonTools?.open&&!lessonTools.contains(e.target))lessonTools.open=false;});
 document.addEventListener('keydown',e=>{if(e.key==='Escape'&&lessonTools?.open){lessonTools.open=false;e.stopImmediatePropagation();}},true);
 $('#start').onclick=()=>{if(isStudent)studentEngaged=true;return reading?stopVoice():narrateCurrent();};$('#read-text').onclick=()=>isStudent?toggleStudentZoom():openActivity('reading');
-$('#guide-action').onclick=()=>{if(!isStudent)return;const {guideAction,guideKind}=$('#guide-action').dataset;if(guideAction==='next')navigate(current+1,{animated:true});else if(guideAction==='activity'&&guideKind)openActivity(guideKind,['watch','balance','spring-film'].includes(guideKind));else if(guideAction==='assessment')openActivity('assessment');else if(guideAction==='grade')grade(pages[current].printId.toLowerCase());else if(guideAction==='remedy')openRemedy(pages[current].lesson||1);};
+$('#guide-action').onclick=()=>{if(!isStudent)return;const {guideAction,guideKind}=$('#guide-action').dataset;if(guideAction==='next')navigate(current+1,{animated:true});else if(guideAction==='stage-question-next')changeStageQuestion(1);else if(guideAction==='activity'&&guideKind)openActivity(guideKind,['watch','balance','spring-film'].includes(guideKind),null,{live:splitCapable()});else if(guideAction==='assessment')openActivity('assessment');else if(guideAction==='grade')grade(pages[current].printId.toLowerCase());else if(guideAction==='remedy')openRemedy(pages[current].lesson||1);};
 $('#sound').onclick=()=>{sound=!sound;save('sound',sound);$('#sound').setAttribute('aria-pressed',sound);$('#sound').textContent=sound?'소리 켬':'소리 끔';if(!sound)stopVoice();};
 $('#prev').onclick=()=>navigate(current-1,{animated:true});$('#next').onclick=()=>navigate(current+1,{animated:true});$('#page-select').onchange=e=>navigate(+e.target.value);$$('button[data-lesson]').forEach(b=>b.onclick=()=>navigate(pages.findIndex(p=>p.lesson===+b.dataset.lesson)));
 $('#spread').onclick=()=>{wantSpread=!wantSpread;save('spread:'+edition,wantSpread);$('#spread').setAttribute('aria-pressed',wantSpread);$('#spread').textContent=wantSpread?'펼침 보기':'한 쪽 보기';buildBook();};
@@ -210,7 +255,7 @@ document.addEventListener('submit',e=>e.preventDefault());
 ['pointerdown','keydown','input'].forEach(t=>$('#activity-content').addEventListener(t,()=>{if(!liveKind)return;studentEngaged=true;if(isStudent&&!studentVisited.has(current)){studentVisited.add(current);save('guide-visited',[...studentVisited]);showStudentGuide();}},true));
 document.addEventListener('input',e=>{if(e.target.matches('[data-answer-field]'))collectField(e.target);});
 document.addEventListener('click',e=>{const b=e.target.closest('[data-action],[data-grade],[data-reveal],[data-quick]');if(!b||b.closest('#print-root'))return;if(b.dataset.action){const page=b.closest('[data-book-page]');if(page){current=+page.dataset.bookPage;updateMeta();}openActivity(b.dataset.action);}if(b.dataset.grade)grade(b.dataset.grade);if(b.dataset.reveal){b.textContent=b.dataset.reveal;toast('탄성: 원래 모양으로 돌아가려는 성질');}if(b.dataset.quick){const r=b.closest('.inquiry').querySelector('.quick-result');r.textContent=b.dataset.quick==='비례'?'표와 그래프에서 비례 관계를 확인했어요.':'같은 배수로 늘어나는 관계인지 다시 살펴보세요.';}});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){if($('#workspace').classList.contains('active'))closeActivity();else stopVoice();return;}if(e.target.closest('input,select,textarea,button,a')||e.ctrlKey||e.metaKey||e.altKey)return;if(e.key==='ArrowRight')navigate(current+1,{animated:true});if(e.key==='ArrowLeft')navigate(current-1,{animated:true});});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){if($('#workspace').classList.contains('active'))closeActivity();else stopVoice();return;}if(e.target.closest('input,select,textarea,button,a')||e.ctrlKey||e.metaKey||e.altKey)return;if(e.key==='ArrowRight'){if(hasLessonStage(pages[current])&&pages[current].assessment&&stageQuestionIndex<stageQuestionCount(pages[current])-1)changeStageQuestion(1);else navigate(current+1,{animated:true});}if(e.key==='ArrowLeft'){if(hasLessonStage(pages[current])&&pages[current].assessment&&stageQuestionIndex>0)changeStageQuestion(-1);else navigate(current-1,{animated:true});}});
 const ro=new ResizeObserver(fit);ro.observe($('#book-space'));ro.observe($('#workspace'));let lastCompact=innerWidth<=1000,lastSplit=splitCapable();addEventListener('resize',()=>{const compact=innerWidth<=1000,cap=splitCapable();syncPageFit();if(cap!==lastSplit){lastSplit=cap;if(liveKind&&!cap){closeActivity();renderMobilePage();return;}if($('#workspace').classList.contains('active'))$('#workspace').classList.toggle('split',cap&&!TAKEOVER.has(currentActivityKind));else if(cap)openLive();renderMobilePage();}if(compact!==lastCompact){lastCompact=compact;buildBook();}else fit();});
 document.addEventListener('visibilitychange',()=>{if(document.hidden){stopVoice();document.querySelectorAll('video').forEach(v=>v.pause());}});addEventListener('pagehide',()=>{stopVoice();clearPageSpeech();clearActivitySpeech();clearPagePhoto();clearActivityPhoto();activity?.destroy();ro.disconnect();});
 document.addEventListener('keydown',e=>{if(!e.target.matches('.story-video[data-action]')||!['Enter',' '].includes(e.key))return;e.preventDefault();e.target.click();});
