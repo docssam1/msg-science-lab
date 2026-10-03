@@ -241,6 +241,16 @@ body[data-edition="teacher"] .dt-hero-face{display:none}
 .rx-card.solved{border-color:#BFE0CB}
 .rx-mark:empty{display:none}
 .rx-feedback:empty{display:none}
+.dt-report.advanced .dt-items{grid-template-columns:minmax(0,760px);justify-content:center;margin:18px auto}
+.dt-report.advanced .dt-card header p{display:block;overflow:visible;font-size:17px;line-height:1.55}
+.dt-report.advanced .rx-options{grid-template-columns:minmax(0,1fr)}
+.dt-report.advanced .rx-opt{cursor:pointer}
+.dt-report.advanced .rx-opt input{margin-top:3px;accent-color:#2b7a52}
+.dt-report.advanced .rx-options label:not(.rx-opt){display:block;width:100%;font-weight:700}
+.dt-report.advanced .rx-options textarea,.dt-report.advanced .rx-options input[type=number]{display:block;width:100%;max-width:100%;min-height:48px;padding:12px 14px;margin-top:7px;border:1px solid #BACFC0;border-radius:12px;background:#fff;color:#1d2f25;font:inherit}
+.dt-report.advanced .rx-options textarea{min-height:126px;resize:vertical}
+.dt-report.advanced .rx-feedback{margin-top:12px}
+.dt-report.advanced .rx-feedback .dt-fix{margin-top:12px}
 @keyframes rx-shake{25%{transform:translateX(-4px)}75%{transform:translateX(4px)}}
 
 /* ── 좁은 화면 ───────────────────────────────────────────────────────── */

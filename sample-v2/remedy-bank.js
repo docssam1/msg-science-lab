@@ -144,6 +144,11 @@ export function bankRecord(id, choice) {
   const ok = selected === b.answer;
   return { item: id, variantKey: b.variantKey, ok, m: ok ? null : (b.wrong[selected] || b.m), src: 'bank', answerKey: ANSWER_KEY };
 }
+// 실험에서 실제로 관찰한 절차 오류만 진단 근거로 쓴다. 일반 클릭/예상 오답은 근거가 아니다.
+export function activityMistakeRecord(reason) {
+  if (reason !== 'motion') return null;
+  return { item: 'inquiry-motion', ok: false, m: 'M04', src: 'activity', answerKey: ANSWER_KEY };
+}
 export function probeRecord(id, choice) {
   const probe = probeBank.find((item) => item.id === id); if (!probe) return null;
   if (!['string', 'number'].includes(typeof choice) || String(choice).trim() === '') return null;

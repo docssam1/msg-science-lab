@@ -1,7 +1,17 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { q1, q2 } from '../sample-v2/content.js';
-import { itemMap, bank, probeBank, misconceptions, diagnose, prescribe, pendingProbes, unattemptedVariants, firstAttemptRecord, bankRecord, probeRecord, UNCONFIRMED, ANSWER_KEY } from '../sample-v2/remedy-bank.js';
+import { itemMap, bank, probeBank, misconceptions, diagnose, prescribe, pendingProbes, unattemptedVariants, firstAttemptRecord, activityMistakeRecord, bankRecord, probeRecord, UNCONFIRMED, ANSWER_KEY } from '../sample-v2/remedy-bank.js';
+
+test('only an observed early measurement click raises M04 suspicion; a separate probe is required', () => {
+  assert.equal(activityMistakeRecord('reference'), null);
+  const first = activityMistakeRecord('motion');
+  assert.equal(first.item, 'inquiry-motion');
+  assert.equal(diagnose([first]).M04.status, 'suspected');
+  assert.deepEqual(pendingProbes(diagnose([first]), [first]).map(item => item.id), ['d04']);
+  assert.equal(diagnose([first, probeRecord('d04', 0)]).M04.status, 'confirmed');
+  assert.equal(diagnose([first, probeRecord('d04', 2)]).M04.status, 'suspected');
+});
 import { gradeItem, summarize, ANSWER_KEY_VERSION } from '../sample-v2/daily-grading.js';
 
 const all = [...q1, ...q2];

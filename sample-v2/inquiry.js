@@ -62,7 +62,7 @@ export async function mountInquiry(host,ctx){
   panel.querySelector('[data-inquiry-whole]').onclick=()=>lab.resetView();panel.querySelectorAll('[data-inquiry-view]').forEach(b=>b.onclick=()=>lab.setEye(b.dataset.inquiryView));
   panel.querySelector('[data-inquiry-adjust]').oninput=e=>{if(lab.state().force>0){gate.adjust(lab.state().zero,true);save();feedback('물체를 내려놓고 다시 살펴보세요.');e.target.value=lab.state().zero;return;}lab.setZero(+e.target.value);gate.adjust(+e.target.value);save();};
   panel.querySelector('[data-inquiry-record]').onclick=()=>{
-   const input=panel.querySelector('[data-inquiry-reading]');if(!selected||input.value===''){feedback('물체를 매달고, 내가 읽은 값을 적어 주세요.');return;}if(!Number.isFinite(Number(input.value))||Number(input.value)<0||Number(input.value)>inquiryScale.max){feedback('0~5 N 안에서 눈금과 단위를 다시 읽어 주세요.');return;}if(!lab.state().settled){feedback('표시자가 멈춘 뒤 눈금을 읽어 주세요.');return;}
+   const input=panel.querySelector('[data-inquiry-reading]');if(!selected){feedback('물체를 매달고, 내가 읽은 값을 적어 주세요.');return;}if(!lab.state().settled){ctx.onMethodMistake?.('motion');feedback('표시자가 멈춘 뒤 눈금을 읽어 주세요.');return;}if(input.value===''){feedback('내가 읽은 값을 적어 주세요.');return;}if(!Number.isFinite(Number(input.value))||Number(input.value)<0||Number(input.value)>inquiryScale.max){feedback('0~5 N 안에서 눈금과 단위를 다시 읽어 주세요.');return;}
    const snapshot={...lab.state(),zeroAtLoad,adjustedLoaded,entered:Number(input.value)};const checked=checkMethod(snapshot);
    state.attempts.push({id:selected,value:snapshot.entered,valid:checked.valid,reasons:checked.reasons,snapshot,at:Date.now()});save();
    panel.querySelector('[data-inquiry-rows]').innerHTML=recordRows();panel.querySelector('[data-inquiry-summary]').disabled=!validLatest();

@@ -8,6 +8,7 @@
 import {normalize,gradePoints} from './physics.js';
 import {esc} from './graphics.js';
 import {ANSWER_KEY,UNCONFIRMED,misconceptions,misconceptionOf,bank,probeBank,diagnose,prescribe,pendingProbes,bankRecord,probeRecord} from './remedy-bank.js';
+import {advancedItems,availableAdvanced,advancedRecord} from './advanced-bank.js';
 
 // 정답표 버전(remedy-bank.js의 ANSWER_KEY). 기록에 함께 남겨 두었다가 정답표가 고쳐지면 다시 채점할 수 있다.
 export const ANSWER_KEY_VERSION=ANSWER_KEY;
@@ -221,5 +222,29 @@ export function mountProbe(host,{getLog,record,coach,onBack}){
   });
  }
  host.querySelector('[data-probe-back]').onclick=onBack;
+ return {destroy(){}};
+}
+
+// 원본 단원평가와 분리한 MSG 창작 심화. 서술형은 자동 점수로 추정하지 않는다.
+export function mountAdvanced(host,{getLog,record,selfCheck,onBack}){
+ const due=availableAdvanced(getLog());
+ if(!due.length){host.innerHTML='<div class="dt-report rx"><section class="dt-hero slim"><div class="dt-hero-copy"><h3>새 심화 문항을 모두 풀었어요.</h3><small>같은 고정 변형은 다시 뽑지 않아요. 서술형은 스스로 점검하거나 선생님과 확인해요.</small></div></section><footer class="dt-foot"><button type="button" class="dt-primary ghost" data-advanced-back>채점 결과로 돌아가기</button></footer></div>';host.querySelector('[data-advanced-back]').onclick=onBack;return {destroy(){}};}
+ const card=item=>`<article class="dt-card rx-card" data-advanced="${item.id}"><header><span class="dt-num">${item.id.slice(2)}</span><p>${esc(item.prompt)}</p></header><small>MSG 창작 심화 · 원본 본책 ${item.sourcePage}쪽 개념 연결 · ${item.type==='explanation'?'서술형 · 교사/셀프 체크':item.type==='number'?'수치 입력':'선택형'}</small><div class="rx-options">${item.type==='choice'?item.options.map((option,index)=>`<label class="rx-opt"><input type="radio" name="${item.id}" value="${index}"><span>${circled[index]} ${esc(option)}</span></label>`).join(''):item.type==='number'?`<label>늘어난 길이 <input type="number" min="0" step="0.1" data-advanced-answer aria-label="늘어난 길이 cm"> ${item.unit}</label>`:'<label>내 설명 <textarea data-advanced-answer maxlength="500" rows="4" aria-label="내 설명"></textarea></label>'}</div><button type="button" class="dt-primary" data-advanced-submit>첫 답 제출</button><div class="rx-feedback" aria-live="polite"></div></article>`;
+ host.innerHTML=`<div class="dt-report rx advanced"><section class="dt-hero slim"><div class="dt-hero-copy"><span class="dt-eyebrow">MSG 창작 심화 · 원본 단원평가와 별개</span><h3>자료를 해석하고 이유를 설명해요</h3><small>각 문항 첫 답만 기록합니다. 가상 수치는 실측 결과가 아니며 서술형은 자동 점수가 나오지 않아요.</small></div></section><div class="dt-items">${due.map(card).join('')}</div><footer class="dt-foot"><button type="button" class="dt-primary ghost" data-advanced-back>채점 결과로 돌아가기</button></footer></div>`;
+ for(const cardEl of host.querySelectorAll('[data-advanced]')){
+  const item=advancedItems.find(entry=>entry.id===cardEl.dataset.advanced),submit=cardEl.querySelector('[data-advanced-submit]'),fb=cardEl.querySelector('.rx-feedback');
+  submit.onclick=()=>{
+   if(getLog().some(row=>row.variantKey===item.variantKey||row.id===item.id))return;
+   const value=item.type==='choice'?cardEl.querySelector('input:checked')?.value:cardEl.querySelector('[data-advanced-answer]')?.value;
+   const attempt=advancedRecord(item.id,value);
+   if(!attempt){fb.textContent='답을 먼저 입력하거나 선택해 주세요.';return;}
+   if(record(attempt)===false){fb.textContent='기록을 저장하지 못했어요. 새 문항 진행을 중단합니다.';return;}
+   submit.disabled=true;cardEl.querySelectorAll('input,textarea').forEach(field=>field.disabled=true);
+   const verdict=attempt.status==='review'?'서술형은 자동 점수 없음 · 스스로/교사 확인':attempt.status==='correct'?'맞았어요. 풀이를 확인해요.':'다시 생각해 봅시다. 풀이를 확인해요.';
+   fb.innerHTML=`<p class="dt-why">${esc(verdict)}</p><p>${esc(item.explanation)}</p>${item.type==='explanation'?`<div class="dt-fix"><b>확인 기준</b><ol>${item.rubric.map(point=>`<li>${esc(point)}</li>`).join('')}</ol><div class="dt-actions"><button type="button" class="dt-link" data-advanced-self="yes">○ 기준을 설명했어요</button><button type="button" class="dt-link" data-advanced-self="again">△ 다시 써 볼래요</button><button type="button" class="dt-link" data-advanced-self="teacher">선생님과 확인</button></div><small>스스로 체크는 자동 채점 점수가 아닙니다.</small></div>`:''}`;
+   fb.querySelectorAll('[data-advanced-self]').forEach(button=>button.onclick=()=>{selfCheck(item.id,button.dataset.advancedSelf);fb.querySelectorAll('[data-advanced-self]').forEach(b=>b.disabled=true);button.classList.add('selected');});
+  };
+ }
+ host.querySelector('[data-advanced-back]').onclick=onBack;
  return {destroy(){}};
 }
