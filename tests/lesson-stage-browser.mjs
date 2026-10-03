@@ -65,8 +65,10 @@ try{
  assert.equal(await student.locator('#lesson-stage .student-lesson').isVisible(),true);
  assert.equal(await student.locator('#mobile-reader').isVisible(),false);
  assert.equal(await student.locator('#lesson-stage .teacher-answer').count(),0);
- assert.equal(await student.locator('#workspace').evaluate(el=>el.classList.contains('active')),false,'the book cue precedes the lab');
- await student.locator('#lesson-stage [data-stage-media]').first().click();
+ await student.waitForFunction(()=>document.querySelector('#activity-content canvas'));
+ assert.equal(await student.locator('#workspace').evaluate(el=>el.classList.contains('active')),true,'the live 3D lesson opens with the student scene');
+ assert.equal(await student.locator('#lesson-stage .lesson-stage-visual').isVisible(),false,'the static diagram does not compete with 3D');
+ await student.locator('[data-part-choice="handle"]').click();
  assert((await student.evaluate(()=>window.__stageAudio.length))>0,'an existing Urusaem clip starts after a student gesture');
  await student.goto(base+'student.html?page=19');
  await student.waitForFunction(()=>document.documentElement.dataset.ready==='true');

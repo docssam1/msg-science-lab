@@ -34,6 +34,7 @@ export function mountCoachStage(edition){
   // 스크롤되는 읽기 화면(시험지·본문 크게)은 아래를 비워 두어 올려 읽을 수 있으므로 장애물로 보지 않는다
   const reader=ws.querySelector('#mobile-reader'),scrolls=reader&&reader.scrollHeight>reader.clientHeight+4;
   papers().forEach(r=>out.push(r));
+  ws.querySelectorAll('#lesson-stage button,#lesson-stage input,#lesson-stage select,#lesson-stage textarea').forEach(el=>{const r=el.getBoundingClientRect();if(vis(r))out.push(r);});
   if(!scrolls)ws.querySelectorAll('#mobile-reader .paper').forEach(el=>{const r=el.getBoundingClientRect();if(vis(r)&&el.offsetParent!==null)out.push(r);});
   if(ws.classList.contains('active'))activity.querySelectorAll(NEED).forEach(el=>{if(dock.contains(el))return;const r=el.getBoundingClientRect();if(vis(r)&&r.bottom>wr.top+wr.height*.45)out.push(r);});
   return out;
@@ -75,7 +76,7 @@ export function mountCoachStage(edition){
    if(rg>=200)cands.push({side:'right',shape:'stack',w:Math.min(300,Math.floor(rg))});}}
   let best=null;
   for(const c of cands){
-   const m=apply(c,wr),r={left:wr.left+m.x,right:wr.left+m.x+m.w,top:wr.bottom-pad-m.h,bottom:wr.bottom-pad};
+   const m=apply(c,wr),r=dock.getBoundingClientRect();
    const cost=overlap(r,list);
    if(!best||cost<best.cost-1)best={...c,cost,area:m.w*m.h};
   }

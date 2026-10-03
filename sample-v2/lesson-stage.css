@@ -8,6 +8,7 @@
  body.lesson-stage-mode #book-pane{display:flex!important;flex:1 1 auto;width:100%;min-width:0;min-height:0;padding:0!important;overflow:hidden}
  body.lesson-stage-mode #lesson-stage{display:flex!important;align-items:center;justify-content:center;flex:1 1 auto;min-width:0;min-height:0;height:100%;container-type:inline-size}
  body.lesson-stage-mode #lesson-stage[hidden]{display:none!important}
+ body.lesson-stage-mode[data-edition="student"] #workspace:not(.active) .teacher-dock{bottom:60px}
  body[data-edition="teacher"] .teacher-dock,
  body[data-edition="teacher"] #start,
  body[data-edition="teacher"] #sound,
@@ -124,6 +125,17 @@
  body.lesson-stage-mode #workspace.active.split .lesson-stage-visual.media-trigger>span{left:8px;right:8px;bottom:5px;padding:5px;font-size:10px}
  body.lesson-stage-mode #workspace.active.split .lesson-stage-content{justify-content:flex-start;gap:7px;padding:12px;overflow:auto}
  body.lesson-stage-mode #workspace.active.split .lesson-stage-content h2{font-size:clamp(17px,1.7vw,24px)}
+ /* In self-study, the live lab is the visual. Keep the question beside it. */
+ body.lesson-stage-mode[data-edition="student"] #workspace.active.split .book-pane{flex-basis:31%!important;width:31%!important}
+ body.lesson-stage-mode[data-edition="student"] #workspace.active.split .activity{flex-basis:69%}
+ body.lesson-stage-mode[data-edition="student"] #workspace.active.split .lesson-stage-visual{display:none}
+ body.lesson-stage-mode[data-edition="student"] #workspace.active.split:has(.scene-error) .lesson-stage-visual{display:flex}
+ body.lesson-stage-mode[data-edition="student"] #workspace.active.split .lesson-stage-content{flex:1 1 auto;justify-content:center;padding:clamp(16px,2vw,30px)}
+ body.lesson-stage-mode[data-edition="student"] #workspace.active.split .student-lesson .lesson-stage-body{display:flex}
+ body.lesson-stage-mode[data-edition="student"] #workspace.active.split .stage-student-actions:has([data-stage-media]){display:none}
+ body.lesson-stage-mode .teacher-dock #guide-action[data-auto-next="true"]{position:relative;overflow:hidden}
+ body.lesson-stage-mode .teacher-dock #guide-action[data-auto-next="true"]::after{content:"";position:absolute;left:0;bottom:0;width:100%;height:4px;background:#f3b341;transform:scaleX(0);transform-origin:left;animation:stage-auto-next 4.2s linear forwards}
+ @keyframes stage-auto-next{to{transform:scaleX(1)}}
  body.lesson-stage-mode #workspace.active.split .stage-answer p,body.lesson-stage-mode #workspace.active.split .stage-explanation p{font-size:14px}
  body.lesson-stage-mode #workspace.active.split .stage-objects img,body.lesson-stage-mode #workspace.active.split .stage-objects svg{height:52px}
  body.lesson-stage-mode #workspace.active.split .stage-p5-visual{height:calc(100% - 35px)}

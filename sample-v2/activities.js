@@ -12,7 +12,7 @@ export async function mountActivity(kind,host,ctx){
  if(['parts','zero','compare','target','eye','elastic','compression','measure'].includes(kind)){
   host.innerHTML='<div class="lab-layout"><div class="scene"></div><div class="lab-controls"></div></div>';
   const scene=host.querySelector('.scene'),panel=host.querySelector('.lab-controls');
-  let lab=null;const state={part:0,revealed:false,target:14,read:false,rows:ctx.load('measure-rows',[]),measurementPick:null};
+  let lab=null,tour=0;const state={part:0,revealed:false,target:14,read:false,rows:ctx.load('measure-rows',[]),measurementPick:null};
   function error(e){scene.innerHTML='<div class="scene-error"><h3>3D 교구를 열지 못했습니다.</h3><p>이 브라우저의 WebGL 지원을 확인해 주세요. 교재의 정확한 그림과 본문은 계속 읽을 수 있습니다.</p><p>'+esc(e.message||e)+'</p></div>';setStatus('3D 표시 실패 · 다른 브라우저에서 다시 시도할 수 있습니다.');}
   function sync(s){
    if(disposed)return;
@@ -33,19 +33,25 @@ export async function mountActivity(kind,host,ctx){
   const feedback=s=>{const el=panel.querySelector('[data-feedback]');if(el)el.textContent=s;setStatus(s);};
   const buttons=()=>`<button data-home>저울 전체 보기</button><button data-front>정면으로 보기</button>`;
   if(kind==='parts'){
-   function showPart(){const [id,name]=partList[state.part];state.revealed=false;lab.focusPart(id);panel.innerHTML=`<div class="eyebrow">부품 ${state.part+1} / 6</div><h3>확대된 부분의 이름은?</h3><p>모양을 보고, 없어지면 무엇이 어려울지 말해 보세요.</p><div class="control-grid">${partList.map(([i,n])=>`<button data-part-choice="${i}">${n}</button>`).join('')}</div><div class="feedback" data-feedback>아직 이름을 공개하지 않았어요.</div><button data-next-part disabled>다음 부품 →</button>${buttons()}`;
+   function showPart(focus=true){const [id,name]=partList[state.part];state.revealed=false;if(focus)lab.focusPart(id);panel.innerHTML=`<div class="eyebrow">부품 ${state.part+1} / 6</div><h3>확대된 부분의 이름은?</h3><p>모양을 보고, 없어지면 무엇이 어려울지 말해 보세요.</p><div class="control-grid">${partList.map(([i,n])=>`<button data-part-choice="${i}">${n}</button>`).join('')}</div><div class="feedback" data-feedback>아직 이름을 공개하지 않았어요.</div><button data-next-part disabled>${state.part===5?'여섯 부분 확인':'다음 부품 →'}</button>${buttons()}`;
     panel.querySelectorAll('[data-part-choice]').forEach(b=>b.onclick=()=>{const ok=b.dataset.partChoice===id;feedback(ok?`${name}: ${partList[state.part][2]}`:'이 부품의 위치와 역할을 다시 살펴보세요.');if(ok){state.revealed=true;panel.querySelector('[data-next-part]').disabled=false;say(`${name}. ${partList[state.part][2]}`);}});
-    panel.querySelector('[data-next-part]').onclick=()=>{if(state.part===5){feedback('여섯 부품을 모두 확인했습니다. 이제 영점을 맞추고 물체를 매달아 봅시다.');lab.resetView();return;}state.part++;showPart();};bindViews();
+    panel.querySelector('[data-next-part]').onclick=()=>{if(state.part===5){feedback('잘했어요! 여섯 부품을 모두 확인했습니다. 이제 영점을 맞추고 물체를 매달아 봅시다.');lab.resetView();ctx.complete?.();return;}state.part++;showPart();};bindViews();
    }
    function bindViews(){panel.querySelector('[data-home]').onclick=()=>lab.resetView();panel.querySelector('[data-front]').onclick=()=>lab.setEye('front');}
-   showPart();
+   showPart(!ctx.auto);
+   if(ctx.auto){
+    const stops=['handle','spring','scale','handle'];let step=0;
+    const preview=()=>{if(disposed||state.part!==0||state.revealed)return;lab.focusPart(stops[step++]);if(step<stops.length)tour=setTimeout(preview,2200);};
+    tour=setTimeout(preview,1800);
+    panel.addEventListener('pointerdown',()=>{clearTimeout(tour);lab.focusPart(partList[state.part][0]);},{once:true});
+   }
   }
   if(kind==='zero'){
    panel.innerHTML='<h3>빈 저울이 4 N을 가리켜요.</h3><p>물체를 달지 않았습니다. 영점조절나사로 0에 맞춰 보세요.</p><output class="reading" data-zero-out>4 N</output><input type="range" min="-6" max="6" step="1" value="4" aria-label="영점조절나사" data-zero><div class="control-grid"><button data-zminus>−1</button><button data-zplus>+1</button></div><button data-zero-check>0에 맞췄어요</button><div class="feedback" data-feedback>표시자의 윗부분을 기준으로 읽어요.</div>';
    const change=v=>{lab.setZero(v);panel.querySelector('[data-zero]').value=v;panel.querySelector('[data-zero-out]').textContent=`${v} N`;};
    panel.querySelector('[data-zero]').oninput=e=>change(+e.target.value);
    panel.querySelector('[data-zminus]').onclick=()=>change(clamp(lab.state().zero-1,-6,6));panel.querySelector('[data-zplus]').onclick=()=>change(clamp(lab.state().zero+1,-6,6));
-   panel.querySelector('[data-zero-check]').onclick=()=>{const ok=lab.state().zero===0;feedback(ok?'영점이 맞았어요. 이제 물체를 고리에 걸 수 있습니다.':'아직 0이 아니에요. 나사를 다시 조절해 보세요.');};
+   panel.querySelector('[data-zero-check]').onclick=()=>{const ok=lab.state().zero===0;feedback(ok?'영점이 맞았어요. 이제 물체를 고리에 걸 수 있습니다.':'아직 0이 아니에요. 나사를 다시 조절해 보세요.');if(ok)ctx.complete?.();};
   }
   if(kind==='compare'||kind==='measure'){
    const objects=kind==='measure'?[['10 g 추',10,'weight'],['20 g 추',20,'weight'],['30 g 추',30,'weight']]:[['작은 공',6,'ball'],['필통',12,'case'],['금속 추',20,'weight'],['큰 추',28,'weight']];
@@ -80,7 +86,7 @@ export async function mountActivity(kind,host,ctx){
    panel.querySelectorAll('[data-eye]').forEach(b=>b.onclick=()=>{panel.querySelectorAll('[data-eye]').forEach(x=>x.classList.toggle('selected',x===b));lab.setEye(b.dataset.eye);feedback('시선이 이동합니다. 물체와 표시자는 같은 위치입니다.');});
    panel.querySelector('[data-check-eye]').onclick=()=>{const s=lab.state(),v=Number(panel.querySelector('[data-eye-value]').value);feedback(Math.abs(v-s.expectedEye)<.8?`이 시선에서는 약 ${v} N으로 보여요. 실제 힘은 20 N입니다.`:'현재 시선으로 표시자 윗부분과 눈금판을 다시 비교해 보세요.');};
   }
-  cleanup=()=>{externalHandlers.forEach(f=>f());ctx.setLab(null);lab?.destroy();};
+  cleanup=()=>{clearTimeout(tour);externalHandlers.forEach(f=>f());ctx.setLab(null);lab?.destroy();};
   return {destroy};
  }
  if(kind==='graph'||kind==='assessment-graph'){

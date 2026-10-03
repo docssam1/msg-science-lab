@@ -49,11 +49,9 @@ try{
  await page.waitForFunction(()=>window.__sample.current===1);
  await page.waitForTimeout(700);
  assert((await page.evaluate(()=>window.__guidedAudio.length))>0,'existing narration should start after a page action');
- // 살아 있는 학생 교재: 먼저 교재와 안내를 보여 주고, 학생이 실험을 열면 나란히 전환한다.
+ // Student view opens the 3D lab as part of the lesson scene.
  assert.equal(await page.locator('#lesson-stage').isVisible(),true);
- assert.equal(await page.locator('#workspace').evaluate(el=>el.classList.contains('active')),false);
- assert.equal(await page.locator('#guide-action').getAttribute('data-guide-kind'),'parts');
- await page.locator('#guide-action').click();
+ assert.equal(await page.locator('#workspace').evaluate(el=>el.classList.contains('active')),true);
  await page.waitForFunction(()=>window.__sample.live==='parts'&&document.querySelector('#workspace').classList.contains('split'));
  await page.waitForFunction(()=>document.querySelector('#activity-content .lab-controls'));
  assert.equal(await page.locator('#book-pane').isVisible(),true,'the page stays visible beside the lab');
@@ -61,15 +59,20 @@ try{
  assert.match(await page.locator('#coach-copy').innerText(),/부분을 하나씩/);
  assert.equal(await page.locator('#guide-action').isVisible(),false,'one thing at a time: do the lab first');
  await page.screenshot({path:join(out,'student-activity-1366.png')});
- await page.locator('#activity-content .lab-controls button').first().click();
- assert.equal(await page.locator('#guide-action').getAttribute('data-guide-action'),'next','after trying the lab the next page is offered');
+ await page.locator('[data-part-choice="handle"]').click();
+ assert.equal(await page.locator('#guide-action').isVisible(),false,'the next page waits until all six parts are checked');
+ for(const id of ['handle','zero','spring','pointer','scale','hook']){
+  if(id!=='handle')await page.locator(`[data-part-choice="${id}"]`).click();
+  await page.locator('[data-next-part]').click();
+ }
+ assert.equal(await page.locator('#guide-action').getAttribute('data-guide-action'),'next','the next page appears after all six parts');
  assert.equal(await page.locator('#guide-action').isVisible(),true);
+ await page.locator('#close-activity').click();
+ assert.equal(await page.locator('#guide-action').getAttribute('data-guide-action'),'next');
  await page.locator('#coach-fold').click();
  assert.equal(await page.locator('.teacher-dock').evaluate(el=>el.classList.contains('folded')),true);
  await page.locator('.teacher-dock .character-figure').click();
  assert.equal(await page.locator('.teacher-dock').evaluate(el=>el.classList.contains('folded')),false);
- await page.locator('#close-activity').click();
- assert.equal(await page.locator('#guide-action').getAttribute('data-guide-action'),'next');
  assert.equal(await page.locator('#self-study').isVisible(),false);
 
  await page.goto(base+'student.html?page=11');

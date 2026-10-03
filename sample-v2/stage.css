@@ -10,7 +10,8 @@ body.coach-stage .teacher-dock>*{pointer-events:auto}
 body.coach-stage .teacher-dock #teacher-guide{display:none}
 /* 우루사쌤(coach-face.js): 원장 승인 전신 표정 6장을 겹쳐 두고 한 장만 보인다(통째로 바꿔 끼우기, 얼굴 합성 없음).
    말할 때 explain↔listen이 번갈아 보이고, 몸은 발끝을 축으로 숨쉬기·흔들기·깡충·기울기를 한다(transform만). */
-body.coach-stage .character-figure{position:absolute;left:-26px;bottom:-16px;width:var(--coach-fig-w);height:var(--coach-fig-h);max-height:none;margin:0;z-index:3;pointer-events:none;transform:scaleX(-1)}
+body.coach-stage .character-figure{position:absolute;left:-26px;bottom:-16px;width:var(--coach-fig-w);height:var(--coach-fig-h);max-height:none;margin:0;z-index:3;pointer-events:none;transform:scaleX(-1);background:none!important}
+body.coach-stage .teacher-dock.folded .character-figure{box-shadow:0 6px 16px rgba(0,0,0,.24)}
 body.coach-stage .character-figure #teacher-expression{display:none}
 .coach-face::before{content:"";position:absolute;left:24%;right:24%;bottom:3%;height:6%;border-radius:50%;background:radial-gradient(closest-side,rgba(20,60,40,.26),rgba(20,60,40,0));transform-origin:50% 50%}
 .coach-face .coach-pose,.coach-face .coach-act,.coach-face .coach-sway,.coach-face .coach-bob{position:absolute;inset:0;transform-origin:50% 94%}
