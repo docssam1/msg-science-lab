@@ -1,8 +1,8 @@
 [
   {
     "path": "README.md",
-    "size": 5811,
-    "sha256": "996912740db3c6347fb69ddd5bf4bdee864469a380ae7ab5eba77401a0c5deb2"
+    "size": 6424,
+    "sha256": "62229c1d2765f6b500e7ff93904efaacf0a61dc686ae8086cb276896eccde1ee"
   },
   {
     "path": "activities.js",
@@ -11,13 +11,13 @@
   },
   {
     "path": "advanced-bank.js",
-    "size": 3413,
-    "sha256": "19b07730a61a3cab8bfdfc926710f886189c745ace7eff3c46008979e0572c05"
+    "size": 3595,
+    "sha256": "d516549c9ccf0d6033948945d2356aed88a2bd4b16961f79c8b58a74a416a592"
   },
   {
     "path": "app.js",
-    "size": 53360,
-    "sha256": "02a43a9b1a50e3a32a2e8232567f1e3e34eacd717dfad9c336c1179965744b7b"
+    "size": 53876,
+    "sha256": "6fe0c790d9d3d0fbf5dbfc86ba04a32300c9c3ab25b08e2ac78fabee7ffba20e"
   },
   {
     "path": "art/FUTURE-IMAGE-PROMPTS.md",
@@ -851,8 +851,8 @@
   },
   {
     "path": "daily-grading.js",
-    "size": 28865,
-    "sha256": "71703eaa59f7488ecdfe0adecd5f3a9e5b030433c3dac6780bbe22e6ab41efbe"
+    "size": 29804,
+    "sha256": "87b596c4371797ef7fb5f74077f2feafd2cf462cf33c1b7f3b3c3251bf900a57"
   },
   {
     "path": "editions.js",
@@ -1311,8 +1311,8 @@
   },
   {
     "path": "remedy-bank.js",
-    "size": 17783,
-    "sha256": "1c75653d4bf485f478bb0af72d9caf3d81cdbb2ac30f2b5f4d421fd74b36821b"
+    "size": 18309,
+    "sha256": "9716e46b9ed3b9445e2d500d4cffb1297acd163107d5e7b30423f511c3f7f4b3"
   },
   {
     "path": "review.js",
@@ -1473,6 +1473,11 @@
     "path": "vendor/three.module.js",
     "size": 648961,
     "sha256": "61134198639a10885daf893fb29669ca26386e2a4cde76e8399f51e329f741f2"
+  },
+  {
+    "path": "worksheet-print.js",
+    "size": 4534,
+    "sha256": "7cbda1bffb0a6381517d216e7b2f469052c6a613ae0e74152f5036d341f990d8"
   },
   {
     "path": "zero-gate.js",
