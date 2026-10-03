@@ -6,7 +6,7 @@ const {chromium}=await import(process.env.MSG_PLAYWRIGHT_URL||'playwright');
 const base=process.env.QA_BASE||'http://127.0.0.1:4320/sample-v2/';
 const out=process.env.QA_OUT||'.proofs/lesson-stage';
 mkdirSync(out,{recursive:true});
-const browser=await chromium.launch({executablePath:process.env.EDGE_PATH||'C:\Program Files (x86)\Microsoft\Edge\Application\msedge.exe',headless:true,args:['--use-gl=swiftshader','--enable-unsafe-swiftshader']});
+const browser=await chromium.launch({executablePath:process.env.EDGE_PATH||'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe',headless:true,args:['--use-gl=swiftshader','--enable-unsafe-swiftshader']});
 const errors=[];
 const page=async(mode,number,width=1366,height=768)=>{
  const tab=await browser.newPage({viewport:{width,height}});
