@@ -64,6 +64,23 @@ export const probeBank = [
   { id: 'd04', m: 'M04', q: '물체를 건 뒤 표시자가 6 N과 8 N 사이를 계속 오가요. 무게를 기록하려면 어떻게 해야 할까요?', options: ['가장 큰 값인 8 N을 적는다.', '두 값의 가운데를 바로 적는다.', '표시자가 멈출 때까지 기다린다.', '처음 본 숫자를 적는다.'], answer: 2, why: '흔들리는 동안 눈금이 바뀌므로 표시자가 멈춘 뒤 읽어요.' },
   { id: 'd09', m: 'M09', q: '실험 A의 10 g 추는 용수철을 2 cm, 실험 B의 10 g 추는 5 cm 늘렸어요. 실험 B의 표를 이어서 20 g을 예상하면?', options: ['4 cm', '5 cm', '7 cm', '10 cm'], answer: 3, why: 'B의 용수철에서는 10 g에 5 cm이므로 20 g에는 10 cm예요. A의 수치를 섞지 않아요.' },
 ];
+// 변형 키는 번호와 독립적이다. 새 ID로 같은 고정 변형을 추가해도 재선택을 막는다.
+const variantKeys = {
+  s01: 'M01:indicator-role', s02: 'M01:hook-role',
+  s03: 'M02:zero-before-hanging', s04: 'M02:offset-reading',
+  s05: 'M03:eye-level', s06: 'M03:friends-disagree',
+  s07: 'M04:initial-wobble', s18: 'M04:group-recording',
+  s08: 'M05:heavier-object', s09: 'M05:two-object-comparison',
+  s10: 'M06:unloaded-extension', s11: 'M06:graph-origin',
+  s12: 'M07:material-elasticity', s13: 'M07:elasticity-name',
+  s14: 'M08:three-weights', s15: 'M08:double-weight',
+  s16: 'M09:own-table-calculation', s17: 'M09:two-experiments',
+  d02: 'M02:two-groups-zero', d04: 'M04:oscillating-range', d09: 'M09:two-spring-values',
+};
+for (const item of [...bank, ...probeBank]) {
+  if (!variantKeys[item.id]) throw new Error(`변형 키 누락: ${item.id}`);
+  item.variantKey = variantKeys[item.id];
+}
 // 선택형 은행 문항: 따로 적지 않은 오답은 그 문항의 오개념으로 본다.
 for (const it of bank) { it.wrong = it.wrong || {}; it.options.forEach((_, j) => { if (j !== it.answer && !(j in it.wrong)) it.wrong[j] = it.m; }); }
 
@@ -81,16 +98,26 @@ export function diagnose(log) {
 }
 // 처방: 이미 한 번 제시해 답한 고정 문항은 정오와 관계없이 다시 선택하지 않는다.
 // 같은 화면 안에서 되묻고 다시 고르는 것은 학습 피드백이며, 새 처방으로 재선택하는 것과 구분한다.
+export function unattemptedVariants(pool, log, src) {
+  if (!Array.isArray(log)) throw new TypeError('문항 선택에는 기존 첫 시도 기록이 필요합니다.');
+  const variantsById = new Map(pool.map((item) => [item.id, item.variantKey]));
+  const seen = new Set(log.filter((r) => r.src === src).map((r) => r.variantKey || variantsById.get(r.item) || r.item));
+  const emitted = new Set();
+  return pool.filter((item) => {
+    if (seen.has(item.variantKey) || emitted.has(item.variantKey)) return false;
+    emitted.add(item.variantKey);
+    return true;
+  });
+}
 export function prescribe(dx, log) {
   if (!Array.isArray(log)) throw new TypeError('처방 선택에는 기존 첫 시도 기록이 필요합니다.');
-  const seen = new Set(log.filter((r) => r.src === 'bank').map((r) => r.item));
+  const open = unattemptedVariants(bank, log, 'bank');
   return Object.values(dx).filter((d) => d.status === 'confirmed')
-    .flatMap((d) => bank.filter((b) => b.m === d.code && !seen.has(b.id)));
+    .flatMap((d) => open.filter((b) => b.m === d.code));
 }
 export function pendingProbes(dx, log) {
   if (!Array.isArray(log)) throw new TypeError('확인 질문 선택에는 기존 첫 시도 기록이 필요합니다.');
-  const seen = new Set(log.filter((r) => r.src === 'probe').map((r) => r.item));
-  return probeBank.filter((item) => dx[item.m]?.status === 'suspected' && !seen.has(item.id));
+  return unattemptedVariants(probeBank, log, 'probe').filter((item) => dx[item.m]?.status === 'suspected');
 }
 // 오답 → 오개념
 export function misconceptionOf(item, answer) {
@@ -115,7 +142,7 @@ export function bankRecord(id, choice) {
   const selected = Number(choice);
   if (!Number.isInteger(selected) || selected < 0 || selected >= b.options.length) return null;
   const ok = selected === b.answer;
-  return { item: id, ok, m: ok ? null : (b.wrong[selected] || b.m), src: 'bank', answerKey: ANSWER_KEY };
+  return { item: id, variantKey: b.variantKey, ok, m: ok ? null : (b.wrong[selected] || b.m), src: 'bank', answerKey: ANSWER_KEY };
 }
 export function probeRecord(id, choice) {
   const probe = probeBank.find((item) => item.id === id); if (!probe) return null;
@@ -123,5 +150,5 @@ export function probeRecord(id, choice) {
   const selected = Number(choice);
   if (!Number.isInteger(selected) || selected < 0 || selected >= probe.options.length) return null;
   const ok = selected === probe.answer;
-  return { item: id, ok, m: ok ? null : probe.m, src: 'probe', answerKey: ANSWER_KEY };
+  return { item: id, variantKey: probe.variantKey, ok, m: ok ? null : probe.m, src: 'probe', answerKey: ANSWER_KEY };
 }

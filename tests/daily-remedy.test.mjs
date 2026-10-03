@@ -1,7 +1,7 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { q1, q2 } from '../sample-v2/content.js';
-import { itemMap, bank, probeBank, misconceptions, diagnose, prescribe, pendingProbes, firstAttemptRecord, bankRecord, probeRecord, UNCONFIRMED, ANSWER_KEY } from '../sample-v2/remedy-bank.js';
+import { itemMap, bank, probeBank, misconceptions, diagnose, prescribe, pendingProbes, unattemptedVariants, firstAttemptRecord, bankRecord, probeRecord, UNCONFIRMED, ANSWER_KEY } from '../sample-v2/remedy-bank.js';
 import { gradeItem, summarize, ANSWER_KEY_VERSION } from '../sample-v2/daily-grading.js';
 
 const all = [...q1, ...q2];
@@ -91,6 +91,15 @@ test('probe bank has unique answerable choices and never maps a correct answer t
   assert.throws(() => pendingProbes(diagnose([])), /첫 시도 기록/);
   assert.equal(new Set(probeBank.map((p) => p.id)).size, probeBank.length);
   assert.equal(new Set([...bank, ...probeBank].map((p) => p.id)).size, bank.length + probeBank.length);
+  assert.equal(new Set([...bank, ...probeBank].map((p) => p.variantKey)).size, bank.length + probeBank.length);
+  assert.ok([...bank, ...probeBank].every((p) => p.variantKey.startsWith(`${p.m}:`)));
+  const aliasPool = [
+    { id: 'original', variantKey: 'M02:same-situation' },
+    { id: 'new-id-same-variant', variantKey: 'M02:same-situation' },
+    { id: 'new-situation', variantKey: 'M02:different-situation' },
+  ];
+  assert.deepEqual(unattemptedVariants(aliasPool, [], 'bank').map((p) => p.id), ['original', 'new-situation']);
+  assert.deepEqual(unattemptedVariants(aliasPool, [{ item: 'original', src: 'bank' }], 'bank').map((p) => p.id), ['new-situation']);
   for (const p of probeBank) {
     assert.ok(Number.isInteger(p.answer) && p.answer >= 0 && p.answer < p.options.length, p.id);
     assert.equal(new Set(p.options).size, p.options.length, p.id);
@@ -102,6 +111,8 @@ test('probe bank has unique answerable choices and never maps a correct answer t
   assert.equal(probeRecord('d02', 'not-a-choice'), null);
   assert.equal(bankRecord('s03', ''), null);
   assert.equal(bankRecord('s03', 99), null);
+  assert.equal(bankRecord('s03', 1).variantKey, 'M02:zero-before-hanging');
+  assert.equal(probeRecord('d02', 1).variantKey, 'M02:two-groups-zero');
   for (const code of Object.keys(misconceptions)) {
     assert.ok(bank.filter((item) => item.m === code).length >= 2, `${code} lacks two distinct remedies`);
   }
