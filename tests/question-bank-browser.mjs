@@ -19,11 +19,14 @@ try {
   await page.evaluate(() => window.__sample.report(1));
   await page.locator('[data-dt-probe]').click();
   assert.equal(await page.locator('[data-probe="d02"]').count(), 1);
+  assert.equal(await page.locator('[data-probe="d02"] .rx-feedback').innerText(), '');
+  assert.equal(await page.locator('[data-probe="d02"] .rx-opt.answer').count(), 0);
   await page.locator('[data-probe="d02"] [data-probe-opt="0"]').click();
   assert.equal(await page.evaluate(() => window.__sample.remedyLog().filter((r) => r.item === 'd02').length), 1);
   await page.locator('[data-probe-back]').click();
   assert.match(await page.locator('[data-dt-remedy]').innerText(), /2문제/);
   await page.locator('[data-dt-remedy]').click();
+  assert.equal(await page.locator('[data-rx="s03"] .dt-why').count(), 0);
   await page.locator('[data-rx="s03"] [data-rx-opt="0"]').click();
   await page.locator('[data-rx-back]').click();
   assert.match(await page.locator('[data-dt-remedy]').innerText(), /1문제/);
