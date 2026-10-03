@@ -1,4 +1,4 @@
-// 오개념 진단 + 유사문제 은행(처방) — 초·과·심 물리 1·2차시(용수철과 무게 재기)
+// 오개념 진단 + 테스트 연계 유사문제 워크지용 문항 풀 — 초·과·심 물리 1·2차시(용수철과 무게 재기)
 // 규칙(과학 탐구 랩과 같다): 데일리 테스트 첫 시도의 오답이 가리키는 오개념을 기록한다.
 //   · 서로 다른 문항 1개 = 의심, 2개 이상 = **확정** → 그 오개념의 유사문제를 처방한다.
 //   · 처방 문제를 2개 맞히면 해소. 셀프 체크(학생이 스스로 O/X)는 진단에 넣지 않는다.
@@ -20,6 +20,17 @@ export const misconceptions = {
   M09: { concept: 'data', label: '지금 문제의 표와 앞 실험의 표가 같은 자료인가요?', fix: '본문 실험(10·20·30 g → 3·6·9 cm)과 이 문제의 표(10·20·30 g → 4·8·12 cm)는 <b>다른 용수철</b>의 자료예요. 문제에 주어진 표를 써요.', page: 16 },
 };
 
+export function lessonRemedyLog(log,lesson){
+ if(!Array.isArray(log)||![1,2].includes(lesson))throw new TypeError('차시별 진단 기록을 확인해 주세요.');
+ return log.filter(row=>{
+  const concept=row.m||bank.find(item=>item.id===row.item)?.m||probeBank.find(item=>item.id===row.item)?.m;
+  if(concept)return (['M01','M02','M03','M04'].includes(concept)?1:2)===lesson;
+  if(/^a\d+$/.test(row.item))return lesson===1;
+  if(/^b\d+$/.test(row.item))return lesson===2;
+  return false;
+ });
+}
+
 // 데일리 테스트 오답 → 오개념. 선택형은 보기 번호(0부터), 글자형은 틀리면 any.
 export const itemMap = {
   a1: { any: 'M01' }, a3: { any: 'M01' }, a4: { any: 'M03' },
@@ -36,7 +47,7 @@ export const itemMap = {
   b12: { graph: { '3,6,9': 'M09', other: 'M06' } },   // 3·6·9를 찍으면 앞 실험 자료를 쓴 것
 };
 
-// 유사문제 은행: m = 이 문제가 확인하는 오개념, wrong = 오답 보기 → 오개념(정답 보기는 없음)
+// 유사문제 워크지용 문항 풀(독립 문제은행 아님): m = 확인 오개념, wrong = 오답 보기 → 오개념
 export const bank = [
   { id: 's01', m: 'M01', q: '용수철저울에서 눈금을 가리켜 무게를 읽게 해 주는 부분은 어느 것일까요?', options: ['고리', '표시자', '손잡이', '영점조절나사'], answer: 1, why: '표시자가 가리키는 눈금을 읽어요.' },
   { id: 's02', m: 'M01', q: '무게를 재려는 물체는 용수철저울의 어느 부분에 매달까요?', options: ['손잡이', '영점조절나사', '고리', '눈금판'], answer: 2, why: '물체는 아래쪽 고리에 매달고, 손잡이는 저울을 잡거나 고정해요.' },

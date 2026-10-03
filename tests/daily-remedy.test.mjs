@@ -1,7 +1,15 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
 import { q1, q2 } from '../sample-v2/content.js';
-import { itemMap, bank, probeBank, misconceptions, diagnose, prescribe, pendingProbes, unattemptedVariants, firstAttemptRecord, activityMistakeRecord, bankRecord, probeRecord, UNCONFIRMED, ANSWER_KEY } from '../sample-v2/remedy-bank.js';
+import { itemMap, bank, probeBank, misconceptions, diagnose, prescribe, pendingProbes, unattemptedVariants, firstAttemptRecord, activityMistakeRecord, bankRecord, probeRecord, lessonRemedyLog, UNCONFIRMED, ANSWER_KEY } from '../sample-v2/remedy-bank.js';
+
+test('worksheet diagnosis never mixes first and second lesson evidence',()=>{
+ const log=[firstAttemptRecord('a2',0,false),probeRecord('d02',0),firstAttemptRecord('b2',0,false),bankRecord('s08',1),activityMistakeRecord('motion')];
+ assert.deepEqual(lessonRemedyLog(log,1).map(row=>row.item),['a2','d02','inquiry-motion']);
+ assert.deepEqual(lessonRemedyLog(log,2).map(row=>row.item),['b2','s08']);
+ assert.equal(diagnose(lessonRemedyLog(log,1)).M05.status,'none');
+ assert.equal(diagnose(lessonRemedyLog(log,2)).M02.status,'none');
+});
 
 test('only an observed early measurement click raises M04 suspicion; a separate probe is required', () => {
   assert.equal(activityMistakeRecord('reference'), null);

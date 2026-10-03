@@ -46,8 +46,9 @@ try{
  await teacher.locator('[data-prediction-done]').click();
  await teacher.locator('[data-object]').first().waitFor();
  assert.equal(await teacher.locator('#book-pane').isVisible(),true,'the question slide remains beside measurement');
- await teacher.locator('[data-object]').first().click();
- const warning=await teacher.locator('[data-inquiry-feedback]').innerText();
+  await teacher.locator('[data-object]').first().click();
+  await teacher.waitForFunction(()=>document.querySelector('[data-inquiry-feedback]')?.textContent==='실험 방법에 오류가 있어요. 어떤 과정을 다시 살펴봐야 할까요?');
+  const warning=await teacher.locator('[data-inquiry-feedback]').innerText();
  assert.equal(warning,'실험 방법에 오류가 있어요. 어떤 과정을 다시 살펴봐야 할까요?');
  assert.doesNotMatch(warning,/영점/);
  assert.equal(await teacher.evaluate(()=>window.__stageAudio.length),0);

@@ -151,9 +151,9 @@ export function reportHTML({lesson,items,selfChecks={},character=true,labNames={
  const headline=!s.confirmed?'채점할 수 있는 문항이 아직 없어요.':perfect?'확인된 문제를 모두 맞혔어요!':s.correct>=s.wrong?'잘 해냈어요. 틀린 문제만 다시 살펴봐요.':'괜찮아요. 하나씩 다시 생각해 봐요.';
  const time=new Date(gradedAt).toLocaleString('ko-KR',{month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'});
  const next=suspected[0]&&misconceptions[suspected[0].code];
- const recommend=remedy&&due.length?`<div class="dt-recommend hot"><span>처방 문제</span><b>${confirmed.map(d=>esc(nameOf(d.code))).join(' · ')}</b><small>두 문제 이상에서 같은 헷갈림이 보였어요.</small><button type="button" class="dt-primary warm" data-dt-remedy>처방 문제 풀기 · ${due.length}문제</button></div>`
+ const recommend=remedy&&due.length?`<div class="dt-recommend hot"><span>테스트 연계 유사문제 워크지</span><b>${confirmed.map(d=>esc(nameOf(d.code))).join(' · ')}</b><small>두 문제 이상에서 같은 헷갈림이 보였어요.</small><button type="button" class="dt-primary warm" data-dt-remedy>유사문제 워크지 풀기 · ${due.length}문제</button></div>`
   :remedy&&probes.length?`<div class="dt-recommend"><span>개념 확인</span><b>${probes.map(p=>esc(nameOf(p.m))).join(' · ')}</b><small>한 문제만으로 오개념을 확정하지 않아요. 다른 상황에서 한 번 더 확인해요.</small><button type="button" class="dt-primary" data-dt-probe>확인 질문 풀기 · ${probes.length}문제</button></div>`
-  :remedy&&confirmed.length?`<div class="dt-recommend"><span>선생님과 확인</span><b>새 처방 문항이 없어요</b><small>이전에 푼 고정 문항을 다시 뽑지 않아요. 관련 실험을 다시 해 보고 선생님과 확인해요.</small></div>`
+  :remedy&&confirmed.length?`<div class="dt-recommend"><span>선생님과 확인</span><b>새 워크지 문항이 없어요</b><small>이전에 푼 고정 문항을 다시 뽑지 않아요. 관련 실험을 다시 해 보고 선생님과 확인해요.</small></div>`
   :next&&pageLab?.(next.page)?`<div class="dt-recommend"><span>추천 다시 하기</span><b>${esc(pageLab(next.page).name)}</b><button type="button" class="dt-primary" data-dt-goto="${next.page}">실험 다시 하기</button></div>`:'';
  return `<div class="dt-report">
 <section class="dt-hero">
@@ -170,17 +170,17 @@ export function reportHTML({lesson,items,selfChecks={},character=true,labNames={
 }
 
 // 처방 문제: 첫 오답 → 되묻기(답 공개 없음) → 다시 풀기. 풀이 보기는 한 번 풀어 본 뒤에만. 첫 시도만 진단에 기록.
-export function mountRemedy(host,{getLog,record,coach,character=true,pageLab,onGoto,onBack}){
+export function mountRemedy(host,{getLog,record,coach,character=true,pageLab,onGoto,onBack,onPrint}){
  let dx=diagnose(getLog());
  const due=prescribe(dx,getLog());
  const codes=[...new Set(due.map(b=>b.m))];
  const state=new Map(due.map(b=>[b.id,{tries:0,done:false,shown:false}]));
  const attempted=id=>getLog().some(r=>r.src==='bank'&&r.item===id);
- if(!due.length){const exhausted=Object.values(dx).some(d=>d.status==='confirmed');host.innerHTML=`<div class="dt-report rx"><section class="dt-hero slim"><div class="dt-hero-copy"><span class="dt-eyebrow">처방 문제</span><h3>지금 풀 새 처방 문제가 없어요.</h3><small>${exhausted?'같은 고정 문항을 다시 뽑지 않아요. 관련 실험을 다시 해 보고 선생님과 확인해요.':'두 문항 이상에서 같은 헷갈림이 보이면 여기에 비슷한 문제가 나와요.'}</small></div></section><footer class="dt-foot"><p></p><button type="button" class="dt-primary ghost" data-rx-back>채점 결과로 돌아가기</button></footer></div>`;host.querySelector('[data-rx-back]').onclick=onBack;return {destroy(){}};}
+ if(!due.length){const exhausted=Object.values(dx).some(d=>d.status==='confirmed');host.innerHTML=`<div class="dt-report rx"><section class="dt-hero slim"><div class="dt-hero-copy"><span class="dt-eyebrow">테스트 연계 유사문제 워크지</span><h3>지금 풀 새 워크지 문항이 없어요.</h3><small>${exhausted?'같은 고정 문항을 다시 뽑지 않아요. 관련 실험을 다시 해 보고 선생님과 확인해요.':'두 문항 이상에서 같은 헷갈림이 보이면 여기에 비슷한 문제가 나와요.'}</small></div></section><footer class="dt-foot"><p></p><button type="button" class="dt-primary ghost" data-rx-back>채점 결과로 돌아가기</button></footer></div>`;host.querySelector('[data-rx-back]').onclick=onBack;return {destroy(){}};}
  const card=b=>`<article class="dt-card rx-card" data-rx="${b.id}"><header><span class="dt-num">${b.id.slice(1)}</span><p>${esc(b.q)}</p><span class="rx-mark"></span></header><div class="rx-options">${b.options.map((o,i)=>`<button type="button" class="rx-opt" data-rx-opt="${i}"><i>${circled[i]}</i><span>${esc(o)}</span></button>`).join('')}</div><div class="rx-feedback" aria-live="polite"></div><div class="dt-actions"><button type="button" class="dt-link soft" data-rx-solution hidden>풀이 보기</button></div></article>`;
- host.innerHTML=`<div class="dt-report rx"><section class="dt-hero slim"><div class="dt-hero-copy"><span class="dt-eyebrow">처방 문제 · 비슷한 문제로 다시 확인</span><h3>헷갈린 개념을 한 번 더 풀어 봐요</h3><small>처음 고른 답으로 진단해요. 한 개념에서 처방 문제 두 개를 처음에 바로 맞히면 해소돼요.</small></div>${character?`<figure class="dt-hero-face"><img src="${face('explain')}" alt="설명하는 우루사쌤"></figure>`:''}</section>
+ host.innerHTML=`<div class="dt-report rx"><section class="dt-hero slim"><div class="dt-hero-copy"><span class="dt-eyebrow">테스트 연계 유사문제 워크지 · 독립 문제은행과 별개</span><h3>헷갈린 개념을 한 번 더 풀어 봐요</h3><small>처음 고른 답으로 진단해요. 한 개념에서 워크지 문항 두 개를 처음에 바로 맞히면 해소돼요.</small></div>${character?`<figure class="dt-hero-face"><img src="${face('explain')}" alt="설명하는 우루사쌤"></figure>`:''}</section>
 ${codes.map(code=>`<section class="rx-group" data-rx-group="${code}"><header class="rx-head">${statusChip[dx[code].status]}<div><b>${esc(nameOf(code))}</b><p>${esc(misconceptions[code].label)}</p></div>${pageLab?.(misconceptions[code].page)?`<button type="button" class="dt-link" data-dt-goto="${misconceptions[code].page}">관련 실험 · ${esc(pageLab(misconceptions[code].page).name)}</button>`:''}</header><div class="dt-items">${due.filter(b=>b.m===code).map(card).join('')}</div></section>`).join('')}
-<footer class="dt-foot"><p>풀이 보기는 한 번 풀어 본 뒤에 열려요. 다시 푼 답은 진단에 넣지 않아요.</p><button type="button" class="dt-primary ghost" data-rx-back>채점 결과로 돌아가기</button></footer></div>`;
+<footer class="dt-foot"><p>풀이 보기는 한 번 풀어 본 뒤에 열려요. 다시 푼 답은 진단에 넣지 않아요. 인쇄본에는 정답·해설이 빠집니다.</p>${onPrint?'<button type="button" class="dt-primary" data-rx-print>워크지 인쇄</button>':''}<button type="button" class="dt-primary ghost" data-rx-back>채점 결과로 돌아가기</button></footer></div>`;
  const refreshGroup=code=>{const head=host.querySelector(`[data-rx-group="${code}"] .rx-head .dx-chip`);if(head)head.outerHTML=statusChip[dx[code].status];};
  host.querySelectorAll('[data-rx]').forEach(el=>{
   const b=bank.find(x=>x.id===el.dataset.rx),st=state.get(b.id),fb=el.querySelector('.rx-feedback'),sol=el.querySelector('[data-rx-solution]');
@@ -199,6 +199,7 @@ ${codes.map(code=>`<section class="rx-group" data-rx-group="${code}"><header cla
   sol.onclick=reveal;
  });
  host.querySelectorAll('[data-dt-goto]').forEach(btn=>btn.onclick=()=>onGoto(Number(btn.dataset.dtGoto)));
+ host.querySelector('[data-rx-print]')?.addEventListener('click',event=>{const pending=due.filter(item=>!attempted(item.id));if(pending.length)onPrint(pending);else{event.currentTarget.disabled=true;event.currentTarget.textContent='새 워크지 문항 없음';}});
  host.querySelectorAll('[data-rx-back]').forEach(btn=>btn.onclick=onBack);
  coach(`${codes.map(nameOf).join(', ')} — 비슷한 문제로 다시 확인해 봐요. 처음 고른 답으로 진단해요.`,'');
  return {destroy(){}};
@@ -226,11 +227,11 @@ export function mountProbe(host,{getLog,record,coach,onBack}){
 }
 
 // 원본 단원평가와 분리한 MSG 창작 심화. 서술형은 자동 점수로 추정하지 않는다.
-export function mountAdvanced(host,{getLog,record,selfCheck,onBack}){
- const due=availableAdvanced(getLog());
- if(!due.length){host.innerHTML='<div class="dt-report rx"><section class="dt-hero slim"><div class="dt-hero-copy"><h3>새 심화 문항을 모두 풀었어요.</h3><small>같은 고정 변형은 다시 뽑지 않아요. 서술형은 스스로 점검하거나 선생님과 확인해요.</small></div></section><footer class="dt-foot"><button type="button" class="dt-primary ghost" data-advanced-back>채점 결과로 돌아가기</button></footer></div>';host.querySelector('[data-advanced-back]').onclick=onBack;return {destroy(){}};}
- const card=item=>`<article class="dt-card rx-card" data-advanced="${item.id}"><header><span class="dt-num">${item.id.slice(2)}</span><p>${esc(item.prompt)}</p></header><small>MSG 창작 심화 · 원본 본책 ${item.sourcePage}쪽 개념 연결 · ${item.type==='explanation'?'서술형 · 교사/셀프 체크':item.type==='number'?'수치 입력':'선택형'}</small><div class="rx-options">${item.type==='choice'?item.options.map((option,index)=>`<label class="rx-opt"><input type="radio" name="${item.id}" value="${index}"><span>${circled[index]} ${esc(option)}</span></label>`).join(''):item.type==='number'?`<label>늘어난 길이 <input type="number" min="0" step="0.1" data-advanced-answer aria-label="늘어난 길이 cm"> ${item.unit}</label>`:'<label>내 설명 <textarea data-advanced-answer maxlength="500" rows="4" aria-label="내 설명"></textarea></label>'}</div><button type="button" class="dt-primary" data-advanced-submit>첫 답 제출</button><div class="rx-feedback" aria-live="polite"></div></article>`;
- host.innerHTML=`<div class="dt-report rx advanced"><section class="dt-hero slim"><div class="dt-hero-copy"><span class="dt-eyebrow">MSG 창작 심화 · 원본 단원평가와 별개</span><h3>자료를 해석하고 이유를 설명해요</h3><small>각 문항 첫 답만 기록합니다. 가상 수치는 실측 결과가 아니며 서술형은 자동 점수가 나오지 않아요.</small></div></section><div class="dt-items">${due.map(card).join('')}</div><footer class="dt-foot"><button type="button" class="dt-primary ghost" data-advanced-back>채점 결과로 돌아가기</button></footer></div>`;
+export function mountAdvanced(host,{lesson,getLog,record,selfCheck,onBack,onPrint}){
+ const due=availableAdvanced(getLog(),lesson);
+ if(!due.length){host.innerHTML='<div class="dt-report rx"><section class="dt-hero slim"><div class="dt-hero-copy"><h3>새 심화 워크지 문항을 모두 풀었어요.</h3><small>같은 고정 변형은 다시 뽑지 않아요. 서술형은 스스로 점검하거나 선생님과 확인해요.</small></div></section><footer class="dt-foot"><button type="button" class="dt-primary ghost" data-advanced-back>채점 결과로 돌아가기</button></footer></div>';host.querySelector('[data-advanced-back]').onclick=onBack;return {destroy(){}};}
+ const card=item=>`<article class="dt-card rx-card" data-advanced="${item.id}"><header><span class="dt-num">${item.id.slice(2)}</span><p>${esc(item.prompt)}</p></header><small>MSG 창작 심화 워크지 · 원본 본책 ${item.sourcePage}쪽 개념 연결 · ${item.type==='explanation'?'서술형 · 교사/셀프 체크':item.type==='number'?'수치 입력':'선택형'}</small><div class="rx-options">${item.type==='choice'?item.options.map((option,index)=>`<label class="rx-opt"><input type="radio" name="${item.id}" value="${index}"><span>${circled[index]} ${esc(option)}</span></label>`).join(''):item.type==='number'?`<label>늘어난 길이 <input type="number" min="0" step="0.1" data-advanced-answer aria-label="늘어난 길이 cm"> ${item.unit}</label>`:'<label>내 설명 <textarea data-advanced-answer maxlength="500" rows="4" aria-label="내 설명"></textarea></label>'}</div><button type="button" class="dt-primary" data-advanced-submit>첫 답 제출</button><div class="rx-feedback" aria-live="polite"></div></article>`;
+ host.innerHTML=`<div class="dt-report rx advanced"><section class="dt-hero slim"><div class="dt-hero-copy"><span class="dt-eyebrow">테스트 연계 심화 워크지 · 독립 문제은행과 별개</span><h3>자료를 해석하고 이유를 설명해요</h3><small>각 문항 첫 답만 기록합니다. 가상 수치는 실측 결과가 아니며 서술형은 자동 점수가 나오지 않아요.</small></div></section><div class="dt-items">${due.map(card).join('')}</div><footer class="dt-foot">${onPrint?'<button type="button" class="dt-primary" data-advanced-print>워크지 인쇄</button>':''}<button type="button" class="dt-primary ghost" data-advanced-back>채점 결과로 돌아가기</button></footer></div>`;
  for(const cardEl of host.querySelectorAll('[data-advanced]')){
   const item=advancedItems.find(entry=>entry.id===cardEl.dataset.advanced),submit=cardEl.querySelector('[data-advanced-submit]'),fb=cardEl.querySelector('.rx-feedback');
   submit.onclick=()=>{
@@ -246,5 +247,6 @@ export function mountAdvanced(host,{getLog,record,selfCheck,onBack}){
   };
  }
  host.querySelector('[data-advanced-back]').onclick=onBack;
+ host.querySelector('[data-advanced-print]')?.addEventListener('click',event=>{const pending=availableAdvanced(getLog(),lesson);if(pending.length)onPrint(pending);else{event.currentTarget.disabled=true;event.currentTarget.textContent='새 워크지 문항 없음';}});
  return {destroy(){}};
 }

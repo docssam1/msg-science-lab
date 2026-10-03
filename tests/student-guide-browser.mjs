@@ -69,10 +69,10 @@ try{
  assert.equal(await page.locator('#guide-action').isVisible(),true);
  await page.locator('#close-activity').click();
  assert.equal(await page.locator('#guide-action').getAttribute('data-guide-action'),'next');
- await page.locator('#coach-fold').click();
- assert.equal(await page.locator('.teacher-dock').evaluate(el=>el.classList.contains('folded')),true);
- await page.locator('.teacher-dock .character-figure').click();
- assert.equal(await page.locator('.teacher-dock').evaluate(el=>el.classList.contains('folded')),false);
+  await page.locator('#coach-fold').click();
+  await page.waitForFunction(()=>document.querySelector('.teacher-dock')?.classList.contains('folded')===true);
+  await page.locator('.teacher-dock .character-figure').click();
+  await page.waitForFunction(()=>document.querySelector('.teacher-dock')?.classList.contains('folded')===false);
  assert.equal(await page.locator('#self-study').isVisible(),false);
 
  await page.goto(base+'student.html?page=11');
