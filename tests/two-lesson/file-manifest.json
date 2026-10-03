@@ -1,18 +1,23 @@
 [
   {
     "path": "README.md",
-    "size": 4693,
-    "sha256": "bb3ea32b13c116e19156bdcdc340bfed348e66b1673c56dd8f4fc5bfc34a77ed"
+    "size": 5811,
+    "sha256": "996912740db3c6347fb69ddd5bf4bdee864469a380ae7ab5eba77401a0c5deb2"
   },
   {
     "path": "activities.js",
-    "size": 29864,
-    "sha256": "43cccab3bb02d31421f9dee45801a83a5d6f47b958d897d668811f90841438cc"
+    "size": 30414,
+    "sha256": "6695ff76cddae1fdecc4e148ff93a903ba8ee0ce38572380f988c3b13f3a5ad9"
+  },
+  {
+    "path": "advanced-bank.js",
+    "size": 3413,
+    "sha256": "19b07730a61a3cab8bfdfc926710f886189c745ace7eff3c46008979e0572c05"
   },
   {
     "path": "app.js",
-    "size": 45708,
-    "sha256": "62b05ea3670311efa08f751eb24710c7c17506a55dd60e8b76c2b3de022096ed"
+    "size": 53360,
+    "sha256": "02a43a9b1a50e3a32a2e8232567f1e3e34eacd717dfad9c336c1179965744b7b"
   },
   {
     "path": "art/FUTURE-IMAGE-PROMPTS.md",
@@ -171,8 +176,8 @@
   },
   {
     "path": "assessment-photo.js",
-    "size": 4070,
-    "sha256": "3aa979e082700e8846d5d3086c83431a1a5fc44fb7d531eee677b8aa94b091b4"
+    "size": 4190,
+    "sha256": "612c01ecf463eabe4a16f2768e9e8ecc8690c04a71bc29c218a0b89795d70968"
   },
   {
     "path": "assessment-speech.js",
@@ -836,8 +841,8 @@
   },
   {
     "path": "coach-stage.js",
-    "size": 12556,
-    "sha256": "0d4e161ef4e12b9e9ad280560ed0fcd30050ae4e67dc8818e51423e248b57334"
+    "size": 12685,
+    "sha256": "0cde7fbbf860ed8d8661acb1a9629dd0724b0b5fac23979c73862ce5ebfeb0df"
   },
   {
     "path": "content.js",
@@ -846,8 +851,8 @@
   },
   {
     "path": "daily-grading.js",
-    "size": 20555,
-    "sha256": "eee1b9e5c6e7c18e8e2d6220449d9dbb561de219db42f7901166fa155189c0ff"
+    "size": 28865,
+    "sha256": "71703eaa59f7488ecdfe0adecd5f3a9e5b030433c3dac6780bbe22e6ab41efbe"
   },
   {
     "path": "editions.js",
@@ -891,8 +896,8 @@
   },
   {
     "path": "index.html",
-    "size": 5013,
-    "sha256": "4ba81e41a7ce1988d3d46875d53ccba22b0ca90d8430f0b823cfdc634599bc13"
+    "size": 5099,
+    "sha256": "ef5de6aece179512c2d70fde47e2230064a036c2a180e5e783d5d4ca2a719319"
   },
   {
     "path": "inquiry-pages.js",
@@ -901,8 +906,8 @@
   },
   {
     "path": "inquiry.js",
-    "size": 18278,
-    "sha256": "880091a99f2985c75f7ef6aebd4c20edb99dce6bc4977c60056ba1e513b91591"
+    "size": 18372,
+    "sha256": "bbba99d79bc87225a2ab7731a8285e42621561fc1a10abbd25873dbb7870afd8"
   },
   {
     "path": "lab3d.js",
@@ -918,6 +923,16 @@
     "path": "lesson-print.css",
     "size": 31936,
     "sha256": "caa29041f499939b53f89d9fb9ab17ac351fd708c54ef9f5286b58a79ceb635a"
+  },
+  {
+    "path": "lesson-stage.css",
+    "size": 17739,
+    "sha256": "875dd25c2e2a4224dbeb448dbe191b617ac1d5656363d76f257923fd5b07079c"
+  },
+  {
+    "path": "lesson-stage.js",
+    "size": 18950,
+    "sha256": "fac1d26882373ab5f66bd580d82f00582b553a77067c582587ad2aa3ccee8dff"
   },
   {
     "path": "live-book.css",
@@ -1296,8 +1311,8 @@
   },
   {
     "path": "remedy-bank.js",
-    "size": 12591,
-    "sha256": "bc077af4e55c9d288f4359ad43e3009f6a6766c37794dd5274af216d7b0884a0"
+    "size": 17783,
+    "sha256": "1c75653d4bf485f478bb0af72d9caf3d81cdbb2ac30f2b5f4d421fd74b36821b"
   },
   {
     "path": "review.js",
@@ -1381,13 +1396,13 @@
   },
   {
     "path": "stage.css",
-    "size": 32570,
-    "sha256": "f4e3f751756bb7b0a9813300690d5664d8906377df1e46ef8327222cd1144058"
+    "size": 33631,
+    "sha256": "0e6f3345f2e3e3f28199714527bfb13d4c76cdfca3fcb182c8b25289301d80aa"
   },
   {
     "path": "start.html",
-    "size": 7399,
-    "sha256": "6c51049235de0dd27c416dbe1b62bdafa320f85f231faed38281e702621e1acd"
+    "size": 7351,
+    "sha256": "3ba280a6120aae833705dd2d252c68f8d602a4439dc88d099f49b3a5019641c2"
   },
   {
     "path": "student-guide.css",
@@ -1423,6 +1438,11 @@
     "path": "teacher.html",
     "size": 442,
     "sha256": "1553bed36b5a9d2cee729185c50f4731d6e2470f5975d48f96b5d28f0274101e"
+  },
+  {
+    "path": "unit-assessment-index.js",
+    "size": 2179,
+    "sha256": "a35726eff53aeb20d546ad2dc70f7058fbaffc6d0a363fd0717111e286ad0398"
   },
   {
     "path": "vendor/OrbitControls.js",
