@@ -48,7 +48,26 @@ try {
     await mkdir(process.env.MSG_QA_OUT, { recursive: true });
     await page.screenshot({ path: `${process.env.MSG_QA_OUT}/question-bank-exhausted.png`, fullPage: true });
   }
-  console.log('PASS browser probe → distinct remedies → no-repeat exhaustion at 1024/1365/1920px');
+  const noStorage = await browser.newContext({ viewport: { width: 1365, height: 900 }, reducedMotion: 'reduce' });
+  await noStorage.addInitScript(() => {
+    Object.defineProperty(Storage.prototype, 'setItem', { configurable: true, value() { throw new DOMException('blocked', 'QuotaExceededError'); } });
+  });
+  const readonlyPage = await noStorage.newPage();
+  await readonlyPage.goto(`${base}/sample-v2/index.html?edition=student&page=11`);
+  await readonlyPage.waitForFunction(() => Boolean(window.__sample));
+  assert.equal(await readonlyPage.evaluate(() => window.__sample.writable), false);
+  await readonlyPage.evaluate(() => {
+    window.__sample.save('remedy-log', [
+      { item: 'a1', ok: false, m: 'M01', src: 'test' },
+      { item: 'a3', ok: false, m: 'M01', src: 'test' },
+    ]);
+    window.__sample.report(1);
+  });
+  assert.equal(await readonlyPage.locator('[data-dt-remedy]').count(), 0, 'bank opened without persistent attempt storage');
+  await readonlyPage.evaluate(() => window.__sample.remedy(1));
+  assert.equal(await readonlyPage.locator('[data-rx]').count(), 0);
+  await noStorage.close();
+  console.log('PASS browser probe → distinct remedies → no-repeat exhaustion at 1024/1365/1920px; blocked storage locks bank');
 } finally {
   await browser.close();
 }
