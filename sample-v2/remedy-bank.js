@@ -55,6 +55,14 @@ export const bank = [
   { id: 's15', m: 'M08', q: '같은 용수철에서 추의 무게가 2배가 되면 늘어난 길이는 어떻게 될까요?', options: ['절반이 된다.', '2배가 된다.', '그대로이다.', '4배가 된다.'], answer: 1, why: '늘어난 길이는 추의 무게에 비례해요.' },
   { id: 's16', m: 'M09', q: '어떤 용수철은 10 g에 4 cm, 20 g에 8 cm 늘어났어요. 30 g을 매달면 늘어난 길이는 얼마일까요?', options: ['9 cm', '10 cm', '12 cm', '16 cm'], answer: 2, why: '이 용수철은 10 g마다 4 cm씩 늘어나요. 4 × 3 = 12 cm예요.', wrong: { 0: 'M09' } },
   { id: 's17', m: 'M09', q: '실험 A는 10 g에 3 cm, 실험 B는 10 g에 4 cm 늘어났어요. 옳은 생각은 어느 것일까요?', options: ['두 실험의 용수철은 같은 것이다.', '같은 무게에서 늘어난 길이가 다르니, 두 자료를 섞어 쓰면 안 된다.', '실험 A가 틀렸다.', '실험 B가 틀렸다.'], answer: 1, why: '용수철마다 늘어나는 정도가 달라요. 문제에 주어진 자료를 따로 써요.' },
+  { id: 's18', m: 'M04', q: '모둠이 추를 바꿀 때마다 표시자가 오르내리는 중에 바로 눈금을 적었어요. 측정 방법을 어떻게 고쳐야 할까요?', options: ['추의 색깔을 바꾸고 바로 읽는다.', '표시자의 흔들림이 멈춘 뒤 읽는다.', '눈금을 지우고 다시 그린다.', '가장 큰 눈금만 기록한다.'], answer: 1, why: '표시자가 움직이는 동안에는 값이 달라져요. 멈춘 뒤 눈금을 읽어요.' },
+];
+// 원본 일일평가에서 근거가 한 문항뿐인 개념의 확인 질문. 처방 정답 2개와 별개로 센다.
+// M04는 현재 일일평가 연결 문항이 없어 단원평가 검수 전에는 자동으로 나타나지 않는다.
+export const probeBank = [
+  { id: 'd02', m: 'M02', q: '두 모둠이 같은 물체를 쟀어요. A의 빈 저울은 0 N, B의 빈 저울은 2 N을 가리켰어요. B가 물체를 매달기 전에 먼저 할 일은?', options: ['A의 값을 그대로 적는다.', 'B의 표시자를 0 N에 맞춘다.', '물체를 더 무겁게 만든다.', 'B의 눈금을 위에서 읽는다.'], answer: 1, why: '물체를 매달기 전에 빈 저울의 표시자가 0을 가리키도록 맞춰야 해요.' },
+  { id: 'd04', m: 'M04', q: '물체를 건 뒤 표시자가 6 N과 8 N 사이를 계속 오가요. 무게를 기록하려면 어떻게 해야 할까요?', options: ['가장 큰 값인 8 N을 적는다.', '두 값의 가운데를 바로 적는다.', '표시자가 멈출 때까지 기다린다.', '처음 본 숫자를 적는다.'], answer: 2, why: '흔들리는 동안 눈금이 바뀌므로 표시자가 멈춘 뒤 읽어요.' },
+  { id: 'd09', m: 'M09', q: '실험 A의 10 g 추는 용수철을 2 cm, 실험 B의 10 g 추는 5 cm 늘렸어요. 실험 B의 표를 이어서 20 g을 예상하면?', options: ['4 cm', '5 cm', '7 cm', '10 cm'], answer: 3, why: 'B의 용수철에서는 10 g에 5 cm이므로 20 g에는 10 cm예요. A의 수치를 섞지 않아요.' },
 ];
 // 선택형 은행 문항: 따로 적지 않은 오답은 그 문항의 오개념으로 본다.
 for (const it of bank) { it.wrong = it.wrong || {}; it.options.forEach((_, j) => { if (j !== it.answer && !(j in it.wrong)) it.wrong[j] = it.m; }); }
@@ -71,8 +79,19 @@ export function diagnose(log) {
   for (const d of Object.values(out)) d.status = d.bankOk.size >= 2 ? 'resolved' : d.items.size >= 2 ? 'confirmed' : d.items.size === 1 ? 'suspected' : 'none';
   return out;
 }
-// 처방: 확정된 오개념마다 아직 맞히지 않은 유사문제
-export const prescribe = (dx) => Object.values(dx).filter((d) => d.status === 'confirmed').flatMap((d) => bank.filter((b) => b.m === d.code && !d.bankOk.has(b.id)));
+// 처방: 이미 한 번 제시해 답한 고정 문항은 정오와 관계없이 다시 선택하지 않는다.
+// 같은 화면 안에서 되묻고 다시 고르는 것은 학습 피드백이며, 새 처방으로 재선택하는 것과 구분한다.
+export function prescribe(dx, log) {
+  if (!Array.isArray(log)) throw new TypeError('처방 선택에는 기존 첫 시도 기록이 필요합니다.');
+  const seen = new Set(log.filter((r) => r.src === 'bank').map((r) => r.item));
+  return Object.values(dx).filter((d) => d.status === 'confirmed')
+    .flatMap((d) => bank.filter((b) => b.m === d.code && !seen.has(b.id)));
+}
+export function pendingProbes(dx, log) {
+  if (!Array.isArray(log)) throw new TypeError('확인 질문 선택에는 기존 첫 시도 기록이 필요합니다.');
+  const seen = new Set(log.filter((r) => r.src === 'probe').map((r) => r.item));
+  return probeBank.filter((item) => dx[item.m]?.status === 'suspected' && !seen.has(item.id));
+}
 // 오답 → 오개념
 export function misconceptionOf(item, answer) {
   const map = itemMap[item]; if (!map) return null;
@@ -92,6 +111,17 @@ export function firstAttemptRecord(item, answer, ok) {
 // 처방 문제 첫 시도 → 진단 기록
 export function bankRecord(id, choice) {
   const b = bank.find((x) => x.id === id); if (!b) return null;
-  const ok = Number(choice) === b.answer;
-  return { item: id, ok, m: ok ? null : (b.wrong[choice] || b.m), src: 'bank', answerKey: ANSWER_KEY };
+  if (!['string', 'number'].includes(typeof choice) || String(choice).trim() === '') return null;
+  const selected = Number(choice);
+  if (!Number.isInteger(selected) || selected < 0 || selected >= b.options.length) return null;
+  const ok = selected === b.answer;
+  return { item: id, ok, m: ok ? null : (b.wrong[selected] || b.m), src: 'bank', answerKey: ANSWER_KEY };
+}
+export function probeRecord(id, choice) {
+  const probe = probeBank.find((item) => item.id === id); if (!probe) return null;
+  if (!['string', 'number'].includes(typeof choice) || String(choice).trim() === '') return null;
+  const selected = Number(choice);
+  if (!Number.isInteger(selected) || selected < 0 || selected >= probe.options.length) return null;
+  const ok = selected === probe.answer;
+  return { item: id, ok, m: ok ? null : probe.m, src: 'probe', answerKey: ANSWER_KEY };
 }

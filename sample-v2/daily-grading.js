@@ -7,7 +7,7 @@
 //  · 틀린 문항은 remedy-bank.js의 오개념으로 잇는다(첫 시도만 진단). 같은 오개념이 서로 다른 두 문항 → 확정 → 처방 문제.
 import {normalize,gradePoints} from './physics.js';
 import {esc} from './graphics.js';
-import {ANSWER_KEY,UNCONFIRMED,misconceptions,misconceptionOf,bank,diagnose,prescribe,bankRecord} from './remedy-bank.js';
+import {ANSWER_KEY,UNCONFIRMED,misconceptions,misconceptionOf,bank,probeBank,diagnose,prescribe,pendingProbes,bankRecord,probeRecord} from './remedy-bank.js';
 
 // 정답표 버전(remedy-bank.js의 ANSWER_KEY). 기록에 함께 남겨 두었다가 정답표가 고쳐지면 다시 채점할 수 있다.
 export const ANSWER_KEY_VERSION=ANSWER_KEY;
@@ -93,7 +93,7 @@ export const conceptCoach={
 // 오개념의 짧은 이름(화면 표시용)
 export const misconceptionName={parts:'부품 이름과 하는 일',zero:'매달기 전 영점 확인',eye:'눈금 읽는 눈높이',stable:'멈춘 뒤 읽기',extend:'무게와 늘어나는 정도',origin:'늘어난 길이와 전체 길이',elastic:'탄성의 뜻',graph:'무게와 길이의 비례',data:'문제에 주어진 표 쓰기'};
 export const nameOf=code=>misconceptionName[misconceptions[code]?.concept]||code;
-export function itemLabel(id){const m=/^([ab])(\d+)$/.exec(id);if(m)return `${m[1]==='a'?1:2}차시 ${m[2]}번`;const s=/^s(\d+)$/.exec(id);return s?`처방 ${s[1]}`:id;}
+export function itemLabel(id){const m=/^([ab])(\d+)$/.exec(id);if(m)return `${m[1]==='a'?1:2}차시 ${m[2]}번`;const s=/^s(\d+)$/.exec(id);if(s)return `처방 ${s[1]}`;const d=/^d(\d+)$/.exec(id);return d?`확인 질문 ${d[1]}`:id;}
 export function relatedLab(q){return q.id==='b12'?'assessment-graph':conceptCoach[q.concept]?.lab||'parts';}
 export function misconceptionFor(q,value){if(LOCKED.has(q.id))return null;return misconceptionOf(q.id,q.kind==='graph'&&Array.isArray(value)?value.slice().sort((a,b)=>a[0]-b[0]):value);}
 
@@ -137,10 +137,11 @@ function dxRow(d){
  return `<li class="dx-row ${d.status}">${statusChip[d.status]}<div><b>${esc(nameOf(d.code))}</b><small>${evidence.map(esc).join(' · ')}</small></div></li>`;
 }
 
-export function reportHTML({lesson,items,selfChecks={},character=true,labNames={},gradedAt=Date.now(),dx=null,pageLab=null,remedy=true}){
+export function reportHTML({lesson,items,selfChecks={},character=true,labNames={},gradedAt=Date.now(),dx=null,diagnosisLog,pageLab=null,remedy=true}){
  const s=summarize(items);
  const rows=dx?dxRows(dx):[];
- const due=dx?prescribe(dx):[];
+ const due=dx?prescribe(dx,diagnosisLog):[];
+ const probes=dx?pendingProbes(dx,diagnosisLog):[];
  const confirmed=rows.filter(d=>d.status==='confirmed'),suspected=rows.filter(d=>d.status==='suspected');
  const sureWrong=items.filter(item=>item.status==='wrong'&&selfChecks[item.q.id]==='sure').length;
  const unsureRight=items.filter(item=>item.status==='correct'&&selfChecks[item.q.id]==='unsure').length;
@@ -150,6 +151,8 @@ export function reportHTML({lesson,items,selfChecks={},character=true,labNames={
  const time=new Date(gradedAt).toLocaleString('ko-KR',{month:'numeric',day:'numeric',hour:'2-digit',minute:'2-digit'});
  const next=suspected[0]&&misconceptions[suspected[0].code];
  const recommend=remedy&&due.length?`<div class="dt-recommend hot"><span>처방 문제</span><b>${confirmed.map(d=>esc(nameOf(d.code))).join(' · ')}</b><small>두 문제 이상에서 같은 헷갈림이 보였어요.</small><button type="button" class="dt-primary warm" data-dt-remedy>처방 문제 풀기 · ${due.length}문제</button></div>`
+  :remedy&&probes.length?`<div class="dt-recommend"><span>개념 확인</span><b>${probes.map(p=>esc(nameOf(p.m))).join(' · ')}</b><small>한 문제만으로 오개념을 확정하지 않아요. 다른 상황에서 한 번 더 확인해요.</small><button type="button" class="dt-primary" data-dt-probe>확인 질문 풀기 · ${probes.length}문제</button></div>`
+  :remedy&&confirmed.length?`<div class="dt-recommend"><span>선생님과 확인</span><b>새 처방 문항이 없어요</b><small>이전에 푼 고정 문항을 다시 뽑지 않아요. 관련 실험을 다시 해 보고 선생님과 확인해요.</small></div>`
   :next&&pageLab?.(next.page)?`<div class="dt-recommend"><span>추천 다시 하기</span><b>${esc(pageLab(next.page).name)}</b><button type="button" class="dt-primary" data-dt-goto="${next.page}">실험 다시 하기</button></div>`:'';
  return `<div class="dt-report">
 <section class="dt-hero">
@@ -168,11 +171,11 @@ export function reportHTML({lesson,items,selfChecks={},character=true,labNames={
 // 처방 문제: 첫 오답 → 되묻기(답 공개 없음) → 다시 풀기. 풀이 보기는 한 번 풀어 본 뒤에만. 첫 시도만 진단에 기록.
 export function mountRemedy(host,{getLog,record,coach,character=true,pageLab,onGoto,onBack}){
  let dx=diagnose(getLog());
- const due=prescribe(dx);
+ const due=prescribe(dx,getLog());
  const codes=[...new Set(due.map(b=>b.m))];
  const state=new Map(due.map(b=>[b.id,{tries:0,done:false,shown:false}]));
  const attempted=id=>getLog().some(r=>r.src==='bank'&&r.item===id);
- if(!due.length){host.innerHTML=`<div class="dt-report rx"><section class="dt-hero slim"><div class="dt-hero-copy"><span class="dt-eyebrow">처방 문제</span><h3>지금 풀 처방 문제가 없어요.</h3><small>두 문항 이상에서 같은 헷갈림이 보이면 여기에 비슷한 문제가 나와요.</small></div></section><footer class="dt-foot"><p></p><button type="button" class="dt-primary ghost" data-rx-back>채점 결과로 돌아가기</button></footer></div>`;host.querySelector('[data-rx-back]').onclick=onBack;return {destroy(){}};}
+ if(!due.length){const exhausted=Object.values(dx).some(d=>d.status==='confirmed');host.innerHTML=`<div class="dt-report rx"><section class="dt-hero slim"><div class="dt-hero-copy"><span class="dt-eyebrow">처방 문제</span><h3>지금 풀 새 처방 문제가 없어요.</h3><small>${exhausted?'같은 고정 문항을 다시 뽑지 않아요. 관련 실험을 다시 해 보고 선생님과 확인해요.':'두 문항 이상에서 같은 헷갈림이 보이면 여기에 비슷한 문제가 나와요.'}</small></div></section><footer class="dt-foot"><p></p><button type="button" class="dt-primary ghost" data-rx-back>채점 결과로 돌아가기</button></footer></div>`;host.querySelector('[data-rx-back]').onclick=onBack;return {destroy(){}};}
  const card=b=>`<article class="dt-card rx-card" data-rx="${b.id}"><header><span class="dt-num">${b.id.slice(1)}</span><p>${esc(b.q)}</p><span class="rx-mark"></span></header><div class="rx-options">${b.options.map((o,i)=>`<button type="button" class="rx-opt" data-rx-opt="${i}"><i>${circled[i]}</i><span>${esc(o)}</span></button>`).join('')}</div><div class="rx-feedback" aria-live="polite"></div><div class="dt-actions"><button type="button" class="dt-link soft" data-rx-solution hidden>풀이 보기</button></div></article>`;
  host.innerHTML=`<div class="dt-report rx"><section class="dt-hero slim"><div class="dt-hero-copy"><span class="dt-eyebrow">처방 문제 · 비슷한 문제로 다시 확인</span><h3>헷갈린 개념을 한 번 더 풀어 봐요</h3><small>처음 고른 답으로 진단해요. 한 개념에서 처방 문제 두 개를 처음에 바로 맞히면 해소돼요.</small></div>${character?`<figure class="dt-hero-face"><img src="${face('explain')}" alt="설명하는 우루사쌤"></figure>`:''}</section>
 ${codes.map(code=>`<section class="rx-group" data-rx-group="${code}"><header class="rx-head">${statusChip[dx[code].status]}<div><b>${esc(nameOf(code))}</b><p>${esc(misconceptions[code].label)}</p></div>${pageLab?.(misconceptions[code].page)?`<button type="button" class="dt-link" data-dt-goto="${misconceptions[code].page}">관련 실험 · ${esc(pageLab(misconceptions[code].page).name)}</button>`:''}</header><div class="dt-items">${due.filter(b=>b.m===code).map(card).join('')}</div></section>`).join('')}
@@ -197,5 +200,26 @@ ${codes.map(code=>`<section class="rx-group" data-rx-group="${code}"><header cla
  host.querySelectorAll('[data-dt-goto]').forEach(btn=>btn.onclick=()=>onGoto(Number(btn.dataset.dtGoto)));
  host.querySelectorAll('[data-rx-back]').forEach(btn=>btn.onclick=onBack);
  coach(`${codes.map(nameOf).join(', ')} — 비슷한 문제로 다시 확인해 봐요. 처음 고른 답으로 진단해요.`,'');
+ return {destroy(){}};
+}
+
+// 의심 단계 전용 확인 질문. 한 번 고른 답만 진단에 쓰고 동일 질문은 재선택하지 않는다.
+export function mountProbe(host,{getLog,record,coach,onBack}){
+ const due=pendingProbes(diagnose(getLog()),getLog());
+ if(!due.length){host.innerHTML='<div class="dt-report rx"><section class="dt-hero slim"><div class="dt-hero-copy"><h3>새 확인 질문이 없어요.</h3><small>이미 답한 질문은 다시 뽑지 않아요.</small></div></section><footer class="dt-foot"><button type="button" class="dt-primary ghost" data-probe-back>채점 결과로 돌아가기</button></footer></div>';host.querySelector('[data-probe-back]').onclick=onBack;return {destroy(){}};}
+ host.innerHTML=`<div class="dt-report rx"><section class="dt-hero slim"><div class="dt-hero-copy"><span class="dt-eyebrow">개념 확인 · 첫 시도 기준</span><h3>다른 상황에서도 생각해 볼까요?</h3><small>한 문제의 오답만으로는 오개념을 확정하지 않아요.</small></div></section><div class="dt-items">${due.map(p=>`<article class="dt-card rx-card" data-probe="${p.id}"><header><span class="dt-num">?</span><p>${esc(p.q)}</p><span class="rx-mark"></span></header><div class="rx-options">${p.options.map((o,i)=>`<button type="button" class="rx-opt" data-probe-opt="${i}"><i>${circled[i]}</i><span>${esc(o)}</span></button>`).join('')}</div><div class="rx-feedback" aria-live="polite"></div></article>`).join('')}</div><footer class="dt-foot"><p>첫 선택만 기록해요. 맞힌 한 문제만으로 오개념이 해소되지는 않아요.</p><button type="button" class="dt-primary ghost" data-probe-back>채점 결과로 돌아가기</button></footer></div>`;
+ for(const card of host.querySelectorAll('[data-probe]')){
+  const p=probeBank.find(item=>item.id===card.dataset.probe);
+  card.querySelectorAll('[data-probe-opt]').forEach(opt=>opt.onclick=()=>{
+   if(getLog().some(r=>r.src==='probe'&&r.item===p.id))return;
+   const choice=Number(opt.dataset.probeOpt),rec=probeRecord(p.id,choice);
+   record(rec);
+   card.querySelectorAll('[data-probe-opt]').forEach(button=>{button.disabled=true;if(Number(button.dataset.probeOpt)===p.answer)button.classList.add('answer');});
+   card.querySelector('.rx-mark').innerHTML=rec.ok?stamp.correct:stamp.wrong;
+   card.querySelector('.rx-feedback').innerHTML=`<p class="dt-why">${esc(p.why)}</p><p>이 질문의 결과는 첫 시도 기록에만 반영돼요.</p>`;
+   coach(rec.ok?'다른 상황에서도 잘 확인했어요. 이 한 문제로 숙달을 확정하지는 않아요.':'헷갈린 부분을 찾았어요. 채점 결과에서 관련 처방 문제를 풀어 보세요.',rec.ok?'good':'check');
+  });
+ }
+ host.querySelector('[data-probe-back]').onclick=onBack;
  return {destroy(){}};
 }
