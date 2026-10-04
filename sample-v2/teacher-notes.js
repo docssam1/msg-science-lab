@@ -1,6 +1,7 @@
 import {studentPrintPages,studentCoverPage} from './lesson-print-pages.js';
 import {q1,q2} from './content.js';
 import {sourceLessons} from './source-lessons.js';
+import {lessonOneLecture} from './teacher-lecture.js';
 
 const pages=[studentCoverPage,...studentPrintPages];
 const $=selector=>document.querySelector(selector);
@@ -40,6 +41,14 @@ function update(){
  $('#page').textContent=page.printId==='P0'?'원본 표지':`${page.lesson}차시 · 장면 ${index+1}/${pages.length}`;
  $('#title').textContent=page.title.replace('\n',' ');
  $('#lead').textContent=page.lead;
+ const lecture=lessonOneLecture[page.printId];
+ $('#lecture-section').hidden=!lecture;
+ if(lecture){
+  $('#lecture-phase').textContent=lecture.phase;
+  $('#lecture-steps').replaceChildren(...lecture.steps.map(step=>{const item=document.createElement('li');item.textContent=step;return item;}));
+  $('#lecture-check').textContent=`확인할 점 · ${lecture.check}`;
+  $('#lecture-origin').textContent=`근거 · ${lecture.origin}`;
+ }
  $('#note').textContent=page.teacher||'원본 그림과 학생의 관찰을 먼저 확인하세요.';
  const sourceCue=sourceLessons[page.printId]?.teacher;
  $('#source-guidance').hidden=!sourceCue;
