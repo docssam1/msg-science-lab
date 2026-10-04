@@ -1,7 +1,7 @@
 import {studentPrintPages,studentCoverPage} from './lesson-print-pages.js';
 import {q1,q2} from './content.js';
 import {sourceLessons} from './source-lessons.js';
-import {lessonOneLecture} from './teacher-lecture.js';
+import {teacherLecture} from './teacher-lecture.js';
 
 const pages=[studentCoverPage,...studentPrintPages];
 const $=selector=>document.querySelector(selector);
@@ -41,7 +41,7 @@ function update(){
  $('#page').textContent=page.printId==='P0'?'원본 표지':`${page.lesson}차시 · 장면 ${index+1}/${pages.length}`;
  $('#title').textContent=page.title.replace('\n',' ');
  $('#lead').textContent=page.lead;
- const lecture=lessonOneLecture[page.printId];
+ const lecture=teacherLecture[page.printId];
  $('#lecture-section').hidden=!lecture;
  if(lecture){
   $('#lecture-phase').textContent=lecture.phase;
