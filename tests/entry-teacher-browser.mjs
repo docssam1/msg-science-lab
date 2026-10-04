@@ -33,7 +33,9 @@ try{
  await page.locator('#teacher-notes').click();
  const notes=await popupPromise;await notes.waitForLoadState('domcontentloaded');
  await notes.waitForFunction(()=>document.querySelector('#page')?.textContent.includes('장면'));
- assert.equal(await notes.locator('#lecture-section').isVisible(),false,'second-lesson notes do not claim a first-lesson lecture');
+ assert.equal(await notes.locator('#lecture-section').isVisible(),true,'second-lesson notes now carry the lecture run of show');
+ assert.match(await notes.locator('#lecture-steps').innerText(),/9~11번은 공식 해설과 원문 대조가 끝나기 전까지/);
+ assert.match(await notes.locator('#lecture-origin').innerText(),/원본 본책 21쪽/);
  assert.equal(await notes.locator('#answer-section').isVisible(),true);
  assert.equal(await notes.locator('#answers').isVisible(),false);
  await notes.locator('#show-answer').click();
