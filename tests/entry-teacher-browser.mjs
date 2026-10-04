@@ -33,6 +33,7 @@ try{
  await page.locator('#teacher-notes').click();
  const notes=await popupPromise;await notes.waitForLoadState('domcontentloaded');
  await notes.waitForFunction(()=>document.querySelector('#page')?.textContent.includes('장면'));
+ assert.equal(await notes.locator('#lecture-section').isVisible(),false,'second-lesson notes do not claim a first-lesson lecture');
  assert.equal(await notes.locator('#answer-section').isVisible(),true);
  assert.equal(await notes.locator('#answers').isVisible(),false);
  await notes.locator('#show-answer').click();
@@ -45,7 +46,15 @@ try{
  await notes.screenshot({path:join(out,'teacher-notes-1366.png')});
  await page.locator('#page-select').selectOption('11');
  await notes.waitForFunction(()=>document.querySelector('#page')?.textContent.includes('12/21'));
+ assert.equal(await notes.locator('#lecture-section').isVisible(),true);
+ assert.match(await notes.locator('#lecture-steps').innerText(),/일일 테스트 1~6번/);
  assert.equal(await notes.locator('#memo').inputValue(),'');
+ await page.locator('#page-select').selectOption('5');
+ await notes.waitForFunction(()=>document.querySelector('#lecture-phase')?.textContent.includes('직접 측정'));
+ assert.match(await notes.locator('#lecture-check').innerText(),/실험 방법에 오류가 있어요/);
+ assert.match(await notes.locator('#lecture-origin').innerText(),/추가 탐구/);
+ await notes.evaluate(()=>scrollTo(0,0));
+ await notes.screenshot({path:join(out,'teacher-lecture-p5.png')});
  await page.locator('#page-select').selectOption('16');
  await notes.waitForFunction(()=>document.querySelector('#page')?.textContent.includes('17/21'));
  assert.match(await notes.locator('#source-cue').innerText(),/2 cm/);

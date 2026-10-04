@@ -1425,14 +1425,19 @@
     "sha256": "36b9641721d1aec076aea5b3e4f30becb88b921e54733300331016139d836af1"
   },
   {
+    "path": "teacher-lecture.js",
+    "size": 6351,
+    "sha256": "e2a9b312f7bd7f791118faccf9e4859bd9a05c44ecefb5891a25d9a332e3d98c"
+  },
+  {
     "path": "teacher-notes.html",
-    "size": 2423,
-    "sha256": "2c3f2e2ca2e8e3a8c054130bdc12c21e38eb1fd1fde2a95aab5cd973f78282f7"
+    "size": 3083,
+    "sha256": "ca9e064ddbdb166a7dd23af4dd14c4cf7a6f711c8bc3ef7b7c328e9c499ab25c"
   },
   {
     "path": "teacher-notes.js",
-    "size": 3428,
-    "sha256": "c438f93dace7914aabf47d413257b3883e8e37747300a77a1488ed9f87bd107e"
+    "size": 3918,
+    "sha256": "c13e2c143a28ee48a0bbdeb85f62992edb8aa8a17f0232037c83dfe1fb79ac59"
   },
   {
     "path": "teacher.html",
