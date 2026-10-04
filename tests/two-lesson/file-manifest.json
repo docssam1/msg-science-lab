@@ -926,8 +926,8 @@
   },
   {
     "path": "lesson-stage.css",
-    "size": 17739,
-    "sha256": "875dd25c2e2a4224dbeb448dbe191b617ac1d5656363d76f257923fd5b07079c"
+    "size": 17786,
+    "sha256": "565f48a14b92ff4e8624a436b07ef3c0b826f94dddc2cede8fcb4a55cb37da40"
   },
   {
     "path": "lesson-stage.js",
@@ -1426,8 +1426,8 @@
   },
   {
     "path": "teacher-lecture.js",
-    "size": 6351,
-    "sha256": "e2a9b312f7bd7f791118faccf9e4859bd9a05c44ecefb5891a25d9a332e3d98c"
+    "size": 14205,
+    "sha256": "d64f515c415618f64e36c591a62b9d603e671f09b4e988b40407ab6eee9a41fa"
   },
   {
     "path": "teacher-notes.html",
@@ -1436,8 +1436,8 @@
   },
   {
     "path": "teacher-notes.js",
-    "size": 3918,
-    "sha256": "c13e2c143a28ee48a0bbdeb85f62992edb8aa8a17f0232037c83dfe1fb79ac59"
+    "size": 3914,
+    "sha256": "c4b05d18c2c22ab192e4d5a4ac5395a140f9b6c1a5a20d3533e3a2358612e718"
   },
   {
     "path": "teacher.html",
