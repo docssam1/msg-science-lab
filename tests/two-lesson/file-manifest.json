@@ -926,13 +926,13 @@
   },
   {
     "path": "lesson-stage.css",
-    "size": 26771,
-    "sha256": "3ac95e2f30f793d8d724ba776c8d3314e0a7687527d63d19f289d5dc7377ef65"
+    "size": 31812,
+    "sha256": "8c059afc74481c9bb063c701b6b9d6ac41b69cce63dfee79212410554b87032a"
   },
   {
     "path": "lesson-stage.js",
-    "size": 19736,
-    "sha256": "0d5481119692fb8e3496a9b1211b69885a196b01cfd4d76fdc6be336f55673dc"
+    "size": 19739,
+    "sha256": "afd2663f6575623562b8e24887f3b9a70850e8ffb31340ccc261b68b039f31f6"
   },
   {
     "path": "live-book.css",
