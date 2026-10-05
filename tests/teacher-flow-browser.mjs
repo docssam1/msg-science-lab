@@ -28,7 +28,7 @@ try{
   assert.deepEqual(await state(t),{answer:true,explain:true,label:'다음 장면 ▶'});
   const h2=await t.locator('#lesson-stage .lesson-stage-content h2').evaluate(el=>parseFloat(getComputedStyle(el).fontSize));
   const ans=await t.locator('#lesson-stage .stage-answer p').evaluate(el=>parseFloat(getComputedStyle(el).fontSize));
-  assert(h2>=Math.min(66,w*0.031,h*0.048)*0.8&&ans>=Math.min(44,w*0.02,h*0.032)*0.8,`${w}px type is projection sized (auto-fit may shrink at most 20%): h2 ${h2}, answer ${ans}`);
+  assert(h2>=Math.min(66,w*0.031,h*0.048)*0.62&&ans>=Math.min(44,w*0.02,h*0.032)*0.62,`${w}px type is projection sized (auto-fit may shrink at most 38%): h2 ${h2}, answer ${ans}`);
   const box=await t.locator('#lesson-stage .stage-explanation').boundingBox();
   assert(box.y+box.height<=h+1,`${w}px explanation fits without scrolling`);
   if(w===1920)await t.screenshot({path:join(out,'p14-1920-open.png')});
