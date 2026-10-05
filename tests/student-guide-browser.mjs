@@ -37,7 +37,7 @@ try{
  assert.equal(await page.locator('.teacher-dock .coach-face .coach-bob img').count(),6,'six approved full-body expressions are stacked for swapping');
  assert.match(await page.locator('.coach-face img.on').getAttribute('src'),/art\/expressions-full\/web\/(listen|explain)\.webp$/);
  assert.equal(await page.locator('#workspace > .teacher-dock').count(),1,'coach sits in a corner of the stage');
- assert((await page.locator('.teacher-dock').evaluate(el=>el.getBoundingClientRect().width))<=440,'coach bubble stays small');
+ assert(await page.locator('.teacher-dock').evaluate(el=>{const r=el.getBoundingClientRect();return r.width<=innerWidth*0.45&&r.height<=innerHeight*0.45;}),'coach stays a corner element (under 45% of the screen each way) even when drawn large');
  await page.waitForFunction(()=>[...document.querySelectorAll('.coach-face .coach-bob img')].every(img=>img.complete&&img.naturalWidth===512),null,{timeout:5000});   // approved full-body expressions (web size 512×768), preloaded
  await page.screenshot({path:join(out,'student-cover-1366.png')});
  await page.emulateMedia({media:'print'});

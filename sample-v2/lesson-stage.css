@@ -214,35 +214,35 @@ body.lesson-stage-mode #workspace.active.split .stage-explanation p{font-size:15
 body.lesson-stage-mode #workspace:not(.split) .teacher-deck .lesson-stage-content{justify-content:safe center}
 body.lesson-stage-mode #workspace:not(.split) .teacher-deck .stage-graph-visual,body.lesson-stage-mode #workspace:not(.split) .teacher-deck .stage-measure-visual{height:calc(100% - 112px)}
 
-/* Teacher deck look = the promo film: Pretendard at 800–900, tight tracking, deep green stage, yellow answer, pill labels. */
-.lesson-stage.teacher-deck{--deck-yellow:#ffd36b;--deck-ink:#10281b;background:linear-gradient(135deg,#0d3a29 0%,#1d5b3f 58%,#134630 100%);color:#fff;border:0;border-radius:14px;letter-spacing:-.025em}
-.teacher-deck .lesson-stage-head{background:transparent;border-bottom:0}
-.teacher-deck .lesson-stage-head span,.teacher-deck .stage-eyebrow{display:inline-block;align-self:flex-start;padding:.35em 1em;border-radius:12px;background:rgba(255,255,255,.15);color:#fff;font-weight:800;letter-spacing:-.01em}
-.teacher-deck .lesson-stage-head h1{color:#fff;font-weight:900;letter-spacing:-.045em}
-.teacher-deck .lesson-stage-head>strong{padding:.4em 1em;border-radius:999px;background:#fff;color:#14452f;font-weight:800}
-.teacher-deck .lesson-stage-body{gap:clamp(12px,1.4vw,28px);padding:0 clamp(12px,1.4vw,28px) clamp(10px,1vw,20px)}
-.teacher-deck .lesson-stage-visual{border:0;border-radius:clamp(14px,1.4vw,28px);background:#f3f8f3;box-shadow:0 10px 34px rgba(0,0,0,.28)}
-.teacher-deck .lesson-stage-visual.media-trigger:hover{background:#fff}
-.teacher-deck .lesson-stage-visual.media-trigger>span{background:#ffd36b;color:#10281b;font-weight:900;letter-spacing:-.02em;border-radius:12px}
-.teacher-deck .lesson-stage-content{background:transparent}
-.teacher-deck .lesson-stage-content h2{color:#fff;font-weight:900;letter-spacing:-.045em}
-.teacher-deck .stage-teacher-controls button{border:2px solid rgba(255,255,255,.55);border-radius:14px;background:transparent;color:#fff;font-weight:800;letter-spacing:-.02em}
-.teacher-deck .stage-teacher-controls button:disabled{opacity:.5}
-.teacher-deck .stage-teacher-controls .stage-advance,.teacher-deck .stage-teacher-controls button+button.stage-advance{background:#ffd36b;border-color:#ffd36b;color:#10281b;font-weight:900}
-.teacher-deck .stage-teacher-controls .stage-advance:hover{background:#ffe08f}
-.teacher-deck .lesson-stage button:focus-visible,.teacher-deck button:focus-visible{outline:3px solid #fff;outline-offset:3px}
-.teacher-deck .stage-answer{border:0;border-radius:clamp(12px,1.2vw,22px);background:#ffd36b;color:#10281b}
-.teacher-deck .stage-answer strong{color:#5b4300;font-weight:800}
-.teacher-deck .stage-answer p{font-weight:900;letter-spacing:-.035em}
-.teacher-deck .stage-explanation{border:0;border-radius:clamp(12px,1.2vw,22px);background:rgba(255,255,255,.14);color:#fff}
-.teacher-deck .stage-explanation strong{color:#bfe8cf;font-weight:800}
-.teacher-deck .stage-explanation p{font-weight:700;letter-spacing:-.025em}
-.teacher-deck .stage-context{background:rgba(255,211,107,.18);border-left-color:#ffd36b;color:#fff}
-.teacher-deck .lesson-stage-foot{background:transparent;border-top:0;color:rgba(255,255,255,.75);font-weight:600}
-.teacher-deck .stage-question-nav button{background:transparent;color:#fff;border-color:rgba(255,255,255,.55)}
-.teacher-deck .stage-question-nav span{color:#fff;font-weight:800}
-.teacher-deck .lesson-stage-visual{color:#142d3d}
-.teacher-deck .lesson-stage-visual.media-trigger>span{color:#10281b}
+/* Deck look (teacher + student) = the promo film: Pretendard at 800–900, tight tracking, deep green stage, yellow answer, pill labels. */
+.lesson-stage.deck-look{--deck-yellow:#ffd36b;--deck-ink:#10281b;background:linear-gradient(135deg,#0d3a29 0%,#1d5b3f 58%,#134630 100%);color:#fff;border:0;border-radius:14px;letter-spacing:-.025em}
+.deck-look .lesson-stage-head{background:transparent;border-bottom:0}
+.deck-look .lesson-stage-head span,.deck-look .stage-eyebrow{display:inline-block;align-self:flex-start;padding:.35em 1em;border-radius:12px;background:rgba(255,255,255,.15);color:#fff;font-weight:800;letter-spacing:-.01em}
+.deck-look .lesson-stage-head h1{color:#fff;font-weight:900;letter-spacing:-.045em}
+.deck-look .lesson-stage-head>strong{padding:.4em 1em;border-radius:999px;background:#fff;color:#14452f;font-weight:800}
+.deck-look .lesson-stage-body{gap:clamp(12px,1.4vw,28px);padding:0 clamp(12px,1.4vw,28px) clamp(10px,1vw,20px)}
+.deck-look .lesson-stage-visual{border:0;border-radius:clamp(14px,1.4vw,28px);background:#f3f8f3;box-shadow:0 10px 34px rgba(0,0,0,.28)}
+.deck-look .lesson-stage-visual.media-trigger:hover{background:#fff}
+.deck-look .lesson-stage-visual.media-trigger>span{background:#ffd36b;color:#10281b;font-weight:900;letter-spacing:-.02em;border-radius:12px}
+.deck-look .lesson-stage-content{background:transparent}
+.deck-look .lesson-stage-content h2{color:#fff;font-weight:900;letter-spacing:-.045em}
+.deck-look .stage-teacher-controls button{border:2px solid rgba(255,255,255,.55);border-radius:14px;background:transparent;color:#fff;font-weight:800;letter-spacing:-.02em}
+.deck-look .stage-teacher-controls button:disabled{opacity:.5}
+.deck-look .stage-teacher-controls .stage-advance,.deck-look .stage-teacher-controls button+button.stage-advance{background:#ffd36b;border-color:#ffd36b;color:#10281b;font-weight:900}
+.deck-look .stage-teacher-controls .stage-advance:hover{background:#ffe08f}
+.deck-look .lesson-stage button:focus-visible,.deck-look button:focus-visible{outline:3px solid #fff;outline-offset:3px}
+.deck-look .stage-answer{border:0;border-radius:clamp(12px,1.2vw,22px);background:#ffd36b;color:#10281b}
+.deck-look .stage-answer strong{color:#5b4300;font-weight:800}
+.deck-look .stage-answer p{font-weight:900;letter-spacing:-.035em}
+.deck-look .stage-explanation{border:0;border-radius:clamp(12px,1.2vw,22px);background:rgba(255,255,255,.14);color:#fff}
+.deck-look .stage-explanation strong{color:#bfe8cf;font-weight:800}
+.deck-look .stage-explanation p{font-weight:700;letter-spacing:-.025em}
+.deck-look .stage-context{background:rgba(255,211,107,.18);border-left-color:#ffd36b;color:#fff}
+.deck-look .lesson-stage-foot{background:transparent;border-top:0;color:rgba(255,255,255,.75);font-weight:600}
+.deck-look .stage-question-nav button{background:transparent;color:#fff;border-color:rgba(255,255,255,.55)}
+.deck-look .stage-question-nav span{color:#fff;font-weight:800}
+.deck-look .lesson-stage-visual{color:#142d3d}
+.deck-look .lesson-stage-visual.media-trigger>span{color:#10281b}
 body.lesson-stage-mode #workspace:not(.split) .teacher-deck .stage-objects:not(.stage-p5-visual *){grid-template-columns:repeat(3,minmax(0,1fr));gap:clamp(8px,1vw,18px)}
 body.lesson-stage-mode #workspace:not(.split) .teacher-deck .stage-objects:not(.stage-p5-visual *) figure{border-radius:12px;padding:clamp(8px,.8vw,16px)}
 body.lesson-stage-mode #workspace:not(.split) .teacher-deck .stage-objects:not(.stage-p5-visual *) img,body.lesson-stage-mode #workspace:not(.split) .teacher-deck .stage-objects:not(.stage-p5-visual *) svg{height:clamp(110px,13vh,190px)}
@@ -255,11 +255,46 @@ body.lesson-stage-mode #workspace:not(.split) .teacher-deck .stage-options li{fo
 .stage-size{display:flex;align-items:center;gap:6px;margin-left:auto;margin-right:14px;flex:none}
 .stage-size button{min-height:34px;padding:0 12px;border:1px solid #26734c;border-radius:999px;background:#fff;color:#205640;font-size:13px;font-weight:800;white-space:nowrap}
 .stage-size output{min-width:3.4em;text-align:center;font-size:13px;font-weight:800;color:#34556a}
-.teacher-deck .stage-size button{background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.55);color:#fff}
-.teacher-deck .stage-size output{color:#fff}
-body.lesson-stage-mode #workspace:not(.split) .teacher-deck .stage-size button{min-height:clamp(34px,2.6vw,52px);padding:0 clamp(12px,1.2vw,24px);font-size:clamp(13px,1.05vw,22px)}
-body.lesson-stage-mode #workspace:not(.split) .teacher-deck .stage-size output{font-size:clamp(13px,1.05vw,22px)}
+.deck-look .stage-size button{background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.55);color:#fff}
+.deck-look .stage-size output{color:#fff}
+body.lesson-stage-mode #workspace:not(.split) .deck-look .stage-size button{min-height:clamp(34px,2.6vw,52px);padding:0 clamp(12px,1.2vw,24px);font-size:clamp(13px,1.05vw,22px)}
+body.lesson-stage-mode #workspace:not(.split) .deck-look .stage-size output{font-size:clamp(13px,1.05vw,22px)}
 body.lesson-stage-mode #workspace.active.split .stage-size{margin-right:6px;gap:3px}
 body.lesson-stage-mode #workspace.active.split .stage-size button{min-height:26px;padding:0 7px;font-size:10px}
 body.lesson-stage-mode #workspace.active.split .stage-size output{min-width:2.8em;font-size:10px}
 @media (max-width:700px){.stage-size{margin-right:6px}.stage-size button{padding:0 8px;font-size:11px}.stage-size output{min-width:2.8em;font-size:11px}}
+
+/* Student (스스로 공부하기): same promo look, bigger 우루사쌤, speech bubble like the film, no footer collision. */
+.student-lesson.deck-look .lesson-stage-content{background:transparent;justify-content:safe center}
+.student-lesson.deck-look .lesson-stage-content h2{color:#fff;font-weight:900;letter-spacing:-.045em;font-size:clamp(26px,min(2.9vw,5vh),60px);line-height:1.25}
+.student-lesson.deck-look .stage-student-task>p{color:#fff;font-weight:700;letter-spacing:-.025em;font-size:clamp(19px,min(1.8vw,3vh),38px);line-height:1.5}
+.student-lesson.deck-look .stage-note-label{color:#fff;font-weight:800}
+.student-lesson.deck-look .stage-primary{min-height:clamp(50px,3.8vw,80px);padding:0 clamp(18px,1.8vw,34px);border:0;border-radius:14px;background:#ffd36b;color:#10281b;font-size:clamp(17px,1.45vw,30px);font-weight:900;letter-spacing:-.02em}
+.student-lesson.deck-look .stage-primary:hover{background:#ffe08f}
+.student-lesson.deck-look .stage-context{background:rgba(255,211,107,.18);border-left-color:#ffd36b;color:#fff}
+.student-lesson.deck-look .stage-question-paper,.student-lesson.deck-look .assessment-photo,.student-lesson.deck-look .speech-answer,.student-lesson.deck-look .question-feedback{color:#142d3d}
+.student-lesson.deck-look .stage-question-paper{padding:clamp(14px,1.6vw,30px);border-radius:clamp(14px,1.4vw,26px);background:#f6faf6;box-shadow:0 10px 34px rgba(0,0,0,.28)}
+.student-lesson.deck-look .lesson-stage-foot>span{display:none}
+.student-lesson.deck-look .lesson-stage-foot{justify-content:flex-end}
+/* Full-screen stage (no experiment beside it): 우루사쌤 stands big like in the film. */
+body.coach-stage[data-edition="student"]:not(.hide-character) #workspace:not(.active){--fig-h:clamp(190px,32vh,400px);--fig-w:calc(var(--fig-h)*.655)}
+body.coach-stage[data-edition="student"]:not(.hide-character) #workspace:not(.active) .teacher-dock:not(.folded):not([data-shape="stack"]):not([data-side="right"]){left:clamp(10px,1.4vw,28px);bottom:clamp(8px,1.2vh,18px);max-width:min(calc(100% - 20px),clamp(440px,38vw,760px));padding-left:calc(var(--fig-w) - 6px)}
+body.coach-stage[data-edition="student"]:not(.hide-character) #workspace:not(.active) .teacher-dock:not(.folded):not([data-shape="stack"]):not([data-side="right"]) .character-figure{width:var(--fig-w);height:var(--fig-h);left:-6px;bottom:-14px}
+body.coach-stage[data-edition="student"] #workspace:not(.active) .teacher-dock:not(.folded):not([data-shape="stack"]):not([data-side="right"]) .coach-note{width:clamp(326px,28vw,560px);padding:clamp(10px,1vw,20px) clamp(12px,1.2vw,24px)}
+body.coach-stage[data-edition="student"] #workspace:not(.active) #coach-copy{font-size:clamp(16px,1.3vw,26px);max-height:none}
+body.coach-stage[data-edition="student"] #workspace:not(.active) .coach-tools button,body.coach-stage[data-edition="student"] #workspace:not(.active) .teacher-dock #guide-action{min-height:clamp(30px,2.4vw,46px);height:auto;font-size:clamp(12px,1vw,20px)}
+body[data-edition="student"].coach-stage .coach-note{border:3px solid #1d5b3f;border-radius:26px;background:#fff;box-shadow:0 12px 34px rgba(0,0,0,.32)}
+body[data-edition="student"].coach-stage .coach-note::before{background:#fff;border-left:3px solid #1d5b3f;border-bottom:3px solid #1d5b3f}
+body[data-edition="student"].coach-stage .coach-note>span{flex:0 0 auto!important;width:max-content;justify-self:start;padding:.2em .85em;border-radius:999px;background:#1d5b3f;color:#fff;font-size:clamp(13px,1vw,20px);font-weight:900}
+body[data-edition="student"].coach-stage .coach-note p{color:#10281b;font-size:clamp(16px,1.3vw,27px);font-weight:800;letter-spacing:-.03em}
+body[data-edition="student"].coach-stage .teacher-dock #guide-action{background:#ffd36b;border-color:#ffd36b;color:#10281b;font-weight:900;font-size:clamp(15px,1.2vw,24px)}
+body.lesson-stage-mode #workspace:not(.split) .student-lesson.deck-look .lesson-stage-head{padding:clamp(12px,1.1vw,22px) clamp(18px,2vw,40px)}
+body.lesson-stage-mode #workspace:not(.split) .student-lesson.deck-look .lesson-stage-head span,body.lesson-stage-mode #workspace:not(.split) .student-lesson.deck-look .stage-eyebrow{font-size:clamp(14px,1.15vw,24px)}
+body.lesson-stage-mode #workspace:not(.split) .student-lesson.deck-look .lesson-stage-head h1{font-size:clamp(28px,2.6vw,52px)}
+body.lesson-stage-mode #workspace:not(.split) .student-lesson.deck-look .lesson-stage-head>strong{font-size:clamp(14px,1.1vw,24px)}
+body.lesson-stage-mode #workspace:not(.split) .student-lesson.deck-look .stage-size button{min-height:clamp(34px,2.6vw,52px);padding:0 clamp(12px,1.2vw,24px);font-size:clamp(13px,1.05vw,22px)}
+body.lesson-stage-mode #workspace:not(.split) .student-lesson.deck-look .stage-size output{font-size:clamp(13px,1.05vw,22px)}
+.deck-look.stage-cover .lesson-stage-content h2{font-size:clamp(40px,4.6vw,92px)}
+.deck-look.stage-cover .lesson-stage-content>p{color:#fff;font-weight:700;font-size:clamp(18px,1.7vw,34px);letter-spacing:-.025em}
+.deck-look.stage-cover .stage-cover-outline{color:#fff;font-weight:800;font-size:clamp(17px,1.5vw,30px)}
+.deck-look.stage-cover .stage-cover-outline li{margin:.3em 0}
