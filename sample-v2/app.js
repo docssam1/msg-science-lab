@@ -107,17 +107,33 @@ function renderModeStage(){
  if(!active){host.replaceChildren();return;}
  if(stagePage!==current){stagePage=current;stageQuestionIndex=Math.max(0,Math.min(stageQuestionCount(page)-1,Number(load('stage-question:'+page.printId,0))||0));stageAnswerOpen=false;stageExplanationOpen=false;}
  host.innerHTML=renderLessonStage(page,current,edition,{questionIndex:stageQuestionIndex,answerOpen:stageAnswerOpen,explanationOpen:stageExplanationOpen,studentBody});
- restoreFields(host);if(isTeacher){fitStageContent();document.fonts?.ready?.then(fitStageContent);}
+ restoreFields(host);applyUiScale();if(isTeacher){fitStageContent();document.fonts?.ready?.then(fitStageContent);}
  if(isStudent){
   if(page.assessment){clearStageSpeech=mountAssessmentSpeech(host,questions,valueFor,{load,save});clearStagePhoto=mountAssessmentPhoto(host,page.printId);}
   markPaper(host);const note=host.querySelector('[data-stage-note]');if(note)note.value=load('stage-note:'+page.printId,'');
  }
+}
+// 작게 하기 / 크게 하기: scales the text column (like the science lab's 크게 보기); remembered on this device.
+const UI_STEPS=[.8,.9,1,1.1,1.2,1.35,1.5,1.7];
+let uiScale=1;try{const s=Number(localStorage.getItem('msg-source-sample-v2:ui-scale'));if(UI_STEPS.includes(s))uiScale=s;}catch{}
+function applyUiScale(){
+ document.documentElement.style.setProperty('--ui',uiScale);
+ document.querySelectorAll('[data-stage-size-label]').forEach(o=>{o.textContent=Math.round(uiScale*100)+'%';});
+ document.querySelectorAll('[data-stage-size="-1"]').forEach(b=>{b.disabled=uiScale<=UI_STEPS[0];});
+ document.querySelectorAll('[data-stage-size="1"]').forEach(b=>{b.disabled=uiScale>=UI_STEPS.at(-1);});
+}
+function changeUiScale(delta){
+ const i=Math.max(0,Math.min(UI_STEPS.length-1,UI_STEPS.indexOf(uiScale)+delta));
+ if(UI_STEPS[i]===uiScale)return;
+ uiScale=UI_STEPS[i];try{localStorage.setItem('msg-source-sample-v2:ui-scale',String(uiScale));}catch{}
+ applyUiScale();if(isTeacher)fitStageContent();
 }
 // Projection type shrinks (down to 62%) only as far as needed so the answer never hides below the fold.
 function fitStageContent(){
  const el=document.querySelector('#lesson-stage .teacher-deck .lesson-stage-content');if(!el)return;
  el.style.removeProperty('--fit');
  if($('#workspace').classList.contains('split'))return;
+ if(uiScale>1)return;
  let k=1;
  while(el.scrollHeight>el.clientHeight+1&&k>.62){k=Math.round((k-.04)*100)/100;el.style.setProperty('--fit',k);}
 }
@@ -272,6 +288,7 @@ mountCoachStage(edition);printBuild();buildBook();
 $('#teach-show').onclick=()=>{teachStage=1;$('#teach-overlay').hidden=true;updateMeta();const kind=liveFor(current);if(kind)openActivity(kind,false,null,{live:true});};
 $('#teacher-notes').onclick=()=>window.open(`./teacher-notes.html?page=${current}`,'msg-teacher-notes','width=650,height=760');
 $('#lesson-stage').addEventListener('click',event=>{
+ const sizeButton=event.target.closest('[data-stage-size]');if(sizeButton){changeUiScale(Number(sizeButton.dataset.stageSize));return;}
  const button=event.target.closest('button');
  if(!button){if(isTeacher&&!event.target.closest('a,input,textarea,select,video,canvas,summary,[data-stage-media]')&&!getSelection()?.toString())stageAdvance(1);return;}
  if(button.hasAttribute('data-stage-advance')){stageAdvance(1);return;}
@@ -309,7 +326,7 @@ document.addEventListener('submit',e=>e.preventDefault());
 ['pointerdown','keydown','input'].forEach(t=>$('#activity-content').addEventListener(t,()=>{if(!liveKind)return;if(autoAdvanceTimer)clearAutoAdvance();studentEngaged=true;if(isStudent&&!studentVisited.has(current)){studentVisited.add(current);save('guide-visited',[...studentVisited]);showStudentGuide();}},true));
 document.addEventListener('input',e=>{if(e.target.matches('[data-answer-field]'))collectField(e.target);});
 document.addEventListener('click',e=>{const b=e.target.closest('[data-action],[data-grade],[data-reveal],[data-quick]');if(!b||b.closest('#print-root'))return;if(b.dataset.action){const page=b.closest('[data-book-page]');if(page){current=+page.dataset.bookPage;updateMeta();}openActivity(b.dataset.action);}if(b.dataset.grade)grade(b.dataset.grade);if(b.dataset.reveal){b.textContent=b.dataset.reveal;toast('탄성: 원래 모양으로 돌아가려는 성질');}if(b.dataset.quick){const r=b.closest('.inquiry').querySelector('.quick-result');r.textContent=b.dataset.quick==='비례'?'표와 그래프에서 비례 관계를 확인했어요.':'같은 배수로 늘어나는 관계인지 다시 살펴보세요.';}});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){if($('#workspace').classList.contains('active'))closeActivity();else stopVoice();return;}if(e.target.closest('input,select,textarea,a')||e.ctrlKey||e.metaKey||e.altKey)return;if(isTeacher&&hasLessonStage(pages[current])){const next=['ArrowRight','PageDown'].includes(e.key)||(e.key===' '&&!e.target.closest('button')),prev=['ArrowLeft','PageUp'].includes(e.key);if(next||prev){e.preventDefault();stageAdvance(next?1:-1);return;}if(e.key==='e'||e.key==='E'){toggleStageMedia();return;}}if(e.target.closest('button'))return;if(e.key==='ArrowRight'){if(hasLessonStage(pages[current])&&pages[current].assessment&&stageQuestionIndex<stageQuestionCount(pages[current])-1)changeStageQuestion(1);else navigate(current+1,{animated:true});}if(e.key==='ArrowLeft'){if(hasLessonStage(pages[current])&&pages[current].assessment&&stageQuestionIndex>0)changeStageQuestion(-1);else navigate(current-1,{animated:true});}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){if($('#workspace').classList.contains('active'))closeActivity();else stopVoice();return;}if(e.target.closest('input,select,textarea,a')||e.ctrlKey||e.metaKey||e.altKey)return;if(hasLessonStage(pages[current])){if(e.key==='+'||e.key==='='){changeUiScale(1);return;}if(e.key==='-'||e.key==='_'){changeUiScale(-1);return;}}if(isTeacher&&hasLessonStage(pages[current])){const next=['ArrowRight','PageDown'].includes(e.key)||(e.key===' '&&!e.target.closest('button')),prev=['ArrowLeft','PageUp'].includes(e.key);if(next||prev){e.preventDefault();stageAdvance(next?1:-1);return;}if(e.key==='e'||e.key==='E'){toggleStageMedia();return;}}if(e.target.closest('button'))return;if(e.key==='ArrowRight'){if(hasLessonStage(pages[current])&&pages[current].assessment&&stageQuestionIndex<stageQuestionCount(pages[current])-1)changeStageQuestion(1);else navigate(current+1,{animated:true});}if(e.key==='ArrowLeft'){if(hasLessonStage(pages[current])&&pages[current].assessment&&stageQuestionIndex>0)changeStageQuestion(-1);else navigate(current-1,{animated:true});}});
 const ro=new ResizeObserver(fit);ro.observe($('#book-space'));ro.observe($('#workspace'));let lastCompact=innerWidth<=1000,lastSplit=splitCapable();addEventListener('resize',()=>{const compact=innerWidth<=1000,cap=splitCapable();syncPageFit();if(cap!==lastSplit){lastSplit=cap;if(liveKind&&!cap){closeActivity();renderMobilePage();return;}if($('#workspace').classList.contains('active'))$('#workspace').classList.toggle('split',cap&&!TAKEOVER.has(currentActivityKind));else if(cap)openLive();renderMobilePage();}if(compact!==lastCompact){lastCompact=compact;buildBook();}else fit();});
 document.addEventListener('visibilitychange',()=>{if(document.hidden){stopVoice();document.querySelectorAll('video').forEach(v=>v.pause());}});addEventListener('pagehide',()=>{stopVoice();clearPageSpeech();clearActivitySpeech();clearPagePhoto();clearActivityPhoto();activity?.destroy();ro.disconnect();});
 document.addEventListener('keydown',e=>{if(!e.target.matches('.story-video[data-action]')||!['Enter',' '].includes(e.key))return;e.preventDefault();e.target.click();});

@@ -249,3 +249,17 @@ body.lesson-stage-mode #workspace:not(.split) .teacher-deck .stage-objects:not(.
 body.lesson-stage-mode #workspace:not(.split) .teacher-deck .stage-objects:not(.stage-p5-visual *) figcaption{font-size:clamp(14px,1.3vw,26px);font-weight:900}
 body.lesson-stage-mode #workspace:not(.split) .teacher-deck .stage-passage{font-size:clamp(22px,2.3vw,46px);font-weight:700;border-radius:14px;max-width:none}
 body.lesson-stage-mode #workspace:not(.split) .teacher-deck .stage-options li{font-size:clamp(18px,1.7vw,34px);font-weight:700;border-radius:10px}
+
+/* 작게 하기 / 크게 하기 — scales the text column; --ui is set on <html> and remembered per device. */
+.lesson-stage-content{zoom:var(--ui,1)}
+.stage-size{display:flex;align-items:center;gap:6px;margin-left:auto;margin-right:14px;flex:none}
+.stage-size button{min-height:34px;padding:0 12px;border:1px solid #26734c;border-radius:999px;background:#fff;color:#205640;font-size:13px;font-weight:800;white-space:nowrap}
+.stage-size output{min-width:3.4em;text-align:center;font-size:13px;font-weight:800;color:#34556a}
+.teacher-deck .stage-size button{background:rgba(255,255,255,.15);border-color:rgba(255,255,255,.55);color:#fff}
+.teacher-deck .stage-size output{color:#fff}
+body.lesson-stage-mode #workspace:not(.split) .teacher-deck .stage-size button{min-height:clamp(34px,2.6vw,52px);padding:0 clamp(12px,1.2vw,24px);font-size:clamp(13px,1.05vw,22px)}
+body.lesson-stage-mode #workspace:not(.split) .teacher-deck .stage-size output{font-size:clamp(13px,1.05vw,22px)}
+body.lesson-stage-mode #workspace.active.split .stage-size{margin-right:6px;gap:3px}
+body.lesson-stage-mode #workspace.active.split .stage-size button{min-height:26px;padding:0 7px;font-size:10px}
+body.lesson-stage-mode #workspace.active.split .stage-size output{min-width:2.8em;font-size:10px}
+@media (max-width:700px){.stage-size{margin-right:6px}.stage-size button{padding:0 8px;font-size:11px}.stage-size output{min-width:2.8em;font-size:11px}}
