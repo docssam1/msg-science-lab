@@ -107,11 +107,40 @@ function renderModeStage(){
  if(!active){host.replaceChildren();return;}
  if(stagePage!==current){stagePage=current;stageQuestionIndex=Math.max(0,Math.min(stageQuestionCount(page)-1,Number(load('stage-question:'+page.printId,0))||0));stageAnswerOpen=false;stageExplanationOpen=false;}
  host.innerHTML=renderLessonStage(page,current,edition,{questionIndex:stageQuestionIndex,answerOpen:stageAnswerOpen,explanationOpen:stageExplanationOpen,studentBody});
- restoreFields(host);
+ restoreFields(host);if(isTeacher){fitStageContent();document.fonts?.ready?.then(fitStageContent);}
  if(isStudent){
   if(page.assessment){clearStageSpeech=mountAssessmentSpeech(host,questions,valueFor,{load,save});clearStagePhoto=mountAssessmentPhoto(host,page.printId);}
   markPaper(host);const note=host.querySelector('[data-stage-note]');if(note)note.value=load('stage-note:'+page.printId,'');
  }
+}
+// Projection type shrinks (down to 62%) only as far as needed so the answer never hides below the fold.
+function fitStageContent(){
+ const el=document.querySelector('#lesson-stage .teacher-deck .lesson-stage-content');if(!el)return;
+ el.style.removeProperty('--fit');
+ if($('#workspace').classList.contains('split'))return;
+ let k=1;
+ while(el.scrollHeight>el.clientHeight+1&&k>.62){k=Math.round((k-.04)*100)/100;el.style.setProperty('--fit',k);}
+}
+addEventListener('resize',()=>{if(isTeacher)fitStageContent();});
+function stageLocked(){return !!$('#lesson-stage [data-stage-reveal]')?.disabled;}
+// Teacher deck: one gesture moves forward (answer → explanation → next question/scene) and one moves back.
+function stageAdvance(dir){
+ const page=pages[current];
+ if(!isTeacher||!hasLessonStage(page)||page.printId==='P0'){navigate(current+dir,{animated:true});return;}
+ if(dir>0){
+  if(!stageLocked()&&!stageAnswerOpen){stageAnswerOpen=true;renderModeStage();return;}
+  if(!stageLocked()&&!stageExplanationOpen){stageExplanationOpen=true;renderModeStage();return;}
+  if(page.assessment&&stageQuestionIndex<stageQuestionCount(page)-1){changeStageQuestion(1);return;}
+  navigate(current+1,{animated:true});return;
+ }
+ if(stageExplanationOpen){stageExplanationOpen=false;renderModeStage();return;}
+ if(stageAnswerOpen){stageAnswerOpen=false;renderModeStage();return;}
+ if(page.assessment&&stageQuestionIndex>0){changeStageQuestion(-1);return;}
+ navigate(current-1,{animated:true});
+}
+function toggleStageMedia(){
+ if($('#workspace').classList.contains('active')){closeActivity();return;}
+ $('#lesson-stage [data-stage-media]')?.click();
 }
 function changeStageQuestion(delta){
  const page=pages[current];if(!hasLessonStage(page)||!page.assessment)return;
@@ -243,7 +272,9 @@ mountCoachStage(edition);printBuild();buildBook();
 $('#teach-show').onclick=()=>{teachStage=1;$('#teach-overlay').hidden=true;updateMeta();const kind=liveFor(current);if(kind)openActivity(kind,false,null,{live:true});};
 $('#teacher-notes').onclick=()=>window.open(`./teacher-notes.html?page=${current}`,'msg-teacher-notes','width=650,height=760');
 $('#lesson-stage').addEventListener('click',event=>{
- const button=event.target.closest('button');if(!button)return;
+ const button=event.target.closest('button');
+ if(!button){if(isTeacher&&!event.target.closest('a,input,textarea,select,video,canvas,summary,[data-stage-media]')&&!getSelection()?.toString())stageAdvance(1);return;}
+ if(button.hasAttribute('data-stage-advance')){stageAdvance(1);return;}
  if(button.hasAttribute('data-stage-next')){navigate(1,{animated:false});return;}
  if(button.dataset.stageMedia){openActivity(button.dataset.stageMedia,false,null,{live:splitCapable()});return;}
  if(button.dataset.stageQuestion){changeStageQuestion(button.dataset.stageQuestion==='next'?1:-1);return;}
@@ -278,7 +309,7 @@ document.addEventListener('submit',e=>e.preventDefault());
 ['pointerdown','keydown','input'].forEach(t=>$('#activity-content').addEventListener(t,()=>{if(!liveKind)return;if(autoAdvanceTimer)clearAutoAdvance();studentEngaged=true;if(isStudent&&!studentVisited.has(current)){studentVisited.add(current);save('guide-visited',[...studentVisited]);showStudentGuide();}},true));
 document.addEventListener('input',e=>{if(e.target.matches('[data-answer-field]'))collectField(e.target);});
 document.addEventListener('click',e=>{const b=e.target.closest('[data-action],[data-grade],[data-reveal],[data-quick]');if(!b||b.closest('#print-root'))return;if(b.dataset.action){const page=b.closest('[data-book-page]');if(page){current=+page.dataset.bookPage;updateMeta();}openActivity(b.dataset.action);}if(b.dataset.grade)grade(b.dataset.grade);if(b.dataset.reveal){b.textContent=b.dataset.reveal;toast('탄성: 원래 모양으로 돌아가려는 성질');}if(b.dataset.quick){const r=b.closest('.inquiry').querySelector('.quick-result');r.textContent=b.dataset.quick==='비례'?'표와 그래프에서 비례 관계를 확인했어요.':'같은 배수로 늘어나는 관계인지 다시 살펴보세요.';}});
-document.addEventListener('keydown',e=>{if(e.key==='Escape'){if($('#workspace').classList.contains('active'))closeActivity();else stopVoice();return;}if(e.target.closest('input,select,textarea,button,a')||e.ctrlKey||e.metaKey||e.altKey)return;if(e.key==='ArrowRight'){if(hasLessonStage(pages[current])&&pages[current].assessment&&stageQuestionIndex<stageQuestionCount(pages[current])-1)changeStageQuestion(1);else navigate(current+1,{animated:true});}if(e.key==='ArrowLeft'){if(hasLessonStage(pages[current])&&pages[current].assessment&&stageQuestionIndex>0)changeStageQuestion(-1);else navigate(current-1,{animated:true});}});
+document.addEventListener('keydown',e=>{if(e.key==='Escape'){if($('#workspace').classList.contains('active'))closeActivity();else stopVoice();return;}if(e.target.closest('input,select,textarea,a')||e.ctrlKey||e.metaKey||e.altKey)return;if(isTeacher&&hasLessonStage(pages[current])){const next=['ArrowRight','PageDown'].includes(e.key)||(e.key===' '&&!e.target.closest('button')),prev=['ArrowLeft','PageUp'].includes(e.key);if(next||prev){e.preventDefault();stageAdvance(next?1:-1);return;}if(e.key==='e'||e.key==='E'){toggleStageMedia();return;}}if(e.target.closest('button'))return;if(e.key==='ArrowRight'){if(hasLessonStage(pages[current])&&pages[current].assessment&&stageQuestionIndex<stageQuestionCount(pages[current])-1)changeStageQuestion(1);else navigate(current+1,{animated:true});}if(e.key==='ArrowLeft'){if(hasLessonStage(pages[current])&&pages[current].assessment&&stageQuestionIndex>0)changeStageQuestion(-1);else navigate(current-1,{animated:true});}});
 const ro=new ResizeObserver(fit);ro.observe($('#book-space'));ro.observe($('#workspace'));let lastCompact=innerWidth<=1000,lastSplit=splitCapable();addEventListener('resize',()=>{const compact=innerWidth<=1000,cap=splitCapable();syncPageFit();if(cap!==lastSplit){lastSplit=cap;if(liveKind&&!cap){closeActivity();renderMobilePage();return;}if($('#workspace').classList.contains('active'))$('#workspace').classList.toggle('split',cap&&!TAKEOVER.has(currentActivityKind));else if(cap)openLive();renderMobilePage();}if(compact!==lastCompact){lastCompact=compact;buildBook();}else fit();});
 document.addEventListener('visibilitychange',()=>{if(document.hidden){stopVoice();document.querySelectorAll('video').forEach(v=>v.pause());}});addEventListener('pagehide',()=>{stopVoice();clearPageSpeech();clearActivitySpeech();clearPagePhoto();clearActivityPhoto();activity?.destroy();ro.disconnect();});
 document.addEventListener('keydown',e=>{if(!e.target.matches('.story-video[data-action]')||!['Enter',' '].includes(e.key))return;e.preventDefault();e.target.click();});

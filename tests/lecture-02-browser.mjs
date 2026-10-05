@@ -15,6 +15,8 @@ const inView=async(tab,selector,label)=>{
  const size=tab.viewportSize();
  assert(box,`${label} is rendered`);
  assert(box.x>=-1&&box.y>=-1&&box.x+box.width<=size.width+1&&box.y+box.height<=size.height+1,`${label} fits ${size.width}x${size.height}: ${JSON.stringify(box)}`);
+ const clip=await tab.locator(selector).first().evaluate(el=>{const c=el.closest('.lesson-stage-content,.lesson-stage-visual');if(!c)return true;const r=el.getBoundingClientRect(),k=c.getBoundingClientRect();return r.bottom<=k.bottom+1&&r.top>=k.top-1;});
+ assert(clip,`${label} is not clipped by its column`);
 };
 async function run(width,height){
  const context=await browser.newContext({viewport:{width,height}});

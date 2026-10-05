@@ -57,8 +57,8 @@ try{
  assert.match(await notes.locator('#lecture-origin').innerText(),/추가 탐구/);
  await notes.evaluate(()=>scrollTo(0,0));
  await notes.screenshot({path:join(out,'teacher-lecture-p5.png')});
- await page.locator('#page-select').selectOption('16');
- await notes.waitForFunction(()=>document.querySelector('#page')?.textContent.includes('17/21'));
+ await page.locator('#page-select').selectOption('15');
+ await notes.waitForFunction(()=>document.querySelector('#page')?.textContent.includes('16/21'));
  assert.match(await notes.locator('#source-cue').innerText(),/2 cm/);
  assert.match(await notes.locator('#source-cue').innerText(),/3·6·9 cm/);
  assert.deepEqual(errors,[]);
