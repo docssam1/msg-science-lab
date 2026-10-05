@@ -16,8 +16,8 @@
   },
   {
     "path": "app.js",
-    "size": 53876,
-    "sha256": "6fe0c790d9d3d0fbf5dbfc86ba04a32300c9c3ab25b08e2ac78fabee7ffba20e"
+    "size": 56159,
+    "sha256": "2efaea258737a84c7d3d8cbbfb6146cd51de471adb599e0c87c869c80e26fb1b"
   },
   {
     "path": "art/FUTURE-IMAGE-PROMPTS.md",
@@ -926,13 +926,13 @@
   },
   {
     "path": "lesson-stage.css",
-    "size": 17786,
-    "sha256": "565f48a14b92ff4e8624a436b07ef3c0b826f94dddc2cede8fcb4a55cb37da40"
+    "size": 21182,
+    "sha256": "15a2ec98f0342d2779d7253326a4f7c7131234d45f175fda2a9b1ed6a7fe9679"
   },
   {
     "path": "lesson-stage.js",
-    "size": 18819,
-    "sha256": "de799794ca82f9573921e6c41ce8359d65f6f51b274bfe656974e218fcd634f3"
+    "size": 19441,
+    "sha256": "ae305e11f6544b5b09006a1516e05f713d1a095cdb267898322e373c4a81f971"
   },
   {
     "path": "live-book.css",
@@ -1331,8 +1331,8 @@
   },
   {
     "path": "source-lessons.js",
-    "size": 2191,
-    "sha256": "2df8029828a569bd9f45c7fc601f759935123a506613bff3cf6d5348e708a880"
+    "size": 2277,
+    "sha256": "7cb50fdfe3c56278b21bd8ba12e883f7a3b47669000ad2cb5a2c80d2f276b9e1"
   },
   {
     "path": "source/p10.webp",
