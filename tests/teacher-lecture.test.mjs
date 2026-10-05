@@ -56,7 +56,8 @@ test('A/B data stay separate and the unverified 반비례 and Daily Test 9–11 
  assert.match(lessonTwoLecture.P15.check,/추당 2 cm/);
  assert.match(lessonTwoLecture.P16.check,/12번 그래프용 눈금\(4·8·12\)/);
  assert.match(lessonTwoLecture.P14.check,/반비례/);
- assert.match(lessonTwoLecture.P14.check,/가르치지 않습니다/);
+ assert.match(lessonTwoLecture.P14.check,/교재대로 읽고 수정하지 않습니다/);
+ assert.match(lessonTwoLecture.P14.check,/투사 화면에는 표시하지 않음/);
  const p20=JSON.stringify(lessonTwoLecture.P20);
  assert.match(p20,/9~11번은 공식 해설과 원문 대조가 끝나기 전까지 답과 추가 설명을 공개하지 않습니다/);
  assert.doesNotMatch(p20,/굵을수록|탄성력은 (크다|작다)|(같다|다르다)\)/);
