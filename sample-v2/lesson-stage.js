@@ -59,7 +59,7 @@ function questionVisual(question){
 function stageHeader(page,index,mode,questionIndex){
  const label=mode==='teacher'?'가르치기 · 투사 화면':'스스로 공부하기 · 인쇄 교재와 함께';
  const number=assessmentGroups[page.printId]?` · 원본 ${questionIndex+1}/${stageQuestionCount(page)}번`:'';
- return `<header class="lesson-stage-head"><div><span>${label}</span><h1>${escapeText(page.title.replace('\n',' '))}</h1></div><strong>${index===0?'원본 표지':`교재 ${String(index+1).padStart(2,'0')}쪽${number}`}</strong></header>`;
+ return `<header class="lesson-stage-head"><div><span>${label}</span><h1>${escapeText(page.title.replace('\n',' '))}</h1></div><div class="stage-size" role="group" aria-label="화면 글자 크기"><button type="button" data-stage-size="-1" aria-label="글자 작게">작게 −</button><output data-stage-size-label>100%</output><button type="button" data-stage-size="1" aria-label="글자 크게">크게 +</button></div><strong>${index===0?'원본 표지':`교재 ${String(index+1).padStart(2,'0')}쪽${number}`}</strong></header>`;
 }
 function stageFooter(page,questionIndex,mode){
  const nav=assessmentGroups[page.printId]?`<div class="stage-question-nav"><button type="button" data-stage-question="prev" ${questionIndex===0?'disabled':''}>이전 문항</button><span>${questionIndex+1} / ${stageQuestionCount(page)}</span><button type="button" data-stage-question="next" ${questionIndex===stageQuestionCount(page)-1?'disabled':''}>다음 문항</button></div>`:'';

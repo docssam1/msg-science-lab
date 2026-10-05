@@ -81,6 +81,25 @@ try{
   if(q<6)assert.match(await counter(),new RegExp(`${q+1}/6번`),`Q${q}: moved on`);
  }
  await d.close();
+ // 작게 하기 / 크게 하기: buttons and +/- keys scale the text column, remembered across reloads, in teacher and student views
+ for(const mode of ['teacher','student']){
+  const z=await browser.newPage({viewport:{width:1366,height:768}});
+  z.on('pageerror',error=>errors.push(error.message));
+  await z.goto(`${base}${mode}.html?page=14`);await z.waitForFunction(()=>document.documentElement.dataset.ready==='true');
+  const read=()=>z.evaluate(()=>({label:document.querySelector('[data-stage-size-label]').textContent,zoom:getComputedStyle(document.querySelector('.lesson-stage-content')).zoom}));
+  assert.deepEqual(await read(),{label:'100%',zoom:'1'},`${mode} starts at 100%`);
+  await z.locator('[data-stage-size="1"]').click();
+  assert.deepEqual(await read(),{label:'110%',zoom:'1.1'},`${mode} 크게`);
+  await z.keyboard.press('+');await z.keyboard.press('=');
+  assert.equal((await read()).label,'135%',`${mode} + keys`);
+  await z.reload();await z.waitForFunction(()=>document.documentElement.dataset.ready==='true');
+  assert.equal((await read()).label,'135%',`${mode} remembers size`);
+  await z.locator('[data-stage-size="-1"]').click();await z.keyboard.press('-');await z.keyboard.press('-');await z.keyboard.press('-');
+  assert.deepEqual(await read(),{label:'90%',zoom:'0.9'},`${mode} 작게`);
+  assert.equal(await z.locator('[data-stage-size="-1"]').isEnabled(),true);
+  await z.evaluate(()=>localStorage.removeItem('msg-source-sample-v2:ui-scale'));
+  await z.close();
+ }
  assert.deepEqual(errors,[]);
  console.log('teacher flow: one-gesture click/Space/arrows, back, E for experiment, projection type size, locked items skipped passed');
 }finally{await browser.close();}
