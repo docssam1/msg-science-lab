@@ -1381,6 +1381,506 @@
       "num_step": 16,
       "sha256": "4b2e518a1d82224102d2b5bfbb83ca1b570567b098b69dd10a4d670da89b2ed4",
       "generation_seconds": 125.6
+    },
+    "guide-36969da7": {
+      "id": "guide-36969da7",
+      "text": "책을 열어 볼까요? 다음 페이지를 눌러보세요.",
+      "seconds": 3.08,
+      "generation_seconds": 31.23,
+      "engine": "OmniVoice 0.2.1",
+      "num_step": 16,
+      "path": "./audio/guide/guide-36969da7.mp3",
+      "made": "2026-10-06 13:27"
+    },
+    "guide-6f986475": {
+      "id": "guide-6f986475",
+      "text": "영점조절나사는 어디 있을까요? 실험을 해볼까요? 반짝이는 실험 버튼을 눌러보세요.",
+      "seconds": 5.49,
+      "generation_seconds": 32.74,
+      "engine": "OmniVoice 0.2.1",
+      "num_step": 16,
+      "path": "./audio/guide/guide-6f986475.mp3",
+      "made": "2026-10-06 13:28"
+    },
+    "guide-dedc6001": {
+      "id": "guide-dedc6001",
+      "text": "영점조절나사는 어디 있을까요? 용수철저울의 부분을 하나씩 눌러 보세요. 어떤 일을 할까요?",
+      "seconds": 5.72,
+      "generation_seconds": 30.83,
+      "engine": "OmniVoice 0.2.1",
+      "num_step": 16,
+      "path": "./audio/guide/guide-dedc6001.mp3",
+      "made": "2026-10-06 13:28"
+    },
+    "guide-95128154": {
+      "id": "guide-95128154",
+      "text": "직접 해보았어요. 다음 페이지를 눌러보세요.",
+      "seconds": 2.9,
+      "generation_seconds": 28.55,
+      "engine": "OmniVoice 0.2.1",
+      "num_step": 16,
+      "path": "./audio/guide/guide-95128154.mp3",
+      "made": "2026-10-06 13:29"
+    },
+    "guide-774b870c": {
+      "id": "guide-774b870c",
+      "text": "빈 저울의 표시자는 어디를 가리킬까요? 실험을 해볼까요? 반짝이는 실험 버튼을 눌러보세요.",
+      "seconds": 6.07,
+      "generation_seconds": 30.84,
+      "engine": "OmniVoice 0.2.1",
+      "num_step": 16,
+      "path": "./audio/guide/guide-774b870c.mp3",
+      "made": "2026-10-06 13:29"
+    },
+    "guide-4979df28": {
+      "id": "guide-4979df28",
+      "text": "빈 저울의 표시자는 어디를 가리킬까요? 물체를 걸기 전에 빈 저울의 표시자가 0인지 확인해 보세요.",
+      "seconds": 6.56,
+      "generation_seconds": 30.82,
+      "engine": "OmniVoice 0.2.1",
+      "num_step": 16,
+      "path": "./audio/guide/guide-4979df28.mp3",
+      "made": "2026-10-06 13:30"
+    },
+    "guide-a6e132d4": {
+      "id": "guide-a6e132d4",
+      "text": "먼저 가벼울 순서를 예상해 보세요. 실험을 해볼까요? 반짝이는 실험 버튼을 눌러보세요.",
+      "seconds": 5.66,
+      "generation_seconds": 30.98,
+      "engine": "OmniVoice 0.2.1",
+      "num_step": 16,
+      "path": "./audio/guide/guide-a6e132d4.mp3",
+      "made": "2026-10-06 13:30"
+    },
+    "guide-f92937c8": {
+      "id": "guide-f92937c8",
+      "text": "먼저 가벼울 순서를 예상해 보세요. 먼저 다섯 물건의 무게를 예상하고, 직접 재서 비교해 보세요.",
+      "seconds": 6.19,
+      "generation_seconds": 30.16,
+      "engine": "OmniVoice 0.2.1",
+      "num_step": 16,
+      "path": "./audio/guide/guide-f92937c8.mp3",
+      "made": "2026-10-06 13:31"
+    },
+    "guide-b87d7d0b": {
+      "id": "guide-b87d7d0b",
+      "text": "실험을 해볼까요? 반짝이는 실험 버튼을 눌러보세요.",
+      "seconds": 3.54,
+      "generation_seconds": 28.6,
+      "engine": "OmniVoice 0.2.1",
+      "num_step": 16,
+      "path": "./audio/guide/guide-b87d7d0b.mp3",
+      "made": "2026-10-06 13:31"
+    },
+    "guide-b5d4cac0": {
+      "id": "guide-b5d4cac0",
+      "text": "먼저 다섯 물건의 무게를 예상하고, 직접 재서 비교해 보세요.",
+      "seconds": 3.83,
+      "generation_seconds": 28.41,
+      "engine": "OmniVoice 0.2.1",
+      "num_step": 16,
+      "path": "./audio/guide/guide-b5d4cac0.mp3",
+      "made": "2026-10-06 13:32"
+    },
+    "guide-9afc7cc0": {
+      "id": "guide-9afc7cc0",
+      "text": "물체를 걸기 전 기준을 확인했나요? 실험을 해볼까요? 반짝이는 실험 버튼을 눌러보세요.",
+      "seconds": 5.8,
+      "generation_seconds": 30.27,
+      "engine": "OmniVoice 0.2.1",
+      "num_step": 16,
+      "path": "./audio/guide/guide-9afc7cc0.mp3",
+      "made": "2026-10-06 13:32"
+    },
+    "guide-cc944e35": {
+      "id": "guide-cc944e35",
+      "text": "물체를 걸기 전 기준을 확인했나요? 먼저 다섯 물건의 무게를 예상하고, 직접 재서 비교해 보세요.",
+      "seconds": 6.03,
+      "generation_seconds": 30.13,
+      "engine": "OmniVoice 0.2.1",
+      "num_step": 16,
+      "path": "./audio/guide/guide-cc944e35.mp3",
+      "made": "2026-10-06 13:33"
+    },
+    "guide-a09586c7": {
+      "id": "guide-a09586c7",
+      "text": "표시자와 눈높이를 나란히 놓아 볼까요? 실험을 해볼까요? 반짝이는 실험 버튼을 눌러보세요.",
+      "seconds": 5.99,
+      "generation_seconds": 30.2,
+      "engine": "OmniVoice 0.2.1",
+      "num_step": 16,
+      "path": "./audio/guide/guide-a09586c7.mp3",
+      "made": "2026-10-06 13:33"
+    },
+    "guide-f90000b7": {
+      "id": "guide-f90000b7",
+      "text": "표시자와 눈높이를 나란히 놓아 볼까요? 눈높이를 바꿔 보고 표시자의 윗부분을 따라 눈금을 읽어 보세요.",
+      "seconds": 6.8,
+      "generation_seconds": 34.88,
+      "engine": "OmniVoice 0.2.1",
+      "num_step": 16,
+      "path": "./audio/guide/guide-f90000b7.mp3",
+      "made": "2026-10-06 13:34"
+    },
+    "guide-1c6472a5": {
+      "id": "guide-1c6472a5",
+      "text": "올려놓는 저울과 매다는 저울을 찾아보세요. 실험을 해볼까요? 반짝이는 실험 버튼을 눌러보세요.",
+      "seconds": 6.25,
+      "generation_seconds": 30.7,
+      "engine": "OmniVoice 0.2.1",
+      "num_step": 16,
+      "path": "./audio/guide/guide-1c6472a5.mp3",
+      "made": "2026-10-06 13:34"
+    },
+    "guide-9707a17b": {
+      "id": "guide-9707a17b",
+      "text": "올려놓는 저울과 매다는 저울을 찾아보세요. 직접 움직이며 관찰해 보세요. 끝나면 교재로 돌아가요.",
+      "seconds": 6.5,
+      "generation_seconds": 30.68,
+      "engine": "OmniVoice 0.2.1",
+      "num_step": 16,
+      "path": "./audio/guide/guide-9707a17b.mp3",
+      "made": "2026-10-06 13:35"
+    },
+    "guide-f0696add": {
+      "id": "guide-f0696add",
+      "text": "영상을 보고 태엽이 어떻게 움직이는지 살펴보세요.",
+      "seconds": 3.12,
+      "generation_seconds": 27.62,
+      "engine": "OmniVoice 0.2.1",
+      "num_step": 16,
+      "path": "./audio/guide/guide-f0696add.mp3",
+      "made": "2026-10-06 13:35"
+    },
+    "guide-8ad0629d": {
+      "id": "guide-8ad0629d",
+      "text": "영상을 보고 용수철이 늘었다 돌아오는 모습을 살펴보세요.",
+      "seconds": 3.77,
+      "generation_seconds": 28.38,
+      "engine": "OmniVoice 0.2.1",
+      "num_step": 16,
+      "path": "./audio/guide/guide-8ad0629d.mp3",
+      "made": "2026-10-06 13:36"
+    },
+    "guide-c4d04817": {
+      "id": "guide-c4d04817",
+      "text": "일일 테스트예요. 답을 고르거나 쓰고, 다 풀면 채점하기를 눌러 보세요. 말로 답해도 좋아요.",
+      "seconds": 5.96,
+      "generation_seconds": 30.52,
+      "engine": "OmniVoice 0.2.1",
+      "num_step": 16,
+      "path": "./audio/guide/guide-c4d04817.mp3",
+      "made": "2026-10-06 13:36"
+    },
+    "guide-4f175be5": {
+      "id": "guide-4f175be5",
+      "text": "직접 움직이며 관찰해 보세요. 끝나면 교재로 돌아가요.",
+      "seconds": 3.7,
+      "generation_seconds": 28.61,
+      "engine": "OmniVoice 0.2.1",
+      "num_step": 16,
+      "path": "./audio/guide/guide-4f175be5.mp3",
+      "made": "2026-10-06 13:37"
+    },
+    "guide-4699151e": {
+      "id": "guide-4699151e",
+      "text": "같은 추를 하나씩 더해 보세요. 실험을 해볼까요? 반짝이는 실험 버튼을 눌러보세요.",
+      "seconds": 5.51,
+      "generation_seconds": 29.81,
+      "engine": "OmniVoice 0.2.1",
+      "num_step": 16,
+      "path": "./audio/guide/guide-4699151e.mp3",
+      "made": "2026-10-06 13:37"
+    },
+    "guide-1b0a48c1": {
+      "id": "guide-1b0a48c1",
+      "text": "같은 추를 하나씩 더해 보세요. 직접 움직이며 관찰해 보세요. 끝나면 교재로 돌아가요.",
+      "seconds": 5.67,
+      "generation_seconds": 29.98,
+      "engine": "OmniVoice 0.2.1",
+      "num_step": 16,
+      "path": "./audio/guide/guide-1b0a48c1.mp3",
+      "made": "2026-10-06 13:38"
+    },
+    "guide-39a083fe": {
+      "id": "guide-39a083fe",
+      "text": "표의 값을 그래프에 직접 찍어 보세요.",
+      "seconds": 2.59,
+      "generation_seconds": 25.8,
+      "engine": "OmniVoice 0.2.1",
+      "num_step": 16,
+      "path": "./audio/guide/guide-39a083fe.mp3",
+      "made": "2026-10-06 13:38"
+    },
+    "guide-a1cfb7af": {
+      "id": "guide-a1cfb7af",
+      "text": "한 번에 한 조건만 바꾸어 볼까요? 실험을 해볼까요? 반짝이는 실험 버튼을 눌러보세요.",
+      "seconds": 5.68,
+      "generation_seconds": 30.1,
+      "engine": "OmniVoice 0.2.1",
+      "num_step": 16,
+      "path": "./audio/guide/guide-a1cfb7af.mp3",
+      "made": "2026-10-06 13:39"
+    },
+    "guide-78971fdf": {
+      "id": "guide-78971fdf",
+      "text": "한 번에 한 조건만 바꾸어 볼까요? 직접 움직이며 관찰해 보세요. 끝나면 교재로 돌아가요.",
+      "seconds": 5.84,
+      "generation_seconds": 30.0,
+      "engine": "OmniVoice 0.2.1",
+      "num_step": 16,
+      "path": "./audio/guide/guide-78971fdf.mp3",
+      "made": "2026-10-06 13:39"
+    },
+    "guide-bfd33e9e": {
+      "id": "guide-bfd33e9e",
+      "text": "용수철저울의 부분을 하나씩 눌러 보세요. 어떤 일을 할까요?",
+      "seconds": 3.9,
+      "generation_seconds": 28.16,
+      "engine": "OmniVoice 0.2.1",
+      "num_step": 16,
+      "path": "./audio/guide/guide-bfd33e9e.mp3",
+      "made": "2026-10-06 13:40"
+    },
+    "guide-29228f2f": {
+      "id": "guide-29228f2f",
+      "text": "물체를 걸기 전에 빈 저울의 표시자가 0인지 확인해 보세요.",
+      "seconds": 3.93,
+      "generation_seconds": 28.08,
+      "engine": "OmniVoice 0.2.1",
+      "num_step": 16,
+      "path": "./audio/guide/guide-29228f2f.mp3",
+      "made": "2026-10-06 13:40"
+    },
+    "guide-fbca7cc0": {
+      "id": "guide-fbca7cc0",
+      "text": "눈높이를 바꿔 보고 표시자의 윗부분을 따라 눈금을 읽어 보세요.",
+      "seconds": 4.26,
+      "generation_seconds": 28.13,
+      "engine": "OmniVoice 0.2.1",
+      "num_step": 16,
+      "path": "./audio/guide/guide-fbca7cc0.mp3",
+      "made": "2026-10-06 13:41"
+    },
+    "guide-4a23722d": {
+      "id": "guide-4a23722d",
+      "text": "작은 용수철의 반복 움직임을 살펴보세요.",
+      "seconds": 2.88,
+      "generation_seconds": 27.88,
+      "engine": "OmniVoice 0.2.1",
+      "num_step": 16,
+      "path": "./audio/guide/guide-4a23722d.mp3",
+      "made": "2026-10-06 13:41"
+    },
+    "guide-72275700": {
+      "id": "guide-72275700",
+      "text": "문제를 풀고 채점하기를 눌러 보세요. 채점 뒤에는 틀린 문제를 다시 살펴봐요.",
+      "seconds": 5.1,
+      "generation_seconds": 29.51,
+      "engine": "OmniVoice 0.2.1",
+      "num_step": 16,
+      "path": "./audio/guide/guide-72275700.mp3",
+      "made": "2026-10-06 13:42"
+    },
+    "guide-032be11a": {
+      "id": "guide-032be11a",
+      "text": "책의 글과 그림을 크게 살펴보세요.",
+      "seconds": 2.41,
+      "generation_seconds": 25.67,
+      "engine": "OmniVoice 0.2.1",
+      "num_step": 16,
+      "path": "./audio/guide/guide-032be11a.mp3",
+      "made": "2026-10-06 13:42"
+    },
+    "guide-4ecf64d9": {
+      "id": "guide-4ecf64d9",
+      "text": "빈 저울 확인 → 물건 걸기 → 멈춘 눈금 기록!",
+      "seconds": 2.67,
+      "generation_seconds": 28.19,
+      "engine": "OmniVoice 0.2.1",
+      "num_step": 16,
+      "path": "./audio/guide/guide-4ecf64d9.mp3",
+      "made": "2026-10-06 13:43"
+    },
+    "guide-cb6d35d2": {
+      "id": "guide-cb6d35d2",
+      "text": "예상과 측정을 비교하고 내 결론을 써 보세요.",
+      "seconds": 2.83,
+      "generation_seconds": 27.65,
+      "engine": "OmniVoice 0.2.1",
+      "num_step": 16,
+      "path": "./audio/guide/guide-cb6d35d2.mp3",
+      "made": "2026-10-06 13:43"
+    },
+    "guide-156bb089": {
+      "id": "guide-156bb089",
+      "text": "굿! 다섯 물건을 재고 내 결론까지 적었어요.",
+      "seconds": 2.84,
+      "generation_seconds": 27.8,
+      "engine": "OmniVoice 0.2.1",
+      "num_step": 16,
+      "path": "./audio/guide/guide-156bb089.mp3",
+      "made": "2026-10-06 13:43"
+    },
+    "guide-232329ec": {
+      "id": "guide-232329ec",
+      "text": "인쇄한 교재의 12번 표는 본문 표와 수치가 달라요. 그림을 눌러 이 문제의 점 세 개를 직접 찍어 보세요.",
+      "seconds": 6.77,
+      "generation_seconds": 34.07,
+      "engine": "OmniVoice 0.2.1",
+      "num_step": 16,
+      "path": "./audio/guide/guide-232329ec.mp3",
+      "made": "2026-10-06 13:44"
+    },
+    "guide-64e7e950": {
+      "id": "guide-64e7e950",
+      "text": "채점을 마쳤어요. 답을 고쳤다면 다시 채점하고, 아니면 다음 페이지로 넘어가 보세요.",
+      "seconds": 5.52,
+      "generation_seconds": 29.57,
+      "engine": "OmniVoice 0.2.1",
+      "num_step": 16,
+      "path": "./audio/guide/guide-64e7e950.mp3",
+      "made": "2026-10-06 13:45"
+    },
+    "guide-ce0188e4": {
+      "id": "guide-ce0188e4",
+      "text": "인쇄한 교재의 1번을 읽고 화면에서 답을 고르거나 써 보세요. 모르면 책에 먼저 표시해도 좋아요.",
+      "seconds": 6.29,
+      "generation_seconds": 29.82,
+      "engine": "OmniVoice 0.2.1",
+      "num_step": 16,
+      "path": "./audio/guide/guide-ce0188e4.mp3",
+      "made": "2026-10-06 13:45"
+    },
+    "guide-4d28e906": {
+      "id": "guide-4d28e906",
+      "text": "인쇄한 교재의 2번을 읽고 화면에서 답을 고르거나 써 보세요. 모르면 책에 먼저 표시해도 좋아요.",
+      "seconds": 6.51,
+      "generation_seconds": 30.09,
+      "engine": "OmniVoice 0.2.1",
+      "num_step": 16,
+      "path": "./audio/guide/guide-4d28e906.mp3",
+      "made": "2026-10-06 13:46"
+    },
+    "guide-24c5198e": {
+      "id": "guide-24c5198e",
+      "text": "인쇄한 교재의 3번을 읽고 화면에서 답을 고르거나 써 보세요. 모르면 책에 먼저 표시해도 좋아요.",
+      "seconds": 6.42,
+      "generation_seconds": 29.82,
+      "engine": "OmniVoice 0.2.1",
+      "num_step": 16,
+      "path": "./audio/guide/guide-24c5198e.mp3",
+      "made": "2026-10-06 13:46"
+    },
+    "guide-b57ec3bb": {
+      "id": "guide-b57ec3bb",
+      "text": "인쇄한 교재의 4번을 읽고 화면에서 답을 고르거나 써 보세요. 모르면 책에 먼저 표시해도 좋아요.",
+      "seconds": 6.42,
+      "generation_seconds": 29.71,
+      "engine": "OmniVoice 0.2.1",
+      "num_step": 16,
+      "path": "./audio/guide/guide-b57ec3bb.mp3",
+      "made": "2026-10-06 13:46"
+    },
+    "guide-d1029079": {
+      "id": "guide-d1029079",
+      "text": "인쇄한 교재의 5번을 읽고 화면에서 답을 고르거나 써 보세요. 모르면 책에 먼저 표시해도 좋아요.",
+      "seconds": 6.37,
+      "generation_seconds": 29.72,
+      "engine": "OmniVoice 0.2.1",
+      "num_step": 16,
+      "path": "./audio/guide/guide-d1029079.mp3",
+      "made": "2026-10-06 13:47"
+    },
+    "guide-67febba2": {
+      "id": "guide-67febba2",
+      "text": "인쇄한 교재의 6번을 읽고 화면에서 답을 고르거나 써 보세요. 모르면 책에 먼저 표시해도 좋아요.",
+      "seconds": 6.37,
+      "generation_seconds": 29.74,
+      "engine": "OmniVoice 0.2.1",
+      "num_step": 16,
+      "path": "./audio/guide/guide-67febba2.mp3",
+      "made": "2026-10-06 13:47"
+    },
+    "guide-60742e65": {
+      "id": "guide-60742e65",
+      "text": "인쇄한 교재의 7번을 읽고 화면에서 답을 고르거나 써 보세요. 모르면 책에 먼저 표시해도 좋아요.",
+      "seconds": 6.28,
+      "generation_seconds": 29.84,
+      "engine": "OmniVoice 0.2.1",
+      "num_step": 16,
+      "path": "./audio/guide/guide-60742e65.mp3",
+      "made": "2026-10-06 13:48"
+    },
+    "guide-6d23703d": {
+      "id": "guide-6d23703d",
+      "text": "인쇄한 교재의 8번을 읽고 화면에서 답을 고르거나 써 보세요. 모르면 책에 먼저 표시해도 좋아요.",
+      "seconds": 6.29,
+      "generation_seconds": 30.79,
+      "engine": "OmniVoice 0.2.1",
+      "num_step": 16,
+      "path": "./audio/guide/guide-6d23703d.mp3",
+      "made": "2026-10-06 13:48"
+    },
+    "guide-d4179852": {
+      "id": "guide-d4179852",
+      "text": "인쇄한 교재의 9번을 읽고 화면에서 답을 고르거나 써 보세요. 모르면 책에 먼저 표시해도 좋아요.",
+      "seconds": 6.4,
+      "generation_seconds": 30.56,
+      "engine": "OmniVoice 0.2.1",
+      "num_step": 16,
+      "path": "./audio/guide/guide-d4179852.mp3",
+      "made": "2026-10-06 13:49"
+    },
+    "guide-7048b174": {
+      "id": "guide-7048b174",
+      "text": "인쇄한 교재의 10번을 읽고 화면에서 답을 고르거나 써 보세요. 모르면 책에 먼저 표시해도 좋아요.",
+      "seconds": 6.66,
+      "generation_seconds": 34.69,
+      "engine": "OmniVoice 0.2.1",
+      "num_step": 16,
+      "path": "./audio/guide/guide-7048b174.mp3",
+      "made": "2026-10-06 13:50"
+    },
+    "guide-39a3cb9a": {
+      "id": "guide-39a3cb9a",
+      "text": "인쇄한 교재의 11번을 읽고 화면에서 답을 고르거나 써 보세요. 모르면 책에 먼저 표시해도 좋아요.",
+      "seconds": 6.5,
+      "generation_seconds": 34.31,
+      "engine": "OmniVoice 0.2.1",
+      "num_step": 16,
+      "path": "./audio/guide/guide-39a3cb9a.mp3",
+      "made": "2026-10-06 13:50"
+    },
+    "guide-e9e2114b": {
+      "id": "guide-e9e2114b",
+      "text": "먼저 모양의 변화를 관찰하고, 힘을 없애면 어떻게 될지 예상해 보세요.",
+      "seconds": 4.58,
+      "generation_seconds": 29.74,
+      "engine": "OmniVoice 0.2.1",
+      "num_step": 16,
+      "path": "./audio/guide/guide-e9e2114b.mp3",
+      "made": "2026-10-06 13:51"
+    },
+    "guide-f963b967": {
+      "id": "guide-f963b967",
+      "text": "표를 보고 그래프에 점을 직접 찍어 보세요.",
+      "seconds": 2.92,
+      "generation_seconds": 28.23,
+      "engine": "OmniVoice 0.2.1",
+      "num_step": 16,
+      "path": "./audio/guide/guide-f963b967.mp3",
+      "made": "2026-10-06 13:51"
+    },
+    "guide-74b19788": {
+      "id": "guide-74b19788",
+      "text": "재질·철사 굵기·코일 지름을 한 번에 하나씩 바꿔 비교해 보세요.",
+      "seconds": 4.06,
+      "generation_seconds": 28.1,
+      "engine": "OmniVoice 0.2.1",
+      "num_step": 16,
+      "path": "./audio/guide/guide-74b19788.mp3",
+      "made": "2026-10-06 13:52"
     }
   },
   "playlists": {
