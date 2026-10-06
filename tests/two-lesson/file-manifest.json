@@ -16,8 +16,8 @@
   },
   {
     "path": "app.js",
-    "size": 57485,
-    "sha256": "ee7f6b5417e159a3a2c6513dddd1c8d84700f76089b5e9be2147fc11c6258775"
+    "size": 58017,
+    "sha256": "9d231b0bd658297c6dd98a113fc8b528610e4739e5870de8ed215cc9f71451cd"
   },
   {
     "path": "art/FUTURE-IMAGE-PROMPTS.md",
@@ -213,6 +213,256 @@
     "path": "audio/ask-part-zero.mp3",
     "size": 69740,
     "sha256": "7f26acf73094d9853ff9782dfc1e52347591d94d149955625c76d5d47dcc047f"
+  },
+  {
+    "path": "audio/guide/guide-032be11a.mp3",
+    "size": 29996,
+    "sha256": "259ed975538a5114595d23f7215bd811e99384a8dd0115985f8f4a78ed18e45d"
+  },
+  {
+    "path": "audio/guide/guide-156bb089.mp3",
+    "size": 35180,
+    "sha256": "74a44ae96ebc49c4df64512f6b0a766c639fafc873acac0030a70a3b728a6857"
+  },
+  {
+    "path": "audio/guide/guide-1b0a48c1.mp3",
+    "size": 69164,
+    "sha256": "7cc6a7da6e17c27f110e5f62738fa10c4bbfc2f649849b1b72877aeb96fe853f"
+  },
+  {
+    "path": "audio/guide/guide-1c6472a5.mp3",
+    "size": 76076,
+    "sha256": "a3666d8fe066865c0716cdb91c208ec13b11820fad7aea3516a66729ee0bc9ee"
+  },
+  {
+    "path": "audio/guide/guide-232329ec.mp3",
+    "size": 82412,
+    "sha256": "681fe76c4661dad3d5aa8ada23439c7296400eee031a684907acad6f8b71067c"
+  },
+  {
+    "path": "audio/guide/guide-24c5198e.mp3",
+    "size": 78092,
+    "sha256": "1c7c08f87957042b2158dc1714f8b5c6f2e86117ebe624948277f41203e714e6"
+  },
+  {
+    "path": "audio/guide/guide-29228f2f.mp3",
+    "size": 48140,
+    "sha256": "d90bc8cedb32fde2f8bddebffba44c4db6f0f2f5c44336be1a2e7292423c9370"
+  },
+  {
+    "path": "audio/guide/guide-36969da7.mp3",
+    "size": 38060,
+    "sha256": "b97341a69180e5adb48314346dcb03a8027492820c4d2f80cf6c3bcb47ca558b"
+  },
+  {
+    "path": "audio/guide/guide-39a083fe.mp3",
+    "size": 32012,
+    "sha256": "44b5282e719b43b661e6046a4526b41dbdb26f054ca16981fe98eb49d4351a03"
+  },
+  {
+    "path": "audio/guide/guide-39a3cb9a.mp3",
+    "size": 78956,
+    "sha256": "bac71e8cc767aeecd3dae6694ba98b36edfcbe52c3f1804fec8eca789fca6a6a"
+  },
+  {
+    "path": "audio/guide/guide-4699151e.mp3",
+    "size": 67148,
+    "sha256": "118da0ddb101a5bad671ca2cbd3a7c1212acde4e965cdfce7375fd590be679c6"
+  },
+  {
+    "path": "audio/guide/guide-4979df28.mp3",
+    "size": 79820,
+    "sha256": "28627929a1f5a4bbf53376f7b59d45d6635a342069c2227b6889706cc7db85df"
+  },
+  {
+    "path": "audio/guide/guide-4a23722d.mp3",
+    "size": 35468,
+    "sha256": "545f5aeb66a2caa783729238e91922179808b7cd6cb1db919ca486d971af9e2f"
+  },
+  {
+    "path": "audio/guide/guide-4d28e906.mp3",
+    "size": 79244,
+    "sha256": "1dca2030a51aead2177768ffe92806b6172ecdb6118ed50da655e019cda8a302"
+  },
+  {
+    "path": "audio/guide/guide-4ecf64d9.mp3",
+    "size": 33164,
+    "sha256": "20c051555bf0b894917479b24621cf0f2d20fae35f5bdea5e25200f5512696a0"
+  },
+  {
+    "path": "audio/guide/guide-4f175be5.mp3",
+    "size": 45548,
+    "sha256": "00366cdea269a7f35d3c4330abe4862220d88b798bb1aac82587ca05710af4fd"
+  },
+  {
+    "path": "audio/guide/guide-60742e65.mp3",
+    "size": 76364,
+    "sha256": "7778c1f210f34fab661004cb0ff461b842ebdd43a1eaf943c90bf5a7ee128a1e"
+  },
+  {
+    "path": "audio/guide/guide-64e7e950.mp3",
+    "size": 67148,
+    "sha256": "18bababd2f01a9f47bafd122ae33b82e283186fa6fecee25e134b06950f0b37e"
+  },
+  {
+    "path": "audio/guide/guide-67febba2.mp3",
+    "size": 77516,
+    "sha256": "1b608f8df2d4fa8bc78c8423cd51e9a3e80da08d8e624501b3ebd912406a3a3c"
+  },
+  {
+    "path": "audio/guide/guide-6d23703d.mp3",
+    "size": 76652,
+    "sha256": "2b0541e4331ae21b2d37a47608ac1e8f502abe7621c5249b320d3773b0fb3322"
+  },
+  {
+    "path": "audio/guide/guide-6f986475.mp3",
+    "size": 66860,
+    "sha256": "d513d9733ede103b66a5ad469c93de2d527413bfd4676a03b1509de508ee154c"
+  },
+  {
+    "path": "audio/guide/guide-7048b174.mp3",
+    "size": 80972,
+    "sha256": "10ff56cd3dbda617b1a5d24eddae9ed2bf504bbfa161f819c21608df70c01821"
+  },
+  {
+    "path": "audio/guide/guide-72275700.mp3",
+    "size": 62252,
+    "sha256": "e49091ce131aa6a397251635005cc34f6f9f3e961b61b066fcb658e2b1964b9d"
+  },
+  {
+    "path": "audio/guide/guide-74b19788.mp3",
+    "size": 49868,
+    "sha256": "58d11b6e98542a8f7532ff4716a65c84cf8b7e1dec5bfb926dd0a2c7b87611ed"
+  },
+  {
+    "path": "audio/guide/guide-774b870c.mp3",
+    "size": 73772,
+    "sha256": "1b190eac84a2596a5224038386b52f3b5baa6d37aa5d8eb8ff3884f8ff1f3671"
+  },
+  {
+    "path": "audio/guide/guide-78971fdf.mp3",
+    "size": 71180,
+    "sha256": "acefa99c5248082924b318d4fe6676d1ce9de966c7d3fd64ec68de9343d3262e"
+  },
+  {
+    "path": "audio/guide/guide-8ad0629d.mp3",
+    "size": 46412,
+    "sha256": "47d2e4be4d2bc4e9debb274a50e32e473e0753a8786db596b15d15abf9b36ff2"
+  },
+  {
+    "path": "audio/guide/guide-95128154.mp3",
+    "size": 35756,
+    "sha256": "c99ec3de19c895d7dca0b332c2c02ac072bc7bf9b666f532a4c650bdb0890cef"
+  },
+  {
+    "path": "audio/guide/guide-9707a17b.mp3",
+    "size": 78956,
+    "sha256": "5e4c325954920dfe92460f8882ef4b1d2d570a22293d75910deee5e62f5d3847"
+  },
+  {
+    "path": "audio/guide/guide-9afc7cc0.mp3",
+    "size": 70604,
+    "sha256": "25bd13e7a502ef2cc2e19348ee161c299db82b4b2ad03b3b224109d599f205dd"
+  },
+  {
+    "path": "audio/guide/guide-a09586c7.mp3",
+    "size": 72908,
+    "sha256": "426e9656bb6cd4fe4bd6da97f575a775923354f668772c8be6516707233f3c2a"
+  },
+  {
+    "path": "audio/guide/guide-a1cfb7af.mp3",
+    "size": 69164,
+    "sha256": "f71f2f0234d7ed765f89a23b86cf9a0763c211aebc3cb2f2fc4bac00140454c9"
+  },
+  {
+    "path": "audio/guide/guide-a6e132d4.mp3",
+    "size": 68876,
+    "sha256": "a146208fb6848abb5c050c3b436c282bd907b0fe146bef162f21e8497ca054c9"
+  },
+  {
+    "path": "audio/guide/guide-b57ec3bb.mp3",
+    "size": 78092,
+    "sha256": "bae607a906ae0e5e0a67c99fb45af0c23ec3c4c6489114968e80814eacb70228"
+  },
+  {
+    "path": "audio/guide/guide-b5d4cac0.mp3",
+    "size": 46988,
+    "sha256": "60b00a3a8cb4bc346db9bdec4b61ab5e88b45dd82495345add0c30d28a21cce4"
+  },
+  {
+    "path": "audio/guide/guide-b87d7d0b.mp3",
+    "size": 43532,
+    "sha256": "0ff99061271e78e8da8414ca4e3f28abdc41043e17abde40563ceb349f858386"
+  },
+  {
+    "path": "audio/guide/guide-bfd33e9e.mp3",
+    "size": 47852,
+    "sha256": "32a6643e07717a8bfe441bd07655c7f457f61270052cf25fbbdc8db312d2f8d4"
+  },
+  {
+    "path": "audio/guide/guide-c4d04817.mp3",
+    "size": 72620,
+    "sha256": "cc2a1d97ed7ea921fa1a867c110a56889381d4198b14a6854a8f69264c56bc20"
+  },
+  {
+    "path": "audio/guide/guide-cb6d35d2.mp3",
+    "size": 34892,
+    "sha256": "5b4e8b5705a56b7a666e0490d82c8d4ab8daa5a50027f3997b1c19b84726e4c7"
+  },
+  {
+    "path": "audio/guide/guide-cc944e35.mp3",
+    "size": 73484,
+    "sha256": "586833da797394a89b357bf2c1ac81c7516d863a69ef4a7620872a36330ba138"
+  },
+  {
+    "path": "audio/guide/guide-ce0188e4.mp3",
+    "size": 76652,
+    "sha256": "f58ddd145d159cedebbe7096e62136a5eb797aeaa0f2b3cb8e19aec138bd526b"
+  },
+  {
+    "path": "audio/guide/guide-d1029079.mp3",
+    "size": 77516,
+    "sha256": "c29192d4e91907a72868187a336cadcb0d51deb9c93c36bf59ba0c7f04b98079"
+  },
+  {
+    "path": "audio/guide/guide-d4179852.mp3",
+    "size": 77804,
+    "sha256": "76eb83fd2e9a51e8df2973b937dc3a1febd7965655e55a7116718258286eb92d"
+  },
+  {
+    "path": "audio/guide/guide-dedc6001.mp3",
+    "size": 69740,
+    "sha256": "55b46752243ee53350c1e394a07bb75585a3107a77e9c7ad016b5a95e2dbac08"
+  },
+  {
+    "path": "audio/guide/guide-e9e2114b.mp3",
+    "size": 55916,
+    "sha256": "907150d03dc6c11535423ffda04ecd799aed169ca54e1e89bedddea2629ac844"
+  },
+  {
+    "path": "audio/guide/guide-f0696add.mp3",
+    "size": 38348,
+    "sha256": "ea956ac5e177461442fcaa429f321e9096c1cc6dfeb0fa7dfe24a8800db79a04"
+  },
+  {
+    "path": "audio/guide/guide-f90000b7.mp3",
+    "size": 82700,
+    "sha256": "ef8bbd0d868441a70863bc19ae21f394f0a39144aaa9bf38ba2ee4eb3e7b0005"
+  },
+  {
+    "path": "audio/guide/guide-f92937c8.mp3",
+    "size": 75212,
+    "sha256": "46f4004e8a08f79bade3575e6163f187d898e73f27f48fa7498d500dc48ffd1d"
+  },
+  {
+    "path": "audio/guide/guide-f963b967.mp3",
+    "size": 36044,
+    "sha256": "0de4fc142894d1a4c09724fce5929aabbcc22f237140e6dd7ee9b7f5fd4cc75e"
+  },
+  {
+    "path": "audio/guide/guide-fbca7cc0.mp3",
+    "size": 52172,
+    "sha256": "177e89310d66b11d691a4f7461533728376b1b8721a3f96640cf0721f939ede3"
   },
   {
     "path": "audio/l1-eye.mp3",
@@ -806,8 +1056,8 @@
   },
   {
     "path": "audio/voice-library.json",
-    "size": 151745,
-    "sha256": "a3784e949a3b64bca154135f8e445603a2c15dbf88108b024182415a1ccac988"
+    "size": 170793,
+    "sha256": "f2b3671955e0095eac5d83b8b636359058f0e5282b36f40f862a9d6dc8eb78b3"
   },
   {
     "path": "battle-rounds.js",
