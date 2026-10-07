@@ -135,7 +135,7 @@ function fitStageContent(){
  if($('#workspace').classList.contains('split'))return;
  if(uiScale>1)return;
  let k=1;
- while(el.scrollHeight>el.clientHeight+1&&k>.62){k=Math.round((k-.04)*100)/100;el.style.setProperty('--fit',k);}
+ while(el.scrollHeight>el.clientHeight+1&&k>.7){k=Math.round((k-.04)*100)/100;el.style.setProperty('--fit',k);}
 }
 addEventListener('resize',()=>{if(isTeacher)fitStageContent();});
 function stageLocked(){return !!$('#lesson-stage [data-stage-reveal]')?.disabled;}

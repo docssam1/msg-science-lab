@@ -16,8 +16,8 @@
   },
   {
     "path": "app.js",
-    "size": 58017,
-    "sha256": "9d231b0bd658297c6dd98a113fc8b528610e4739e5870de8ed215cc9f71451cd"
+    "size": 58016,
+    "sha256": "092ea986b6e3a6e5618b5ad002c022b78d80e976c0c38c2355f2dd54cc143087"
   },
   {
     "path": "art/FUTURE-IMAGE-PROMPTS.md",
@@ -1176,8 +1176,8 @@
   },
   {
     "path": "lesson-stage.css",
-    "size": 34177,
-    "sha256": "04e919beabf7655809149c60c5a9d381fe70a9c9d54e19d0fc4c07dd2627478a"
+    "size": 37830,
+    "sha256": "414a4bb910d2f02badc030a31c72c4acb837f63b766863504ffc72ce364ab462"
   },
   {
     "path": "lesson-stage.js",
