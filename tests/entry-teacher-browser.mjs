@@ -47,7 +47,7 @@ try{
  assert.equal(await notes.locator('#memo').inputValue(),'오늘은 추의 무게와 변형량을 구분해 질문하기');
  await notes.screenshot({path:join(out,'teacher-notes-1366.png')});
  await page.locator('#page-select').selectOption('11');
- await notes.waitForFunction(()=>document.querySelector('#page')?.textContent.includes('12/21'));
+ await notes.waitForFunction(()=>document.querySelector('#page')?.textContent.includes('12/33'));
  assert.equal(await notes.locator('#lecture-section').isVisible(),true);
  assert.match(await notes.locator('#lecture-steps').innerText(),/일일 테스트 1~6번/);
  assert.equal(await notes.locator('#memo').inputValue(),'');
@@ -58,7 +58,7 @@ try{
  await notes.evaluate(()=>scrollTo(0,0));
  await notes.screenshot({path:join(out,'teacher-lecture-p5.png')});
  await page.locator('#page-select').selectOption('15');
- await notes.waitForFunction(()=>document.querySelector('#page')?.textContent.includes('16/21'));
+ await notes.waitForFunction(()=>document.querySelector('#page')?.textContent.includes('16/33'));
  assert.match(await notes.locator('#source-cue').innerText(),/2 cm/);
  assert.match(await notes.locator('#source-cue').innerText(),/3·6·9 cm/);
  assert.deepEqual(errors,[]);

@@ -354,3 +354,8 @@
  :is(#flipbook,.large-reading) .paper[data-print-id="P20"] .source-test-list .book-table{font-size:15px}
  :is(#flipbook,.large-reading) .paper[data-print-id="P20"] .source-test-list .print-graph{height:335px}
 }
+/* 3차시 Daily Test 9번: 다섯 칸 선택지가 쪽 밖으로 나가지 않게 줄바꿈 */
+.pair-answers{flex-wrap:wrap;gap:8px 14px}
+.pair-answers label{white-space:nowrap}
+.source-test .pair-answers{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))}
+.source-test .pair-answers select{margin-left:5px;max-width:5.5em}

@@ -12,7 +12,7 @@ try{
   await page.goto(`${base}/sample-v2/index.html?edition=${edition}&page=11`);
   await page.waitForFunction(()=>Boolean(window.__sample));
   await page.evaluate(()=>window.__sample.printBuild());
-  assert.equal(await page.locator('#print-root .paper').count(),edition==='student'?21:41,`${edition} printable sheets`);
+  assert.equal(await page.locator('#print-root .paper').count(),edition==='student'?33:65,`${edition} printable sheets`);
   if(edition==='student'){
    assert.equal(await page.locator('#print-root .teacher-answer').count(),0,'student printable pages are answer-free');
    assert.equal(await page.locator('#print-root .assessment-photo').count(),0);
@@ -21,5 +21,5 @@ try{
   await page.pdf({path:`${out}/${edition}-print-qa.pdf`,format:'A4',printBackground:true,preferCSSPageSize:true});
   await page.close();
  }
- console.log('PASS print DOM: student 21 sheets, teacher 41 sheets including teaching notes, no student answer or photo controls; inspect emitted PDFs separately');
+ console.log('PASS print DOM: student 33 sheets, teacher 65 sheets including teaching notes, no student answer or photo controls; inspect emitted PDFs separately');
 }finally{await browser.close();}

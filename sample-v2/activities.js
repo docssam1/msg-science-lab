@@ -1,7 +1,7 @@
-import {esc,toolIcon,springArt,eyeArt,graphSVG} from './graphics.js';
+import {esc,toolIcon,springArt,eyeArt,graphSVG,earthArt,weightBarsArt,massWeightGraphSVG} from './graphics.js';
 import {dataLesson,dataAssessment,gradePoints,clamp} from './physics.js';
 import {toolRows} from './content.js';
-export const activityNames={inquiry:'저울이 왜 필요할까요? · 예상과 실험',battle:'두 팀 무게 줄 세우기',parts:'이 부품은 어떤 일을 할까요?',zero:'물체를 달기 전에 영점 맞추기',compare:'어느 물체가 더 무거울까요?',target:'고리를 당겨 목표 눈금에 맞추기',eye:'시선만 바꾸고 눈금 직접 찍기',types:'어떤 저울을 사용할까요?',history:'용수철의 이름과 과거',watch:'기록영상 · 시계 속 태엽',balance:'기록영상 · 작은 용수철의 반복 운동',future:'교재의 미래 전망 · 개념 도해',elastic:'잡아당기고 놓아 보는 탄성',compression:'누르는 힘과 길이 변화',measure:'추 10·20·30 g과 늘어난 길이',graph:'표를 읽고 그래프에 점 찍기','assessment-graph':'일일평가 12번 · 다른 표, 다른 그래프','spring-film':'실제 용수철 운동 관찰',factors:'용수철의 조건을 하나씩 비교',tools:'생활 속 여섯 도구',assessment:'답안과 확인 질문',source:'원본 교재 대조',reading:'본문 크게 읽기',credits:'외부 자료와 구현 범위'};
+export const activityNames={inquiry:'저울이 왜 필요할까요? · 예상과 실험',battle:'두 팀 무게 줄 세우기',parts:'이 부품은 어떤 일을 할까요?',zero:'물체를 달기 전에 영점 맞추기',compare:'어느 물체가 더 무거울까요?',target:'고리를 당겨 목표 눈금에 맞추기',eye:'시선만 바꾸고 눈금 직접 찍기',types:'어떤 저울을 사용할까요?',history:'용수철의 이름과 과거',watch:'기록영상 · 시계 속 태엽',balance:'기록영상 · 작은 용수철의 반복 운동',future:'교재의 미래 전망 · 개념 도해',elastic:'잡아당기고 놓아 보는 탄성',compression:'누르는 힘과 길이 변화',measure:'추 10·20·30 g과 늘어난 길이',graph:'표를 읽고 그래프에 점 찍기','assessment-graph':'일일평가 12번 · 다른 표, 다른 그래프','spring-film':'실제 용수철 운동 관찰',factors:'용수철의 조건을 하나씩 비교',tools:'생활 속 여섯 도구',gravity:'위치마다 떨어지는 방향 고르기','moon-weight':'지구와 달에서 무게 비교하기','weight-mass':'60 kg인 사람의 질량과 무게','mass-weight-graph':'질량과 무게 그래프 점 찍기',assessment:'답안과 확인 질문',source:'원본 교재 대조',reading:'본문 크게 읽기',credits:'외부 자료와 구현 범위'};
 const partList=[['handle','손잡이','손으로 잡거나 스탠드에 고정하는 부분입니다.'],['zero','영점조절나사','물체를 달기 전에 표시자를 0에 맞춥니다.'],['spring','용수철','물체를 매달면 늘어나는 부분입니다.'],['pointer','표시자','눈금을 가리키며 윗부분을 기준으로 읽습니다.'],['scale','눈금','측정값과 단위를 확인하는 표시입니다.'],['hook','고리','무게를 재려는 물체를 매다는 부분입니다.']];
 export async function mountActivity(kind,host,ctx){
  if(kind==='battle'){const {mountBattle}=await import('./battle.js');return mountBattle(host,ctx);}
@@ -134,7 +134,54 @@ export async function mountActivity(kind,host,ctx){
   async function play(token=storyToken){draw();const completed=await say(list[i][2]);if(disposed||token!==storyToken||!completed)return;timer=setTimeout(()=>{if(disposed||token!==storyToken)return;if(i<list.length-1){i++;play(token);}else setStatus('이야기를 모두 보았습니다. 책의 문단을 다시 읽고 연결되는 점을 설명해 보세요.');},500);}
   draw();if(ctx.auto)play();cleanup=()=>{storyToken++;clearTimeout(timer);};return {destroy};
  }
- if(kind==='tools'){
+ if(kind==='gravity'){
+  // 본책 22~23쪽: 중력은 지구 중심을 향한다. 위치 ①~④(그림의 위·왼쪽·아래·오른쪽)에서 놓은 물체가 떨어지는 방향을 고른다.
+  const spots=[{n:1,angle:0,where:'위쪽',dir:'down'},{n:2,angle:270,where:'왼쪽',dir:'right'},{n:3,angle:180,where:'아래쪽',dir:'up'},{n:4,angle:90,where:'오른쪽',dir:'left'}];
+  const dirNames={up:'위쪽 ↑',down:'아래쪽 ↓',left:'왼쪽 ←',right:'오른쪽 →'};
+  const chosen=ctx.load('gravity-lesson',{});
+  host.innerHTML='<div class="gravity-activity"><h3>물체를 놓으면 어느 쪽으로 떨어질까요?</h3><div class="gravity-earth"></div><div class="gravity-picker"></div><p class="gravity-note" role="status"></p></div>';
+  const earth=host.querySelector('.gravity-earth'),picker=host.querySelector('.gravity-picker'),note=host.querySelector('.gravity-note');
+  const done=()=>spots.filter(s=>chosen[s.n]===s.dir).length;
+  function draw(){
+   earth.innerHTML=earthArt({items:spots.map(s=>({angle:s.angle,kind:'num',n:s.n,arrow:chosen[s.n]===s.dir})),arrows:false});earth.firstElementChild.classList.add('art');
+   picker.innerHTML=spots.map(s=>`<div class="gravity-row"><b>${s.n}번 (그림의 ${s.where})</b>${Object.entries(dirNames).map(([d,label])=>`<button data-spot="${s.n}" data-dir="${d}" aria-pressed="${chosen[s.n]===d}" class="${chosen[s.n]===s.dir&&chosen[s.n]===d?'selected':''}">${label}</button>`).join('')}</div>`).join('');
+   picker.querySelectorAll('[data-spot]').forEach(b=>b.onclick=()=>{const s=spots.find(x=>x.n===+b.dataset.spot);chosen[s.n]=b.dataset.dir;ctx.save('gravity-lesson',chosen);
+    if(chosen[s.n]===s.dir)note.textContent=done()===4?'네 위치 모두 지구 중심 쪽으로 떨어져요. 중력은 지구 중심을 향합니다.':`${s.n}번은 지구 중심 쪽이에요. 다른 위치도 확인해 볼까요?`;
+    else note.textContent=`${s.n}번에서 지구 중심은 어느 쪽에 있나요? 물체를 놓으면 지구가 끌어당기는 쪽으로 떨어져요.`;
+    setStatus(`${done()}/4 위치를 맞혔어요.`);draw();});
+  }
+  draw();return {destroy};
+ }
+ if(kind==='moon-weight'||kind==='weight-mass'){
+  // moon-weight: 본책 26쪽 ⑤의 예(58.8 N → 9.8 N). weight-mass: 본책 27쪽 ⑪의 표(60 kg, 588 N → 98 N). 교재의 수치만 쓴다.
+  const mass=kind==='weight-mass';
+  const data=mass?{subject:'60 kg인 사람',rows:[['지구',588],['달',98]],unit:'N'}:{subject:'같은 물체',rows:[['지구',58.8],['달',9.8]],unit:'N'};
+  let place=ctx.load(kind+'-place','earth');const answers=ctx.load(kind+'-answers',{});
+  host.innerHTML='<div class="weight-activity"></div>';const root=host.firstElementChild;
+  const draw=()=>{
+   const idx=place==='earth'?0:1,[name,value]=data.rows[idx];
+   root.innerHTML=`<h3>${data.subject}를 ${name}에서 재면?</h3><div class="place-picker"><button data-place="earth" aria-pressed="${place==='earth'}">지구</button><button data-place="moon" aria-pressed="${place==='moon'}">달</button></div><div class="weight-read"><b>${name}에서의 무게 ${value} ${data.unit}</b>${mass?'<b class="mass-fixed">질량 60 kg</b>':''}</div><figure class="art">${weightBarsArt(data.rows)}</figure><p class="weight-hint">${place==='moon'?'달에서 중력은 지구 중력의 1/6배라서 무게도 지구의 1/6배가 돼요.':'먼저 지구에서의 값을 읽고, 달로 바꾸어 비교해 보세요.'}</p>${mass?`<div class="weight-quiz"><p>달로 가면 <b>질량</b>은 어떻게 될까요?</p><button data-q="mass" data-a="same">그대로예요</button><button data-q="mass" data-a="diff">달라져요</button><p>달로 가면 <b>무게</b>는 어떻게 될까요?</p><button data-q="weight" data-a="same">그대로예요</button><button data-q="weight" data-a="diff">달라져요</button><p class="weight-feedback" role="status">${esc(answers.msg||'')}</p></div>`:''}`;
+   root.querySelectorAll('[data-place]').forEach(b=>b.onclick=()=>{place=b.dataset.place;ctx.save(kind+'-place',place);draw();setStatus(place==='moon'?'달에서의 값과 지구의 값을 비교해 보세요.':'지구에서의 값을 읽어 보세요.');});
+   root.querySelectorAll('[data-q]').forEach(b=>b.onclick=()=>{const q=b.dataset.q,a=b.dataset.a;const ok=q==='mass'?a==='same':a==='diff';
+    answers.msg=ok?(q==='mass'?'맞아요. 질량은 어느 곳에서나 같아요. (교재 27쪽)':'맞아요. 같은 사람의 무게는 달에서 지구의 1/6로 줄어요. (교재 27쪽 표)'):(q==='mass'?'질량은 장소에 따라 변하지 않는 물체의 고유한 양이에요. 다시 생각해 볼까요?':'무게는 물체에 작용하는 중력의 크기예요. 달의 중력은 어떤가요?');
+    ctx.save(kind+'-answers',answers);root.querySelector('.weight-feedback').textContent=answers.msg;});
+  };
+  draw();return {destroy};
+ }
+ if(kind==='mass-weight-graph'){
+  // 본책 28쪽 ⑫: 무게와 질량은 비례 관계. 점은 27쪽 ⑩의 값(1 kg → 9.8 N, 6 kg → 58.8 N)만 쓴다.
+  const expected=[[1,9.8],[6,58.8]],key='mass-weight-graph';
+  let points=ctx.load(key,[]);let linked=false;
+  host.innerHTML='<div class="graph-layout"><div class="graph-holder"></div><div class="graph-copy"></div></div>';
+  const graph=host.querySelector('.graph-holder'),side=host.querySelector('.graph-copy');
+  side.innerHTML=`<b>본문 27쪽의 값</b><table><tr><th>질량 kg</th><th>무게 N</th></tr>${expected.map(([x,y])=>`<tr><td>${x}</td><td>${y}</td></tr>`).join('')}</table><p>가로축은 질량(kg), 세로축은 <b>무게(N)</b>입니다.</p><label>kg <select data-x aria-label="질량 kg"><option>1</option><option>6</option></select></label><label>N <input data-y type="number" min="0" max="60" step="0.1" value="9.8" aria-label="무게 N"></label><button data-add>점 찍기</button><button data-check class="selected">그래프 제출 · 확인</button><button data-clear>이 그래프 다시 그리기</button><p>교재의 값을 하나씩 점으로 옮겨 보세요.</p>`;
+  const draw=()=>{graph.innerHTML=massWeightGraphSVG({points:points.slice().sort((a,b)=>a[0]-b[0]),line:linked});graph.firstElementChild.classList.add('graph-canvas');};
+  function setPoint(x,y){if(![1,6].includes(x)||!Number.isFinite(y)||y<0||y>60){setStatus('질량은 1 kg 또는 6 kg, 무게는 0~60 N 안에서 골라 주세요.');return;}points=points.filter(p=>p[0]!==x);points.push([x,Math.round(y*10)/10]);linked=false;ctx.save(key,points);draw();setStatus(`${x} kg, ${y} N에 점을 찍었습니다. (${points.length}/2)`);}
+  side.querySelector('[data-add]').onclick=()=>setPoint(+side.querySelector('[data-x]').value,+side.querySelector('[data-y]').value);
+  side.querySelector('[data-check]').onclick=()=>{const ok=gradePoints(points,expected);linked=ok;ctx.save(key+'-result',{correct:ok,points});draw();setStatus(ok?'두 점이 교재의 값과 같아요. 원점과 이은 선이 곧은 선이면 질량과 무게는 비례 관계예요.':'아직 교재의 값과 다른 점이 있어요. 질량 1 kg과 6 kg의 무게를 다시 읽어 보세요.');};
+  side.querySelector('[data-clear]').onclick=()=>{points=[];linked=false;ctx.save(key,points);draw();setStatus('점을 지웠습니다.');};
+  draw();return {destroy};
+ } if(kind==='tools'){
   let chosen=0;host.innerHTML='<div class="tool-activity"><div class="tool-main"></div><div class="tool-picker"></div></div>';const main=host.querySelector('.tool-main'),picker=host.querySelector('.tool-picker');
   picker.innerHTML=toolRows.map(([k,t],i)=>`<button data-tool="${i}">${t}</button>`).join('');
   const draw=()=>{const [key,title,text]=toolRows[chosen];main.classList.remove('running');main.innerHTML=`${toolIcon(key)}<h3>${title}</h3><p>${text}</p><small>본책 p19의 설명을 나타낸 개념 도해 · 실제 제품 구조와 다를 수 있음</small><button data-tool-motion>개념 모형 움직이기</button><div class="control-grid"><button data-role="compress">줄었다가 돌아온다</button><button data-role="extend">늘었다가 돌아온다</button></div>`;main.querySelector('svg').classList.add('art');main.querySelector('[data-tool-motion]').onclick=e=>{const on=main.classList.toggle('running');e.target.textContent=on?'움직임 멈추기':'개념 모형 움직이기';};main.querySelectorAll('[data-role]').forEach(b=>b.onclick=()=>{setStatus(b.dataset.role===(chosen<3?'compress':'extend')?'본책에서 설명한 분류와 같습니다. 실제 도구의 어느 부분인지도 찾아보세요.':'본책 p19에서 이 도구가 어떻게 설명되어 있는지 다시 읽어 보세요.');});};picker.querySelectorAll('[data-tool]').forEach(b=>b.onclick=()=>{chosen=+b.dataset.tool;draw();say(toolRows[chosen][2]);});draw();return {destroy};

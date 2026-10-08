@@ -31,7 +31,11 @@ const activityPrompts={
   balance:'작은 용수철의 반복 움직임을 살펴보세요.',
   'spring-film':'영상을 보고 용수철이 늘었다 돌아오는 모습을 살펴보세요.',
   assessment:'문제를 풀고 채점하기를 눌러 보세요. 채점 뒤에는 틀린 문제를 다시 살펴봐요.',
-  reading:'책의 글과 그림을 크게 살펴보세요.'
+  reading:'책의 글과 그림을 크게 살펴보세요.',
+  gravity:'위치마다 떨어지는 방향을 골라 지구 중심 쪽인지 확인해 보세요.',
+  'moon-weight':'지구와 달을 바꿔 가며 같은 물체의 무게를 비교해 보세요.',
+  'weight-mass':'지구와 달을 바꿔 가며 질량과 무게가 어떻게 달라지는지 살펴보세요.',
+  'mass-weight-graph':'교재의 값을 그래프에 직접 찍어 보세요.'
 };
 export function studentActivityPrompt(kind){
   return activityPrompts[kind]||'직접 움직이며 관찰해 보세요. 끝나면 교재로 돌아가요.';

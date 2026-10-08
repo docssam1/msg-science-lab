@@ -2,17 +2,17 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {existsSync} from 'node:fs';
 import {studentPrintPages,studentCover} from '../sample-v2/lesson-print-pages.js';
-import {q1,q2,history1,history2,history3,coilHistory,future} from '../sample-v2/content.js';
+import {q1,q2,q3,history1,history2,history3,coilHistory,future} from '../sample-v2/content.js';
 import {qrForPage} from '../sample-v2/qr-map.js';
 
-test('source-layout print plan has P0 through P20 and preserves all original questions once',()=>{
- assert.equal(studentPrintPages.length,20);
- assert.deepEqual(studentPrintPages.map(p=>p.printId),Array.from({length:20},(_,i)=>`P${i+1}`));
+test('source-layout print plan has P0 through P32 and preserves all original questions once',()=>{
+ assert.equal(studentPrintPages.length,32);
+ assert.deepEqual(studentPrintPages.map(p=>p.printId),Array.from({length:32},(_,i)=>`P${i+1}`));
  assert.match(studentCover(),/data-print-id="P0"/);
- const assessments=studentPrintPages.filter(p=>/^P(11|19|20)$/.test(p.printId));
- for(const q of [...q1,...q2])assert.equal(assessments.filter(p=>p.body.includes(`data-q="${q.id}"`)).length,1,q.id);
- assert.deepEqual(assessments.map(p=>[...p.body.matchAll(/data-q="([ab]\d+)"/g)].map(m=>m[1])),[
-  q1.map(q=>q.id),q2.slice(0,6).map(q=>q.id),q2.slice(6,12).map(q=>q.id)
+ const assessments=studentPrintPages.filter(p=>/^P(11|19|20|32)$/.test(p.printId));
+ for(const q of [...q1,...q2,...q3])assert.equal(assessments.filter(p=>p.body.includes(`data-q="${q.id}"`)).length,1,q.id);
+ assert.deepEqual(assessments.map(p=>[...p.body.matchAll(/data-q="([abc]\d+)"/g)].map(m=>m[1])),[
+  q1.map(q=>q.id),q2.slice(0,6).map(q=>q.id),q2.slice(6,12).map(q=>q.id),q3.map(q=>q.id)
  ]);
  for(const page of assessments)assert.match(page.body,/source-test-columns/);
 });

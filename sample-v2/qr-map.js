@@ -84,6 +84,6 @@ export const qrById={
 // Page-specific links keep repeated source scenes on the printed page scanned.
 export function qrForPage(page){
  const number=Number(page.printId?.slice(1));
- if(!Number.isInteger(number)||number<1||number>20)throw new Error('Invalid lesson QR page');
+ if(!Number.isInteger(number)||number<1||number>32)throw new Error('Invalid lesson QR page');
  return `https://docssam1.github.io/msg-science-lab/sample-v2/index.html?edition=student&page=${number}&activity=${encodeURIComponent(page.action||'source')}`;
 }
