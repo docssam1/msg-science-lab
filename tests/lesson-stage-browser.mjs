@@ -93,7 +93,7 @@ try{
 
  for(const mode of ['teacher','student']){
   const all=await page(mode,1);
-  for(let number=0;number<=20;number++){
+  for(let number=0;number<=32;number++){
    await all.goto(`${base}${mode}.html?page=${number}`);
    await all.waitForFunction(()=>document.documentElement.dataset.ready==='true');
    assert.equal(await all.locator('#lesson-stage .lesson-stage').getAttribute('data-stage-page'),`P${number}`,`${mode} page ${number} uses a lesson scene`);
@@ -110,5 +110,5 @@ try{
  await narrow.screenshot({path:join(out,'student-question-390.png')});
  await narrow.close();
  assert.deepEqual(errors,[]);
- console.log('lesson stages: cover and all 20 pages in both modes, silent teacher deck, answer reveal, locked item 9, media split, P5 neutral warning, battle, voiced student guide, saved dropdown, print separation and 390px width passed');
+ console.log('lesson stages: cover and all 32 pages in both modes, silent teacher deck, answer reveal, locked item 9, media split, P5 neutral warning, battle, voiced student guide, saved dropdown, print separation and 390px width passed');
 }finally{await browser.close();}

@@ -1,12 +1,13 @@
 import {studentPrintPages,studentCoverPage} from './lesson-print-pages.js';
-import {q1,q2} from './content.js';
+import {assessmentGroupsByPrint} from './content.js';
+import {UNCONFIRMED} from './remedy-bank.js';
 import {sourceLessons} from './source-lessons.js';
 import {teacherLecture} from './teacher-lecture.js';
 
 const pages=[studentCoverPage,...studentPrintPages];
 const $=selector=>document.querySelector(selector);
-const groups={P11:q1,P19:q2.slice(0,6),P20:q2.slice(6,12)};
-const unverified=new Set(['b9','b10','b11']);
+const groups=assessmentGroupsByPrint;
+const unverified=UNCONFIRMED;
 let activeId='';
 
 function pageIndex(){
@@ -16,6 +17,8 @@ function pageIndex(){
  return Math.max(0,Math.min(pages.length-1,index));
 }
 function answerText(question){
+ if(question.kind==='draw')return '지구 중심 방향으로 화살표';
+ if(question.kind==='set')return `${question.accept.join(' · ')} 중 두 가지`;
  if(Array.isArray(question.answer))return question.answer.map(value=>Array.isArray(value)?`(${value.join(', ')})`:value).join(' · ');
  return question.options?question.options[question.answer]:String(question.answer);
 }

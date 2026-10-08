@@ -39,6 +39,15 @@ export function gradeItem(q,value){
   const status=slots.includes('wrong')?'wrong':slots.every(s=>s==='correct')?'correct':'review';
   return {status,slots,reason:status==='review'?'text':undefined};
  }
+ if(q.kind==='draw')return {status:'review',reason:'draw'};   // 화살표 그리기는 자동으로 판단하지 않는다
+ if(q.kind==='set'){   // 정해진 보기 중 서로 다른 N가지(순서 무관). 다른 종류의 저울 이름이면 오답, 모르는 글자는 검토 필요
+  const vals=Array.from({length:q.count},(_,i)=>value?.[i]);
+  if(vals.some(blank))return {status:'blank',slots:vals.map(v=>blank(v)?'blank':'')};
+  const accept=q.accept.map(normalize),other=(q.other||[]).map(normalize),norm=vals.map(normalize);
+  const slots=norm.map(v=>accept.includes(v)?'correct':other.includes(v)?'wrong':'review');
+  const status=slots.includes('wrong')?'wrong':slots.includes('review')?'review':new Set(norm).size===norm.length?'correct':'wrong';
+  return {status,slots,reason:status==='review'?'text':undefined};
+ }
  if(q.kind==='text'){
   const status=gradeText(q.answer,value,TEXT_VOCAB[q.id]);
   return {status,reason:status==='review'?'text':undefined};
@@ -69,13 +78,17 @@ function optionText(q,index){
 }
 export function formatAnswer(q,value){
  if(q.kind==='graph')return Array.isArray(value)&&value.length?value.slice().sort((a,b)=>a[0]-b[0]).map(([x,y])=>`(${x} g, ${y} cm)`).join(' · '):'점을 찍지 않았어요';
- if(slotNames[q.kind])return (value||[]).map((v,i)=>`${slotNames[q.kind][i]} ${String(v||'').trim()||'—'}`).join(' · ');
+ if(q.kind==='set')return (value||[]).map(v=>String(v||'').trim()||'—').join(' · ');
+ if(q.kind==='draw')return '교재에 직접 그려요';
+ if(slotNames[q.kind])return (value||[]).map((v,i)=>`${(q.slots||slotNames[q.kind])[i]} ${String(v||'').trim()||'—'}`).join(' · ');
  if(q.kind==='choice')return blank(value)?'—':optionText(q,value);
  return blank(value)?'—':String(value).trim();
 }
 export function formatKey(q){
  if(q.kind==='graph')return q.answer.map(([x,y])=>`(${x} g, ${y} cm)`).join(' · ');
- if(slotNames[q.kind])return q.answer.map((v,i)=>`${slotNames[q.kind][i]} ${v}`).join(' · ');
+ if(q.kind==='set')return `${q.answer.join(' · ')} (${q.accept.join('·')} 중 두 가지)`;
+ if(q.kind==='draw')return '지구 중심 방향으로 화살표';
+ if(slotNames[q.kind])return q.answer.map((v,i)=>`${(q.slots||slotNames[q.kind])[i]} ${v}`).join(' · ');
  if(q.kind==='choice')return optionText(q,q.answer);
  return q.answer;
 }
@@ -89,12 +102,15 @@ export const conceptCoach={
  graph:{name:'표와 그래프 읽기',ask:'가로축과 세로축이 각각 무엇을 나타내는지 확인했나요?',lab:'graph'},
  elastic:{name:'탄성의 뜻',ask:'힘을 없앤 뒤 원래 모양으로 돌아오는 경우와 바뀐 모양이 남는 경우를 나눠 볼까요?',lab:'elastic'},
  material:{name:'비교하는 조건',ask:'한 번에 한 조건만 바꿨는지 살펴볼까요?',lab:'factors'},
+ gravity:{name:'중력의 방향',ask:'물체를 놓으면 어느 쪽으로 떨어지는지, 그쪽에 무엇이 있는지 떠올려 볼까요?',lab:'gravity'},
+ weight:{name:'무게의 뜻과 장소',ask:'무게가 무엇의 크기인지, 달에서는 어떻게 달라지는지 다시 떠올려 볼까요?',lab:'moon-weight'},
+ mass:{name:'질량과 무게의 차이',ask:'장소가 바뀌어도 변하지 않는 것과 변하는 것을 나누어 볼까요?',lab:'weight-mass'},
  force:{name:'정지 상태의 힘',ask:'늘어난 채 멈춰 있는 상태와 흔들리는 상태를 구별했나요?',lab:'target'}
 };
 // 오개념의 짧은 이름(화면 표시용)
 export const misconceptionName={parts:'부품 이름과 하는 일',zero:'매달기 전 영점 확인',eye:'눈금 읽는 눈높이',stable:'멈춘 뒤 읽기',extend:'무게와 늘어나는 정도',origin:'늘어난 길이와 전체 길이',elastic:'탄성의 뜻',graph:'무게와 길이의 비례',data:'문제에 주어진 표 쓰기'};
 export const nameOf=code=>misconceptionName[misconceptions[code]?.concept]||code;
-export function itemLabel(id){const m=/^([ab])(\d+)$/.exec(id);if(m)return `${m[1]==='a'?1:2}차시 ${m[2]}번`;const s=/^s(\d+)$/.exec(id);if(s)return `처방 ${s[1]}`;const d=/^d(\d+)$/.exec(id);return d?`확인 질문 ${d[1]}`:id;}
+export function itemLabel(id){const m=/^([abc])(\d+)$/.exec(id);if(m)return `${({a:1,b:2,c:3})[m[1]]}차시 ${m[2]}번`;const s=/^s(\d+)$/.exec(id);if(s)return `처방 ${s[1]}`;const d=/^d(\d+)$/.exec(id);return d?`확인 질문 ${d[1]}`:id;}
 export function relatedLab(q){return q.id==='b12'?'assessment-graph':conceptCoach[q.concept]?.lab||'parts';}
 export function misconceptionFor(q,value){if(LOCKED.has(q.id))return null;return misconceptionOf(q.id,q.kind==='graph'&&Array.isArray(value)?value.slice().sort((a,b)=>a[0]-b[0]):value);}
 
@@ -125,6 +141,7 @@ function itemCard(item,{character,self,labNames,pageLab}){
   body=`${mine}<div class="dt-coach">${character?`<img src="${face('think')}" alt="생각하는 우루사쌤">`:''}<div class="dt-coach-say"><span>우루사쌤 첨삭${m?` · ${esc(nameOf(code))}`:''}</span><p>${esc(m?m.label:fallback.ask)}</p></div></div><details class="dt-reveal"><summary>생각해 봤어요 · 해설 보기</summary><div class="dt-row key"><span>정답</span><b>${esc(formatKey(q))}</b></div><p class="dt-why">${esc(q.why)}</p>${m?`<p class="dt-fix"><span>바로잡기</span>${m.fix}</p>`:''}</details><div class="dt-actions">${labButton(m?.page,pageLab,relatedLab(q),labNames)}</div>`;
  }
  else if(status==='review'&&item.reason==='locked')body=`${mine}<p class="dt-note">공식 정답·해설을 확인하고 있는 문항이에요. 자동으로 채점하지 않고 점수·진단에서 뺐어요. 내 생각과 까닭을 선생님과 함께 확인해요.</p>`;
+ else if(status==='review'&&item.reason==='draw')body=`${mine}<div class="dt-row key"><span>방향</span><b>${esc(formatKey(q))}</b></div><p class="dt-note">화살표 그리기는 자동으로 채점하지 않아요. 세 물체의 화살표가 모두 지구 중심을 향하는지 선생님과 확인해요.</p>`;
  else if(status==='review')body=`${mine}<div class="dt-row key"><span>정답</span><b>${esc(formatKey(q))}</b></div><p class="dt-note">쓴 답을 자동으로 판단하지 않았어요. 정답과 비교해 보고 선생님께 확인받아요. 점수에서는 뺐어요.</p>`;
  else if(status==='pending'&&q.kind==='graph')body=`<p class="dt-note">그래프에 점을 찍어 제출하면 채점돼요.</p><div class="dt-actions"><button type="button" class="dt-link" data-dt-lab="assessment-graph">그래프에 점 찍기</button></div>`;
  else body=`<p class="dt-note">이 문항이 있는 쪽에서 채점하기를 누르면 여기에 결과가 나와요.</p><div class="dt-actions"><button type="button" class="dt-link soft" data-dt-page="${q.id}">문제로 가기</button></div>`;

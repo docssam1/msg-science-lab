@@ -59,3 +59,48 @@ export function toolIcon(kind){
  return svg('0 0 300 175',b,kind+' 작동 원리 도해');
 }
 export function loadArt(){return svg('0 0 680 360',`<path d="M30 25H640" stroke="#274e66" stroke-width="10"/>${[0,1,2,3].map((n,i)=>`<g transform="translate(${55+i*161} 35)"><path d="${coil(16,0,45,70+n*44,14)}" stroke="#5f8192" fill="none" stroke-width="5"/><path d="M38 ${70+n*44}v18" stroke="#32556b" stroke-width="4"/>${Array.from({length:n},(_,k)=>`<rect x="21" y="${88+n*44+k*23}" width="35" height="20" rx="3" fill="#ba8b4e"/>`).join('')}<text x="38" y="306" text-anchor="middle" font-size="21" fill="#173955">${n} N</text></g>`).join('')}`,'1 N씩 추를 더 매달면 늘어난 길이가 일정하게 증가하는 개념 그림');}
+
+// ── 3차시(중력·무게·질량) 도해: 본책 22~28쪽의 서술을 나타내는 개념 도해(실제 사진·원본 그림 복제 아님) ──
+const earthBody=(cx,cy,r)=>`<g transform="translate(${cx} ${cy}) scale(${r/100})"><circle r="100" fill="#3b8fbd"/><path d="M-62 -34Q-32 -82 6 -62Q32 -46 10 -20Q-6 2 -30 12Q-56 16 -62 -34Z" fill="#5da45a"/><path d="M26 6Q62 -10 82 20Q72 62 36 76Q14 56 26 6Z" fill="#6fae5f"/></g>`;
+const ballArt=(x,y,kind,n)=>{
+ if(kind==='num')return `<g><circle cx="${x}" cy="${y}" r="17" fill="#9aa6ad"/><text x="${x}" y="${y+6}" text-anchor="middle" font-size="18" font-weight="700" fill="#fff">${n}</text></g>`;
+ if(kind==='tennis')return `<g><circle cx="${x}" cy="${y}" r="15" fill="#c8d84a" stroke="#7d8d24" stroke-width="2"/><path d="M${x-12} ${y-8}q12 8 0 16M${x+12} ${y-8}q-12 8 0 16" fill="none" stroke="#fff" stroke-width="2"/></g>`;
+ if(kind==='beach')return `<g><circle cx="${x}" cy="${y}" r="16" fill="#fff" stroke="#35566b" stroke-width="2"/><path d="M${x} ${y-16}v32M${x-16} ${y}h32" stroke="#e0603f" stroke-width="3"/><circle cx="${x+6}" cy="${y-5}" r="5" fill="#2c7fb8"/></g>`;
+ return `<g><circle cx="${x}" cy="${y}" r="16" fill="#fff" stroke="#233" stroke-width="2"/><path d="M${x} ${y-6}l6 4-2 7h-8l-2-7z" fill="#233"/></g>`;
+};
+// items: [{angle:0=위, 시계방향 도, kind:'ball'|'tennis'|'beach'|'num', n}], arrows: 지구 중심 쪽 화살표
+export function earthArt({items=[],arrows=true,label='지구 주변의 물체와 지구 중심 방향'}={}){
+ const cx=260,cy=180,R=82,D=142;
+ const at=(a,d)=>{const t=a*Math.PI/180;return [cx+d*Math.sin(t),cy-d*Math.cos(t)];};
+ const parts=items.map(({angle,kind='ball',n,arrow})=>{const [x,y]=at(angle,D);const [x1,y1]=at(angle,D-24),[x2,y2]=at(angle,R+10);const ang=Math.atan2(y2-y1,x2-x1);const hx=[x2-13*Math.cos(ang-.5),y2-13*Math.sin(ang-.5)],hy=[x2-13*Math.cos(ang+.5),y2-13*Math.sin(ang+.5)];return `${(arrow??arrows)?`<path d="M${x1.toFixed(1)} ${y1.toFixed(1)}L${x2.toFixed(1)} ${y2.toFixed(1)}M${hx[0].toFixed(1)} ${hx[1].toFixed(1)}L${x2.toFixed(1)} ${y2.toFixed(1)}L${hy[0].toFixed(1)} ${hy[1].toFixed(1)}" stroke="#d13a35" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>`:''}${ballArt(x,y,kind,n)}`;}).join('');
+ return svg('0 0 520 360',`${earthBody(cx,cy,R)}${parts}`,label);
+}
+export function appleTreeArt(){
+ return svg('0 0 520 330',`<rect x="0" y="292" width="520" height="38" fill="#cfe5c4"/><path d="M236 292V190q-6-26-26-40M262 292V190q4-26 28-48" stroke="#7a5230" stroke-width="22" stroke-linecap="round" fill="none"/><circle cx="260" cy="110" r="88" fill="#4ea65a"/><circle cx="190" cy="140" r="52" fill="#58b064"/><circle cx="332" cy="138" r="54" fill="#58b064"/>${[[212,90],[290,70],[318,128],[240,150]].map(([x,y])=>`<circle cx="${x}" cy="${y}" r="13" fill="#d8402f"/><path d="M${x} ${y-12}v-7" stroke="#6b4a24" stroke-width="3"/>`).join('')}<g><circle cx="420" cy="228" r="15" fill="#d8402f"/><path d="M420 214v-8" stroke="#6b4a24" stroke-width="3"/><path d="M420 252v38m-9-12 9 14 9-14" stroke="#d13a35" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/></g><text x="420" y="316" text-anchor="middle" font-size="18" font-weight="700" fill="#173955">아래로 떨어져요</text>`,'나무에서 사과가 아래로 떨어지는 개념 그림');
+}
+export function gravityUseIcon(kind){
+ const arrow='<path d="M150 112v28m-9-10 9 12 9-12" stroke="#d13a35" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>';
+ const b={
+  bungee:'<path d="M60 20h60M90 20v30" stroke="#35566b" stroke-width="8"/><circle cx="90" cy="64" r="11" fill="#e0a24a"/><path d="M90 76v34" stroke="#35566b" stroke-width="6"/><path d="M90 78Q70 96 90 120" stroke="#d13a35" stroke-width="3" fill="none"/>',
+  drop:'<circle cx="150" cy="58" r="16" fill="#ae8754"/>'+arrow,
+  meteor:'<path d="M70 20L150 100" stroke="#e0834a" stroke-width="12" stroke-linecap="round"/><circle cx="156" cy="106" r="16" fill="#b9633a"/>',
+  water:'<path d="M60 40h70l20 20h60" stroke="#2c7fb8" stroke-width="14" stroke-linecap="round" fill="none"/><path d="M150 60v50" stroke="#2c7fb8" stroke-width="14" stroke-linecap="round"/>'+arrow,
+  mill:'<circle cx="150" cy="80" r="42" fill="none" stroke="#7a5230" stroke-width="8"/>'+[0,60,120,180,240,300].map(a=>`<path d="M150 80L${(150+42*Math.cos(a*Math.PI/180)).toFixed(1)} ${(80+42*Math.sin(a*Math.PI/180)).toFixed(1)}" stroke="#7a5230" stroke-width="5"/>`).join('')+'<path d="M96 30v40" stroke="#2c7fb8" stroke-width="10" stroke-linecap="round"/>',
+  dam:'<path d="M60 130V50h50l70 80z" fill="#9db4bd"/><path d="M60 50h50v78H60z" fill="#2c7fb8"/><path d="M190 108l22 8m-22 8l22 8" stroke="#2c7fb8" stroke-width="6" stroke-linecap="round"/>',
+  ski:'<path d="M40 40L200 118" stroke="#9db4bd" stroke-width="10" stroke-linecap="round"/><circle cx="118" cy="62" r="10" fill="#35566b"/><path d="M118 72l10 22m-28-4l28-6" stroke="#35566b" stroke-width="6" stroke-linecap="round"/>',
+  diving:'<path d="M40 52h70" stroke="#35566b" stroke-width="10" stroke-linecap="round"/><circle cx="150" cy="70" r="10" fill="#e0a24a"/><path d="M150 82v26" stroke="#e0a24a" stroke-width="7" stroke-linecap="round"/><path d="M40 138Q120 126 220 138" stroke="#2c7fb8" stroke-width="10" fill="none"/>',
+  skydive:'<path d="M70 60Q150 0 230 60Z" fill="#e0603f"/><path d="M70 60L150 112M230 60L150 112M150 60V112" stroke="#35566b" stroke-width="2"/><circle cx="150" cy="122" r="9" fill="#35566b"/>'
+ }[kind]||'';
+ return svg('0 0 300 175',`<rect x="14" y="12" width="272" height="150" rx="16" fill="#eef5f2"/>${b}`,{bungee:'번지점프',drop:'놓은 물체가 떨어짐',meteor:'운석이 지구로 떨어짐',water:'물이 높은 곳에서 낮은 곳으로 흐름',mill:'물레방아',dam:'수력 발전',ski:'스키',diving:'다이빙',skydive:'스카이다이빙'}[kind]+' 개념 도해');
+}
+// 무게 막대: [[이름, N], …] — 가장 큰 값을 기준으로 길이를 맞춘 비교 도해
+export function weightBarsArt(rows=[['지구',58.8],['달',9.8]]){
+ const max=Math.max(...rows.map(r=>r[1]));
+ return svg('0 0 640 260',rows.map(([name,n],i)=>`<g transform="translate(40 ${30+i*100})"><text x="0" y="28" font-size="24" font-weight="800" fill="#173955">${esc(name)}</text><rect x="90" y="4" width="${Math.max(18,n/max*380).toFixed(1)}" height="42" rx="8" fill="${i?'#8aa6b6':'#2c7fb8'}"/><text x="${90+Math.max(18,n/max*380)+12}" y="34" font-size="24" font-weight="800" fill="#173955">${n} N</text></g>`).join(''),'지구와 달에서 같은 물체의 무게 비교');
+}
+// 질량(kg)-무게(N) 그래프. 교재 28쪽 ⑫의 정비례 관계(원점을 지나는 직선)를 나타내며 점은 교재 서술의 값만 쓴다.
+export function massWeightGraphSVG({points=[],line=false}={}){
+ const X=x=>100+x*70,Y=y=>380-y*5.4;
+ const grid=[1,2,3,4,5,6].map(x=>`<path d="M${X(x)} 90V380" stroke="#c1d0d7" stroke-width="1.5" stroke-dasharray="5 5"/><text x="${X(x)}" y="408" text-anchor="middle" font-size="20">${x}</text>`).join('')+[20,40,60].map(y=>`<path d="M100 ${Y(y)}H520" stroke="#c1d0d7" stroke-width="1.5" stroke-dasharray="5 5"/><text x="88" y="${Y(y)+7}" text-anchor="end" font-size="20">${y}</text>`).join('');
+ return svg('0 0 640 470',`${grid}<path d="M100 66v314h450" fill="none" stroke="#173955" stroke-width="3"/><path d="M92 79l8-15 8 15M536 372l16 8-16 8" fill="none" stroke="#173955" stroke-width="3"/><text x="96" y="428" text-anchor="middle" font-size="20">0</text><text x="100" y="40" font-size="20" font-weight="700">무게 (N)</text><text x="446" y="450" font-size="20" font-weight="700">질량 (kg)</text>${line?`<path d="M${X(0)} ${Y(0)}L${X(6)} ${Y(58.8)}" stroke="#cc6247" stroke-width="4" fill="none"/>`:''}${points.map(([x,y])=>`<circle cx="${X(x)}" cy="${Y(y)}" r="8" fill="#cc6247"/><text x="${X(x)+12}" y="${Y(y)-10}" font-size="17">(${x}, ${y})</text>`).join('')}`,'질량과 무게의 관계 그래프: 가로축 질량, 세로축 무게');
+}

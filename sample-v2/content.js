@@ -1,5 +1,6 @@
 import {inquiryPages,inquiryNarration} from './inquiry-pages.js';
-import {scaleArt, springArt, eyeArt, graphSVG, graphChoices, toolIcon, loadArt} from './graphics.js';
+import {scaleArt, springArt, eyeArt, graphSVG, graphChoices, toolIcon, loadArt, earthArt} from './graphics.js';
+import {UNCONFIRMED} from './remedy-bank.js';
 export const section=(n,title,body)=>`<section class="unit-section"><h3><span>${n}</span>${title}</h3>${body}</section>`;
 const note=(title,text)=>`<aside class="editor-note"><b>${title}</b><p>${text}</p></aside>`;
 const ask=(text,lines=2)=>`<section class="inquiry"><div class="eyebrow">THINK & EXPLAIN</div><b>${text}</b><div class="write-lines">${'<i></i>'.repeat(lines)}</div></section>`;
@@ -96,11 +97,13 @@ export function questionHTML(q,{print=false}={}){
  if(q.graphic)b+=art(graphChoices(),'q-graphs');
  if(q.kind==='choice'&&!inlineOptions)b+=`<div class="q-options">${q.options.map((t,i)=>`<label><input type="radio" name="${q.id}" value="${i}" data-answer-field><span>${q.graphic?'':`<i>${'①②③④⑤'[i]}</i>`}${t}</span></label>`).join('')}</div>`;
  if(q.kind==='text')b+=`<label class="short-answer">답 <input name="${q.id}" data-answer-field autocomplete="off" maxlength="40"></label>`;
- if(q.kind==='parts')b+=`<div class="parts-answers">${['ㄱ','ㄴ','ㄷ','ㄹ'].map((v,i)=>`<label>${v}<input name="${q.id}-${i}" data-answer-field autocomplete="off" maxlength="20"></label>`).join('')}</div>`;
- if(q.kind==='pair')b+=`<div class="pair-answers">${['㉠','㉡'].map((v,i)=>`<label>${v}<select name="${q.id}-${i}" data-answer-field><option value="">선택</option><option>조금</option><option>많이</option></select></label>`).join('')}</div>`;
+ if(q.kind==='parts')b+=`<div class="parts-answers">${(q.slots||['ㄱ','ㄴ','ㄷ','ㄹ']).map((v,i)=>`<label>${v}<input name="${q.id}-${i}" data-answer-field autocomplete="off" maxlength="20"></label>`).join('')}</div>`;
+ if(q.kind==='pair')b+=`<div class="pair-answers">${(q.slots||['㉠','㉡']).map((v,i)=>`<label>${v}<select name="${q.id}-${i}" data-answer-field><option value="">선택</option>${(q.choices||['조금','많이']).map(c=>`<option>${c}</option>`).join('')}</select></label>`).join('')}</div>`;
+ if(q.kind==='set')b+=`<div class="parts-answers">${Array.from({length:q.count},(_,i)=>`<label>${'①②③④'[i]}<input name="${q.id}-${i}" data-answer-field autocomplete="off" maxlength="20"></label>`).join('')}</div>`;
+ if(q.kind==='draw'){const items=earth3Items;b+=`<div class="student-graphic">${art(earthArt({items,arrows:false}),'print-graph')}</div><div class="teacher-graphic">${art(earthArt({items,arrows:true}),'print-graph')}</div><p class="draw-note">화살표는 교재에 직접 그리거나, 중력의 방향 체험에서 확인해 보세요.</p><button class="page-action" data-action="gravity">중력의 방향 체험 열기</button>`;}
  if(q.kind==='graph')b+=table(['추의 무게(g)','10','20','30'],[['늘어난 길이(cm)','4','8','12']])+`<div class="student-graphic">${art(graphSVG({step:4,labels:false}),'print-graph')}</div><div class="teacher-graphic">${art(graphSVG({step:4,points:[[10,4],[20,8],[30,12]]}),'print-graph')}</div>`+`<button class="page-action" data-action="assessment-graph">그래프에 점 찍고 제출하기</button>`;
- const answer=Array.isArray(q.answer)?JSON.stringify(q.answer):q.options?q.options[q.answer]:q.answer;
- return prefix+b+`<div class="teacher-answer">정답: ${answer}<p>${q.why}</p></div><div class="question-feedback" data-feedback="${q.id}" hidden></div></div>`;
+ const answer=UNCONFIRMED.has(q.id)?'공식 해설 대조 필요':Array.isArray(q.answer)?JSON.stringify(q.answer):q.options?q.options[q.answer]:q.answer;
+ return prefix+b+`<div class="teacher-answer">정답: ${answer}<p>${UNCONFIRMED.has(q.id)?'공식 해설과 원문을 대조한 뒤 공개합니다.':q.why}</p></div><div class="question-feedback" data-feedback="${q.id}" hidden></div></div>`;
 }
 page('l1-test-a',1,[15],'DAILY TEST · 일일평가','내가 이해한 내용을\n확인해요.','1차시 · 원본 1~3번',q1.slice(0,3).map(q=>questionHTML(q)).join('')+`<button class="page-action" data-grade="1a">1~3번 제출하고 확인</button>`,'assessment','학생용은 답안을 제출하기 전 정답을 표시하지 않습니다. 1번의 네 부품을 각각 확인하며 한 번의 오답으로 오개념을 단정하지 않습니다.',{assessment:true});
 page('l1-test-b',1,[15],'DAILY TEST · 일일평가','어디에서 읽고,\n어디에 매달까요?','1차시 · 원본 4~6번',q1.slice(3).map(q=>questionHTML(q)).join('')+`<button class="page-action" data-grade="1b">4~6번 제출하고 확인</button>`,'assessment','원본 그림의 기호와 N 단위를 그대로 보존했습니다. 눈높이 그림을 보지 않고 추측하지 않도록 합니다.',{assessment:true});
@@ -144,10 +147,39 @@ page('l2-test-a',2,[20],'DAILY TEST · 일일평가','변화와 그래프를\n�
 page('l2-test-b',2,[20,21],'DAILY TEST · 일일평가','문장 속 개념을\n정확하게 골라요.','2차시 · 원본 5~11번',`<div class="test-grid compact-test">${q2.slice(4,11).map(q=>questionHTML(q)).join('')}</div><button class="page-action" data-grade="2b">5~11번 제출하고 확인</button>`,'assessment','6·8번은 같은 무게의 추라는 문맥, 9번은 같은 변형량에서 철사 굵기를 비교하는 조건, 11번은 정지해 있는 상태를 확인합니다.',{assessment:true,dense:true});
 page('l2-test-graph',2,[21],'DAILY TEST · 일일평가','이번에는 다른 표.\n새 그래프를 완성해요.','2차시 · 원본 12번',questionHTML(q2[11])+ask('앞의 본문 실험 그래프와 무엇이 다른지 설명해 보세요.',2),'assessment-graph','이 문제는 본문과 다른 데이터입니다. 반드시 10·20·30 g→4·8·12 cm를 사용합니다. 표를 다시 읽지 않고 앞의 3·6·9를 기억해서 쓰는지 확인합니다.',{assessment:true});
 
-export const lessonNames={1:'용수철저울의 구조 익히기',2:'추의 무게에 따른 용수철의 길이 변화'};
-export const questions=[...q1,...q2];
+// ── 3차시: 본책 22~29쪽 (CHAPTER 03 중력 · CHAPTER 04 무게와 질량의 비교 · Daily Test 01~09) ──
+// 교재는 수정하지 않고 교재대로 옮긴다. 우려되는 표현은 teacher 메모에만 남긴다(투사·학생 화면 비표시).
+const bookLine=text=>`<p class="source-line">${text}</p>`;
+page('l3-newton',3,[22],'GRAVITY · 만유인력','사과는 왜\n아래로 떨어질까요?','만유인력은 뉴턴의 사과이다',`${bookLine('뉴턴은 사과가 아래로 떨어지게 만드는 힘, 즉 중력이 작용하기 때문에 사과가 아래로 떨어지는 것이고, 중력은 우주에 있는 모든 물체 사이에 존재하는 힘이라고 생각하였습니다.')}${bookLine('만유인력은 뉴턴이 처음으로 이야기한 것으로 질량을 가지고 있는 물체들이 서로 끌어당기는 힘을 말합니다.')}`,null,'교재 22쪽 ①을 그대로 읽습니다. “우주의 모든 물체 사이의 힘”과 “지구가 지구 위 물체를 끌어당기는 힘”을 한 문장에 섞지 않고 교재 순서대로 소개합니다.');
+page('l3-gravity',3,[22],'GRAVITY · 중력','중력은\n어디를 향할까요?','중력의 뜻 · 방향 · 크기',`${bookLine('지구가 지구 위 물체를 지구의 중심으로 잡아당기는 힘')}${bookLine('중력은 지구 중심을 향하는데, 이것은 추를 실에 매달아 가만히 들고 있을 때 추가 가리키는 방향과 같다. (연직 방향)')}${bookLine('물체의 질량이 클수록 물체에 작용하는 중력이 크고, 지구의 중심에서 멀어 질수록 중력은 작아진다. 또, 중력은 측정 장소에 따라 그 크기가 달라진다.')}`,null,'교재 22쪽 ②의 세 가지 표현(뜻)을 먼저 말해 보게 하고, 방향과 크기는 교재 문장 그대로 정리합니다.');
+page('l3-direction',3,[23],'EXPERIMENT · 중력의 방향','어느 위치에서든\n지구 중심 쪽으로.','Speed Question · ①~④ 위치에서 떨어지는 방향',`${bookLine('①~④번의 위치에서 물체를 놓으면 떨어지는 방향을 화살표로 표시 하시오.')}`,'gravity','교재 23쪽의 Speed Question을 그대로 씁니다. 교재 23쪽과 25쪽에 “무게와 중력의 뜻은 같지 않다”는 주의가 있는데, 25쪽 ①은 무게를 “물체에 작용하는 중력의 크기”라고 합니다. 교재 안에서 충돌하는 표현이라 교재대로 두고 검수 대기로 남깁니다(교사 메모, 학생·투사 화면에는 표시하지 않음).');
+page('l3-uses',3,[24],'EVERYDAY SCIENCE · 쉬어가기','중력 때문에 일어나는 일,\n중력을 이용한 것들.','중력에 의한 현상을 이용해 본 것들',`${bookLine('번지점프를 하면 아래로 떨어진다. · 들고 있던 물체를 놓으면 땅으로 떨어진다. · 운석이 지구로 떨어진다. · 물이 높은 곳에서 낮은 곳으로 흐른다.')}${bookLine('물레방아, 수력 발전소, 스키·다이빙·번지점프·스카이다이빙은 중력을 이용하고, 역도·높이뛰기 등은 중력을 극복하는 능력을 겨루는 스포츠이다.')}`,null,'교재 24쪽의 서술을 그대로 읽습니다. 도해는 서술을 나타내는 개념 그림이며 사진이 아닙니다.');
+page('l3-weight',3,[25],'WEIGHT · 무게','무게는\n어떻게 나타낼까요?','무게의 뜻 · 단위 · 용수철로 무게의 크기 표현하기',`${bookLine('‘무게’의 뜻: 물체에 작용하는 중력의 크기')}${bookLine('무게의 단위: N (뉴턴)')}${bookLine('용수철의 길이가 많이 늘어날수록 매달린 물체의 무게가 크다. 무게 10 g의 추가 매달렸을 때보다 무게 100 g의 추가 매달렸을 때 용수철의 길이가 더 많이 늘어난다.')}`,'elastic','교재 25쪽 ①~③을 그대로 씁니다. 같은 쪽의 주의 문구(“무게와 중력의 뜻은 같지 않습니다”)와 ① 무게의 뜻이 교재 안에서 충돌해, 이 장면에서는 ①의 정의를 기준으로 가르치고 충돌은 교사 메모로만 남깁니다(검수 대기).');
+page('l3-place',3,[25,26],'WEIGHT · 측정과 장소','장소가 바뀌면\n무게는 어떻게 될까요?','무게의 측정 방법 · 측정하는 장소에 따른 무게 변화',`${bookLine('측정방법: 용수철저울의 원리를 이용한 측정 기구들을 사용한다. 측정도구: 용수철저울, 체중계, 앉은뱅이저울(가정용 저울)')}${bookLine('1Kg = 1Kg·f = 9.8N')}${bookLine('달에서 중력은 지구 중력의 1/6배이다. 달에서 측정한 무게는 지구에서 측정한 무게의 1/6배가 된다. (예) 지구에서 무게가 58.8N인 물체를 달에서 측정하면 지구 1/6인 9.8N이 된다.')}`,'moon-weight','교재 25쪽 ④와 26쪽 ⑤를 그대로 씁니다. “1Kg = 1Kg·f = 9.8N”은 질량 단위(kg)와 힘 단위(kgf, N)를 등호로 묶은 교재 표기입니다. 교재 표기를 그대로 두고 표기 문제는 검수 대기(교사 메모)로 남깁니다. 수치는 교재의 58.8 N → 9.8 N만 사용합니다.');
+page('l3-height',3,[26],'THINK · 중력과 관계되는 것들','높은 곳에서는\n무엇이 달라질까요?','중력과 관계되는 것들의 증가와 감소 변화',`${bookLine('몸무게가 100kg인 ‘우루사쌤’이 전자저울을 가지고 산 정상에 올라가서 몸무게를 측정하였더니 변함없이 100kg 이었습니다. 바늘로 몸무게를 가리키는 아날로그 체중계로 다시 측정하였더니 97.2kg을 가리켰습니다. 왜 이런 일이 벌어질지 예측해보고 아래의 ( )에 ‘크다’, ‘작다’는 표현을 써서 알맞게 채워 넣으세요.')}${bookLine('높이 · 중력 · 기압 · 기온 · 끓는점의 높다/낮다 변화를 ( )에 써 넣기')}${bookLine('Speed Question: 창준과 인호는 취사가 되는 ‘우루산’으로 등산하기 위해 준비하고 있습니다. 이 때 ①쌀, ②고기 중 한 가지만 선택해 가지고 가야 한다면 무엇을 선택할 수 있을까요? 그 이유는 무엇일까요?')}`,null,'교재 26쪽 ⑥ 빈칸의 정답은 교재에 인쇄돼 있지 않아 공식 근거 전까지 정답을 만들거나 공개하지 않습니다. 학생의 예상과 까닭을 먼저 듣고 기록합니다. Speed Question(쌀/고기)도 열린 질문이라 정답을 만들지 않습니다. 전자저울 100 kg · 아날로그 체중계 97.2 kg은 교재가 소개한 사례로만 읽습니다.');
+page('l3-mass',3,[27],'MASS · 질량','질량은\n무게와 어떻게 다를까요?','질량의 뜻 · 단위 · 측정 방법 · 무게와의 관계',`${bookLine('질량의 뜻: 장소에 따라 변하지 않는 물체의 고유한 양')}${bookLine('질량의 단위: kg(킬로그램), g(그램)')}${bookLine('측정방법: 수평잡기 원리를 이용한 측정 기구들을 사용하여 측정. 측정도구: 윗접시저울, 양팔저울, 대저울')}${bookLine('질량은 어느 곳에서나 같다. 같은 장소에서 무게는 질량이 클수록 크다. 즉, 질량이 1kg인 물체가 지구에서의 무게가 약 9.8N이므로 질량이 6kg인 물체는 지구에서 무게가 약 9.8N×6=58.8N이 된다.')}`,null,'교재 27쪽 ⑦~⑩을 그대로 씁니다. 질량 1 kg ↔ 약 9.8 N, 6 kg ↔ 약 58.8 N은 교재가 든 예입니다. 수평잡기 원리는 4차시(30쪽~)에서 배우므로 이 장면에서는 도구 이름만 소개합니다.');
+page('l3-compare',3,[27],'COMPARE · 무게와 질량','같은 사람, 다른 장소.\n무엇이 달라질까요?','무게와 질량의 비교',`${bookLine('질량: 물체의 고유한 양 · m (mass) · kg, g · 측정 도구 윗접시저울, 양팔저울, 대저울')}${bookLine('무게: 물체에 작용하는 중력의 크기 · W (weight) · N(뉴턴), kg.f(킬로그램힘), kg중(킬로그램중), g.f(그램힘), g중(그램중) · 측정 도구 용수철저울, 앉은뱅이저울, 체중계')}${bookLine('60kg인 사람이 달에서의 질량과 무게: 질량 60 kg, 무게는 60kg.f의 1/6인 10kg.f 또는 60kg × 9.8N = 588N 이므로 지구의 1/6인 98N이 된다.')}`,'weight-mass','교재 27쪽 ⑪ 비교 표를 그대로 씁니다. 달 무게 서술이 kg.f와 N을 함께 쓰는 표기 혼재라 교재 표기는 그대로 두고 검수 대기(교사 메모)로 남깁니다. 질량 60 kg, 무게 588 N → 98 N만 사용합니다.');
+page('l3-graph',3,[28],'DATA · 질량과 무게','질량이 커지면\n무게도 커져요.','무게와 질량의 관계 그래프로 표현하기',`${bookLine('질량이 증가하면 무게도 증가한다. 무게와 질량은 비례 관계이다.')}`,'mass-weight-graph','교재 28쪽 ⑫의 그래프는 정비례 관계(원점을 지나는 직선)를 나타내는 모식 그림입니다. 점은 교재 27쪽에 나온 값(1 kg → 9.8 N, 6 kg → 58.8 N)만 씁니다.');
+page('l3-estimate',3,[28],'COMPARE · 어림과 기준','손으로 어림하면\n어떤 점이 어려울까요?','손으로 어림하여 물체의 무게 비교하기 · 기준물체',`${bookLine('장점: 두 물체의 무게 차이가 큰 경우 비교하기 쉽다. 단점: 무게 차이가 작은 물체의 무게를 정확하게 비교하기가 어렵다.')}${bookLine('기준물체의 뜻: 모양, 크기, 무게가 모두 일정한 물체 (예) 같은 종류의 동전(10원, 50원, 100원), 클립, 바둑알. 기준물체를 이용하여 무게를 측정할 때, 물체의 무게는 기준 물체의 개수와 같다.')}`,null,'교재 28쪽 ⑬⑭를 그대로 씁니다. 기준물체로 쓸 수 있는 것과 없는 것(사용한 연필, 여러 모양의 단추)을 구분해 말하게 합니다.');
+export const earth3Items=[{angle:38,kind:'beach'},{angle:205,kind:'ball'},{angle:305,kind:'tennis'}];   // Daily Test 4의 세 물체
+export const q3=[
+{id:'c1',n:1,kind:'text',q:'지구 중심으로 끌어당기는 힘을 (        ) 이라고 한다.',answer:'중력',concept:'gravity',why:'지구가 물체를 지구 중심 방향으로 끌어당기는 힘을 중력이라고 합니다. (교재 22쪽)'},
+{id:'c2',n:2,kind:'text',q:'‘중력의 크기’를 나타내는 단어는 (        )이다.',answer:'무게',concept:'weight',why:'무게는 물체에 작용하는 중력의 크기입니다. (교재 25쪽)'},
+{id:'c3',n:3,kind:'parts',q:'1kg = (     )kg·중 = (     )N',slots:['①','②'],answer:['1','9.8'],concept:'weight',why:'교재 25쪽에 1Kg = 1Kg·f = 9.8N으로 나와 있습니다.'},
+{id:'c4',n:4,kind:'draw',q:'다음은 지구 주변에 물체 3개를 아무 조건 없이 위치시켰다. 물체에 작용하는 힘(중력)의 방향을 화살표로 표시하시오.',figure:'earth3',concept:'gravity',why:'중력은 지구 중심을 향합니다. 세 물체 모두 지구 중심 쪽으로 화살표를 그립니다. (교재 22~23쪽)'},
+{id:'c5',n:5,kind:'text',q:'지구에서 60kg인 사람이 달에 가면 (        )kg이다.',answer:'60',concept:'mass',why:'질량은 장소에 따라 변하지 않아 달에서도 60 kg입니다. (교재 27쪽)'},
+{id:'c6',n:6,kind:'text',q:'물체의 고유한 양을 표현할 때는 (        )으로 표현한다.',answer:'질량',concept:'mass',why:'질량은 장소에 따라 변하지 않는 물체의 고유한 양입니다. (교재 27쪽)'},
+{id:'c7',n:7,kind:'set',q:'질량을 측정하는 저울의 종류 2가지를 쓰시오.',count:2,accept:['윗접시저울','양팔저울','대저울'],other:['용수철저울','체중계','앉은뱅이저울','가정용저울'],answer:['윗접시저울','양팔저울'],concept:'mass',why:'질량 측정 도구는 윗접시저울, 양팔저울, 대저울입니다. 이 중 두 가지를 쓰면 됩니다. (교재 27쪽)'},
+{id:'c8',n:8,kind:'set',q:'무게를 측정하는 저울의 종류 2가지를 쓰시오.',count:2,accept:['용수철저울','체중계','앉은뱅이저울','가정용저울'],other:['윗접시저울','양팔저울','대저울'],answer:['용수철저울','체중계'],concept:'weight',why:'무게 측정 도구는 용수철저울, 체중계, 앉은뱅이저울입니다. 이 중 두 가지를 쓰면 됩니다. (교재 25쪽)'},
+{id:'c9',n:9,kind:'pair',q:'다음 〈조건〉에 대한 변화 중 내용에 맞게 ○표를 하시오.',passage:'〈조건〉 중력이 증가할 경우',slots:['(1) 공기의 양','(2) 기압','(3) 밀도의 크기','(4) 기온','(5) 끓는점'],choices:['↑','↓'],answer:['','','','',''],concept:'gravity',why:'이 문항의 공식 정답·해설은 아직 확인되지 않아 공개하지 않습니다.'}
+];
+page('l3-test',3,[29],'DAILY TEST · 일일평가','중력, 무게, 질량을\n구분해 봅시다.','3차시 · 원본 1~9번',`<div class="test-grid compact-test">${q3.map(q=>questionHTML(q)).join('')}</div><button class="page-action" data-grade="p32">1~9번 제출하고 확인</button>`,'assessment','9번은 공식 정답·해설을 확인하기 전까지 정답을 공개하지 않습니다. 4번은 화살표를 직접 그리게 하고 지구 중심 방향인지 함께 확인합니다.',{assessment:true,dense:true});
+export const lessonNames={1:'용수철저울의 구조 익히기',2:'추의 무게에 따른 용수철의 길이 변화',3:'중력과 무게, 질량의 비교'};
+export const questions=[...q1,...q2,...q3];
 export {history1,history2,history3,coilHistory,future};
 export const gradeGroups={'1a':q1.slice(0,3),'1b':q1.slice(3),'2a':q2.slice(0,4),'2b':q2.slice(4,8)};
+// Daily Test 문항 묶음(인쇄 쪽 번호 기준). 화면·교사 노트·채점이 모두 이 한 표를 쓴다.
+export const assessmentGroupsByPrint={P11:q1,P19:q2.slice(0,6),P20:q2.slice(6,12),P32:q3};
 pages.forEach((p,i)=>p.layoutIndex=i);
 pages.unshift(...inquiryPages);
 export const narration=Object.fromEntries(pages.map(p=>[p.id,{id:p.id,text:({
@@ -168,5 +200,17 @@ export const narration=Object.fromEntries(pages.map(p=>[p.id,{id:p.id,text:({
 'l2-tools':'우리 생활의 여섯 도구에서 용수철이 하는 일을 찾아봅시다.',
 'l2-test-a':'같은 용수철에서 무게와 늘어난 길이가 어떻게 연결되는지 확인해 보세요.',
 'l2-test-b':'조건을 같게 둔 비교인지, 어떤 길이를 말하는지 생각하며 답하세요.',
-'l2-test-graph':'이 표에서는 십 그램일 때 사 센티미터예요. 앞의 실험과 다른 숫자를 사용해 그래프를 완성하세요.'
+'l2-test-graph':'이 표에서는 십 그램일 때 사 센티미터예요. 앞의 실험과 다른 숫자를 사용해 그래프를 완성하세요.',
+'l3-newton':'뉴턴은 사과가 아래로 떨어지는 까닭을 생각했어요. 사과를 아래로 끌어당기는 힘은 무엇일까요?',
+'l3-gravity':'중력은 어느 방향으로 작용할까요? 교재의 그림에서 화살표가 가리키는 곳을 찾아봅시다.',
+'l3-direction':'어느 위치에서 물체를 놓아도 같은 곳을 향할까요? 위치를 하나씩 골라 떨어지는 방향을 정해 보세요.',
+'l3-uses':'중력 때문에 일어나는 일과 중력을 이용한 것을 교재에서 찾아봅시다.',
+'l3-weight':'무게는 무엇이고 어떤 단위로 나타낼까요? 용수철이 늘어난 정도와 연결해서 생각해 봅시다.',
+'l3-place':'장소가 바뀌면 무게도 달라질까요? 지구와 달에서 같은 물체의 무게를 비교해 봅시다.',
+'l3-height':'높은 곳에서는 무엇이 달라질까요? 먼저 내 생각을 말하고 이유도 이야기해 보세요.',
+'l3-mass':'질량은 무게와 어떻게 다를까요? 장소가 바뀌어도 변하지 않는 것이 무엇인지 찾아봅시다.',
+'l3-compare':'같은 사람이 지구와 달에 있을 때 질량과 무게가 어떻게 되는지 비교해 봅시다.',
+'l3-graph':'질량이 커지면 무게는 어떻게 될까요? 교재의 값을 점으로 찍어 관계를 살펴봅시다.',
+'l3-estimate':'손으로 어림하면 어떤 점이 좋고 어떤 점이 어려울까요? 기준물체도 함께 생각해 봅시다.',
+'l3-test':'먼저 스스로 답을 쓰고 제출해 보세요. 중력, 무게, 질량의 뜻을 구분해 생각합니다.'
 })[p.id]||inquiryNarration[p.id]}]));
