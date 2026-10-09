@@ -35,7 +35,9 @@ const activityPrompts={
   gravity:'위치마다 떨어지는 방향을 골라 지구 중심 쪽인지 확인해 보세요.',
   'moon-weight':'지구와 달을 바꿔 가며 같은 물체의 무게를 비교해 보세요.',
   'weight-mass':'지구와 달을 바꿔 가며 질량과 무게가 어떻게 달라지는지 살펴보세요.',
-  'mass-weight-graph':'교재의 값을 그래프에 직접 찍어 보세요.'
+  'mass-weight-graph':'교재의 값을 그래프에 직접 찍어 보세요.',
+  lever:'상자의 개수와 받침점에서의 칸 수를 바꿔 수평을 만들어 보세요.',
+  weights:'1 g·3 g·9 g 추를 접시에 올려 양팔저울이 수평이 되게 해 보세요.'
 };
 export function studentActivityPrompt(kind){
   return activityPrompts[kind]||'직접 움직이며 관찰해 보세요. 끝나면 교재로 돌아가요.';

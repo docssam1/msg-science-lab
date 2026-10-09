@@ -17,7 +17,7 @@ const MEMO=/검수 메모|검수 대기|충돌|표기 혼재|등호로 묶은|�
 
 test('third lesson has a source-tagged run of show for every scene P21–P32',()=>{
  assert.deepEqual(Object.keys(lessonThreeLecture),lessonThree);
- assert.deepEqual(Object.keys(teacherLecture).slice(-12),lessonThree);
+ assert.deepEqual(Object.keys(teacherLecture).slice(21,33),lessonThree);
  for(const id of lessonThree){
   const lecture=lessonThreeLecture[id];
   const page=pages.find(item=>item.printId===id);

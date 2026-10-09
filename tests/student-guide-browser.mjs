@@ -162,7 +162,7 @@ try{
  await mobile.locator('#guide-action').tap();
  await mobile.waitForFunction(()=>document.querySelector('#workspace').classList.contains('active'));
  assert.equal(await mobile.locator('.teacher-dock').isVisible(),true);
- for(let i=0;i<33;i++){
+ for(let i=0;i<41;i++){
   await mobile.goto(base+`student.html?page=${i}`);
   await mobile.waitForFunction(()=>document.documentElement.dataset.ready==='true');
   assert((await mobile.locator('#coach-copy').innerText()).length>8,`guide text for page ${i}`);
@@ -171,9 +171,9 @@ try{
    assert.equal(await mobile.locator('#lesson-stage .student-lesson').isVisible(),true,`guided scene on page ${i}`);
    assert.equal(await mobile.locator('#lesson-stage').evaluate(el=>el.scrollWidth<=el.clientWidth+1),true,`lesson width on page ${i}`);
   }
-  if([11,19,20,32].includes(i))assert.equal(await mobile.locator('#lesson-stage .stage-question-nav').isVisible(),true,`guided test navigation on page ${i}`);
+  if([11,19,20,32,40].includes(i))assert.equal(await mobile.locator('#lesson-stage .stage-question-nav').isVisible(),true,`guided test navigation on page ${i}`);
   if(i===10)await mobile.screenshot({path:join(out,'student-reading-390.png')});
  }
  assert.deepEqual(errors,[]);
- console.log('student guidance and assessment: speech drawer/self-check, grading with review items, local photo attach/restore/delete, approved full-body expressions, locked keys, print/teacher separation, 33 pages at 390px passed');
+ console.log('student guidance and assessment: speech drawer/self-check, grading with review items, local photo attach/restore/delete, approved full-body expressions, locked keys, print/teacher separation, 41 pages at 390px passed');
 }finally{await browser.close();}

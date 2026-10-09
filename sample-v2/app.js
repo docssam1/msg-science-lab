@@ -1,6 +1,6 @@
 import {editionName} from './editions.js';
 import {studentPrintPages,studentCover,studentCoverPage} from './lesson-print-pages.js';
-import {questions,gradeGroups,narration,lessonNames,q1,q2,q3,assessmentGroupsByPrint} from './content.js';
+import {questions,gradeGroups,narration,lessonNames,q1,q2,q3,q4,assessmentGroupsByPrint} from './content.js';
 import {esc,graphSVG} from './graphics.js';
 import {qrForPage} from './qr-map.js';
 import {gradeQuestion} from './physics.js';
@@ -15,7 +15,7 @@ import {diagnose,prescribe,pendingProbes,firstAttemptRecord,activityMistakeRecor
 import {mountCoachStage} from './coach-stage.js';
 import {openWorksheetPrint} from './worksheet-print.js';
 import {voiceStarted,voiceStopped} from './coach-face.js';
-import {hasLessonStage,stageQuestionCount,stageQuestion,stageActivity,renderLessonStage} from './lesson-stage.js';
+import {hasLessonStage,stageQuestionCount,stageQuestion,stageActivity,stageGradeLabel,renderLessonStage} from './lesson-stage.js';
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 // 살아있는 책은 스스로 공부하기와 같은 경험이다. 이전 ?edition=book 링크도 학생용으로 연다.
 const edition=new URLSearchParams(location.search).get('edition')==='teacher'?'teacher':'student';
@@ -184,7 +184,7 @@ function showStudentGuide(){
   const question=stageQuestion(pages[current],stageQuestionIndex);
   $('#coach-copy').textContent=question.kind==='graph'?'인쇄한 교재의 12번 표는 본문 표와 수치가 달라요. 그림을 눌러 이 문제의 점 세 개를 직접 찍어 보세요.':`인쇄한 교재의 ${question.n}번을 읽고 화면에서 답을 고르거나 써 보세요. 모르면 책에 먼저 표시해도 좋아요.`;
   action.hidden=false;
-  action.textContent=stageQuestionIndex<stageQuestionCount(pages[current])-1?'다음 문항':'여섯 문항 채점하기';
+  action.textContent=stageQuestionIndex<stageQuestionCount(pages[current])-1?'다음 문항':stageGradeLabel(pages[current]);
   action.dataset.guideAction=stageQuestionIndex<stageQuestionCount(pages[current])-1?'stage-question-next':'grade';
   delete action.dataset.guideKind;
   return;
@@ -252,7 +252,7 @@ function pageGraded(i){const qs=(pageGradeGroups[pages[i]?.printId?.toLowerCase(
 function grade(group){const qs=pageGradeGroups[group];if(!qs)return;const blank=qs.find(q=>{if(q.kind==='graph'||q.kind==='draw')return false;const v=valueFor(q);return Array.isArray(v)?v.some(x=>!String(x).trim()):!String(v).trim();});if(blank){toast(`${blank.n}번의 답을 먼저 써 주세요.`);return;}
  const at=Date.now(),entry={at,page:group,answerKey:ANSWER_KEY_VERSION,items:{},self:load('self-check',{})};
  qs.forEach(q=>{const value=valueFor(q),g=gradeItem(q,value);if(g.status==='pending')return;results[q.id]={correct:g.status==='correct'?true:g.status==='wrong'?false:null,status:g.status,value,time:at,answerKey:ANSWER_KEY_VERSION};entry.items[q.id]={status:g.status,value};if((g.status==='correct'||g.status==='wrong')&&!remedyLog().some(r=>r.src==='test'&&r.item===q.id)){const rec=firstAttemptRecord(q.id,value,g.status==='correct');if(rec)addRemedy({...rec,at});}});
- save('results',results);const log=load('grading-log',[]);save('grading-log',[...(Array.isArray(log)?log:[]),entry].slice(-40));markPaper();openDailyReport(q1.includes(qs[0])?1:q3.includes(qs[0])?3:2,qs,at);}
+ save('results',results);const log=load('grading-log',[]);save('grading-log',[...(Array.isArray(log)?log:[]),entry].slice(-40));markPaper();openDailyReport(q1.includes(qs[0])?1:q3.includes(qs[0])?3:q4.includes(qs[0])?4:2,qs,at);}
 // 진단 기록: 문항마다 첫 시도만(스스로 체크는 넣지 않는다). 처방 문제의 첫 시도도 같은 곳에 쌓인다.
 function remedyLog(){const v=load('remedy-log',[]);return Array.isArray(v)?v:[];}
 function addRemedy(rec){if(!rec)return;save('remedy-log',[...remedyLog(),{at:Date.now(),...rec}].slice(-300));}
@@ -263,11 +263,11 @@ function pageLab(i){const p=pages[i];return p?.action&&activityNames[p.action]?{
 function gotoLab(i){if(!pages[i])return;navigate(i);if(pages[i].action)openActivity(pages[i].action);}
 function coachSay(text,mood='',face=''){if(isTeacher)return;$('#coach-copy').textContent=text;const dock=document.querySelector('.teacher-dock');if(dock){dock.dataset.mood=mood;if(face)dock.dataset.face=face;else delete dock.dataset.face;}}
 function coachAction(label,act){if(!isStudent)return;const b=$('#guide-action');b.textContent=label;b.dataset.guideAction=act;delete b.dataset.guideKind;b.hidden=false;b.classList.add('guide-target');}
-function openDailyReport(lesson,fresh=[],gradedAt=Date.now()){const list=lesson===1?q1:lesson===3?q3:q2,selfChecks=load('self-check',{})||{};
+function openDailyReport(lesson,fresh=[],gradedAt=Date.now()){const list=lesson===1?q1:lesson===3?q3:lesson===4?q4:q2,selfChecks=load('self-check',{})||{};
  const items=list.map(q=>{const r=results[q.id];if(!r){if(q.kind==='graph'&&fresh.includes(q))return {q,value:valueFor(q),...gradeItem(q,valueFor(q))};return {q,status:'unsubmitted'};}const g=gradeItem(q,r.value);return {q,value:r.value,...g,status:g.status==='blank'?'unsubmitted':g.status};});
  const diagnosisLog=lessonRemedyLog(remedyLog(),lesson),dx=diagnose(diagnosisLog);
  openActivity('assessment',false,host=>{host.innerHTML=reportHTML({lesson,items,selfChecks,character:!isTeacher,labNames:activityNames,gradedAt,dx,diagnosisLog,pageLab,remedy:!isTeacher&&writable});$('#activity-title').textContent=`${lesson}차시 Daily Test · 채점과 첨삭`;
-  if(isStudent&&writable&&lesson!==3){host.querySelector('.dt-foot')?.insertAdjacentHTML('afterbegin','<button type="button" class="dt-primary" data-dt-advanced>테스트 연계 심화 워크지</button>');host.querySelector('[data-dt-advanced]').onclick=()=>openAdvanced(lesson);}
+  if(isStudent&&writable&&lesson<3){host.querySelector('.dt-foot')?.insertAdjacentHTML('afterbegin','<button type="button" class="dt-primary" data-dt-advanced>테스트 연계 심화 워크지</button>');host.querySelector('[data-dt-advanced]').onclick=()=>openAdvanced(lesson);}
   host.querySelectorAll('[data-dt-lab]').forEach(b=>b.onclick=()=>openActivity(b.dataset.dtLab));host.querySelectorAll('[data-dt-goto]').forEach(b=>b.onclick=()=>gotoLab(Number(b.dataset.dtGoto)));host.querySelectorAll('[data-dt-remedy]').forEach(b=>b.onclick=()=>openRemedy(lesson));host.querySelectorAll('[data-dt-probe]').forEach(b=>b.onclick=()=>openProbe(lesson));
   host.querySelectorAll('[data-dt-page]').forEach(b=>b.onclick=()=>{const i=pages.findIndex(p=>p.assessment&&(pageGradeGroups[p.printId.toLowerCase()]||[]).some(q=>q.id===b.dataset.dtPage));if(i>=0)navigate(i);});host.querySelector('[data-dt-back]')?.addEventListener('click',closeActivity);
   if(!isTeacher&&!writable){coachSay('이 브라우저는 첫 시도 기록을 저장할 수 없어 새 확인 질문과 처방 문제를 열지 않아요. 선생님과 함께 확인해요.','check');}
@@ -280,7 +280,7 @@ function openRemedy(lesson){if(isTeacher)return;if(!writable){toast('첫 시도�
 function openProbe(lesson){if(isTeacher)return;if(!writable){toast('첫 시도를 저장할 수 없어 확인 질문을 열지 않아요.');return;}openActivity('assessment',false,host=>{$('#activity-title').textContent='개념 확인 · 다른 상황에서 다시 생각하기';return mountProbe(host,{getLog:()=>lessonRemedyLog(remedyLog(),lesson),record:addRemedy,coach:coachSay,onBack:()=>openDailyReport(lesson)});});}
 function openAdvanced(lesson){if(isTeacher)return;if(!writable){toast('첫 시도 기록을 저장할 수 없어 창작 심화 워크지를 열지 않아요.');return;}openActivity('assessment',false,host=>{$('#activity-title').textContent='테스트 연계 심화 워크지 · 독립 문제은행과 별개';return mountAdvanced(host,{lesson,getLog:advancedLog,record:recordAdvanced,selfCheck:selfCheckAdvanced,onBack:()=>openDailyReport(lesson),onPrint:items=>{if(!openWorksheetPrint({lesson,kind:'advanced',items}))toast('인쇄 창을 열지 못했어요. 팝업 허용을 확인해 주세요.');}});});}
 function openReview(concept){return openActivity('assessment',false,(host,ctx)=>mountReview(host,concept,ctx));}
-function credits(){ $('#activity-content').innerHTML=`<div class="credits"><h3>교재 원본</h3><p>사용자 제공 《초과심_물리》 원본 앞표지와 본책 10–29쪽을 사용했습니다. 원본의 역사·미래 서술과 편집 보완 설명은 구분합니다.</p><h3>사진 출처</h3><p>P3–P5의 생활 물건, P7의 저울, P18의 생활 도구, P9의 실제 시계 태엽 사진은 원본과 촬영자·라이선스를 <a href="./photos/credits.html" target="_blank" rel="noopener">사진 출처 목록</a>에서 확인할 수 있습니다. 사진 속 물건의 실제 무게와 앱의 가상 측정값은 다릅니다. P18 완력기는 개념 도해입니다. P10의 극소 코일·4D 프린팅·2D 재료 이미지는 가상 실사로 만든 설명용 시각화이며 실제 연구 사진이 아닙니다.</p><h3>기존 영상 재사용</h3><p><a href="https://commons.wikimedia.org/wiki/File:HowaWatchWork1949.ogv" target="_blank" rel="noopener">How a Watch Works (1949)</a>의 기존 발췌 영상 두 장면과 <a href="https://commons.wikimedia.org/wiki/File:Hookeslawexample.ogv" target="_blank" rel="noopener">Hookeslawexample</a>의 기존 관찰 영상을 재사용합니다. 후자는 10·20·30 g의 수치를 증명하는 영상이 아닙니다.</p><h3>구현 자산</h3><p>StPageFlip과 Three.js의 라이선스 문서를 유지했습니다. 설명 음성은 기존 OmniVoice 클립이며, 재생 실패 시 자막으로 확인합니다. 기존 우루사쌤 전신 그림과 승인된 표정 이미지를 재사용합니다.</p><h3>기록</h3><p>답안과 활동 기록은 이 브라우저의 저장 공간에 남습니다. 원본 문항·그림과 해설의 최종 대조는 별도 검수가 필요합니다.</p></div>`;}
+function credits(){ $('#activity-content').innerHTML=`<div class="credits"><h3>교재 원본</h3><p>사용자 제공 《초과심_물리》 원본 앞표지와 본책 10–35쪽을 사용했습니다. 원본의 역사·미래 서술과 편집 보완 설명은 구분합니다.</p><h3>사진 출처</h3><p>P3–P5의 생활 물건, P7의 저울, P18의 생활 도구, P9의 실제 시계 태엽 사진은 원본과 촬영자·라이선스를 <a href="./photos/credits.html" target="_blank" rel="noopener">사진 출처 목록</a>에서 확인할 수 있습니다. 사진 속 물건의 실제 무게와 앱의 가상 측정값은 다릅니다. P18 완력기는 개념 도해입니다. P10의 극소 코일·4D 프린팅·2D 재료 이미지는 가상 실사로 만든 설명용 시각화이며 실제 연구 사진이 아닙니다.</p><h3>기존 영상 재사용</h3><p><a href="https://commons.wikimedia.org/wiki/File:HowaWatchWork1949.ogv" target="_blank" rel="noopener">How a Watch Works (1949)</a>의 기존 발췌 영상 두 장면과 <a href="https://commons.wikimedia.org/wiki/File:Hookeslawexample.ogv" target="_blank" rel="noopener">Hookeslawexample</a>의 기존 관찰 영상을 재사용합니다. 후자는 10·20·30 g의 수치를 증명하는 영상이 아닙니다.</p><h3>구현 자산</h3><p>StPageFlip과 Three.js의 라이선스 문서를 유지했습니다. 설명 음성은 기존 OmniVoice 클립이며, 재생 실패 시 자막으로 확인합니다. 기존 우루사쌤 전신 그림과 승인된 표정 이미지를 재사용합니다.</p><h3>기록</h3><p>답안과 활동 기록은 이 브라우저의 저장 공간에 남습니다. 원본 문항·그림과 해설의 최종 대조는 별도 검수가 필요합니다.</p></div>`;}
 $('#page-select').innerHTML=pages.map((p,i)=>`<option value="${i}">${String(i+1).padStart(2,'0')} · ${p.lesson}차시 · ${p.kicker.split('·').at(-1).trim()}</option>`).join('');
 const entryParams=new URLSearchParams(location.search);
 const namedPage=pages.findIndex(p=>p.id===(entryParams.get('section')||entryParams.get('s')));

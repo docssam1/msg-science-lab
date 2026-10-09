@@ -296,8 +296,8 @@ body.lesson-stage-mode #workspace:not(.split) .student-lesson.deck-look .stage-s
 body.lesson-stage-mode #workspace:not(.split) .student-lesson.deck-look .stage-size output{font-size:clamp(13px,1.05vw,22px)}
 .deck-look.stage-cover .lesson-stage-content h2{font-size:clamp(40px,4.6vw,92px)}
 .deck-look.stage-cover .lesson-stage-content>p{color:#fff;font-weight:700;font-size:clamp(18px,1.7vw,34px);letter-spacing:-.025em}
-.deck-look.stage-cover .stage-cover-outline{color:#fff;font-weight:800;font-size:clamp(17px,1.5vw,30px)}
-.deck-look.stage-cover .stage-cover-outline li{margin:.3em 0}
+.deck-look.stage-cover .stage-cover-outline{color:#fff;font-weight:800;font-size:clamp(14px,1.1vw,24px);line-height:1.25}
+.deck-look.stage-cover .stage-cover-outline li{margin:.06em 0}.deck-look.stage-cover .stage-cover-outline{margin-bottom:2px}
 
 /* Experiment panel beside the lesson: readable on a classroom screen (1500px and wider). */
 @media (min-width:1500px){
@@ -389,3 +389,55 @@ body.lesson-stage-mode #workspace:not(.split) .deck-look .stage-visual-tiles fig
  body #workspace.active.split .graph-copy button,body #workspace.active.split .graph-copy input,body #workspace.active.split .graph-copy select{font-size:inherit;min-height:clamp(36px,2.8vw,54px)}
  body #workspace.active.split .graph-copy table{font-size:inherit}
 }
+
+/* ── 4차시 수평잡기 · 양팔저울 체험·장면 ── */
+.gravity-activity,.weight-activity,.lever-activity,.pans-activity{display:grid;gap:clamp(8px,1vh,16px);padding:clamp(12px,1.2vw,26px);box-sizing:border-box;width:100%;height:100%;overflow:auto;align-content:start;font-size:clamp(14px,1.05vw,22px);color:#173955}
+.lever-activity h3,.pans-activity h3{margin:0;font-size:clamp(18px,1.5vw,32px);line-height:1.3}
+.lever-figure,.pans-figure{margin:0;justify-self:center;width:min(100%,86vh)}
+.pans-figure{width:min(100%,42vh)}
+.lever-figure svg,.pans-figure svg{display:block;width:100%;height:auto;max-height:40vh}
+.lever-formula{margin:0;font-size:clamp(17px,1.5vw,32px);font-weight:800;text-align:center}
+.lever-formula b{color:#1d6a49}
+.lever-sign{display:inline-block;min-width:1.4em;color:#a8431a;font-weight:900}
+.lever-controls,.pans-weights{display:grid;gap:clamp(4px,.6vh,10px)}
+.lever-row,.pans-row{display:flex;flex-wrap:wrap;align-items:center;gap:clamp(4px,.5vw,10px)}
+.lever-row b,.pans-row b{min-width:10.5em;font-weight:800}
+.lever-row button,.lever-presets button,.pans-row button,.pans-targets button{min-height:clamp(34px,2.6vw,52px);padding:0 clamp(10px,1vw,20px);border:2px solid #26734c;border-radius:12px;background:#fff;color:#205640;font:inherit;font-weight:800;cursor:pointer}
+.lever-row button[aria-pressed="true"],.pans-row button[aria-pressed="true"],.pans-targets button[aria-pressed="true"]{background:#1e6548;color:#fff}
+.pans-targets button.done:not([aria-pressed="true"]){background:#e5f4ea}
+.lever-presets,.pans-targets{display:flex;flex-wrap:wrap;gap:clamp(4px,.5vw,10px)}
+.lever-note,.pans-note,.pans-progress{min-height:1.5em;margin:0;font-weight:700;line-height:1.5}
+.pans-progress{color:#1d6a49}
+.stage-lever{display:grid;gap:8px;justify-items:center;width:100%;height:100%;align-content:center}
+.stage-lever svg{width:100%;height:auto;max-height:100%}
+.stage-formula{margin:0;font-size:clamp(18px,1.8vw,40px);font-weight:900;color:#17394f;text-align:center}
+.stage-lever-tiles figure>svg{height:auto}
+.stage-pans{align-items:start}
+.stage-pans .weights-sheet{width:100%;grid-template-columns:repeat(3,minmax(0,1fr));gap:4px 12px}
+.stage-pans .weights-sheet svg{max-height:none}
+/* 4차시 보정: 투사 화면의 수평잡기 그림 두 장은 위아래로 크게, 저울 13칸은 네 열로 */
+.pans-graph{height:auto!important}
+.stage-lever-tiles{grid-template-columns:1fr!important;grid-template-rows:auto auto!important;align-content:start;height:auto!important}
+body.lesson-stage-mode #workspace .deck-look .stage-visual-tiles.stage-lever-tiles figure>svg{height:clamp(60px,13vh,200px)!important;flex:0 0 auto}
+.stage-pans .weights-sheet,.stage-question-paper .weights-sheet{grid-template-columns:repeat(5,minmax(0,1fr));gap:2px 8px}
+.stage-pans .weights-sheet svg,.stage-question-paper .weights-sheet svg{max-height:none;height:auto}
+.stage-question-paper .draw-note{margin:6px 0}
+/* 4차시 3D 체험 화면 */
+.balance-view{position:relative;height:clamp(240px,40vh,560px);border-radius:14px;overflow:hidden;background:#e8eeed}
+.balance-view canvas{position:absolute;inset:0;width:100%;height:100%;display:block;touch-action:none}
+.balance-view .scene-tag{position:absolute;z-index:2;left:10px;bottom:8px;top:auto!important;right:auto!important;height:auto!important;width:max-content;max-width:70%;font-size:12px;font-weight:700;color:#35566b;background:rgba(255,255,255,.85);padding:3px 10px;border-radius:999px}
+.lever-still{display:block;width:100%;height:auto;object-fit:contain;border-radius:8px}
+.stage-lever img{max-height:100%}
+.lever-pair img{max-height:230px;object-fit:contain}
+.stage-lever-tiles figure>img{height:clamp(60px,13vh,200px)!important;object-fit:contain}
+
+/* 4차시 Daily Test(학생 화면): 13칸을 낮고 촘촘하게 */
+.stage-question-paper .weights-sheet{gap:0 8px}
+.stage-question-paper .weights-sheet svg{max-height:74px;width:100%}
+.stage-question-paper .draw-note{display:none}
+
+.stage-question-paper .question[data-q="e1"] header p{font-size:clamp(14px,1.15vw,24px);line-height:1.35}
+.stage-question-paper .question[data-q="e1"]{padding-top:0;padding-bottom:0}
+.stage-question-paper .weights-sheet svg{max-height:62px}
+
+body.lesson-stage-mode #workspace .deck-look .stage-visual-tiles.stage-lever-tiles figure{min-height:0!important;height:auto!important}

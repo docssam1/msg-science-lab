@@ -60,6 +60,24 @@ export function toolIcon(kind){
 }
 export function loadArt(){return svg('0 0 680 360',`<path d="M30 25H640" stroke="#274e66" stroke-width="10"/>${[0,1,2,3].map((n,i)=>`<g transform="translate(${55+i*161} 35)"><path d="${coil(16,0,45,70+n*44,14)}" stroke="#5f8192" fill="none" stroke-width="5"/><path d="M38 ${70+n*44}v18" stroke="#32556b" stroke-width="4"/>${Array.from({length:n},(_,k)=>`<rect x="21" y="${88+n*44+k*23}" width="35" height="20" rx="3" fill="#ba8b4e"/>`).join('')}<text x="38" y="306" text-anchor="middle" font-size="21" fill="#173955">${n} N</text></g>`).join('')}`,'1 N씩 추를 더 매달면 늘어난 길이가 일정하게 증가하는 개념 그림');}
 
+// ── 4차시(수평잡기) 도해: 본책 30~35쪽의 서술을 나타내는 개념 도해(실제 사진·원본 그림 복제 아님) ──
+// 수평: 지구의 중력 방향과 수직(30쪽 ①). 어느 곳에서든 빨간 선(수평)과 중력 화살표가 직각을 이룬다.
+export function levelArt(){
+ const arrow=(x1,y1,x2,y2)=>{const a=Math.atan2(y2-y1,x2-x1),h=(d)=>`${(x2-14*Math.cos(a+d)).toFixed(1)} ${(y2-14*Math.sin(a+d)).toFixed(1)}`;return `<path d="M${x1.toFixed(1)} ${y1.toFixed(1)}L${x2.toFixed(1)} ${y2.toFixed(1)}M${h(-.5)}L${x2.toFixed(1)} ${y2.toFixed(1)}L${h(.5)}" stroke="#2f5f95" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" fill="none"/>`;};
+ const cx1=170,cy=130,r=78,t=40*Math.PI/180,px=cx1+r*Math.sin(t),py=cy-r*Math.cos(t),dx=Math.cos(t),dy=Math.sin(t);
+ return svg('0 0 640 280',`<circle cx="${cx1}" cy="${cy}" r="${r}" fill="#cfe3f5" stroke="#3a5f8a" stroke-width="4"/><path d="M${(px-62*dx).toFixed(1)} ${(py-62*dy).toFixed(1)}L${(px+62*dx).toFixed(1)} ${(py+62*dy).toFixed(1)}" stroke="#d13a35" stroke-width="5" stroke-linecap="round"/>${arrow(px,py,cx1+(px-cx1)*.3,cy+(py-cy)*.3)}<text x="${cx1}" y="${cy+46}" text-anchor="middle" font-size="19" font-weight="700" fill="#3a5f8a">중력 방향</text><circle cx="470" cy="${cy}" r="${r}" fill="#cfe3f5" stroke="#3a5f8a" stroke-width="4"/><path d="M408 ${cy+r}H532" stroke="#d13a35" stroke-width="5" stroke-linecap="round"/>${arrow(470,cy+r,470,cy+8)}<text x="470" y="${cy-30}" text-anchor="middle" font-size="19" font-weight="700" fill="#3a5f8a">중력 방향</text><text x="320" y="262" text-anchor="middle" font-size="20" font-weight="700" fill="#173955">빨간 선(수평)은 중력 방향과 수직이에요</text>`,'수평은 지구의 중력 방향과 수직을 이루는 것을 나타내는 개념 그림');
+}
+// 오른쪽(무게 × 거리)이 크면 양수(시계 방향 = 오른쪽이 내려감). 한 칸 차이당 2도, 최대 8도.
+export const leverAngle=(left,right)=>Math.max(-8,Math.min(8,(right.n*right.b-left.n*left.a)*2));
+// 양팔저울 추 그림(교재 33쪽 Daily Test 칸에 쓰는 추의 색)
+const chipFill={1:'#f6d365',3:'#f4a98e',9:'#8fb6e0'};
+const chip=(x,y,w)=>`<g><rect x="${x-24}" y="${y}" width="48" height="26" rx="4" fill="${chipFill[w]||'#d8dee3'}" stroke="#35566b" stroke-width="2"/><text x="${x}" y="${y+19}" text-anchor="middle" font-size="16" font-weight="700" fill="#173955">${w} g</text></g>`;
+// 교재 33쪽의 빈 저울 그림 한 칸(작은 크기). answer가 있으면 평형이 되는 조합을 추 그림으로 채운다.
+export function panBalanceMini(target,{answer=null,given=null}={}){
+ const fill=answer||given||{left:[],right:[]};
+ const pan=(x,chips)=>`<path d="M${x-50} 82H${x+50}" stroke="#2f5f95" stroke-width="3"/>${chips.map((w,k)=>chip(x,82-28*(k+1),w)).join('')}`;
+ return svg('0 0 260 130',`<text x="10" y="24" font-size="21" font-weight="700" fill="#173955">${target}g</text>${pan(70,fill.left)}${pan(190,fill.right)}<path d="M45 82V108H215V82M130 108V122M114 122H146" fill="none" stroke="#2f5f95" stroke-width="2.5"/>`,`${target}그램 물체를 재는 양팔저울${answer?`: 왼쪽 접시 추 ${fill.left.join('·')||'없음'}, 오른쪽 접시 추 ${fill.right.join('·')||'없음'}`:given?`: 오른쪽 접시에 ${fill.right.join('·')} g 추(교재의 예)`:' 빈 그림'}`);
+}
 // ── 3차시(중력·무게·질량) 도해: 본책 22~28쪽의 서술을 나타내는 개념 도해(실제 사진·원본 그림 복제 아님) ──
 const earthBody=(cx,cy,r)=>`<g transform="translate(${cx} ${cy}) scale(${r/100})"><circle r="100" fill="#3b8fbd"/><path d="M-62 -34Q-32 -82 6 -62Q32 -46 10 -20Q-6 2 -30 12Q-56 16 -62 -34Z" fill="#5da45a"/><path d="M26 6Q62 -10 82 20Q72 62 36 76Q14 56 26 6Z" fill="#6fae5f"/></g>`;
 const ballArt=(x,y,kind,n)=>{

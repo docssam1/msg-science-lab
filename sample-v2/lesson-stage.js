@@ -1,7 +1,7 @@
 // Screen-only lesson scenes. Printed pages stay in lesson-print-pages.js.
 // A scene points to the same source page, question and existing activity assets.
-import {q1,q2,questionHTML,toolRows,assessmentGroupsByPrint,earth3Items} from './content.js';
-import {scaleArt,eyeArt,springArt,springActionArt,factorArt,graphSVG,graphChoices,toolIcon,earthArt,appleTreeArt,gravityUseIcon,weightBarsArt,massWeightGraphSVG} from './graphics.js';
+import {q1,q2,questionHTML,toolRows,assessmentGroupsByPrint,earth3Items,weightsSheet} from './content.js';
+import {scaleArt,eyeArt,springArt,springActionArt,factorArt,graphSVG,graphChoices,toolIcon,earthArt,appleTreeArt,gravityUseIcon,weightBarsArt,massWeightGraphSVG,levelArt} from './graphics.js';
 import {inquiryObjects,objectPhoto} from './everyday-objects.js';
 import {sourceLessons} from './source-lessons.js';
 import {LOCKED,formatKey} from './daily-grading.js';
@@ -9,6 +9,7 @@ import {LOCKED,formatKey} from './daily-grading.js';
 const assessmentGroups=assessmentGroupsByPrint;
 const escapeText=value=>String(value??'').replace(/[&<>"']/g,char=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[char]));
 const objectGallery=()=>`<div class="stage-objects">${inquiryObjects.map(object=>`<figure>${objectPhoto(object)}<figcaption>${escapeText(object.name)}</figcaption></figure>`).join('')}</div>`;
+const leverImg=(name,alt)=>`<img class="lever-still" src="./art/${name}.jpg" alt="${escapeText(alt)}">`;
 const photo=(file,alt)=>`<img src="./photos/${file}.jpg" alt="${escapeText(alt)}">`;
 const visualTiles=(items,extra='')=>`<div class="stage-visual-tiles ${extra}">${items.map(([visual,title,detail])=>`<figure>${visual}<figcaption><strong>${escapeText(title)}</strong>${detail?`<small>${escapeText(detail)}</small>`:''}</figcaption></figure>`).join('')}</div>`;
 const futureTiles=()=>visualTiles([
@@ -47,14 +48,29 @@ const scenes={
  P29:{question:'60 kg인 사람이 달에 가면 질량과 무게는 어떻게 될까요?',answer:'질량은 60 kg 그대로입니다. 무게는 지구의 1/6로 줄어, 교재 표에서는 588 N의 1/6인 98 N이 됩니다.',student:'교재 30쪽의 비교 표에서 질량과 무게의 다른 점을 찾아보세요.',activity:'weight-mass',activityLabel:'지구와 달에서 질량·무게 비교하기',visual:()=>`<div class="stage-measure-visual"><table><thead><tr><th>구분</th><th>질량</th><th>무게</th></tr></thead><tbody><tr><th>뜻</th><td>물체의 고유한 양</td><td>물체에 작용하는 중력의 크기</td></tr><tr><th>기호</th><td>m (mass)</td><td>W (weight)</td></tr><tr><th>단위</th><td>kg, g</td><td>N, kg.f, kg중</td></tr><tr><th>달에서 (60 kg)</th><td>60 kg</td><td>588 N → 98 N</td></tr><tr><th>측정 도구</th><td>윗접시·양팔·대저울</td><td>용수철·앉은뱅이·체중계</td></tr></tbody></table></div>`},
  P30:{question:'질량과 무게의 관계를 그래프로 그리면 어떤 모양일까요?',answer:'질량이 증가하면 무게도 증가하고, 둘은 비례 관계라서 원점을 지나는 직선입니다. 교재의 값은 1 kg → 9.8 N, 6 kg → 58.8 N입니다.',student:'교재 31쪽의 그래프에 (1, 9.8), (6, 58.8)을 직접 표시한 다음 화면에서도 확인해 보세요.',activity:'mass-weight-graph',activityLabel:'질량과 무게 점 찍기',visual:({mode,answerOpen})=>`<div class="stage-graph-visual">${massWeightGraphSVG({points:mode==='teacher'&&answerOpen?[[1,9.8],[6,58.8]]:[],line:mode==='teacher'&&answerOpen})}<p>교재의 값 · 1 kg → 9.8 N, 6 kg → 58.8 N</p></div>`},
  P31:{question:'손으로 어림하면 어떤 점이 좋고 어떤 점이 어려울까요? 기준물체는 무엇일까요?',answer:'장점은 무게 차이가 큰 두 물체를 비교하기 쉽다는 점이고, 단점은 차이가 작은 물체를 정확하게 비교하기 어렵다는 점입니다. 기준물체는 모양·크기·무게가 모두 일정한 물체입니다.',student:'교재 32쪽에서 기준물체로 쓸 수 있는 것과 없는 것을 나누어 말해 보세요.',activity:null,activityLabel:'',visual:()=>visualTiles([[`<div class="stage-term">손 어림</div>`,'차이가 크면 쉽고 작으면 어렵다',''],[`<div class="stage-term">쓸 수 있어요</div>`,'클립 · 못 · 같은 종류의 동전','모양·크기·무게가 일정'],[`<div class="stage-term">쓸 수 없어요</div>`,'사용한 연필 · 여러 모양의 단추','모양이나 크기가 제각각']])},
+ P33:{question:'수평은 어떤 상태일까요?',answer:'한쪽으로 치우치거나 기울어지지 않고 균형이 맞는 평평한 상태입니다. 지구의 중력 방향과 수직을 이루는 것이 수평입니다.',student:'교재 34쪽의 두 그림에서 빨간 선과 중력 방향 화살표가 어떻게 만나는지 찾아보세요.',activity:null,activityLabel:'',visual:levelArt},
+ P34:{question:'양쪽이 수평일 때 무거운 물체는 받침점에서 가까울까요, 멀까요?',answer:'무거운 물체는 받침점에서 가깝고, 가벼운 물체는 받침점에서 멉니다. 놓인 거리가 서로 같으면 양쪽에 놓인 물체의 무게는 서로 같습니다.',student:'교재 35쪽의 두 그림을 보고, 상자를 움직여 수평을 만들어 보세요.',activity:'lever',activityLabel:'상자를 움직여 수평 만들기',visual:()=>visualTiles([[leverImg('lever-equal-distance','같은 무게의 상자 2개씩을 받침점에서 3칸에 놓아 수평이 된 3D 그림'),'거리가 같으면','무게가 같아요'],[leverImg('lever-heavy-near','왼쪽 상자 4개를 1칸에, 오른쪽 상자 2개를 2칸에 놓아 수평이 된 3D 그림'),'무거운 물체는','받침점에서 가까워요']],'stage-lever-tiles')},
+ P35:{question:'받침점에서 같은 거리에 놓인 두 상자가 수평일 때, 무게는 어떻게 비교할까요?',answer:'수평잡기 공식은 무게 × 거리 = 무게 × 거리(W₁ × a = W₂ × b)입니다. ①번도 ②번도 받침점에서 4칸이라 거리비 a : b가 1 : 1이므로, W₁과 W₂의 무게비도 1 : 1입니다.',student:'교재 36쪽의 공식을 읽고, 두 상자가 4칸씩 떨어져 있을 때 무게를 비교해 보세요.',activity:'lever',activityLabel:'거리가 같을 때 수평 확인하기',visual:()=>`<div class="stage-lever">${leverImg('lever-4-4','같은 무게의 상자를 받침점에서 4칸씩 떨어진 곳에 놓아 수평이 된 3D 그림')}<p class="stage-formula">W₁ × a = W₂ × b</p></div>`},
+ P36:{question:'같은 무게의 상자 ①번은 받침점에서 2칸, ②번은 4칸에 놓았어요. 어느 쪽으로 기울어질까요?',answer:'받침점에서 더 먼 ②번(오른쪽)의 ‘무게 × 거리’가 더 커져 오른쪽으로 기울어집니다.',student:'교재 37쪽의 그림을 보고, 어느 쪽으로 기울어질지 먼저 말해 본 다음 화면에서 확인해 보세요.',activity:'lever',activityLabel:'기울어지는 방향 확인하기',visual:({mode,answerOpen})=>mode==='teacher'&&answerOpen?leverImg('lever-2-4-tilt','상자를 2칸과 4칸에 놓아 오른쪽으로 기울어진 3D 그림'):leverImg('lever-2-4-held','상자를 2칸과 4칸에 놓고 양끝을 받쳐 수평으로 잡고 있는 3D 그림')},
+ P37:{question:'왼쪽 A에 같은 무게의 상자 2개를 2칸에 놓았어요. 오른쪽 상자 1개를 몇 칸에 놓으면 수평일까요?',answer:'상자 2개의 무게 × 2칸 = 상자 1개의 무게 × 4칸입니다. 오른쪽 상자를 4칸에 놓으면 수평이 됩니다.',student:'교재 38쪽을 읽고, 오른쪽 상자를 몇 칸에 놓을지 먼저 말해 본 다음 화면에서 직접 만들어 보세요.',activity:'lever',activityLabel:'다른 거리에서 수평 만들기',visual:({mode,answerOpen})=>{const open=mode==='teacher'&&answerOpen;return `<div class="stage-lever">${open?leverImg('lever-2x2-1x4','왼쪽 상자 2개를 2칸에, 오른쪽 상자 1개를 4칸에 놓아 수평이 된 3D 그림'):leverImg('lever-2x2-question','왼쪽 상자 2개를 2칸에 놓았고 오른쪽 상자는 아직 놓지 않은 3D 그림')}<p class="stage-formula">${open?'상자 2개의 무게 × 2칸 = 상자 1개의 무게 × 4칸':'W₁ × a = W₂ × b'}</p></div>`;}},
+ P38:{question:'엔진 없이도 비탈길을 올라가는 바퀴를 만들 수 있을까요? 그 열쇠인 무게중심은 무엇일까요?',answer:'무게중심은 물체 각 부분에 작용하는 중력들이 모아지는 작용점입니다. 아래에 있을수록 안정하고, 오뚝이는 아랫부분이 무거워 넘어져도 금방 일어납니다.',student:'교재 39쪽을 읽고 바퀴의 모양과 무게중심의 뜻을 찾아보세요. 바퀴의 연대와 장소는 교재의 서술입니다.',activity:null,activityLabel:'',visual:()=>visualTiles([[`<div class="stage-term">바퀴</div>`,'크기·재질이 달라도 모양은 원','엔진이 있으면 계속 굴러가요'],[`<div class="stage-term">무게중심</div>`,'중력들이 모아지는 작용점','아래에 있을수록 안정해요'],[`<div class="stage-term">오뚝이</div>`,'아랫부분이 무겁다','넘어져도 금방 일어나요']])},
+ P39:{question:'엔진 없이 바퀴가 비탈길을 올라가는 것처럼 보이는 까닭은 무엇일까요?',answer:'바퀴 자체는 위로 올라가지만 무게중심은 바닥에 가까워집니다. 그래서 동력 없이도 비탈길을 올라가는 것처럼 보입니다.',student:'교재 40쪽의 실험 순서 여섯 가지를 먼저 읽고, 바퀴의 가운데 점(무게중심)이 어떻게 움직일지 예상해 보세요.',activity:null,activityLabel:'',visual:({mode,answerOpen})=>leverImg(mode==='teacher'&&answerOpen?'ramp-wheel-path':'ramp-wheel','마주 붙인 깔때기 모양 바퀴가 넓어지는 비탈길 위에 놓인 3D 그림')},
  P18:{question:'이 도구들에서 용수철은 어떤 일을 할까요?',answer:'스테이플러·볼펜·트램펄린 등에서 누르거나 당긴 뒤 돌아가려는 성질을 활용합니다. 실제 제품마다 내부 구조는 다를 수 있습니다.',student:'교재 19쪽의 여섯 도구 사진을 보고, 어느 부분이 눌리거나 늘어났다가 돌아오는지 찾아보세요.',activity:'tools',activityLabel:'생활 속 도구 살펴보기',visual:toolTiles},
 };
 
 export function hasLessonStage(page){return !!(page&&(scenes[page.printId]||assessmentGroups[page.printId]));}
+const countWords=['','한','두','세','네','다섯','여섯','일곱','여덟','아홉'];
+// 채점 단추 문구: 문항 수에 맞추고, 전부 직접 그리는 문항이면 점수 대신 기록 확인으로 안내한다.
+export function stageGradeLabel(page){
+ const group=assessmentGroups[page?.printId];
+ if(!group)return '채점하기';
+ if(group.every(item=>item.kind==='draw'))return '내 기록 확인하기';
+ return `${countWords[group.length]||group.length} 문항 채점하기`;
+}
 export function stageQuestionCount(page){return assessmentGroups[page?.printId]?.length||1;}
 export function stageQuestion(page,index=0){const group=assessmentGroups[page?.printId];return group?.[Math.max(0,Math.min(group.length-1,index))]||null;}
 export function stageActivity(page,index=0){
- if(assessmentGroups[page?.printId])return {a1:'parts',a4:'eye',b3:'graph',b12:'assessment-graph',c4:'gravity'}[stageQuestion(page,index)?.id]||null;
+ if(assessmentGroups[page?.printId])return {a1:'parts',a4:'eye',b3:'graph',b12:'assessment-graph',c4:'gravity',e1:'weights'}[stageQuestion(page,index)?.id]||null;
  return scenes[page?.printId]?.activity||null;
 }
 function answerFor(question){
@@ -65,7 +81,7 @@ function questionVisual(question,{mode='teacher',answerOpen=false}={}){
  const graphic=question.graphic?graphChoices():question.kind==='graph'?graphSVG({step:4,labels:false}):'';
  const passage=question.passage?`<p class="stage-passage">${escapeText(question.passage)}</p>`:'';
  const options=question.options&&!question.passage&&!question.graphic?`<ol class="stage-options">${question.options.map(option=>`<li>${escapeText(option)}</li>`).join('')}</ol>`:'';
- const draw=question.kind==='draw'?`<div class="stage-draw">${earthArt({items:earth3Items,arrows:mode==='teacher'&&answerOpen})}</div>`:'';
+ const draw=question.kind==='draw'?`<div class="stage-draw ${question.figure==='pans'?'stage-pans':''}">${question.figure==='pans'?weightsSheet(mode==='teacher'&&answerOpen):earthArt({items:earth3Items,arrows:mode==='teacher'&&answerOpen})}</div>`:'';
  const slots=question.kind==='pair'&&question.slots?`<ul class="stage-slots">${question.slots.map(slot=>`<li>${escapeText(slot)} <b>${(question.choices||[]).map(escapeText).join(' / ')}</b></li>`).join('')}</ul>`:'';
  const body=`${image}${graphic}${passage}${options}${draw}${slots}`;
  return body||`<div class="stage-question-note"><b>${question.n}번</b><span>인쇄한 교재에서 먼저 풀어 보세요</span></div>`;
@@ -84,7 +100,7 @@ export function renderLessonStage(page,index,mode,{questionIndex=0,answerOpen=fa
  if(page.printId==='P0'){
   const teacher=mode==='teacher';
   const message=teacher?'교재의 질문을 먼저 보여 주고, 자료·실험·영상을 필요한 순간에 공개합니다.':'인쇄한 책의 표지를 펼쳐 보세요. 우루사쌤 안내를 들으며 같은 쪽의 활동을 함께 해요.';
-  return `<article class="lesson-stage deck-look ${teacher?'teacher-deck':'student-lesson'} stage-cover" data-stage-page="P0" aria-label="${teacher?'교사용 강의 시작':'스스로 공부하기 시작'}">${stageHeader(page,index,mode,0)}<div class="lesson-stage-body"><div class="lesson-stage-visual"><img class="stage-cover-image" src="./art/original-physics-cover.png" alt="사용자 제공 초과심 물리 교재의 원본 앞표지"></div><section class="lesson-stage-content"><span class="stage-eyebrow">MSG 초·과·심 · 물리</span><h2>무게 재기</h2><p>${message}</p><ol class="stage-cover-outline"><li>1차시 · 저울의 구조와 영점 → 예상 → 직접 측정</li><li>2차시 · 탄성과 길이 변화 → 표와 그래프 → 생활 속 도구</li><li>3차시 · 중력 → 무게 → 질량 → 그래프</li></ol><button type="button" class="stage-primary" data-stage-next>첫 장면 시작 →</button></section></div>${stageFooter(page,0,mode)}</article>`;
+  return `<article class="lesson-stage deck-look ${teacher?'teacher-deck':'student-lesson'} stage-cover" data-stage-page="P0" aria-label="${teacher?'교사용 강의 시작':'스스로 공부하기 시작'}">${stageHeader(page,index,mode,0)}<div class="lesson-stage-body"><div class="lesson-stage-visual"><img class="stage-cover-image" src="./art/original-physics-cover.png" alt="사용자 제공 초과심 물리 교재의 원본 앞표지"></div><section class="lesson-stage-content"><span class="stage-eyebrow">MSG 초·과·심 · 물리</span><h2>무게 재기</h2><p>${message}</p><ol class="stage-cover-outline"><li>1차시 · 저울의 구조와 영점 → 예상 → 직접 측정</li><li>2차시 · 탄성과 길이 변화 → 표와 그래프 → 생활 속 도구</li><li>3차시 · 중력 → 무게 → 질량 → 그래프</li><li>4차시 · 수평 → 수평잡기 공식 → 무게중심 → 양팔저울</li></ol><button type="button" class="stage-primary" data-stage-next>첫 장면 시작 →</button></section></div>${stageFooter(page,0,mode)}</article>`;
  }
  const question=stageQuestion(page,questionIndex),scene=scenes[page.printId];
  const media=stageActivity(page,questionIndex);
@@ -100,6 +116,6 @@ export function renderLessonStage(page,index,mode,{questionIndex=0,answerOpen=fa
  if(mode==='teacher')return `<article class="lesson-stage deck-look teacher-deck" data-stage-page="${page.printId}" aria-label="교사용 강의 장면">${stageHeader(page,index,mode,questionIndex)}<div class="lesson-stage-body">${visualMarkup}<section class="lesson-stage-content"><span class="stage-eyebrow">학생에게 먼저 물어보세요</span><h2>${escapeText(prompt)}</h2><div class="stage-teacher-controls"><button type="button" class="stage-advance" data-stage-advance>${escapeText(nextLabel)}</button><button type="button" data-stage-reveal aria-expanded="${answerOpen}" ${locked?'disabled':''}>${locked?'공식 해설 검토 중':answerOpen?'답 숨기기':'답 확인하기'}</button><button type="button" data-stage-explain aria-expanded="${explanationOpen}" ${answerOpen&&!locked?'':'disabled'}>${explanationOpen?'추가 설명 숨기기':'추가 설명'}</button></div><div class="stage-answer" ${answerOpen&&!locked?'':'hidden'}><strong>${page.printId==='P4'?'예상과 측정 비교':'확인할 내용'}</strong><p>${escapeText(answer)}</p></div><div class="stage-explanation" ${explanationOpen&&!locked?'':'hidden'}><strong>교사 설명</strong><p>${escapeText(explanation)}</p></div>${scene?.caution?`<p class="stage-context">${escapeText(scene.caution)}</p>`:''}</section></div>${stageFooter(page,questionIndex,mode)}</article>`;
  const task=question?`<div class="stage-question-paper">${studentBody(questionHTML(question,{print:true}))}</div>`:`<div class="stage-student-task"><span class="stage-eyebrow">책에서 먼저 해 보세요</span><h2>${escapeText(prompt)}</h2><p>${escapeText(scene.student)}</p>${['P3','P4'].includes(page.printId)?`<label class="stage-note-label">내 생각<textarea data-stage-note="${page.printId}" rows="3" placeholder="교재에 적은 생각을 여기에도 남길 수 있어요."></textarea></label>`:''}</div>`;
  const action=media&&!question?`<button type="button" class="stage-primary" data-stage-media="${media}">${escapeText(mediaLabel)} →</button>`:'';
- const grade=assessmentGroups[page.printId]&&questionIndex===stageQuestionCount(page)-1?`<button type="button" class="stage-primary" data-stage-grade="${page.printId.toLowerCase()}">${['고','한','두','세','네','다섯','여섯','일곱','여덟','아홉'][stageQuestionCount(page)]||stageQuestionCount(page)} 문항 채점하기</button>`:'';
+ const grade=assessmentGroups[page.printId]&&questionIndex===stageQuestionCount(page)-1?`<button type="button" class="stage-primary" data-stage-grade="${page.printId.toLowerCase()}">${stageGradeLabel(page)}</button>`:'';
  return `<article class="lesson-stage deck-look student-lesson" data-stage-page="${page.printId}" data-stage-question-visual="${!!(question?.image||question?.graphic||question?.kind==='graph')}" data-stage-question-text="${!!(question&&!question.image&&!question.graphic&&question.kind!=='graph')}" aria-label="우루사쌤과 스스로 공부하기">${stageHeader(page,index,mode,questionIndex)}<div class="lesson-stage-body">${visualMarkup}<section class="lesson-stage-content">${task}${scene?.caution?`<p class="stage-context">${escapeText(scene.caution)}</p>`:''}<div class="stage-student-actions">${action}${grade}</div></section></div>${stageFooter(page,questionIndex,mode)}</article>`;
 }
