@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import {lessonOneLecture,lessonTwoLecture,lessonThreeLecture,teacherLecture} from '../sample-v2/teacher-lecture.js';
+import {lessonOneLecture,lessonTwoLecture,lessonThreeLecture,lessonFourLecture,teacherLecture} from '../sample-v2/teacher-lecture.js';
 import {sourceLessons} from '../sample-v2/source-lessons.js';
 import {UNCONFIRMED} from '../sample-v2/remedy-bank.js';
 import {q3,assessmentGroupsByPrint} from '../sample-v2/content.js';
@@ -42,10 +42,11 @@ test('media and assessment cues keep the source and add-on boundaries visible',(
 
 const secondLesson=Array.from({length:9},(_,index)=>`P${index+12}`);
 const thirdLesson=Array.from({length:12},(_,index)=>`P${index+21}`);
+const fourthLesson=Array.from({length:8},(_,index)=>`P${index+33}`);
 
 test('second lesson has a source-tagged run of show for every projected scene and joins the notes map',()=>{
  assert.deepEqual(Object.keys(lessonTwoLecture),secondLesson);
- assert.deepEqual(Object.keys(teacherLecture),[...firstLesson,...secondLesson,...thirdLesson]);
+ assert.deepEqual(Object.keys(teacherLecture),[...firstLesson,...secondLesson,...thirdLesson,...fourthLesson]);
  for(const id of secondLesson){
   const lecture=lessonTwoLecture[id];
   const page=pages.find(item=>item.printId===id);

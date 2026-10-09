@@ -17,6 +17,21 @@ export function apparentReading({force,zero=0,cameraY,cameraZ,pointerZ=.38,scale
 export const dataLesson=[[10,3],[20,6],[30,9]];
 export const dataAssessment=[[10,4],[20,8],[30,12]];
 export function gradePoints(got,expected){return Array.isArray(got)&&got.length===expected.length&&expected.every(([x,y])=>got.some(p=>p[0]===x&&p[1]===y));}
+// 양팔저울 평형: 물체(질량 target)를 왼쪽 접시에 놓고, 추를 왼쪽·오른쪽에 놓아 target+왼쪽 추=오른쪽 추가 되는 조합.
+// 교재 33쪽 Daily Test는 정답을 싣지 않았다. 1·3·9 g 추를 각각 한 번씩만 쓰면 1~13 g마다 조합이 하나뿐이다(평형 조건으로 도출).
+export const weightSet=[1,3,9];
+export function weightPlans(target,weights=weightSet){
+ const plans=[];
+ for(let mask=0;mask<3**weights.length;mask++){
+  const left=[],right=[];let m=mask;
+  weights.forEach(w=>{const side=m%3;m=Math.floor(m/3);if(side===1)left.push(w);if(side===2)right.push(w);});
+  if(target+left.reduce((a,b)=>a+b,0)===right.reduce((a,b)=>a+b,0)&&(left.length||right.length))plans.push({left,right});
+ }
+ return plans;
+}
+export function isBalanced(target,left,right){return target+left.reduce((a,b)=>a+b,0)===right.reduce((a,b)=>a+b,0);}
+// 수평잡기 공식(교재 31쪽): 왼쪽 무게×거리 = 오른쪽 무게×거리. 같은 무게의 상자 개수를 무게로 쓴다.
+export const leverTorque=(count,cells)=>count*cells;
 export function normalize(s){return String(s??'').normalize('NFKC').replace(/[\s.,·()]/g,'').toLowerCase();}
 export function gradeQuestion(q,values){
  if(q.kind==='graph')return gradePoints(values,q.answer);

@@ -6,6 +6,7 @@
 // 유사문제는 원본 교재 문항을 옮기지 않은 창작 문항이다. 정답 보기는 오개념으로 연결하지 않는다.
 // 1·2차시 정답표는 바뀌지 않았다. 3차시(c1~c8)는 교재 서술에서 가져온 문항을 같은 표에 추가했으므로 버전은 그대로 둔다.
 export const ANSWER_KEY = 'dt-2026-09-26';
+// 4차시(e1)는 추를 그려 넣는 문항 하나뿐이고 교재에 정답이 인쇄돼 있지 않아 자동 채점·진단·처방을 만들지 않았다(언제나 '검토 필요').
 // 공식 해설 미확인: 2차시 9~11번, 3차시 9번(공기의 양·밀도는 22~29쪽에 근거가 없고 26쪽 ⑥ 빈칸의 정답도 인쇄돼 있지 않다).
 export const UNCONFIRMED = new Set(['b9', 'b10', 'b11', 'c9']);
 
@@ -23,13 +24,14 @@ export const misconceptions = {
 };
 
 export function lessonRemedyLog(log,lesson){
- if(!Array.isArray(log)||![1,2,3].includes(lesson))throw new TypeError('차시별 진단 기록을 확인해 주세요.');
+ if(!Array.isArray(log)||![1,2,3,4].includes(lesson))throw new TypeError('차시별 진단 기록을 확인해 주세요.');
  return log.filter(row=>{
   const concept=row.m||bank.find(item=>item.id===row.item)?.m||probeBank.find(item=>item.id===row.item)?.m;
   if(concept)return (['M01','M02','M03','M04'].includes(concept)?1:2)===lesson;
   if(/^a\d+$/.test(row.item))return lesson===1;
   if(/^b\d+$/.test(row.item))return lesson===2;
   if(/^c\d+$/.test(row.item))return lesson===3;
+  if(/^e\d+$/.test(row.item))return lesson===4;
   return false;
  });
 }

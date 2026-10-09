@@ -5,6 +5,6 @@
   "type": "module",
   "scripts": {
     "start": "node server.mjs",
-    "test": "node --test tests/core.test.mjs tests/ch01.test.mjs tests/lesson-print.test.mjs tests/teacher-lecture.test.mjs tests/teacher-lecture-3.test.mjs tests/zero-gate.test.mjs tests/self-flow.test.mjs tests/battle-state.test.mjs tests/daily-remedy.test.mjs tests/unit-assessment-index.test.mjs tests/advanced-bank.test.mjs tests/worksheet-print.test.mjs"
+    "test": "node --test tests/core.test.mjs tests/ch01.test.mjs tests/lesson-print.test.mjs tests/teacher-lecture.test.mjs tests/teacher-lecture-3.test.mjs tests/teacher-lecture-4.test.mjs tests/zero-gate.test.mjs tests/self-flow.test.mjs tests/battle-state.test.mjs tests/daily-remedy.test.mjs tests/unit-assessment-index.test.mjs tests/advanced-bank.test.mjs tests/worksheet-print.test.mjs"
   }
 }

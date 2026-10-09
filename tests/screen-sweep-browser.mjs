@@ -8,7 +8,7 @@ const b=await chromium.launch({executablePath:process.env.EDGE_PATH||'C:\\Progra
 const rows=[];
 for(const [w,h] of [[1366,768],[1920,1080]]) for(const mode of ['teacher','student']) {
   const ctx=await b.newContext({viewport:{width:w,height:h}});
-  for(let n=0;n<=32;n++){
+  for(let n=0;n<=40;n++){
     const p=await ctx.newPage();const errs=[];p.on('pageerror',e=>errs.push(e.message));p.on('console',m=>{if(m.type()==='error')errs.push('console:'+m.text().slice(0,80));});
     await p.addInitScript(()=>{window.Audio=class{play(){return Promise.resolve();}pause(){}removeAttribute(){}load(){}};});
     for(let t=0;t<3;t++){try{await p.goto(`${BASE}${mode}.html?page=${n}`,{waitUntil:'domcontentloaded',timeout:60000});break;}catch(e){if(t===2)errs.push('goto failed');}}
@@ -44,7 +44,7 @@ for(const [w,h] of [[1366,768],[1920,1080]]) for(const mode of ['teacher','stude
 }
 
 // Known, accepted: long Daily Test forms scroll inside their column; dense provenance scenes scroll by a few px at 1366.
-const okScroll=r=>(r.mode==='student'&&[11,19,20,32,0].includes(r.n))||(r.mode==='teacher'&&r.w===1366&&[8,10,24].includes(r.n));
+const okScroll=r=>(r.mode==='student'&&[11,19,20,32,40,0].includes(r.n))||(r.mode==='teacher'&&r.w===1366&&[8,10,24].includes(r.n));
 const bad=rows.filter(r=>r.errs.length||r.issues.filter(i=>!(i.startsWith('content scrolls')&&okScroll(r))&&!/^clipped H2/.test(i)&&!/label overlaps IMG\.stage-question-image/.test(i)).length);
 assert.deepEqual(bad.map(r=>`${r.mode} ${r.w} P${r.n}: ${JSON.stringify(r.issues)} ${JSON.stringify(r.errs)}`),[],'every scene renders without errors, clipping, or the experiment label covering content');
 console.log(`screen sweep: ${rows.length} scenes (teacher+student x 1366x768, 1920x1080) have no errors, clipping, or label overlap`);

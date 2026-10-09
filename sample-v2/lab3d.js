@@ -12,7 +12,7 @@ function rr(c,x,y,w,h,r){c.beginPath();c.moveTo(x+r,y);c.arcTo(x+w,y,x+w,y+h,r);
 function rrShape(w,d,r,cx=0,cz=0,P=THREE.Shape){const s=new P(),a=cx-w/2,b=-cz-d/2;s.moveTo(a+r,b);s.lineTo(a+w-r,b);s.absarc(a+w-r,b+r,r,-Math.PI/2,0);s.lineTo(a+w,b+d-r);s.absarc(a+w-r,b+d-r,r,0,Math.PI/2);s.lineTo(a+r,b+d);s.absarc(a+r,b+d-r,r,Math.PI/2,Math.PI);s.lineTo(a,b+r);s.absarc(a+r,b+r,r,Math.PI,Math.PI*1.5);return s;}
 function dither(ctx,w,h,a=3){const d=ctx.getImageData(0,0,w,h),p=d.data;for(let i=0;i<p.length;i+=4){const n=(Math.random()-.5)*a;p[i]+=n;p[i+1]+=n;p[i+2]+=n;}ctx.putImageData(d,0,0);}
 // Small procedural photo studio (bright ceiling, soft boxes, darker floor) baked into a PMREM reflection map.
-function studioEnvironment(renderer){try{
+export function studioEnvironment(renderer){try{
  const room=new THREE.Scene(),geo=new THREE.SphereGeometry(20,32,16),col=[],p=geo.attributes.position,top=new THREE.Color('#ffffff'),mid=new THREE.Color('#e3e9e9'),low=new THREE.Color('#6f7d80'),c=new THREE.Color();
  for(let i=0;i<p.count;i++){const y=p.getY(i)/20;c.copy(y>0?mid.clone().lerp(top,y):mid.clone().lerp(low,Math.min(1,-y*1.7)));col.push(c.r,c.g,c.b);}
  geo.setAttribute('color',new THREE.Float32BufferAttribute(col,3));room.add(new THREE.Mesh(geo,new THREE.MeshBasicMaterial({vertexColors:true,side:THREE.BackSide})));

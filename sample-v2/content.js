@@ -1,5 +1,6 @@
 import {inquiryPages,inquiryNarration} from './inquiry-pages.js';
-import {scaleArt, springArt, eyeArt, graphSVG, graphChoices, toolIcon, loadArt, earthArt} from './graphics.js';
+import {scaleArt, springArt, eyeArt, graphSVG, graphChoices, toolIcon, loadArt, earthArt, panBalanceMini} from './graphics.js';
+import {weightPlans} from './physics.js';
 import {UNCONFIRMED} from './remedy-bank.js';
 export const section=(n,title,body)=>`<section class="unit-section"><h3><span>${n}</span>${title}</h3>${body}</section>`;
 const note=(title,text)=>`<aside class="editor-note"><b>${title}</b><p>${text}</p></aside>`;
@@ -100,9 +101,10 @@ export function questionHTML(q,{print=false}={}){
  if(q.kind==='parts')b+=`<div class="parts-answers">${(q.slots||['ㄱ','ㄴ','ㄷ','ㄹ']).map((v,i)=>`<label>${v}<input name="${q.id}-${i}" data-answer-field autocomplete="off" maxlength="20"></label>`).join('')}</div>`;
  if(q.kind==='pair')b+=`<div class="pair-answers">${(q.slots||['㉠','㉡']).map((v,i)=>`<label>${v}<select name="${q.id}-${i}" data-answer-field><option value="">선택</option>${(q.choices||['조금','많이']).map(c=>`<option>${c}</option>`).join('')}</select></label>`).join('')}</div>`;
  if(q.kind==='set')b+=`<div class="parts-answers">${Array.from({length:q.count},(_,i)=>`<label>${'①②③④'[i]}<input name="${q.id}-${i}" data-answer-field autocomplete="off" maxlength="20"></label>`).join('')}</div>`;
- if(q.kind==='draw'){const items=earth3Items;b+=`<div class="student-graphic">${art(earthArt({items,arrows:false}),'print-graph')}</div><div class="teacher-graphic">${art(earthArt({items,arrows:true}),'print-graph')}</div><p class="draw-note">화살표는 교재에 직접 그리거나, 중력의 방향 체험에서 확인해 보세요.</p><button class="page-action" data-action="gravity">중력의 방향 체험 열기</button>`;}
+ if(q.kind==='draw'&&q.figure==='pans')b+=`<div class="student-graphic">${art(weightsSheet(false),'print-graph pans-graph')}</div><div class="teacher-graphic">${art(weightsSheet(true),'print-graph pans-graph')}</div><p class="draw-note">추를 접시에 그려 넣거나, 양팔저울 체험에서 평형이 되는 조합을 찾아보세요.</p><button class="page-action" data-action="weights">양팔저울 체험 열기</button>`;
+ else if(q.kind==='draw'){const items=earth3Items;b+=`<div class="student-graphic">${art(earthArt({items,arrows:false}),'print-graph')}</div><div class="teacher-graphic">${art(earthArt({items,arrows:true}),'print-graph')}</div><p class="draw-note">화살표는 교재에 직접 그리거나, 중력의 방향 체험에서 확인해 보세요.</p><button class="page-action" data-action="gravity">중력의 방향 체험 열기</button>`;}
  if(q.kind==='graph')b+=table(['추의 무게(g)','10','20','30'],[['늘어난 길이(cm)','4','8','12']])+`<div class="student-graphic">${art(graphSVG({step:4,labels:false}),'print-graph')}</div><div class="teacher-graphic">${art(graphSVG({step:4,points:[[10,4],[20,8],[30,12]]}),'print-graph')}</div>`+`<button class="page-action" data-action="assessment-graph">그래프에 점 찍고 제출하기</button>`;
- const answer=UNCONFIRMED.has(q.id)?'공식 해설 대조 필요':Array.isArray(q.answer)?JSON.stringify(q.answer):q.options?q.options[q.answer]:q.answer;
+ const answer=UNCONFIRMED.has(q.id)?'공식 해설 대조 필요':q.kind==='draw'?(q.figure==='pans'?'1~13 g를 모두 그림으로 나타내기 (물체 + 왼쪽 추 = 오른쪽 추가 되는 조합)':'세 물체 모두 지구 중심 방향으로 화살표'):Array.isArray(q.answer)?JSON.stringify(q.answer):q.options?q.options[q.answer]:q.answer;
  return prefix+b+`<div class="teacher-answer">정답: ${answer}<p>${UNCONFIRMED.has(q.id)?'공식 해설과 원문을 대조한 뒤 공개합니다.':q.why}</p></div><div class="question-feedback" data-feedback="${q.id}" hidden></div></div>`;
 }
 page('l1-test-a',1,[15],'DAILY TEST · 일일평가','내가 이해한 내용을\n확인해요.','1차시 · 원본 1~3번',q1.slice(0,3).map(q=>questionHTML(q)).join('')+`<button class="page-action" data-grade="1a">1~3번 제출하고 확인</button>`,'assessment','학생용은 답안을 제출하기 전 정답을 표시하지 않습니다. 1번의 네 부품을 각각 확인하며 한 번의 오답으로 오개념을 단정하지 않습니다.',{assessment:true});
@@ -174,12 +176,29 @@ export const q3=[
 {id:'c9',n:9,kind:'pair',q:'다음 〈조건〉에 대한 변화 중 내용에 맞게 ○표를 하시오.',passage:'〈조건〉 중력이 증가할 경우',slots:['(1) 공기의 양','(2) 기압','(3) 밀도의 크기','(4) 기온','(5) 끓는점'],choices:['↑','↓'],answer:['','','','',''],concept:'gravity',why:'이 문항의 공식 정답·해설은 아직 확인되지 않아 공개하지 않습니다.'}
 ];
 page('l3-test',3,[29],'DAILY TEST · 일일평가','중력, 무게, 질량을\n구분해 봅시다.','3차시 · 원본 1~9번',`<div class="test-grid compact-test">${q3.map(q=>questionHTML(q)).join('')}</div><button class="page-action" data-grade="p32">1~9번 제출하고 확인</button>`,'assessment','9번은 공식 정답·해설을 확인하기 전까지 정답을 공개하지 않습니다. 4번은 화살표를 직접 그리게 하고 지구 중심 방향인지 함께 확인합니다.',{assessment:true,dense:true});
-export const lessonNames={1:'용수철저울의 구조 익히기',2:'추의 무게에 따른 용수철의 길이 변화',3:'중력과 무게, 질량의 비교'};
-export const questions=[...q1,...q2,...q3];
+// ── 4차시: 본책 30~35쪽 (CHAPTER 05 수평잡기의 원리 · Daily Test · 과학 이야기 '엔진 없이 비탈길 오르는 바퀴') ──
+// 문장은 교재 표기 그대로 옮긴다(띄어쓰기·구두점 포함). 교재 표기 문제는 교사 메모와 검수 문서에만 남긴다.
+page('l4-level',4,[30],'LEVEL · 수평','수평이란\n무엇일까요?','수평이란?',`${bookLine('① 한쪽으로 치우치거나 기울어지지 않고 균형이 맞는 평평한 상태.')}${bookLine('② 지구의 중력방향과 수직을 이루는 것')}`,null,'교재 30쪽 ①을 그대로 읽습니다. 두 그림에서 빨간 선(수평)이 중력 방향 화살표와 직각을 이루는 것을 찾게 합니다.');
+page('l4-principle',4,[30],'LEVEL · 수평 잡기의 원리','무거운 물체는\n어디에 놓을까요?','수평 잡기의 원리 · 수평일 때 물체의 무게 비교',`${bookLine('(1) 양쪽의 물체가 수평이 됐을 때 무거운 물체는 받침점에서 가깝고, 가벼운 물체는 받침점에서 멀다.')}${bookLine('(2) 양쪽의 물체가 수평이 됐을 때 물체의 놓인 거리가 서로 같으면 양쪽에 놓인 물체의 무게는 서로 같다.')}${bookLine('① 놓인 거리가 같은 경우, 물체의 무게는 같다. ② 놓인 거리가 다른 경우는 무거운 물체가 받침점에서 가까운 곳에 놓인다.')}`,'lever','교재 30쪽 ②③을 그대로 씁니다. 체험은 같은 무게의 상자 개수와 받침점으로부터의 칸 수만 바꿉니다. 수평 잡기의 원리는 3차시 27쪽에서 질량을 재는 도구(윗접시저울·양팔저울·대저울)의 원리로 이미 소개되었습니다.');
+page('l4-formula',4,[31],'FORMULA · 수평잡기 공식','무게 × 거리가\n같으면 수평이에요.','수평잡기 공식 · 같은 거리에 놓인 A상자와 B상자',`${bookLine('수평잡기 공식: 무게 × 거리 = 무게 × 거리')}${bookLine('받침점으로부터 같은 거리에 놓인 A상자와 B상자가 수평일 때 무게 비교하기')}${bookLine('<가정하면,> 왼쪽 상자의 무게 (W₁) x 받침점(O)에서 A지점까지 놓여진 거리 (a)')}${bookLine('오른쪽 상자의 무게 (W₂) x 받침점(O)에서 B지점까지 놓여진 거리 (b)')}${bookLine('W₁ × a = W₂ × b')}${bookLine('여기서, ①번 물체가 놓여있는 지점에서 받침점까지의 거리는 4칸, ②번 물체가 놓여있는 지점에서 받침점까지의 거리는 4칸 이므로, 수평일 때 a : b의 거리비가 1:1이 된다. 그러므로 W₁과 W₂의 무게비도 1:1이 된다.')}`,'lever','교재 31쪽 ④⑤를 그대로 씁니다. 공식의 “무게”는 같은 무게의 상자 개수로 읽게 합니다. 거리가 같으면(1:1) 무게도 같다는 결론까지 연결합니다.');
+page('l4-tilt',4,[32],'TILT · 기울어지는 이유','왜 한쪽으로\n기울어질까요?','한 쪽으로 기울어지는 이유는?',`${bookLine('①번 물체가 놓인 A지점에서 받침점 O 까지의 거리보다 ②번 물체가 놓인 B지점에서 받침점 O 까지의 거리가 더 멀기 때문에 ‘무게 × 거리’하게 되면 ②번 물체가 놓인 오른쪽이 더 무거워져 ‘오른쪽으로 기울어진다’.')}`,'lever','교재 32쪽 ⑥을 그대로 씁니다. 같은 무게의 상자를 한 개씩 A(2칸)와 B(4칸)에 놓은 그림입니다(교재 ⑥은 상자의 무게를 따로 쓰지 않아, 이 체험은 같은 무게의 상자로 조건을 맞춥니다).');
+page('l4-unequal',4,[32],'BALANCE · 다른 거리','거리가 달라도\n수평이 될 수 있어요.','받침점으로부터 다른 거리에 놓인 A상자와 B상자',`${bookLine('받침점으로부터 다른 거리에 놓인 A상자와 B상자가 수평일 때 무게 비교하기')}${bookLine('<같은 무게의 상자가 왼쪽 A위치에 2개, 오른쪽 B위치에 1개 놓여있다고 가정하면 >  W₁ × a = W₂ × b')}${bookLine('왼쪽 상자의 무게 (W₁) x 받침점(O)에서 A지점까지 놓여진 거리 (a)는 오른쪽 상자의 무게 (W₂) x 받침점(O)에서 B지점까지 놓여진 거리 (b)와 같다.')}${bookLine('상자 2개의 무게 × 2칸 = 상자1개의 무게 × 4칸')}`,'lever','교재 32쪽 ⑦을 그대로 씁니다. 왼쪽 2개×2칸 = 오른쪽 1개×4칸을 학생이 체험에서 직접 만들게 합니다.');
+page('l4-wheel',4,[34],'SCIENCE STORY · 과학 이야기','엔진 없이\n비탈길을 오르는 바퀴?','엔진 없이 비탈길 오르는 바퀴 · 바퀴의 등장과 무게중심',`${bookLine('우리가 어딘가로 이동하기 위해 타는 자전거나 자동차, 비행기 등에는 모두 바퀴가 사용됩니다. 바퀴는 6,000여 년 전 지금의 이라크 땅 수메르에서 만들어졌고, 바퀴가 생기고 나서 물건을 옮기거나 여행하는 일이 훨씬 쉬워졌습니다.')}${bookLine('여기서 잠깐 바퀴의 모양을 살펴볼까요? 크기나 재질은 달라도 모든 바퀴의 모양은 ‘원’입니다. 어느 한 군데 모난 곳 없는 둥근 생김새 덕분에 앞으로 굴러가야하는 바퀴 모양으로는 제격입니다. 그런데 아무리 원 모양이어도 계속 굴러가기 위해서는 힘을 가해줘야 하고. 자동차에는 힘을 줄 수 있는 엔진이 있어 바퀴를 굴려 달릴 수 있습니다. 하지만 엔진 없이도 비탈길을 올라가는 바퀴를 만들 수 있다면? 그것도 ‘무게중심’의 원리를 이용한다면 가능할까요?')}${bookLine('무게중심은 물체 각 부분에 작용하는 중력들이 모아지는 작용점을 말합니다. 쉽게 설명하면 물체의 무게가 어느 쪽으로도 치우치지 않도록 공평하게 나눠주는 점을 말합니다. 무게중심은 아래에 있을수록 안정합니다. 오뚝이는 아랫부분이 무겁게 만들어져 바닥과 가까운 곳에 무게중심이 위치하기 때문에 넘어져도 금방 균형을 되찾고 다시 일어납니다.')}`,null,'교재 34쪽의 서술을 그대로 읽습니다. 바퀴의 연대와 장소(6,000여 년 전, 수메르)는 교재의 서술이며 별도로 검증한 연표가 아닙니다. 교재 문장의 띄어쓰기·구두점(“굴러가야하는”, “가해줘야 하고.”)은 고치지 않았습니다.');
+page('l4-ramp',4,[34,35],'EXPERIMENT · 실험','바퀴를 만들어\n비탈길에 올려 봐요.','실험과정 · 비탈길 위의 바퀴 관찰하기',`${bookLine('실험에서 깔때기 모양의 종이 두 개의 입구 부분을 맞붙이면 깔때기가 마주 붙은 중심부가 무게중심이 되고. 바퀴가 굴림대를 따라 올라가는 모습을 옆에서 보면 아래 [사진]처럼 바퀴의 중심부가 점점 굴림대에 가까이 가는 것을 볼 수 있습니다. 바퀴 자체는 언덕 위쪽으로 올라가지만, 바퀴의 무게중심은 바닥에 가까워져 가는 것입니다. 때문에 동력 없이도 자연스레 경사진 비탈길을 따라 올라가는 것처럼 보이는 것입니다.')}${bookLine('① 두꺼운 종이 위에 도면1의 4귀퉁이를 풀칠해 고정시키고, 안쪽 점선 부분을 볼펜으로 긋는다. ② 도면의 바깥쪽 실선 부분을 칼로 자른다. ③ 볼펜 선을 따라 도면을 접는다. 넓은 면 양쪽을 풀칠로 고정하고 좁은 면 앞쪽의 고리를 끼워 비탈길을 완성한다.')}${bookLine('④ 도면 2도 ①번과 ②번 방법처럼 자른다. ⑤ 깔때기 두 개의 입구 부분을 서로 마주보도록 하고 테이프로 고정시킨다. ⑥ 비탈길을 평평한 곳에 놓고 5에서 만든 바퀴를 비탈길 가장 낮은 부분에 올리고 움직임을 관찰한다.')}`,null,'교재 34쪽 끝과 35쪽 실험과정을 그대로 씁니다. 실험에 쓰는 도면 1·2는 30~35쪽에 실려 있지 않아, 수업 전에 준비물(도면·두꺼운 종이·풀·칼·테이프)과 비탈길 모양을 확인해야 합니다. 교재 서술만으로는 비탈길의 모양을 판단하지 않습니다.');
+export const weightTargets=Array.from({length:13},(_,i)=>i+1);
+export const weightAnswers=Object.fromEntries(weightTargets.map(t=>[t,weightPlans(t)[0]]));
+export const weightsGiven={left:[],right:[1]};   // 교재 33쪽: 1g 칸의 오른쪽 접시에 1g 추가 예로 그려져 있다.
+export const weightsSheet=answers=>`<div class="weights-sheet">${weightTargets.map(t=>`<figure>${panBalanceMini(t,{answer:answers&&t!==1?weightAnswers[t]:null,given:t===1?weightsGiven:null})}</figure>`).join('')}</div>`;
+export const q4=[
+{id:'e1',n:1,kind:'draw',figure:'pans',q:'1g, 3g, 9g의 저울추가 각각 1개씩 있습니다. 세 종류를 추를 이용하여 달 수 있는 물체의 무게를 그림을 그려 모두 나타내어 보시오.',concept:'balance',why:'물체와 추를 양팔저울에 올려 평형이 되는 조합으로 확인합니다. 1·3·9 g 추를 한 번씩만 쓰면 1~13 g마다 조합이 하나뿐입니다. (교재 33쪽)'}
+];
+page('l4-test',4,[33],'DAILY TEST · 일일평가','추 세 개로\n얼마까지 달 수 있을까요?','4차시 · 원본 1번',`<div class="test-grid compact-test">${q4.map(q=>questionHTML(q)).join('')}</div><button class="page-action" data-grade="p40">1번 제출하고 확인</button>`,'assessment','교재에는 정답이 인쇄돼 있지 않아 자동 채점하지 않고 선생님이 확인합니다. 교사용 그림은 평형 조건(물체+왼쪽 추=오른쪽 추)으로 도출한 조합입니다. 1g 칸의 예는 교재에 그려져 있습니다.',{assessment:true,dense:true});
+export const lessonNames={1:'용수철저울의 구조 익히기',2:'추의 무게에 따른 용수철의 길이 변화',3:'중력과 무게, 질량의 비교',4:'수평잡기의 원리'};
+export const questions=[...q1,...q2,...q3,...q4];
 export {history1,history2,history3,coilHistory,future};
 export const gradeGroups={'1a':q1.slice(0,3),'1b':q1.slice(3),'2a':q2.slice(0,4),'2b':q2.slice(4,8)};
 // Daily Test 문항 묶음(인쇄 쪽 번호 기준). 화면·교사 노트·채점이 모두 이 한 표를 쓴다.
-export const assessmentGroupsByPrint={P11:q1,P19:q2.slice(0,6),P20:q2.slice(6,12),P32:q3};
+export const assessmentGroupsByPrint={P11:q1,P19:q2.slice(0,6),P20:q2.slice(6,12),P32:q3,P40:q4};
 pages.forEach((p,i)=>p.layoutIndex=i);
 pages.unshift(...inquiryPages);
 export const narration=Object.fromEntries(pages.map(p=>[p.id,{id:p.id,text:({
@@ -212,5 +231,13 @@ export const narration=Object.fromEntries(pages.map(p=>[p.id,{id:p.id,text:({
 'l3-compare':'같은 사람이 지구와 달에 있을 때 질량과 무게가 어떻게 되는지 비교해 봅시다.',
 'l3-graph':'질량이 커지면 무게는 어떻게 될까요? 교재의 값을 점으로 찍어 관계를 살펴봅시다.',
 'l3-estimate':'손으로 어림하면 어떤 점이 좋고 어떤 점이 어려울까요? 기준물체도 함께 생각해 봅시다.',
-'l3-test':'먼저 스스로 답을 쓰고 제출해 보세요. 중력, 무게, 질량의 뜻을 구분해 생각합니다.'
+'l3-test':'먼저 스스로 답을 쓰고 제출해 보세요. 중력, 무게, 질량의 뜻을 구분해 생각합니다.',
+'l4-level':'수평은 어떤 상태일까요? 빨간 선과 중력 방향 화살표가 어떻게 만나는지 찾아봅시다.',
+'l4-principle':'양쪽이 수평일 때 무거운 물체는 받침점에서 가까울까요, 멀까요? 상자를 움직이며 확인해 봅시다.',
+'l4-formula':'받침점에서 같은 거리에 놓인 두 상자가 수평이면 무게는 어떨까요? 무게 곱하기 거리를 비교해 봅시다.',
+'l4-tilt':'어느 쪽으로 기울어질까요? 받침점에서 더 먼 쪽을 찾아 무게 곱하기 거리를 비교해 봅시다.',
+'l4-unequal':'거리가 다른데도 수평이 될 수 있을까요? 왼쪽 상자의 개수와 거리를 바꾸어 직접 만들어 보세요.',
+'l4-wheel':'엔진 없이도 바퀴가 비탈길을 올라갈 수 있을까요? 무게중심이 무엇인지 책에서 찾아봅시다.',
+'l4-ramp':'바퀴는 올라가는데 무게중심은 어떻게 될까요? 실험 순서를 먼저 읽어 봅시다.',
+'l4-test':'일 그램, 삼 그램, 구 그램 추로 달 수 있는 무게를 양팔저울 그림으로 나타내 보세요.'
 })[p.id]||inquiryNarration[p.id]}]));
