@@ -1,13 +1,13 @@
 [
   {
     "path": "README.md",
-    "size": 6520,
-    "sha256": "b2ecdb4e0ef26a1cdb89f44b7b6ca2dd4ef972fb01073e9dbf337a78fab44dab"
+    "size": 6799,
+    "sha256": "c7fd35be99898ec0e51a9d3d858f51949edc68924c54ff37b9c0f615fd61daef"
   },
   {
     "path": "activities.js",
-    "size": 37929,
-    "sha256": "5e30326c839cba201bc578f3f6fe62ba065fa6879b2e668312fce64477e084bd"
+    "size": 38230,
+    "sha256": "87bb9c6f5390cb2f1ad779e8911fbfaa4eecce3717ed54ac5a71197f12ddca26"
   },
   {
     "path": "advanced-bank.js",
@@ -16,8 +16,8 @@
   },
   {
     "path": "app.js",
-    "size": 58683,
-    "sha256": "b8589914bf3570ade94b6654529fdfabf678923382f63fa891f89489db902a7a"
+    "size": 58738,
+    "sha256": "9a6ecb53dd941b8b84853ded1c6089dd356f690ebff6290ca40f99f653dd6fac"
   },
   {
     "path": "art/FUTURE-IMAGE-PROMPTS.md",
@@ -165,9 +165,54 @@
     "sha256": "67c66a303e09f4ae95617604cbe0050148d2bdc01c453291c255c30ad138a28f"
   },
   {
+    "path": "art/lever-2-4-held.jpg",
+    "size": 60328,
+    "sha256": "378bc184ebbe5c3672dc3fe3d9451bef94ff43239e4c457d4510c2526edc3cd2"
+  },
+  {
+    "path": "art/lever-2-4-tilt.jpg",
+    "size": 63308,
+    "sha256": "704b31c9210180501524b879f370b960d74492d484b91928a91452beea82be9b"
+  },
+  {
+    "path": "art/lever-2x2-1x4.jpg",
+    "size": 58192,
+    "sha256": "d1b2a58e931f6bcdddcbd5bc4518d23a6b504409993519c4765ac0b7faa62195"
+  },
+  {
+    "path": "art/lever-2x2-question.jpg",
+    "size": 48301,
+    "sha256": "f3a43cf5d196c54071c58da6598a3ccdfe7af4bcc15c8a97c6a6abcbf656f5f4"
+  },
+  {
+    "path": "art/lever-4-4.jpg",
+    "size": 57031,
+    "sha256": "f0d26280dd0d800dabd1a65e561f36be7758f72d76e025327211bcfd2d9e0744"
+  },
+  {
+    "path": "art/lever-equal-distance.jpg",
+    "size": 48918,
+    "sha256": "1b491cfa76e661b25492b56a6090f9d2c9204ca230867b5f65b326689584c8f5"
+  },
+  {
+    "path": "art/lever-heavy-near.jpg",
+    "size": 50708,
+    "sha256": "74d5274332daee9b8b13719f26865094b9ee3347e1a135902a735f904215a734"
+  },
+  {
     "path": "art/original-physics-cover.png",
     "size": 746882,
     "sha256": "8eb5c279b41bf583bf7dfaee9f5d396183f58986ee8d5d52095fbfa95cbc0373"
+  },
+  {
+    "path": "art/ramp-wheel-path.jpg",
+    "size": 73099,
+    "sha256": "aab8b1a0357f89289eae95d0e586c5459c389a299f54c7db08a40af23ea9736b"
+  },
+  {
+    "path": "art/ramp-wheel.jpg",
+    "size": 66776,
+    "sha256": "f93f253ba6208ac3760d8a0e885bf623a3299ab87f30b4cd3a9212986fe9f737"
   },
   {
     "path": "art/urusaem.png",
@@ -1060,6 +1105,11 @@
     "sha256": "f2b3671955e0095eac5d83b8b636359058f0e5282b36f40f862a9d6dc8eb78b3"
   },
   {
+    "path": "balance3d.js",
+    "size": 30168,
+    "sha256": "756bca3377e3107f245069a627383705e66340a652a4a3531a5938ab986ff86c"
+  },
+  {
     "path": "battle-rounds.js",
     "size": 962,
     "sha256": "22db0092329cebd9559e075d14de7fff77dc914875e28b5d2aa8fb2cfeb47c68"
@@ -1096,13 +1146,13 @@
   },
   {
     "path": "content.js",
-    "size": 54009,
-    "sha256": "63b727c53bf6dd38eed907904aa7bf117db42b0f7cf08aaab380c01ec67272ee"
+    "size": 65466,
+    "sha256": "91bfd41a955707b9087bed08d518cc9cb5ea5161a3b1816b649c881dd41f9125"
   },
   {
     "path": "daily-grading.js",
-    "size": 31764,
-    "sha256": "28fbdb664c573d4f82991d1a09ef4f1ce675f695000a8f2209be5ae187b480dc"
+    "size": 32324,
+    "sha256": "35c35f7449057d8bf9cd2930e96715d06dafa460d953a1511cc8c05f44fa06e1"
   },
   {
     "path": "editions.js",
@@ -1136,8 +1186,8 @@
   },
   {
     "path": "graphics.js",
-    "size": 20550,
-    "sha256": "80baf0b5d8959b4080526e328431f5b7fb8d2b96478f090b18e55306c403ad3b"
+    "size": 23912,
+    "sha256": "8612ba61765b8a74533aabe7caf8bcc66c76850828ea5afcaa62c4e77c9dac64"
   },
   {
     "path": "guide-theme.css",
@@ -1146,8 +1196,8 @@
   },
   {
     "path": "index.html",
-    "size": 5176,
-    "sha256": "2c2db7df43dafe219af0d84129c936b03da07a21a9444d2df0abe5e3ebc606c1"
+    "size": 5253,
+    "sha256": "98cb9107bbd6c589be69545527bc521340e88b6b9b497c03341ba7c473f6d5e0"
   },
   {
     "path": "inquiry-pages.js",
@@ -1161,28 +1211,28 @@
   },
   {
     "path": "lab3d.js",
-    "size": 31301,
-    "sha256": "0d3884fe284c04d5e4256ea174aeb023ee0a086e5a0bfddb25110e60b2ff1c93"
+    "size": 31308,
+    "sha256": "0c603ec3583e2779edda83ce9ea05d8cb9238d8aa0ee1949319eb042371a0bf8"
   },
   {
     "path": "lesson-print-pages.js",
-    "size": 25153,
-    "sha256": "6d873fa376ace8fb90580b839c86f9d772adbc9beed6e3bee8977941b3b36b9c"
+    "size": 30237,
+    "sha256": "7f4ed9fe3a796d78def3eb8799b4a6e7f783b88752e490c3614dfb1366d7e8a0"
   },
   {
     "path": "lesson-print.css",
-    "size": 32269,
-    "sha256": "110044652fc98d565e18d202495d9e21d5250be5d17efc01682917bf358d5361"
+    "size": 33552,
+    "sha256": "8b89d66e79009909cdfe744fab539155b5204072da9723c26924bd4d606b86ae"
   },
   {
     "path": "lesson-stage.css",
-    "size": 41057,
-    "sha256": "e132ace6a4d36988609b42467476dd292d5a62c89b0f08fc844dc911e0ace52a"
+    "size": 45499,
+    "sha256": "22e40f4809b3a0c3194fb7c8cd3c640ca1c395ed9f5d2fc98508ef01a70b9ed6"
   },
   {
     "path": "lesson-stage.js",
-    "size": 28219,
-    "sha256": "d467c18338be2ec18c9a0f43a10403dfa55b070578ecfb8bdb36bf81928043f8"
+    "size": 34288,
+    "sha256": "6ac5265eec792b7f5bd63ab39c65dae0e5b26a456b3c00e4e1752cc7fd4f0a2f"
   },
   {
     "path": "live-book.css",
@@ -1311,8 +1361,8 @@
   },
   {
     "path": "physics.js",
-    "size": 1868,
-    "sha256": "ea87722dcd41fe74fd656b5c952402fac033740067084116f90674e9c8457910"
+    "size": 2949,
+    "sha256": "45dd709a16d34cd216ad2eb2be459d7ea90c1c762084e4f8d05e3d82836f75e5"
   },
   {
     "path": "polish.css",
@@ -1321,18 +1371,18 @@
   },
   {
     "path": "print/student.pdf",
-    "size": 13332480,
-    "sha256": "edde28a7952575dda3a3a462d11608f5ec42be93f6678f214d54b61a33654f47"
+    "size": 13899077,
+    "sha256": "8b0c33fe77ef3558738adcd45505383f4693aacf0c774c38f677c1a5c6c8b5a3"
   },
   {
     "path": "print/teacher.pdf",
-    "size": 13624281,
-    "sha256": "5059db639e8348846478f778070e8964c250e3b26d10e2ce812a5d06ac57b4c6"
+    "size": 14249658,
+    "sha256": "4974fc7634b8cbae0dde4cf8bd6c3535f4b983cf30aa05d4334d414493f41981"
   },
   {
     "path": "qr-map.js",
     "size": 3104,
-    "sha256": "9eecec52f3ef534da93c609d06649f27e80117728c61e697a433f09ba853a8aa"
+    "sha256": "968d625333dffeac405df02902949e585dd4bd9a2bea013b621ef9d2d734c276"
   },
   {
     "path": "qr/P1.png",
@@ -1465,9 +1515,49 @@
     "sha256": "b280b264c5b4aab3d8725139dff4ae13413746cc78716a6c25310291e0f84613"
   },
   {
+    "path": "qr/P33.png",
+    "size": 1158,
+    "sha256": "51ac1ece8fcddddf134d9ec009de410f3b888f31bb03cb1682585a8bef80e51e"
+  },
+  {
+    "path": "qr/P34.png",
+    "size": 1036,
+    "sha256": "0eba489ac1ab5ce58fabb910a46c218c8c8aff0e7e2594331974ae5df08159ff"
+  },
+  {
+    "path": "qr/P35.png",
+    "size": 1140,
+    "sha256": "b0a7d0e5f3aad458ad7c0332b8a3c54f97c3b3b57a5d9b61f6275860cfd7f186"
+  },
+  {
+    "path": "qr/P36.png",
+    "size": 1095,
+    "sha256": "bd5be78cd6563860f831529dfa6bf454c5892e4450344a3705d311cfddbc30db"
+  },
+  {
+    "path": "qr/P37.png",
+    "size": 1145,
+    "sha256": "e1898f3727e7055c9b5a4a397f7253828b9e12345b968ec477b3997968a87e13"
+  },
+  {
+    "path": "qr/P38.png",
+    "size": 1141,
+    "sha256": "e387784e516f47eaab17d23f0e1b2e29ef40035dbd612fddc7c63d225d887baf"
+  },
+  {
+    "path": "qr/P39.png",
+    "size": 1102,
+    "sha256": "59c893eb46d7f7d4900dcec9a1e8931b0acae54e6a4d039fb8ed08e7f23987bb"
+  },
+  {
     "path": "qr/P4.png",
     "size": 1124,
     "sha256": "36d4a72153dc24ff488140328338b7a824bcc0129aaa0e9e39d17b9222223955"
+  },
+  {
+    "path": "qr/P40.png",
+    "size": 1218,
+    "sha256": "cd7e30ccf3b7e383bfe875937aa1561cca875639741b55b0360e9863cbbe8635"
   },
   {
     "path": "qr/P5.png",
@@ -1606,8 +1696,8 @@
   },
   {
     "path": "remedy-bank.js",
-    "size": 18700,
-    "sha256": "65b53bae1f825c8ae044f12fca5da8c76b61c74c74b4ff4739e06e07965eb594"
+    "size": 18937,
+    "sha256": "36ce13e32310d5c485a5d97de57a5dad16de2377967fd1dc59cfb7ac5e4b1ff4"
   },
   {
     "path": "review.js",
@@ -1626,8 +1716,8 @@
   },
   {
     "path": "source-lessons.js",
-    "size": 4974,
-    "sha256": "04d5e30821da1d5c7600a91e3b246d5be86dd4e0b02f9da4e3fa7ac671eec990"
+    "size": 6747,
+    "sha256": "4030a1483c01255dceade2b373ece4951aa1e278f2b564de451f65211aa9bcc4"
   },
   {
     "path": "source/p10.webp",
@@ -1696,8 +1786,8 @@
   },
   {
     "path": "start.html",
-    "size": 7357,
-    "sha256": "7a440efecd6af4468d0644dd19d6e17ca4580c4d174cf741a39ad279ed5e9c71"
+    "size": 7371,
+    "sha256": "767d226bd012fa0e719c32ef707237fc268098eb87b63989a2566d4f31c78130"
   },
   {
     "path": "student-guide.css",
@@ -1706,8 +1796,8 @@
   },
   {
     "path": "student-guide.js",
-    "size": 2798,
-    "sha256": "31775153559d6830a698a91c370c6f1f82d172c698f53c65fdb83253402eee06"
+    "size": 2996,
+    "sha256": "13cf8b11ea902f7e76748d4e36a2915da734ed3718ca8b398fdb1c6e45d887d5"
   },
   {
     "path": "student.html",
@@ -1721,8 +1811,8 @@
   },
   {
     "path": "teacher-lecture.js",
-    "size": 23305,
-    "sha256": "a1abf77bd569efbc5b79441cd1a7cd1acd657613dbb7afef8e2fa9b1bc1b16dc"
+    "size": 30025,
+    "sha256": "f04f09ee6352f2976202ae6097c52e060aa994284a570f3b551fe58f2341874e"
   },
   {
     "path": "teacher-notes.html",
@@ -1731,8 +1821,8 @@
   },
   {
     "path": "teacher-notes.js",
-    "size": 4097,
-    "sha256": "4fd9c49a13a35fdac8ca0142addc04d46fee5533ec695010fe7856cca3692f2e"
+    "size": 4225,
+    "sha256": "f2c9eb424349debd74a3c170172c73e5f3a472e539a8335f92ad2692cc273cbb"
   },
   {
     "path": "teacher.html",
