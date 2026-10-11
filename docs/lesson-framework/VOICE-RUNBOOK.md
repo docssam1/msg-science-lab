@@ -39,4 +39,4 @@ python scripts/local/normalize-guide-audio.py --spec E:/Codex/visualizations/msg
 | 3차시(P21~P32) | 32줄(장면 해설 12 + 말풍선·실험 안내 20) | **생성·음량 정리 완료, 사용자 승인 대기.** 작업본 `E:\Codex\worktrees\msg-lecture-03-20261008`(브랜치 `work/lecture-03-voice-20261009`, 미커밋: `app.js`의 `pageVoice` 문장 매칭 수정, `source-lessons.js`의 P26·P30 안내 문장, `voice-library.json` 187개, mp3 32개). 듣기 페이지 `E:\Codex\visualizations\msg-lecture-03\lesson3-listen.html`. |
 | 4차시(P33~P40) | 21줄 | 대사 목록(`lesson4-spec.json`)만 만들었고 **음성은 만들지 않음**. 3차시 체험이 3D로 바뀌면 3차시 안내 문장도 바뀔 수 있어, 바뀐 뒤 `--lesson 3`으로 다시 목록을 만들어 비교해야 합니다. |
 
-> `app.js`의 `pageVoice` 수정(장면 해설을 문장으로 찾도록 `id`를 `files[p.id]?p.id:null`로 돌려줌)은 3차시 음성 브랜치에만 있고 `main`에는 없습니다. 4차시 음성도 이 수정이 있어야 장면 해설이 재생되므로, 어느 차시 음성이든 먼저 병합하는 쪽에 이 수정을 함께 넣어야 합니다.
+> 2026-10-12: `app.js`의 `pageVoice` 수정(장면 해설을 문장으로 찾도록 `id`를 `files[p.id]?p.id:null`로 돌려줌)과 3차시 P26·P30 안내 문장을 `main`에 먼저 반영했습니다. 이제 어느 차시든 **승인된 mp3와 `voice-library.json` 항목만 추가**하면 음성이 붙습니다. 3차시 음성 작업본의 `app.js`·`source-lessons.js` 변경은 `main`과 같아졌으므로, 반영할 때는 mp3와 `voice-library.json`만 가져오면 됩니다.

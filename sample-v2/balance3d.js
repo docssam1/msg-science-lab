@@ -12,7 +12,7 @@ const RAD=Math.PI/180;
 function rr(c,x,y,w,h,r){c.beginPath();c.moveTo(x+r,y);c.arcTo(x+w,y,x+w,y+h,r);c.arcTo(x+w,y+h,x,y+h,r);c.arcTo(x,y+h,x,y,r);c.arcTo(x,y,x+w,y,r);c.closePath();}
 
 // 공통 무대: 렌더러, 스튜디오 조명, 책상, 자원 정리
-function createStage(host,{cam,target,fov=32,orbit=true}={}){
+export function createStage(host,{cam,target,fov=32,orbit=true,table:withTable=true,backdrop='studio'}={}){
  const canvas=document.createElement('canvas');canvas.className='balance3d-canvas';host.prepend(canvas);
  const renderer=new THREE.WebGLRenderer({canvas,antialias:true,alpha:true,preserveDrawingBuffer:true});
  renderer.setPixelRatio(Math.min(devicePixelRatio||1,1.75));renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFShadowMap;renderer.outputColorSpace=THREE.SRGBColorSpace;renderer.toneMapping=THREE.NeutralToneMapping;
@@ -25,7 +25,11 @@ function createStage(host,{cam,target,fov=32,orbit=true}={}){
  const aniso=Math.min(8,renderer.capabilities.getMaxAnisotropy());
  const canvasTex=(c,srgb=true)=>{const t=new THREE.CanvasTexture(c);if(srgb)t.colorSpace=THREE.SRGBColorSpace;t.anisotropy=aniso;textures.add(t);return t;};
  const env=studioEnvironment(renderer);if(env){textures.add(env);scene.environment=env;scene.environmentIntensity=.62;}
- {const c=document.createElement('canvas');c.width=c.height=512;const x=c.getContext('2d'),g=x.createRadialGradient(256,200,10,256,260,420);g.addColorStop(0,'#fdfefe');g.addColorStop(.5,'#eaf0ef');g.addColorStop(1,'#c9d5d5');x.fillStyle=g;x.fillRect(0,0,512,512);scene.background=canvasTex(c);}
+ {const c=document.createElement('canvas');c.width=c.height=512;const x=c.getContext('2d');
+  if(backdrop==='space'){const g=x.createRadialGradient(256,240,10,256,256,420);g.addColorStop(0,'#1d3550');g.addColorStop(1,'#060b16');x.fillStyle=g;x.fillRect(0,0,512,512);let s=7;const rnd=()=>(s=(s*16807)%2147483647)/2147483647;for(let i=0;i<260;i++){x.fillStyle=`rgba(255,255,255,${.25+rnd()*.7})`;const r=rnd()*1.3+.3;x.beginPath();x.arc(rnd()*512,rnd()*512,r,0,Math.PI*2);x.fill();}}
+  else if(backdrop==='sky'){const g=x.createLinearGradient(0,0,0,512);g.addColorStop(0,'#7fb6e6');g.addColorStop(.62,'#d8ecf7');g.addColorStop(1,'#eef5f2');x.fillStyle=g;x.fillRect(0,0,512,512);}
+  else{const g=x.createRadialGradient(256,200,10,256,260,420);g.addColorStop(0,'#fdfefe');g.addColorStop(.5,'#eaf0ef');g.addColorStop(1,'#c9d5d5');x.fillStyle=g;x.fillRect(0,0,512,512);}
+  scene.background=canvasTex(c);}
  scene.add(new THREE.HemisphereLight('#ffffff','#b3c1c0',.75));
  const light=new THREE.DirectionalLight('#fff6ea',2.3);light.position.set(3,11,7);light.castShadow=true;light.shadow.mapSize.set(2048,2048);Object.assign(light.shadow.camera,{left:-10,right:10,top:9,bottom:-5,near:1,far:34});light.shadow.bias=-.0004;light.shadow.normalBias=.02;light.shadow.radius=4;scene.add(light);
  const fill=new THREE.DirectionalLight('#dce9ff',.7);fill.position.set(-7,3,5);scene.add(fill);
@@ -36,7 +40,7 @@ function createStage(host,{cam,target,fov=32,orbit=true}={}){
  const rbox=(w,h,d,r,m,x,y,z,parent=scene)=>{const o=mesh(roundedBoxGeometry(w,h,d,r),m,parent);o.position.set(x,y,z);return o;};
  // 책상(윗면 y=0)
  const table=phys({color:'#efe7d6',roughness:.7,clearcoat:.15});
- rbox(44,.5,30,.12,table,0,-.25,-2);scene.fog=new THREE.Fog('#e6ece9',16,42);
+ if(withTable){rbox(44,.5,30,.12,table,0,-.25,-2);scene.fog=new THREE.Fog('#e6ece9',16,42);}
  // 글자 카드(항상 정면을 보는 스프라이트)
  function label(text,{size=.5,anchor=.5}={}){
   const m=new THREE.SpriteMaterial({transparent:true,depthTest:false,depthWrite:false,toneMapped:false});materials.add(m);
@@ -53,7 +57,8 @@ function createStage(host,{cam,target,fov=32,orbit=true}={}){
  function resize(){const r=host.getBoundingClientRect();if(r.width<1||r.height<1)return;renderer.setSize(r.width,r.height,false);camera.aspect=r.width/r.height;camera.updateProjectionMatrix();}
  const observer=new ResizeObserver(resize);observer.observe(host);resize();
  function dispose(){observer.disconnect();controls?.dispose();geometries.forEach(g=>g.dispose());materials.forEach(m=>m.dispose());textures.forEach(t=>t.dispose());renderer.dispose();canvas.remove();}
- return {THREE,canvas,renderer,scene,camera,controls,mat,phys,mesh,rbox,label,canvasTex,resize,dispose,geometries,materials};
+ const setBackground=c=>{const old=scene.background;scene.background=canvasTex(c);if(old?.isTexture){textures.delete(old);old.dispose();}};
+ return {THREE,canvas,renderer,scene,camera,controls,setBackground,mat,phys,mesh,rbox,label,canvasTex,resize,dispose,geometries,materials};
 }
 
 // ───────────────────────── 수평잡기 ─────────────────────────
