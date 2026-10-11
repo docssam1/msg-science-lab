@@ -6,8 +6,8 @@
   },
   {
     "path": "activities.js",
-    "size": 38230,
-    "sha256": "87bb9c6f5390cb2f1ad779e8911fbfaa4eecce3717ed54ac5a71197f12ddca26"
+    "size": 31151,
+    "sha256": "96e3612fece8800a1d3d1c135e137cf0ddf7138a2c46931dee0b22a028c6b2fb"
   },
   {
     "path": "advanced-bank.js",
@@ -16,8 +16,8 @@
   },
   {
     "path": "app.js",
-    "size": 58738,
-    "sha256": "9a6ecb53dd941b8b84853ded1c6089dd356f690ebff6290ca40f99f653dd6fac"
+    "size": 58755,
+    "sha256": "55179714186192ec370809580b96b2b439e8d25d50c8ee33af6ad4cccb435aa1"
   },
   {
     "path": "art/FUTURE-IMAGE-PROMPTS.md",
@@ -1106,8 +1106,8 @@
   },
   {
     "path": "balance3d.js",
-    "size": 30168,
-    "sha256": "756bca3377e3107f245069a627383705e66340a652a4a3531a5938ab986ff86c"
+    "size": 30988,
+    "sha256": "0371f366938553e871168a842d9a793831a05ff3899b4656280f44bae6bceaac"
   },
   {
     "path": "battle-rounds.js",
@@ -1226,13 +1226,18 @@
   },
   {
     "path": "lesson-stage.css",
-    "size": 45499,
-    "sha256": "22e40f4809b3a0c3194fb7c8cd3c640ca1c395ed9f5d2fc98508ef01a70b9ed6"
+    "size": 46051,
+    "sha256": "a62a3f501ca7b71cfd5708b7aa67ee7a7b1ae858c09cdd4f313cffd32e26d412"
   },
   {
     "path": "lesson-stage.js",
     "size": 34288,
     "sha256": "6ac5265eec792b7f5bd63ab39c65dae0e5b26a456b3c00e4e1752cc7fd4f0a2f"
+  },
+  {
+    "path": "lesson3d.js",
+    "size": 21416,
+    "sha256": "a822729e4fcbc66fe07603be10135db321296db9961e67e502d65b256b907444"
   },
   {
     "path": "live-book.css",
@@ -1716,8 +1721,8 @@
   },
   {
     "path": "source-lessons.js",
-    "size": 6747,
-    "sha256": "4030a1483c01255dceade2b373ece4951aa1e278f2b564de451f65211aa9bcc4"
+    "size": 6770,
+    "sha256": "e0fcf7679bea3480e515badf9d6a11deec5b0c63fa3daf17dd02da800672409b"
   },
   {
     "path": "source/p10.webp",

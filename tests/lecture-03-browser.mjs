@@ -70,9 +70,9 @@ async function labs(width,height){
  let tab=await open(23);
  await tab.locator('[data-spot="1"][data-dir="up"]').click();
  assert.doesNotMatch(await tab.locator('.gravity-note').innerText(),/지구 중심 쪽으로 떨어져요/,'wrong choice does not reveal the answer');
- assert.equal(await tab.locator('.gravity-earth path[stroke="#d13a35"]').count(),0,'no arrow for a wrong choice');
+ assert.equal(await tab.locator('.balance3d-canvas').getAttribute('data-arrows').then(Number),0,'no arrow for a wrong choice');
  for(const [n,dir] of [[1,'down'],[2,'right'],[3,'up'],[4,'left']])await tab.locator(`[data-spot="${n}"][data-dir="${dir}"]`).click();
- assert.equal(await tab.locator('.gravity-earth path[stroke="#d13a35"]').count(),4,'four arrows toward the center');
+ assert.equal(await tab.locator('.balance3d-canvas').getAttribute('data-arrows').then(Number),4,'four arrows toward the center');
  assert.match(await tab.locator('.gravity-note').innerText(),/네 위치 모두/);
  await tab.close();
  // 2) 지구/달: only the book's values appear
