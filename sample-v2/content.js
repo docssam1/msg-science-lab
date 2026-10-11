@@ -1,5 +1,5 @@
 import {inquiryPages,inquiryNarration} from './inquiry-pages.js';
-import {scaleArt, springArt, eyeArt, graphSVG, graphChoices, toolIcon, loadArt, panBalanceMini} from './graphics.js';
+import {scaleArt, springArt, eyeArt, graphSVG, graphChoices, toolIcon, loadArt} from './art3d.js';
 import {weightPlans} from './physics.js';
 import {UNCONFIRMED} from './remedy-bank.js';
 export const section=(n,title,body)=>`<section class="unit-section"><h3><span>${n}</span>${title}</h3>${body}</section>`;
@@ -188,7 +188,7 @@ page('l4-ramp',4,[34,35],'EXPERIMENT · 실험','바퀴를 만들어\n비탈길�
 export const weightTargets=Array.from({length:13},(_,i)=>i+1);
 export const weightAnswers=Object.fromEntries(weightTargets.map(t=>[t,weightPlans(t)[0]]));
 export const weightsGiven={left:[],right:[1]};   // 교재 33쪽: 1g 칸의 오른쪽 접시에 1g 추가 예로 그려져 있다.
-export const weightsSheet=answers=>`<div class="weights-sheet">${weightTargets.map(t=>`<figure>${panBalanceMini(t,{answer:answers&&t!==1?weightAnswers[t]:null,given:t===1?weightsGiven:null})}</figure>`).join('')}</div>`;
+export const weightsSheet=answers=>`<div class="weights-sheet">${weightTargets.map(t=>{const name=t===1||answers?`l4-pans-${t}`:'l4-pans-empty';return `<figure data-pan="${t}"><img class="still3d" src="./art/${name}.jpg" alt="${t}그램 물체를 재는 3D 양팔저울${name==='l4-pans-empty'?' 빈 그림':' · 평형이 되는 추 조합'}"><figcaption>${t}g</figcaption></figure>`;}).join('')}</div>`;
 export const q4=[
 {id:'e1',n:1,kind:'draw',figure:'pans',q:'1g, 3g, 9g의 저울추가 각각 1개씩 있습니다. 세 종류를 추를 이용하여 달 수 있는 물체의 무게를 그림을 그려 모두 나타내어 보시오.',concept:'balance',why:'물체와 추를 양팔저울에 올려 평형이 되는 조합으로 확인합니다. 1·3·9 g 추를 한 번씩만 쓰면 1~13 g마다 조합이 하나뿐입니다. (교재 33쪽)'}
 ];

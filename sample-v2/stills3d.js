@@ -1,8 +1,9 @@
-// 3차시 투사·인쇄용 3D 정지 그림(본책 22~28쪽의 서술을 나타내는 개념 그림). scripts/local/render-3d-stills.mjs가 한 번씩 그려 art/l3-*.jpg로 저장한다.
+// 투사·인쇄용 3D 정지 그림(1~4차시, 본책 서술을 나타내는 개념 그림). scripts/local/render-3d-stills.mjs가 한 번씩 그려 art/l3-*.jpg로 저장한다.
 // 수치는 교재의 값만 쓴다(58.8 N → 9.8 N, 1 kg → 9.8 N, 6 kg → 58.8 N, 10 g · 100 g).
 import * as THREE from './vendor/three.module.js';
 import {createStage} from './balance3d.js';
 import {earthTexture,moonTexture,grassTexture,arrow,helixGeometry,boardTexture} from './lesson3d.js';
+import {weightPlans} from './physics.js';
 
 const UP=new THREE.Vector3(0,1,0);
 const paint=(stage,w,h,draw)=>{const c=document.createElement('canvas');c.width=w;c.height=h;draw(c.getContext('2d'),w,h);return stage.canvasTex(c);};
@@ -130,6 +131,96 @@ function graphScene(s,answer){
  s.mesh(new THREE.TubeGeometry(new THREE.LineCurve3(new THREE.Vector3(PX(0),PY(0),.1),new THREE.Vector3(PX(6.3),PY(6.3*9.8),.1)),2,.05,10),dot);
  for(const [x,y] of [[1,9.8],[6,58.8]]){s.mesh(new THREE.SphereGeometry(.17,24,16),dot).position.set(PX(x),PY(y),.14);s.label(`(${x}, ${y})`,{size:.38}).position.set(PX(x)+.8,PY(y)+.35,.2);}
 }
+
+// ───────── 1·2·4차시 정지 그림(2026-10-12 추가) ─────────
+// 칠판 그래프(일반형): xs 눈금, ys 눈금, 축 이름. points/line은 답 판에서만.
+function genericBoardTexture(s,{xs,xMax,ys,yMax,xLabel,yLabel,W=1600,H=1200,small=false}){
+ const c=document.createElement('canvas');c.width=W;c.height=H;const g=c.getContext('2d');
+ g.fillStyle='#21483b';g.fillRect(0,0,W,H);
+ const L=small?150:230,B=small?H-150:H-170,X=x=>L+x/xMax*(W-L-140),Y=y=>B-y/yMax*(B-120);
+ g.strokeStyle='rgba(255,255,255,.18)';g.lineWidth=3;g.setLineDash([14,12]);
+ for(const x of xs){g.beginPath();g.moveTo(X(x),Y(0));g.lineTo(X(x),Y(yMax));g.stroke();}
+ for(const y of ys){g.beginPath();g.moveTo(X(0),Y(y));g.lineTo(X(xMax),Y(y));g.stroke();}
+ g.setLineDash([]);g.strokeStyle='#f4f1e6';g.lineWidth=8;g.beginPath();g.moveTo(X(0),Y(yMax)-20);g.lineTo(X(0),Y(0));g.lineTo(X(xMax)+40,Y(0));g.stroke();
+ const font=n=>`800 ${n}px "Pretendard Variable","Segoe UI","Malgun Gothic",sans-serif`;
+ g.fillStyle='#f4f1e6';
+ if(xs.length){g.font=font(small?60:46);g.textAlign='center';g.fillText('0',X(0),Y(0)+62);for(const x of xs)g.fillText(String(x),X(x),Y(0)+62);g.textAlign='right';for(const y of ys)g.fillText(String(y),X(0)-20,Y(y)+16);}
+ g.font=font(small?62:50);g.textAlign='left';g.fillText(yLabel,X(0)-(small?60:40),small?92:76);g.textAlign='right';g.fillText(xLabel,W-60,Y(0)+(small?120:130));
+ return {tex:s.canvasTex(c),X:x=>X(x)/W,Y:y=>Y(y)/H};
+}
+function board(s,{x=0,y=3.4,w=8,h=6,cfg,points=[],line=null,dot='#ff6a4d'}){
+ s.rbox(w+.4,h+.4,.3,.1,s.phys({color:'#8a6b3c',roughness:.5}),x,y,-.2);
+ const t=genericBoardTexture(s,cfg);
+ s.mesh(new THREE.PlaneGeometry(w,h),s.mat({map:t.tex,roughness:.9}),s.scene,{cast:false}).position.set(x,y,-.03);
+ const P=(px,py)=>new THREE.Vector3(x-w/2+t.X(px)*w,y+h/2-t.Y(py)*h,.12);
+ const m=s.phys({color:dot,roughness:.3,clearcoat:.7,emissive:'#5a1a10'});
+ if(line){const pts=line.map(([a,b])=>P(a,b));s.mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts,false,'catmullrom',0),Math.max(2,pts.length*8),.05,10),m);}
+ for(const [a,b] of points){s.mesh(new THREE.SphereGeometry(.16,24,16),m).position.copy(P(a,b));if(cfg.tags!==false)s.label(`(${a}, ${b})`,{size:.36}).position.copy(P(a,b).add(new THREE.Vector3(.72,.32,.1)));}
+}
+const springCfg=step=>({xs:[10,20,30],xMax:33,ys:[step,step*2,step*3,step*4],yMax:step*4.3,xLabel:'추의 무게 (g)',yLabel:'늘어난 길이 (cm)'});
+function helixPair(s,{left,right,labels=['A','B']}){
+ for(const [x,o,t] of [[-1.4,left,labels[0]],[1.4,right,labels[1]]]){
+  const mat=s.phys({color:o.color||'#c9d1d6',metalness:o.metal??1,roughness:.25});
+  const pts=[];const turns=10,len=3,R=o.radius||.32;for(let i=0;i<=turns*28;i++){const k=i/(turns*28),a=k*turns*Math.PI*2;pts.push(new THREE.Vector3(x+Math.cos(a)*R,4.4-k*len,Math.sin(a)*R));}
+  const m=new THREE.Mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts),turns*28,o.wire||.045,10),mat);m.castShadow=true;s.scene.add(m);s.geometries.add(m.geometry);
+  s.label(t,{size:.6}).position.set(x,.8,.4);
+ }
+ s.rbox(5.2,.2,.5,.06,s.phys({color:'#2f4656',roughness:.4}),0,4.6,0);
+}
+Object.assign(scenes,{
+ 'l2-graph':{size:[1200,900],stage:{cam:[0,3.4,12.8],target:[0,3.4,0],backdrop:'studio'},build(s){board(s,{cfg:springCfg(3)});}},
+ 'l2-graph-answer':{size:[1200,900],stage:{cam:[0,3.4,12.8],target:[0,3.4,0],backdrop:'studio'},build(s){board(s,{cfg:springCfg(3),points:[[10,3],[20,6],[30,9]],line:[[0,0],[10,3],[20,6],[30,9]]});}},
+ 'l2-graph-b12':{size:[1200,900],stage:{cam:[0,3.4,12.8],target:[0,3.4,0],backdrop:'studio'},build(s){board(s,{cfg:springCfg(4)});}},
+ 'l2-graph-b12-answer':{size:[1200,900],stage:{cam:[0,3.4,12.8],target:[0,3.4,0],backdrop:'studio'},build(s){board(s,{cfg:springCfg(4),points:[[10,4],[20,8],[30,12]],line:[[0,0],[10,4],[20,8],[30,12]]});}},
+ 'l2-graph-choices':{size:[1200,860],stage:{cam:[0,3.3,15.5],target:[0,3.3,0],backdrop:'studio'},build(s){
+  const cfg={xs:[],xMax:10,ys:[],yMax:10,xLabel:'물체의 무게',yLabel:'늘어난 길이',small:true,tags:false};
+  const lines=[[[0,9],[9,0.5]],[[0,4],[9,9.2]],[[0,0],[9,9.2]],[[0,6],[9,6]]];
+  lines.forEach((line,i)=>{const x=i%2?3.1:-3.1,y=i<2?5.2:1.6;board(s,{x,y,w:5.6,h:3.2,cfg,line});s.label('①②③④'[i],{size:.7}).position.set(x-3.3,y+1.5,.3);});
+ }},
+ 'l2-factor-material':{size:[900,900],stage:{cam:[0,2.8,10.5],target:[0,2.6,0],backdrop:'studio'},build(s){helixPair(s,{left:{color:'#c9d1d6'},right:{color:'#d39a5b',metal:.9},labels:['재질 A','재질 B']});}},
+ 'l2-factor-wire':{size:[900,900],stage:{cam:[0,2.8,10.5],target:[0,2.6,0],backdrop:'studio'},build(s){helixPair(s,{left:{wire:.03},right:{wire:.08},labels:['가는 철사','굵은 철사']});}},
+ 'l2-factor-diameter':{size:[900,900],stage:{cam:[0,2.8,10.5],target:[0,2.6,0],backdrop:'studio'},build(s){helixPair(s,{left:{radius:.24},right:{radius:.48},labels:['작은 지름','큰 지름']});}},
+ 'l2-tool-expander':{size:[900,700],stage:{cam:[0,2.6,9.5],target:[0,2.2,0],backdrop:'studio'},build(s){
+  const grip=s.phys({color:'#1c2f3b',roughness:.6}),steel=s.mat({color:'#d3dade',metalness:1,roughness:.24});
+  for(const x of [-2.6,2.6]){const h=s.mesh(new THREE.CylinderGeometry(.22,.22,1.6,24),grip);h.position.set(x,2.2,0);s.rbox(.5,.18,.3,.05,steel,x+(x<0?.3:-.3),2.2,0);}
+  for(const z of [-.18,0,.18]){const pts=[];const n=14*24;for(let i=0;i<=n;i++){const k=i/n,a=k*14*Math.PI*2;pts.push(new THREE.Vector3(-2.3+k*4.6,2.2+Math.cos(a)*.12+z*.0,z+Math.sin(a)*.12));}s.mesh(new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts),n,.025,8),steel);}
+ }},
+ 'l1-leaf-spring':{size:[900,700],stage:{cam:[0,2.4,9],target:[0,1.8,0],backdrop:'studio'},build(s){
+  const steel=s.phys({color:'#7f8c95',metalness:.8,roughness:.35});
+  [3.6,3.0,2.4,1.8].forEach((len,i)=>{const r=6,ang=len/r;const sh=new THREE.Shape();sh.absarc(0,-r,r,Math.PI/2-ang/2,Math.PI/2+ang/2,false);sh.absarc(0,-r,r-.12,Math.PI/2+ang/2,Math.PI/2-ang/2,true);const g=new THREE.ExtrudeGeometry(sh,{depth:.7,bevelEnabled:false});g.translate(0,0,-.35);const m=s.mesh(g,steel);m.position.y=1.6-i*.13;});
+  s.rbox(.5,.5,.9,.05,s.phys({color:'#2f4656'}),0,1.1,0);
+  for(const x of [-1.85,1.85]){const e=s.mesh(new THREE.TorusGeometry(.16,.05,12,24),steel);e.position.set(x,1.36,0);}
+ }},
+ 'l4-level':{size:[1200,700],stage:{cam:[0,.2,15],target:[0,0,0],table:false,backdrop:'space'},build(s){
+  const red=s.phys({color:'#d13a35',roughness:.4}),blue='#2f7fd1';
+  for(const [cx,deg] of [[-3.4,40],[3.4,180]]){
+   const e=s.mesh(new THREE.SphereGeometry(2.2,64,48),s.mat({map:earthTexture(s),roughness:.75}));e.position.set(cx,0,0);e.rotation.y=cx;
+   const a=deg*Math.PI/180,dir=new THREE.Vector3(Math.sin(a),Math.cos(a),0),p=new THREE.Vector3(cx,0,0).addScaledVector(dir,2.25);
+   const plane=s.mesh(new THREE.BoxGeometry(2.6,.06,1.6),red);plane.position.copy(p);plane.quaternion.setFromUnitVectors(UP,dir);
+   const ar=arrow(s,s.scene,blue);ar.position.copy(new THREE.Vector3(cx,0,0).addScaledVector(dir,3.4));ar.quaternion.setFromUnitVectors(UP,dir.clone().negate());
+  }
+  s.label('빨간 판(수평)은 중력 방향과 수직',{size:.5}).position.set(0,3.1,0);
+ }}
+});
+// 양팔저울 한 칸(교재 33쪽). target이 있으면 왼쪽 접시에 물체, left/right 추를 올린다.
+function panScene(s,{target=null,left=[],right=[]}){
+ const steel=s.mat({color:'#d3dade',metalness:1,roughness:.24}),brass=s.phys({color:'#d3b05a',metalness:.9,roughness:.28});
+ s.rbox(3.6,.3,1.6,.12,s.phys({color:'#51657a',roughness:.45,clearcoat:.5}),0,.15,0);
+ s.mesh(new THREE.CylinderGeometry(.14,.18,3.4,32),steel).position.set(0,1.7,0);
+ s.rbox(6.6,.18,.34,.06,brass,0,3.4,0);s.mesh(new THREE.SphereGeometry(.2,24,16),brass).position.set(0,3.4,0);
+ const panGeo=new THREE.LatheGeometry([[0,-.08],[.7,-.06],[.92,.04],[.98,.13],[.94,.14],[.88,.06],[.68,0],[0,-.02]].map(p=>new THREE.Vector2(...p)),48);s.geometries.add(panGeo);
+ const look={1:[.24,.34,'#f2c94c'],3:[.32,.46,'#f2a07f'],9:[.44,.62,'#79a8dc']};
+ for(const [side,x] of [['left',-3],['right',3]]){
+  const pan=s.mesh(panGeo,s.mat({color:'#e7edf0',metalness:1,roughness:.22,side:THREE.DoubleSide}));pan.scale.set(1.3,1,1.3);pan.position.set(x,1.5,0);
+  for(let i=0;i<3;i++){const a=i*Math.PI*2/3+Math.PI/2,top=new THREE.Vector3(x,3.35,0),bot=new THREE.Vector3(x+1.15*Math.cos(a),1.6,1.15*Math.sin(a)),d=bot.clone().sub(top);const m=s.mesh(new THREE.CylinderGeometry(.018,.018,1,6),steel);m.position.copy(top).addScaledVector(d,.5);m.scale.set(1,d.length(),1);m.quaternion.setFromUnitVectors(UP,d.normalize());}
+  const items=side==='left'?left:right,slots=side==='left'?[[.55,0],[.2,.78],[.2,-.78]]:[[-.55,0],[.55,0],[0,.8]];
+  items.forEach((w,i)=>{const [r,h,c]=look[w];const m=s.mesh(new THREE.CylinderGeometry(r,r*1.06,h,40),s.phys({color:c,metalness:.55,roughness:.3}));m.position.set(x+slots[i][0],1.6+h/2,slots[i][1]);s.label(`${w} g`,{size:.42}).position.set(x+slots[i][0],1.6+h+.38,slots[i][1]+.4);});
+  if(side==='left'&&target!=null){s.rbox(.8,.78,.8,.1,s.phys({color:'#cfe3a2',roughness:.4,clearcoat:.5}),x-.6,1.99,0);s.label(`물체 ${target} g`,{size:.46}).position.set(x-.6,2.85,.5);}
+ }
+}
+scenes['l4-pans-empty']={size:[900,560],stage:{cam:[0,2.7,10],target:[0,2.1,0],backdrop:'studio'},build(s){panScene(s,{});}};
+for(let t=1;t<=13;t++)scenes[`l4-pans-${t}`]={size:[900,560],stage:{cam:[0,2.7,10],target:[0,2.1,0],backdrop:'studio'},build(s){const p=weightPlans(t)[0];panScene(s,{target:t,left:p.left,right:p.right});}};
+
 export const stillNames=Object.keys(scenes);
 export function stillSize(name){return scenes[name].size;}
 export function renderLesson3Still(name,host){
