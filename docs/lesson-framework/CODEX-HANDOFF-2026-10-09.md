@@ -11,7 +11,7 @@
 3. **G: 원본 PDF는 읽기 전용.** 저장소·C:·공개 폴더(`sample-v2/source/`)에 복사하지 않는다. 쪽 이미지를 새로 공개 폴더에 추가하지 않는다(`source/p10~p21.webp`만 기존 것).
 4. **새 작업은 E:에서만**, `origin/main`에서 새 worktree를 만들어 한다. 오래된 브랜치(아래 §2)를 통째로 병합하지 않는다.
 5. **음성은 로컬 OmniVoice(GPU)로만** 만들고 **사용자가 듣고 승인한 뒤에만 커밋·병합**한다. 클라우드 TTS 금지. 승인 전 음성 파일은 커밋하지 않는다.
-6. **3D 자산 정책**: 사용자는 평면 2D 체험을 인정하지 않는다(2026-10-09, “이런 2d 인정못해”). 새 체험은 Three.js 3D로 만든다(`sample-v2/balance3d.js`의 `createStage` 공용 무대, 3차시는 `lesson3d.js`). 3·4차시 체험은 3D로 바뀌었다(2026-10-12). 1·2차시의 그래프 체험(`graph`, `assessment-graph`)과 3차시 투사·인쇄 도해(SVG)는 아직 2D다(§5).
+6. **3D 자산 정책**: 사용자는 평면 2D 체험을 인정하지 않는다(2026-10-09, “이런 2d 인정못해”). 새 체험은 Three.js 3D로 만든다(`sample-v2/balance3d.js`의 `createStage` 공용 무대, 3차시는 `lesson3d.js`). 3·4차시 체험과 3차시 투사·인쇄 그림은 3D로 바뀌었다(2026-10-12; 정지 그림은 `stills3d.js`·`balance3d.js` 장면을 `scripts/local/render-3d-stills.mjs`로 렌더). 아직 2D: 1·2차시 그래프 체험(`graph`, `assessment-graph`)과 1·2차시 SVG 도해, 4차시 P33 수평 도해·Daily Test 칸 그림(§5).
 7. 결과 보고는 **서로 다른 상태로 구분**한다: ① 코드가 `main`에 반영됨 ② Pages 배포 성공 ③ 자동 검수 통과 ④ 실제 교실·전자칠판·태블릿 사용 승인(아직 없음). “현장 검수 완료”라고 쓰지 않는다. 확인하지 못한 것은 확인하지 못했다고 쓴다.
 8. `C:\Users\user\.codex\sessions`는 `E:\Codex\sessions`로 가는 디렉터리 정션이다. 재귀 삭제 금지. 작업 전 `E:\Codex\CODEX_STORAGE_NOTICE.md`, `E:\Codex\CODEX_STORAGE_STATUS.md`를 읽는다(`E:\Codex\AGENTS.md` 지시).
 
@@ -75,7 +75,7 @@
 
 1. **3차시 음성 32개 — 사용자 승인 대기**(만들어 둠, 미커밋). 사용자 결정(2026-10-12): “음성은 차후 가능하도록” — 음성이 붙는 코드(`pageVoice`)와 P26·P30 안내 문장은 이미 `main`에 들어갔다. 승인되면 **최신 `main`에서 새 worktree를 만들고 그 작업본의 mp3 32개와 `voice-library.json`만 복사**해 커밋 → `build-sample-manifest.mjs` → `--check` → PR → 병합 → 배포 확인(공개 mp3 해시 비교) → `TEACHER-LECTURE-03-QA.md` 갱신. 옛 작업본의 `app.js`·`source-lessons.js`는 `main`과 같으므로 가져오지 않는다. 어색한 문장은 그 줄만 `--force`로 다시.
 2. **4차시 음성 21줄 — 사용자가 “나중에”로 보류.** 지금은 만들지 않는다(§0-5).
-3. ~~3차시 체험 4종 3D화~~ — **2026-10-12 완료**(`lesson3d.js`). 안내 문장은 바꾸지 않아 3차시 음성 목록 32줄은 그대로 유효하다. 남은 2D: 3차시 투사·인쇄 도해(P21~P31의 SVG), 1·2차시 그래프 체험.
+3. ~~3차시 체험 4종 3D화~~ — **2026-10-12 완료**(`lesson3d.js`). 안내 문장은 바꾸지 않아 3차시 음성 목록 32줄은 그대로 유효하다. 3차시 투사·인쇄 그림도 3D 렌더 그림으로 바꿨다(2026-10-12). 남은 2D: 1·2차시 그래프 체험과 SVG 도해, 4차시 P33·Daily Test 칸 그림.
 4. 4차시 보완 후보: P33 수평 도해(`levelArt`)와 Daily Test 칸 그림(`panBalanceMini`)은 교재 도해를 따른 2D 선 그림, P39 바퀴 3D 그림(`ramp-wheel*.jpg`)은 아직 아쉬움 → 사용자 결정 대기.
 5. **5차시** = 본책 36쪽부터(CHAPTER 06 용수철저울의 원리 · 앉은뱅이저울의 구조). 시작 전 G: 본책 36쪽부터를 직접 읽고 범위를 사용자와 정한다. 아직 시작하지 않았다.
 6. 사용자 검수 게이트(미완): 실제 전자칠판·태블릿·교사 시연, 대상 학년(`learner-fit`), 교육 내용 검수(차시별 QA 문서의 메모), 17쪽 “반비례” 표현, Daily Test 2차시 9~11번·3차시 9번의 공식 근거, 4차시 Daily Test 조합의 교재 대조, 실물 프린터 출력.
@@ -86,7 +86,7 @@
 2. `content.js`에 `page()`·문항·`narration`·`lessonNames`·`assessmentGroupsByPrint`, `lesson-print-pages.js`(맨 끝), `lesson-stage.js` 장면, `teacher-lecture.js`·`source-lessons.js`·`student-guide.js`, 새 체험은 `activities.js`(`activityNames` 등록 필수)·3D는 `balance3d.js`.
 3. 하드코딩된 차시·쪽수를 찾아 고친다: `app.js`(`openDailyReport`·`q*`·credits 쪽수), `lesson-stage.js` 표지 개요, `daily-grading.js`(`itemLabel`), `remedy-bank.js`(`lessonRemedyLog`), `qr-map.js`(범위), `scripts/local/build-lesson-qr.py`(범위), `index.html`(차시 버튼·배지)·`start.html` 문구, `sample-v2/README.md`.
 4. 테스트 갱신: `tests/lesson-print.test.mjs`(쪽 수·평가 쪽 정규식·문항 id 정규식), `teacher-lecture*.test.mjs`(+새 `teacher-lecture-N.test.mjs`, `package.json`의 test 스크립트에 **공백 포함해** 추가), `screen-sweep-browser`(장면 범위·`okScroll`), `lesson-stage-browser`, `student-guide-browser`, `entry-teacher-browser`(`NN/총장면수`), `print-browser`(학생 N면·교사 2N−1면), 새 `lecture-0N-browser.mjs`·`daily-test-N-browser.mjs`.
-5. 정지 그림·QR·PDF: `render-lever-stills.mjs`(3D 정지 그림), `build-lesson-qr.py`, `build-print-pdfs.mjs`.
+5. 정지 그림·QR·PDF: `render-3d-stills.mjs`(3D 정지 그림), `build-lesson-qr.py`, `build-print-pdfs.mjs`.
 6. 문서: `TEACHER-LECTURE-0N-QA.md` 신규, `README.md §7`, `sample-v2/README.md`.
 7. 커밋 → **`node scripts/local/build-sample-manifest.mjs` 후 `--check`(커밋된 파일 기준이라 커밋한 뒤에 다시 실행)** → push → PR(`--body-file`) → 병합(사용자가 “네가 승인”이라고 해서 검증 후 직접 병합해 왔다. 그 위임이 유효한지 확인) → Pages 성공 확인 → 공개 사이트에서 새 테스트 실행·파일 해시 비교.
 
@@ -104,7 +104,7 @@ node tests/lecture-04-browser.mjs                          # 예시. tests/*-bro
 $env:MSG_BASE_URL='http://127.0.0.1:4320'                  # print-browser, worksheet-browser만: 경로 없는 주소 + MSG_QA_OUT
 $env:MSG_QA_OUT='E:/Codex/visualizations/msg-lecture-0N/proofs'
 node tests/print-browser.mjs
-node scripts/local/render-lever-stills.mjs                 # 4차시 3D 정지 그림 재생성(QA_BASE 필요)
+node scripts/local/render-3d-stills.mjs                 # 4차시 3D 정지 그림 재생성(QA_BASE 필요)
 $env:PYTHONPATH='E:\Codex\tmp\pylibs'; python scripts/local/build-lesson-qr.py
 node scripts/local/build-print-pdfs.mjs                    # sample-v2/print/*.pdf(MSG_BASE_URL 필요)
 ```
