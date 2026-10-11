@@ -1,8 +1,8 @@
 [
   {
     "path": "README.md",
-    "size": 6799,
-    "sha256": "c7fd35be99898ec0e51a9d3d858f51949edc68924c54ff37b9c0f615fd61daef"
+    "size": 6796,
+    "sha256": "23fb96a1bca17a60dfa0a630cf8358b685bcac32856969c85f1325f24a6a5b15"
   },
   {
     "path": "activities.js",
@@ -163,6 +163,91 @@
     "path": "art/historical-portrait.png",
     "size": 66404,
     "sha256": "67c66a303e09f4ae95617604cbe0050148d2bdc01c453291c255c30ad138a28f"
+  },
+  {
+    "path": "art/l3-apple-tree.jpg",
+    "size": 188227,
+    "sha256": "fc81c2c3be72519f5a9da06a71f15f78f68c0704bd60054c339c937bc9382f87"
+  },
+  {
+    "path": "art/l3-earth-daily4-arrows.jpg",
+    "size": 101880,
+    "sha256": "43a7b3be9886f7f59a8d59952a3966f2c5d9b3576f2e9cef31063c69fd435984"
+  },
+  {
+    "path": "art/l3-earth-daily4.jpg",
+    "size": 96330,
+    "sha256": "55cb05e089d246063748f6b68e0d5a9d97cb1c0df906f8aa3482740bfadcc4f7"
+  },
+  {
+    "path": "art/l3-earth-numbered-arrows.jpg",
+    "size": 112984,
+    "sha256": "dac834c9447e991adeb4f08e14723bacfc679c66f28892f7e60260b30116b229"
+  },
+  {
+    "path": "art/l3-earth-numbered.jpg",
+    "size": 107861,
+    "sha256": "2caa20b63f74064e82ddc81f77c5c945b5316b3fd39c0b3a35a18f5024b794cb"
+  },
+  {
+    "path": "art/l3-earth-objects.jpg",
+    "size": 101819,
+    "sha256": "509444400485cb3ffabaa18885356bd24b371c1166e587924452840c0d00f6da"
+  },
+  {
+    "path": "art/l3-graph-board-answer.jpg",
+    "size": 137604,
+    "sha256": "c59ba948a55af36358ac6783b1ecc16be85162e8d5f3c3a96e4f238a56e07af3"
+  },
+  {
+    "path": "art/l3-graph-board.jpg",
+    "size": 107432,
+    "sha256": "24c1d0c68a6c3d4e85025830e7e217d037b6e617abd9619d7191615d3168c95f"
+  },
+  {
+    "path": "art/l3-spring-10-100.jpg",
+    "size": 110919,
+    "sha256": "3d92bf971a5559c7644bfc2c714c3c75959af5597de7cec34233bf999bb5c90b"
+  },
+  {
+    "path": "art/l3-use-bungee.jpg",
+    "size": 44010,
+    "sha256": "83149d4d020e69ec98ae8fbcacab9fbb9a565944c779156502711cdb80219949"
+  },
+  {
+    "path": "art/l3-use-dam.jpg",
+    "size": 101297,
+    "sha256": "dedaf0d8884c52d8724ebe6fb58f84450cb48997a3d69ec01890b8c45c522cfa"
+  },
+  {
+    "path": "art/l3-use-drop.jpg",
+    "size": 38481,
+    "sha256": "58261c32711c127a13e526bfc6f9463c28691bdf1e36910725f6737554acc8b5"
+  },
+  {
+    "path": "art/l3-use-meteor.jpg",
+    "size": 49604,
+    "sha256": "e434abee52429a0ba97aa9669e7dc6be2fbd724a8f9eadee3868aaadc5b28750"
+  },
+  {
+    "path": "art/l3-use-mill.jpg",
+    "size": 126485,
+    "sha256": "3d06396ab1cdf4733232c8c8be25361cf36be9961effa038ba6c3f958b599463"
+  },
+  {
+    "path": "art/l3-use-water.jpg",
+    "size": 94961,
+    "sha256": "0b79b7810a6ca2aad0ff0db32f57597504a5dfa5d349a53513a50b658f786174"
+  },
+  {
+    "path": "art/l3-weigh-earth.jpg",
+    "size": 130425,
+    "sha256": "05794c317574441b4bd67ca9b9d89f0cbcb033ead327f8e48cbfda5860ca8000"
+  },
+  {
+    "path": "art/l3-weigh-moon.jpg",
+    "size": 98857,
+    "sha256": "92b0808af98ee911f44d2803753b8bbb39bfdb46dae673e7b21a344bdce4ea07"
   },
   {
     "path": "art/lever-2-4-held.jpg",
@@ -1146,8 +1231,8 @@
   },
   {
     "path": "content.js",
-    "size": 65466,
-    "sha256": "91bfd41a955707b9087bed08d518cc9cb5ea5161a3b1816b649c881dd41f9125"
+    "size": 65644,
+    "sha256": "6b26f9692f908dcb270b3d29b60f5087036e064b9c5b0192615970fa755c898b"
   },
   {
     "path": "daily-grading.js",
@@ -1186,8 +1271,8 @@
   },
   {
     "path": "graphics.js",
-    "size": 23912,
-    "sha256": "8612ba61765b8a74533aabe7caf8bcc66c76850828ea5afcaa62c4e77c9dac64"
+    "size": 15928,
+    "sha256": "96ace9e0acc8d0bf592d575fb5a9b99cc90b85c1f6c61f281845bf12907c4e4d"
   },
   {
     "path": "guide-theme.css",
@@ -1216,28 +1301,28 @@
   },
   {
     "path": "lesson-print-pages.js",
-    "size": 30237,
-    "sha256": "7f4ed9fe3a796d78def3eb8799b4a6e7f783b88752e490c3614dfb1366d7e8a0"
+    "size": 30569,
+    "sha256": "2ebf797c0913db39821dbd0b9cbe86d436e9a3367f404c659ac6fe530428b923"
   },
   {
     "path": "lesson-print.css",
-    "size": 33552,
-    "sha256": "8b89d66e79009909cdfe744fab539155b5204072da9723c26924bd4d606b86ae"
+    "size": 34111,
+    "sha256": "be741495b0c645b753aeaef1be10b1dec74773696cf90b271f5025b67a32752e"
   },
   {
     "path": "lesson-stage.css",
-    "size": 46051,
-    "sha256": "a62a3f501ca7b71cfd5708b7aa67ee7a7b1ae858c09cdd4f313cffd32e26d412"
+    "size": 46348,
+    "sha256": "9d157ac968556d8a3d033b7248720008af9879e3cdee2be342188184aa5fe91d"
   },
   {
     "path": "lesson-stage.js",
-    "size": 34288,
-    "sha256": "6ac5265eec792b7f5bd63ab39c65dae0e5b26a456b3c00e4e1752cc7fd4f0a2f"
+    "size": 34944,
+    "sha256": "1f6871f77540b05ad3c2026b434268fb946f4886ecc04f5d76644acd1b913dcb"
   },
   {
     "path": "lesson3d.js",
-    "size": 21416,
-    "sha256": "a822729e4fcbc66fe07603be10135db321296db9961e67e502d65b256b907444"
+    "size": 21465,
+    "sha256": "934f6d75900bd46f03019eadb3b237818fa0955f1542ccfdbd1961b0f3b3d083"
   },
   {
     "path": "live-book.css",
@@ -1376,13 +1461,13 @@
   },
   {
     "path": "print/student.pdf",
-    "size": 13899077,
-    "sha256": "8b0c33fe77ef3558738adcd45505383f4693aacf0c774c38f677c1a5c6c8b5a3"
+    "size": 15261388,
+    "sha256": "8f59ca20762699274b8a71488109f77ec58208d6f37fa390877840fc1a79f8e3"
   },
   {
     "path": "print/teacher.pdf",
-    "size": 14249658,
-    "sha256": "4974fc7634b8cbae0dde4cf8bd6c3535f4b983cf30aa05d4334d414493f41981"
+    "size": 15611898,
+    "sha256": "440b80a8cd94922436ba5df8317473aa14d881e6174f3612cc58a5e1143a82dd"
   },
   {
     "path": "qr-map.js",
@@ -1793,6 +1878,11 @@
     "path": "start.html",
     "size": 7371,
     "sha256": "767d226bd012fa0e719c32ef707237fc268098eb87b63989a2566d4f31c78130"
+  },
+  {
+    "path": "stills3d.js",
+    "size": 14241,
+    "sha256": "27e5d6af3bd484f61520eb4973528ea0228ef5a6e61bb1f1a44c0c1b4ccd22df"
   },
   {
     "path": "student-guide.css",

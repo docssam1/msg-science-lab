@@ -1,5 +1,5 @@
 import {inquiryPages,inquiryNarration} from './inquiry-pages.js';
-import {scaleArt, springArt, eyeArt, graphSVG, graphChoices, toolIcon, loadArt, earthArt, panBalanceMini} from './graphics.js';
+import {scaleArt, springArt, eyeArt, graphSVG, graphChoices, toolIcon, loadArt, panBalanceMini} from './graphics.js';
 import {weightPlans} from './physics.js';
 import {UNCONFIRMED} from './remedy-bank.js';
 export const section=(n,title,body)=>`<section class="unit-section"><h3><span>${n}</span>${title}</h3>${body}</section>`;
@@ -102,7 +102,7 @@ export function questionHTML(q,{print=false}={}){
  if(q.kind==='pair')b+=`<div class="pair-answers">${(q.slots||['㉠','㉡']).map((v,i)=>`<label>${v}<select name="${q.id}-${i}" data-answer-field><option value="">선택</option>${(q.choices||['조금','많이']).map(c=>`<option>${c}</option>`).join('')}</select></label>`).join('')}</div>`;
  if(q.kind==='set')b+=`<div class="parts-answers">${Array.from({length:q.count},(_,i)=>`<label>${'①②③④'[i]}<input name="${q.id}-${i}" data-answer-field autocomplete="off" maxlength="20"></label>`).join('')}</div>`;
  if(q.kind==='draw'&&q.figure==='pans')b+=`<div class="student-graphic">${art(weightsSheet(false),'print-graph pans-graph')}</div><div class="teacher-graphic">${art(weightsSheet(true),'print-graph pans-graph')}</div><p class="draw-note">추를 접시에 그려 넣거나, 양팔저울 체험에서 평형이 되는 조합을 찾아보세요.</p><button class="page-action" data-action="weights">양팔저울 체험 열기</button>`;
- else if(q.kind==='draw'){const items=earth3Items;b+=`<div class="student-graphic">${art(earthArt({items,arrows:false}),'print-graph')}</div><div class="teacher-graphic">${art(earthArt({items,arrows:true}),'print-graph')}</div><p class="draw-note">화살표는 교재에 직접 그리거나, 중력의 방향 체험에서 확인해 보세요.</p><button class="page-action" data-action="gravity">중력의 방향 체험 열기</button>`;}
+ else if(q.kind==='draw'){const items=earth3Items;b+=`<div class="student-graphic">${art(`<img class="still3d" src="./art/l3-earth-daily4.jpg" alt="지구 주변의 물체 세 개 3D 그림">`,'print-graph')}</div><div class="teacher-graphic">${art(`<img class="still3d" src="./art/l3-earth-daily4-arrows.jpg" alt="지구 주변 물체 세 개와 지구 중심을 향한 화살표 3D 그림">`,'print-graph')}</div><p class="draw-note">화살표는 교재에 직접 그리거나, 중력의 방향 체험에서 확인해 보세요.</p><button class="page-action" data-action="gravity">중력의 방향 체험 열기</button>`;}
  if(q.kind==='graph')b+=table(['추의 무게(g)','10','20','30'],[['늘어난 길이(cm)','4','8','12']])+`<div class="student-graphic">${art(graphSVG({step:4,labels:false}),'print-graph')}</div><div class="teacher-graphic">${art(graphSVG({step:4,points:[[10,4],[20,8],[30,12]]}),'print-graph')}</div>`+`<button class="page-action" data-action="assessment-graph">그래프에 점 찍고 제출하기</button>`;
  const answer=UNCONFIRMED.has(q.id)?'공식 해설 대조 필요':q.kind==='draw'?(q.figure==='pans'?'1~13 g를 모두 그림으로 나타내기 (물체 + 왼쪽 추 = 오른쪽 추가 되는 조합)':'세 물체 모두 지구 중심 방향으로 화살표'):Array.isArray(q.answer)?JSON.stringify(q.answer):q.options?q.options[q.answer]:q.answer;
  return prefix+b+`<div class="teacher-answer">정답: ${answer}<p>${UNCONFIRMED.has(q.id)?'공식 해설과 원문을 대조한 뒤 공개합니다.':q.why}</p></div><div class="question-feedback" data-feedback="${q.id}" hidden></div></div>`;

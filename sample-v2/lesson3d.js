@@ -8,7 +8,7 @@ import {roundedBoxGeometry} from './everyday-objects-3d.js';
 const UP=new THREE.Vector3(0,1,0);
 function rng(seed){let s=seed;return ()=>(s=(s*16807)%2147483647)/2147483647;}
 function canvas2d(w,h){const c=document.createElement('canvas');c.width=w;c.height=h;return [c,c.getContext('2d')];}
-function earthTexture(stage){
+export function earthTexture(stage){
  const [c,g]=canvas2d(1024,512);
  const sea=g.createLinearGradient(0,0,0,512);sea.addColorStop(0,'#24649f');sea.addColorStop(.5,'#3a8fd0');sea.addColorStop(1,'#24649f');g.fillStyle=sea;g.fillRect(0,0,1024,512);
  const r=rng(11);
@@ -16,17 +16,17 @@ function earthTexture(stage){
  g.fillStyle='rgba(255,255,255,.93)';g.fillRect(0,0,1024,28);g.fillRect(0,484,1024,28);
  return stage.canvasTex(c);
 }
-function moonTexture(stage,w=1024,h=512){
+export function moonTexture(stage,w=1024,h=512){
  const [c,g]=canvas2d(w,h);g.fillStyle='#a8a8a3';g.fillRect(0,0,w,h);const r=rng(5);
  for(let i=0;i<260;i++){const x=r()*w,y=r()*h,s=3+r()*26;g.fillStyle=`rgba(70,70,68,${.12+r()*.2})`;g.beginPath();g.arc(x,y,s,0,Math.PI*2);g.fill();g.fillStyle=`rgba(235,235,230,${.1+r()*.15})`;g.beginPath();g.arc(x-s*.25,y-s*.25,s*.55,0,Math.PI*2);g.fill();}
  return stage.canvasTex(c);
 }
-function grassTexture(stage){
+export function grassTexture(stage){
  const [c,g]=canvas2d(512,512);g.fillStyle='#86b765';g.fillRect(0,0,512,512);const r=rng(3);
  for(let i=0;i<2600;i++){g.fillStyle=`rgba(${60+r()*40|0},${120+r()*60|0},${50+r()*30|0},.55)`;g.fillRect(r()*512,r()*512,2,5);}
  const t=stage.canvasTex(c);t.wrapS=t.wrapT=THREE.RepeatWrapping;t.repeat.set(6,6);return t;
 }
-function arrow(stage,parent,color='#d13a35'){
+export function arrow(stage,parent,color='#d13a35'){
  const m=stage.phys({color,roughness:.35,clearcoat:.5}),g=new THREE.Group();
  const shaft=stage.mesh(new THREE.CylinderGeometry(.075,.075,.72,20),m,g);shaft.position.y=.36;
  const head=stage.mesh(new THREE.ConeGeometry(.2,.36,24),m,g);head.position.y=.9;
@@ -84,11 +84,11 @@ function mountGravity(host,ctx){
 }
 
 // ───────── 지구·달에서 무게(26쪽 ⑤) / 60 kg인 사람(27쪽 ⑪) ─────────
-function helixGeometry(len,turns=11,radius=.2){
+export function helixGeometry(len,turns=11,radius=.2){
  const pts=[];const n=turns*24;for(let i=0;i<=n;i++){const t=i/n,a=t*turns*Math.PI*2;pts.push(new THREE.Vector3(Math.cos(a)*radius,-t*len,Math.sin(a)*radius));}
  return new THREE.TubeGeometry(new THREE.CatmullRomCurve3(pts),n,.035,8,false);
 }
-function displayTexture(stage,text,{w=512,h=192,bg='#15232b',fg='#7cf2a6'}={}){
+export function displayTexture(stage,text,{w=512,h=192,bg='#15232b',fg='#7cf2a6'}={}){
  const [c,g]=canvas2d(w,h);g.fillStyle=bg;g.fillRect(0,0,w,h);g.fillStyle=fg;g.font=`800 ${h*.52}px "Pretendard Variable","Segoe UI","Malgun Gothic",sans-serif`;g.textAlign='center';g.textBaseline='middle';g.fillText(text,w/2,h/2+6);return stage.canvasTex(c);
 }
 function mountWeigh(kind,host,ctx){
@@ -168,7 +168,7 @@ function mountWeigh(kind,host,ctx){
 }
 
 // ───────── 질량-무게 그래프(28쪽 ⑫) ─────────
-function boardTexture(stage){
+export function boardTexture(stage){
  const W=1600,H=1200,[c,g]=canvas2d(W,H);g.fillStyle='#21483b';g.fillRect(0,0,W,H);
  const X=x=>220+x*200,Y=y=>1040-y*15.5;
  g.strokeStyle='rgba(255,255,255,.18)';g.lineWidth=3;g.setLineDash([14,12]);

@@ -380,3 +380,13 @@
 .ramp-steps{margin:10px 0;padding-left:1.5em;font-size:17px;line-height:1.55}
 .ramp-steps li{display:list-item;margin:2px 0;padding:0;background:none;border:0;min-height:0}
 #print-root .ramp-steps{font-size:11pt}
+
+/* 3차시 3D 정지 그림(인쇄) */
+.still3d{display:block;max-width:100%;border-radius:8px;object-fit:contain}
+.lesson-large-art .still3d{height:100%;width:auto}
+.lesson-graph .still3d{height:100%;width:auto;margin:0 auto}
+.lesson-six .still3d{width:100%;height:auto}
+#print-root .lesson-six .still3d{height:32mm;width:auto;margin:0 auto}
+.still-pair{display:grid;grid-template-columns:1fr 1fr;gap:8px;height:100%;align-items:center}
+.still-pair .still3d{width:100%;height:auto;max-height:100%}
+.print-graph .still3d{height:100%;width:auto;margin:0 auto}
