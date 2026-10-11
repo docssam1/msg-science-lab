@@ -1,7 +1,7 @@
 // Screen-only lesson scenes. Printed pages stay in lesson-print-pages.js.
 // A scene points to the same source page, question and existing activity assets.
 import {q1,q2,questionHTML,toolRows,assessmentGroupsByPrint,earth3Items,weightsSheet} from './content.js';
-import {scaleArt,eyeArt,springArt,springActionArt,factorArt,graphSVG,graphChoices,toolIcon,levelArt} from './graphics.js';
+import {scaleArt,scaleStep,eyeArt,springArt,springActionArt,factorArt,graphSVG,graphChoices,toolIcon,levelArt} from './art3d.js';
 import {inquiryObjects,objectPhoto} from './everyday-objects.js';
 import {sourceLessons} from './source-lessons.js';
 import {LOCKED,formatKey} from './daily-grading.js';
@@ -22,8 +22,8 @@ const toolTiles=()=>visualTiles(toolRows.map(([id,name])=>[id==='expander'?toolI
 
 const scenes={
  P0:{cover:true},
- P1:{question:'용수철저울에는 어떤 부분이 있을까요?',answer:'손잡이 · 영점조절나사 · 용수철 · 표시자 · 눈금 · 고리',student:'인쇄한 교재에서 여섯 부분을 찾아 짚어 보세요.',activity:'parts',activityLabel:'3D 저울에서 부분 찾기',visual:()=>scaleArt({force:0,labels:false,showWeight:false})},
- P2:{question:'물체를 매달기 전에 무엇부터 확인해야 할까요?',answer:'물체가 없는 저울의 표시자가 0을 가리키는지 확인합니다.',student:'교재의 네 장면을 손가락으로 따라가고, 빈 저울을 직접 조절해 보세요.',activity:'zero',activityLabel:'빈 저울의 기준 조절하기',visual:()=>scaleArt({force:0,labels:false,showWeight:false})},
+ P1:{question:'용수철저울에는 어떤 부분이 있을까요?',answer:'손잡이 · 영점조절나사 · 용수철 · 표시자 · 눈금 · 고리',student:'인쇄한 교재에서 여섯 부분을 찾아 짚어 보세요.',activity:'parts',activityLabel:'3D 저울에서 부분 찾기',visual:()=>scaleArt({})},
+ P2:{question:'물체를 매달기 전에 무엇부터 확인해야 할까요?',answer:'물체가 없는 저울의 표시자가 0을 가리키는지 확인합니다.',student:'교재의 네 장면을 손가락으로 따라가고, 빈 저울을 직접 조절해 보세요.',activity:'zero',activityLabel:'빈 저울의 기준 조절하기',visual:()=>scaleStep('offzero')},
  P3:{question:'크기와 모양만 보고 다섯 물건의 무게를 알 수 있을까요?',answer:'겉모습만으로 정확한 무게를 알 수 없습니다. 먼저 예상하고 저울로 확인합니다.',student:'교재의 다섯 물건을 보고 가벼울 것 같은 순서를 예상해 보세요.',activity:'inquiry',activityLabel:'다섯 물건 예상하기',visual:objectGallery},
  P4:{question:'다섯 물건을 가벼울 것 같은 순서로 놓아 볼까요?',answer:'예상에 정해진 정답은 없습니다. 이유를 듣고 실제 측정 결과와 비교합니다.',student:'교재에 순서와 까닭을 적은 뒤 화면에서 물건을 움직여 보세요.',activity:'inquiry',activityLabel:'물건 순서 바꾸기',visual:objectGallery},
  P5:{question:'예상을 확인하려면 어떤 순서로 재야 할까요?',answer:'빈 저울 확인 → 물체 매달기 → 흔들림이 멈춘 뒤 눈금 읽기 → 기록',student:'교재의 표를 펼쳐 두고, 화면에서 잰 다섯 물건의 값을 기록해 보세요.',activity:'inquiry',activityLabel:'3D 저울로 직접 재기',visual:()=>`<div class="stage-p5-visual">${scaleArt({force:0,labels:false,showWeight:false})}${objectGallery()}</div>`},
@@ -79,7 +79,7 @@ function answerFor(question){
 }
 function questionVisual(question,{mode='teacher',answerOpen=false}={}){
  const image=question.image?`<img class="stage-question-image" src="./art/${escapeText(question.image)}" alt="${question.id==='a1'?'ㄱ·ㄴ·ㄷ·ㄹ이 표시된 원본 용수철저울 그림':'ㄱ·ㄴ·ㄷ 눈높이가 표시된 원본 그림'}">`:'';
- const graphic=question.graphic?graphChoices():question.kind==='graph'?graphSVG({step:4,labels:false}):'';
+ const graphic=question.graphic?graphChoices():question.kind==='graph'?graphSVG({step:4,points:mode==='teacher'&&answerOpen?question.answer:[]}):'';
  const passage=question.passage?`<p class="stage-passage">${escapeText(question.passage)}</p>`:'';
  const options=question.options&&!question.passage&&!question.graphic?`<ol class="stage-options">${question.options.map(option=>`<li>${escapeText(option)}</li>`).join('')}</ol>`:'';
  const draw=question.kind==='draw'?`<div class="stage-draw ${question.figure==='pans'?'stage-pans':''}">${question.figure==='pans'?weightsSheet(mode==='teacher'&&answerOpen):(mode==='teacher'&&answerOpen?still3d('l3-earth-daily4-arrows','지구 주변 물체 세 개와 지구 중심을 향한 화살표 3D 그림'):still3d('l3-earth-daily4','지구 주변의 물체 세 개 3D 그림'))}</div>`:'';

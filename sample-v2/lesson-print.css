@@ -390,3 +390,17 @@
 .still-pair{display:grid;grid-template-columns:1fr 1fr;gap:8px;height:100%;align-items:center}
 .still-pair .still3d{width:100%;height:auto;max-height:100%}
 .print-graph .still3d{height:100%;width:auto;margin:0 auto}
+/* 1·2·4차시 3D 렌더 그림(인쇄) */
+.still-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;height:100%;align-items:center}
+.still-row figure{margin:0;text-align:center}
+.still-row .still3d{width:100%;height:auto;max-height:100%}
+.still-row figcaption{font-size:14px;font-weight:700}
+.lesson-hero .still3d{height:100%;width:auto;margin:0 auto}
+.lesson-hero .still-row{height:100%}
+.lesson-three figure .still3d,.lesson-four figure .still3d{width:100%;height:auto;max-height:240px;object-fit:contain}
+.factor-trio .still3d{width:100%;height:auto}
+.weight-trio .still3d{width:100%;height:auto;max-height:260px}
+.weights-sheet figure{position:relative}
+.weights-sheet figcaption{position:absolute;left:4px;top:0;font-weight:800;font-size:12px}
+.weights-sheet .still3d{width:100%;height:auto}
+#print-root .weights-sheet .still3d{max-height:23mm;width:auto}

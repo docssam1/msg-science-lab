@@ -452,3 +452,20 @@ body.lesson-stage-mode #workspace .deck-look .stage-visual-tiles.stage-lever-til
 .still3d{display:block;width:100%;height:100%;object-fit:contain;border-radius:10px}
 .stage-still-pair,.still-pair{display:grid;grid-template-columns:1fr 1fr;gap:10px;width:100%;height:100%;align-items:center}
 .stage-still-pair .still3d{height:auto;max-height:100%}
+/* 1·2·4차시 3D 렌더 그림 */
+.still-row{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;width:100%;height:100%;align-items:center}
+.still-row figure{margin:0;display:flex;flex-direction:column;align-items:center;min-height:0;height:100%}
+.still-row .still3d{flex:1 1 auto;min-height:0;width:100%;height:100%;object-fit:contain}
+.still-row figcaption{font-size:clamp(12px,1vw,20px);font-weight:700;color:#173955;padding-top:4px}
+.still3d.photo{object-fit:cover}
+.tool-figures{display:grid;grid-template-columns:1fr 1fr;gap:10px;align-items:stretch}
+.tool-figures .tool-photo{margin:0}
+.tool-figures .tool-photo img{width:100%;height:clamp(200px,32vh,380px);object-fit:cover;border-radius:12px}
+.tool-figures .tool-spring{height:clamp(200px,32vh,380px)}
+.factor-3d{margin:0}
+.factor-3d img{display:block;width:min(100%,48vh);margin:0 auto;border-radius:12px}
+.weights-sheet figure{position:relative}
+.weights-sheet figcaption{position:absolute;left:6px;top:2px;font-weight:800;color:#173955;font-size:clamp(11px,.9vw,18px)}
+.weights-sheet .still3d{width:100%;height:auto}
+.stage-question-paper .weights-sheet .still3d{max-height:62px;width:auto;max-width:100%;margin:0 auto}
+.stage-question-paper .weights-sheet figcaption{top:0;font-size:12px}

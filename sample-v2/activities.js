@@ -1,6 +1,6 @@
-import {esc,toolIcon,springArt,eyeArt,graphSVG} from './graphics.js';
-import {dataLesson,dataAssessment,gradePoints,clamp} from './physics.js';
-import {toolRows} from './content.js';
+import {esc} from './graphics.js';
+import {toolIcon,springArt} from './art3d.js';
+import {clamp} from './physics.js';
 export const activityNames={inquiry:'저울이 왜 필요할까요? · 예상과 실험',battle:'두 팀 무게 줄 세우기',parts:'이 부품은 어떤 일을 할까요?',zero:'물체를 달기 전에 영점 맞추기',compare:'어느 물체가 더 무거울까요?',target:'고리를 당겨 목표 눈금에 맞추기',eye:'시선만 바꾸고 눈금 직접 찍기',types:'어떤 저울을 사용할까요?',history:'용수철의 이름과 과거',watch:'기록영상 · 시계 속 태엽',balance:'기록영상 · 작은 용수철의 반복 운동',future:'교재의 미래 전망 · 개념 도해',elastic:'잡아당기고 놓아 보는 탄성',compression:'누르는 힘과 길이 변화',measure:'추 10·20·30 g과 늘어난 길이',graph:'표를 읽고 그래프에 점 찍기','assessment-graph':'일일평가 12번 · 다른 표, 다른 그래프','spring-film':'실제 용수철 운동 관찰',factors:'용수철의 조건을 하나씩 비교',tools:'생활 속 여섯 도구',gravity:'위치마다 떨어지는 방향 고르기','moon-weight':'지구와 달에서 무게 비교하기','weight-mass':'60 kg인 사람의 질량과 무게','mass-weight-graph':'질량과 무게 그래프 점 찍기',lever:'같은 무게의 상자로 수평 만들기',weights:'1 g·3 g·9 g 추로 양팔저울 수평 잡기',assessment:'답안과 확인 질문',source:'원본 교재 대조',reading:'본문 크게 읽기',credits:'외부 자료와 구현 범위'};
 const partList=[['handle','손잡이','손으로 잡거나 스탠드에 고정하는 부분입니다.'],['zero','영점조절나사','물체를 달기 전에 표시자를 0에 맞춥니다.'],['spring','용수철','물체를 매달면 늘어나는 부분입니다.'],['pointer','표시자','눈금을 가리키며 윗부분을 기준으로 읽습니다.'],['scale','눈금','측정값과 단위를 확인하는 표시입니다.'],['hook','고리','무게를 재려는 물체를 매다는 부분입니다.']];
 export async function mountActivity(kind,host,ctx){
@@ -89,19 +89,7 @@ export async function mountActivity(kind,host,ctx){
   cleanup=()=>{clearTimeout(tour);externalHandlers.forEach(f=>f());ctx.setLab(null);lab?.destroy();};
   return {destroy};
  }
- if(kind==='graph'||kind==='assessment-graph'){
-  const assessment=kind==='assessment-graph',expected=assessment?dataAssessment:dataLesson,step=assessment?4:3,max=step*4,key=assessment?'graph-assessment':'graph-lesson';
-  let points=ctx.load(key,[]);host.innerHTML='<div class="graph-layout"><div class="graph-holder"></div><div class="graph-copy"></div></div>';
-  const graph=host.querySelector('.graph-holder'),side=host.querySelector('.graph-copy');
-  side.innerHTML=`<b>${assessment?'일일평가 12번 자료':'본문 17쪽의 실험 자료'}</b><table><tr><th>g</th><th>cm</th></tr>${expected.map(([x,y])=>`<tr><td>${x}</td><td>${y}</td></tr>`).join('')}</table><p>가로축은 추의 무게, 세로축은 <b>늘어난 길이</b>입니다.</p><label>g <input data-x type="number" min="10" max="30" step="10" value="10" aria-label="추의 무게 g"></label><label>cm <input data-y type="number" min="0" max="${max}" step="${step}" value="${step}" aria-label="늘어난 길이 cm"></label><button data-add>점 찍기</button><button data-check class="selected">그래프 제출 · 확인</button><button data-clear>이 그래프 다시 그리기</button><p>${assessment?'앞의 실험은 3·6·9 cm, 이 문제는 4·8·12 cm입니다. 서로 다른 자료를 섞지 않습니다.':'측정표에서 찾은 값을 하나씩 점으로 옮겨 보세요.'}</p>`;
-  function draw(){let grid='';for(let x=0;x<=30;x+=10){let X=100+x*14;grid+=`<path d="M${X} 80V440" stroke="#b8cdd3" stroke-dasharray="5 5"/><text x="${X}" y="470" text-anchor="middle" font-size="20">${x}</text>`;}for(let i=0;i<=4;i++){let y=i*step,Y=440-i*90;grid+=`<path d="M100 ${Y}H520" stroke="#b8cdd3" stroke-dasharray="5 5"/><text x="83" y="${Y+7}" text-anchor="end" font-size="20">${y}</text>`;}
-   graph.innerHTML=`<svg class="graph-canvas" viewBox="0 0 650 550" aria-label="추의 무게와 늘어난 길이 그래프. 아래 입력으로도 점을 찍을 수 있습니다."><text x="100" y="35" font-size="22" font-weight="700">늘어난 길이 (cm)</text>${grid}<path d="M100 57V440H555" stroke="#173955" stroke-width="3" fill="none"/><text x="410" y="516" font-size="22" font-weight="700">추의 무게 (g)</text>${[10,20,30].flatMap(x=>Array.from({length:5},(_,i)=>`<circle class="pickable" data-point="${x},${i*step}" cx="${100+x*14}" cy="${440-i*90}" r="20" fill="transparent" role="button" tabindex="0" aria-label="${x} g, ${i*step} cm"/>`)).join('')}${points.slice().sort((a,b)=>a[0]-b[0]).map(([x,y])=>`<circle cx="${100+x*14}" cy="${440-y/max*360}" r="8" fill="#ca624a" pointer-events="none"/><text x="${100+x*14+10}" y="${440-y/max*360-10}" font-size="17" pointer-events="none">(${x}, ${y})</text>`).join('')}</svg>`;
-   graph.querySelectorAll('[data-point]').forEach(p=>{const add=()=>setPoint(...p.dataset.point.split(',').map(Number));p.onclick=add;p.onkeydown=e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();add();}};});}
-  function setPoint(x,y){if(![10,20,30].includes(x)||!Number.isFinite(y)||y<0||y>max){setStatus('추의 무게는 10·20·30 g 중에서, 길이는 눈금 범위 안에서 선택하세요.');return;}points=points.filter(p=>p[0]!==x);points.push([x,y]);ctx.save(key,points);draw();setStatus(`${x} g, ${y} cm에 점을 찍었습니다. (${points.length}/3)`);}
-  side.querySelector('[data-add]').onclick=()=>setPoint(+side.querySelector('[data-x]').value,+side.querySelector('[data-y]').value);
-  side.querySelector('[data-check]').onclick=()=>{const ok=gradePoints(points,expected);ctx.save(key+'-result',{correct:ok,points});setStatus(ok?'세 점이 모두 표와 일치합니다. 무게와 늘어난 길이의 관계를 설명해 보세요.':'아직 표와 다른 점이 있어요. 각 추의 무게에 대응하는 늘어난 길이를 다시 읽어 보세요.');};
-  side.querySelector('[data-clear]').onclick=()=>{points=[];ctx.save(key,points);draw();setStatus('이 그래프의 점을 지웠습니다.');};draw();return {destroy};
- }
+ if(['graph','assessment-graph','factors','tools'].includes(kind)){const {mountLessons12}=await import('./labs12.js');const inst=mountLessons12(kind,host,ctx,say);cleanup=()=>inst.destroy();return {destroy};}
  if(['watch','balance','spring-film'].includes(kind)){
   const isWatch=kind!=='spring-film';const name=kind==='watch'?'watch-mainspring.mp4':kind==='balance'?'watch-balance.mp4':'spring-observation.mp4';
   const cap=isWatch?'How a Watch Works (1949) · Handy (Jam) Organization / Hamilton Watch Company · Prelinger Archives · Public Domain. 원음 제거·일부 발췌.':'Hookeslawexample · Walter Lewin / MIT Course 8.01 · CC BY 3.0. 원음 제거·29~43초 발췌. 본책의 10·20·30 g 표와는 다른 관찰 실험입니다.';
@@ -112,13 +100,6 @@ export async function mountActivity(kind,host,ctx){
   video.onended=()=>{btn.textContent='↻ 다시 보기';const q=kind==='watch'?'방금 본 태엽은 감아 두었다가 풀리면서 움직였어요. 책의 코일 모양과 어떤 점이 같고 다른지 말해 볼까요?':kind==='balance'?'작은 용수철이 반복해서 모양을 바꾸었지요. 용수철이 원래 모양으로 돌아가려는 성질을 찾아보세요.':'추가 위아래로 움직이는 동안 지금 눈금을 읽어도 될까요? 안정된 뒤 읽어야 하는 이유를 설명해 보세요.';setStatus(q);};video.onerror=()=>setStatus('영상 파일을 불러오지 못했습니다. 본문과 도해로 활동을 계속할 수 있습니다.');
   if(ctx.auto)video.play().catch(()=>setStatus('브라우저가 재생을 멈췄습니다. 영상 시작을 눌러 주세요.'));
   cleanup=()=>{video.pause();video.removeAttribute('src');video.replaceChildren();video.load();};return {destroy};
- }
- if(kind==='factors'){
-  const factors=[['material','재질'],['thickness','철사 굵기'],['diameter','코일 지름']];
-  let selected=0;const notes=ctx.load('factor-notes',{});
-  const sketch=(id,variant)=>{const width=id==='thickness'&&variant?6:3;const radius=id==='diameter'&&variant?48:30;const path=Array.from({length:13},(_,i)=>`L${100+(i%2?radius:-radius)} ${47+i*13}`).join(' ');return `<svg viewBox="0 0 200 250" role="img" aria-label="비교용 단순화된 용수철 도해"><path d="M38 22H162M100 22V42${path}L100 220" fill="none" stroke="#396d7c" stroke-width="${width}" stroke-linejoin="round"/></svg>`;};
-  function draw(){const [id,label]=factors[selected],same=factors.filter((_,i)=>i!==selected).map(x=>x[1]);host.innerHTML=`<div class="factor-activity"><h3>무엇을 하나만 바꿀까요?</h3><div class="factor-tabs">${factors.map(([key,name],i)=>`<button data-factor="${i}" aria-pressed="${i===selected}">${name}</button>`).join('')}</div><p>바꿀 조건: <b>${label}</b> · 같게 둘 조건: <b>${same.join(' · ')} · 매단 힘</b></p><div class="factor-pair"><figure>${sketch(id,0)}<figcaption>${label} A</figcaption></figure><figure>${sketch(id,1)}<figcaption>${label} B</figcaption></figure></div><p>이 그림은 비교할 조건만 나타낸 도해입니다. 늘어난 길이나 탄성력의 크기는 실제 관찰 뒤 기록하세요.</p><label>예상과 관찰<textarea data-factor-note rows="3" maxlength="500">${esc(notes[id]||'')}</textarea></label><button data-factor-save>기록 저장</button></div>`;host.querySelectorAll('[data-factor]').forEach(b=>b.onclick=()=>{notes[id]=host.querySelector('[data-factor-note]').value;ctx.save('factor-notes',notes);selected=+b.dataset.factor;draw();});host.querySelector('[data-factor-save]').onclick=()=>{notes[id]=host.querySelector('[data-factor-note]').value;ctx.save('factor-notes',notes);setStatus(`${label}을 바꿔 비교한 기록을 저장했습니다.`);};}
-  draw();return {destroy(){const id=factors[selected][0];notes[id]=host.querySelector('[data-factor-note]')?.value||notes[id]||'';ctx.save('factor-notes',notes);}};
  }
  if(kind==='types'){
   let done=new Set();host.innerHTML='<div class="concept-review"><h3>어떤 저울이 알맞을까요?</h3><div data-type-q></div><div data-type-f></div></div>';let i=0;const list=[['실험용 추','용수철저울'],['육류와 채소','앉은뱅이저울'],['사람의 몸','체중계']];const draw=()=>{host.querySelector('[data-type-q]').innerHTML=`<div class="review-question">${list[i][0]}를 재려고 합니다.</div>${['용수철저울','앉은뱅이저울','체중계'].map(x=>`<button data-choice="${x}">${x}</button>`).join('')}`;host.querySelectorAll('[data-choice]').forEach(b=>b.onclick=()=>{if(b.dataset.choice===list[i][1]){done.add(i);host.querySelector('[data-type-f]').textContent=`맞아요. ${list[i][0]}에는 ${list[i][1]}가 알맞습니다.`;if(i<2){i++;draw();}else setStatus('세 종류의 용도를 모두 확인했습니다. 사용 전에 0을 확인하는 공통점도 기억하세요.');}else host.querySelector('[data-type-f]').textContent='물체를 어디에 놓는 저울인지 다시 생각해 보세요.';});};draw();return {destroy};
@@ -136,10 +117,5 @@ export async function mountActivity(kind,host,ctx){
  }
  if(['gravity','moon-weight','weight-mass','mass-weight-graph'].includes(kind)){const {mountLesson3}=await import('./lesson3d.js');const inst=mountLesson3(kind,host,ctx);cleanup=()=>inst.destroy();return {destroy};}
  if(kind==='lever'||kind==='weights'){const {mountBalance}=await import('./balance3d.js');cleanup=()=>{};const inst=mountBalance(kind,host,ctx);cleanup=()=>inst.destroy();return {destroy};}
- if(kind==='tools'){
-  let chosen=0;host.innerHTML='<div class="tool-activity"><div class="tool-main"></div><div class="tool-picker"></div></div>';const main=host.querySelector('.tool-main'),picker=host.querySelector('.tool-picker');
-  picker.innerHTML=toolRows.map(([k,t],i)=>`<button data-tool="${i}">${t}</button>`).join('');
-  const draw=()=>{const [key,title,text]=toolRows[chosen];main.classList.remove('running');main.innerHTML=`${toolIcon(key)}<h3>${title}</h3><p>${text}</p><small>본책 p19의 설명을 나타낸 개념 도해 · 실제 제품 구조와 다를 수 있음</small><button data-tool-motion>개념 모형 움직이기</button><div class="control-grid"><button data-role="compress">줄었다가 돌아온다</button><button data-role="extend">늘었다가 돌아온다</button></div>`;main.querySelector('svg').classList.add('art');main.querySelector('[data-tool-motion]').onclick=e=>{const on=main.classList.toggle('running');e.target.textContent=on?'움직임 멈추기':'개념 모형 움직이기';};main.querySelectorAll('[data-role]').forEach(b=>b.onclick=()=>{setStatus(b.dataset.role===(chosen<3?'compress':'extend')?'본책에서 설명한 분류와 같습니다. 실제 도구의 어느 부분인지도 찾아보세요.':'본책 p19에서 이 도구가 어떻게 설명되어 있는지 다시 읽어 보세요.');});};picker.querySelectorAll('[data-tool]').forEach(b=>b.onclick=()=>{chosen=+b.dataset.tool;draw();say(toolRows[chosen][2]);});draw();return {destroy};
- }
  host.innerHTML='<div class="large-reading">교재에서 해당 내용을 확인할 수 있습니다.</div>';return {destroy};
 }

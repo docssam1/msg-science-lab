@@ -17,7 +17,8 @@ try{
  await page.waitForFunction(()=>document.documentElement.dataset.ready==='true');
  // the paper shows the thirteen empty balances; only the book's 1 g example is drawn
  assert.equal(await page.locator('#lesson-stage .stage-question-paper .student-graphic .weights-sheet figure').count(),13);
- assert.equal(await page.locator('#lesson-stage .stage-question-paper .student-graphic .weights-sheet svg g rect').count(),1,'only the book example (1 g on the right pan) is drawn for the student');
+ assert.equal(await page.locator('#lesson-stage .stage-question-paper .student-graphic .weights-sheet img[src*="l4-pans-1.jpg"]').count(),1,'only the book example (1 g) shows weights for the student');
+ assert.equal(await page.locator('#lesson-stage .stage-question-paper .student-graphic .weights-sheet img[src*="l4-pans-empty.jpg"]').count(),12,'the other twelve balances are empty');
  assert.equal(await page.locator('#lesson-stage [data-action="weights"]').count()>0,true,'the balance lab is offered');
  assert.match(await page.locator('#lesson-stage [data-stage-grade]').innerText(),/내 기록 확인하기/);
  await page.locator('#lesson-stage [data-stage-grade]').click();
