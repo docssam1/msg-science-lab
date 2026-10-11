@@ -1,13 +1,13 @@
 [
   {
     "path": "README.md",
-    "size": 6796,
-    "sha256": "23fb96a1bca17a60dfa0a630cf8358b685bcac32856969c85f1325f24a6a5b15"
+    "size": 7018,
+    "sha256": "629d55c404abb102535d95373ea8bd5826f7a55317805b812f1ea8829e845f5c"
   },
   {
     "path": "activities.js",
-    "size": 31151,
-    "sha256": "96e3612fece8800a1d3d1c135e137cf0ddf7138a2c46931dee0b22a028c6b2fb"
+    "size": 23712,
+    "sha256": "04e9570700748b8fbb5742d1d9b09faeeebf707c4d1a5e56b4db14fae59a01a6"
   },
   {
     "path": "advanced-bank.js",
@@ -16,8 +16,8 @@
   },
   {
     "path": "app.js",
-    "size": 58755,
-    "sha256": "55179714186192ec370809580b96b2b439e8d25d50c8ee33af6ad4cccb435aa1"
+    "size": 58783,
+    "sha256": "8255ffd172979fc5aea246572ec67a046a3216b9ad07e5f05c3eb76201fdf00e"
   },
   {
     "path": "art/FUTURE-IMAGE-PROMPTS.md",
@@ -165,6 +165,146 @@
     "sha256": "67c66a303e09f4ae95617604cbe0050148d2bdc01c453291c255c30ad138a28f"
   },
   {
+    "path": "art/l1-eye-front.jpg",
+    "size": 117046,
+    "sha256": "1fb1ca010edb8ea7889ee998b95d3e9b87972d32f3b5be6e425efd002f872a30"
+  },
+  {
+    "path": "art/l1-eye-high.jpg",
+    "size": 130048,
+    "sha256": "9f651ca37caf3d9965ba70bf0386b2473e452bd5712af8776d7aa03bcf004eb9"
+  },
+  {
+    "path": "art/l1-eye-low.jpg",
+    "size": 124616,
+    "sha256": "9d7db35e5cd2e98c9684b3e9bd8f9cac3b847e555599209f371073a0d4cbc4a2"
+  },
+  {
+    "path": "art/l1-leaf-spring.jpg",
+    "size": 37654,
+    "sha256": "b239fb7d990de171af786438ffa7aa686203cda84800ebe42e82694306abb03a"
+  },
+  {
+    "path": "art/l1-scale-empty.jpg",
+    "size": 105535,
+    "sha256": "e24966893686e2b1d4e8b658c37efd5e9d8353758ed3b953b1fa9c5ed6f74f92"
+  },
+  {
+    "path": "art/l1-scale-loaded.jpg",
+    "size": 109023,
+    "sha256": "e7cb0969f2205a25cc86d20c2772b9367ef5692be8a9a0a8373ad58cdd6cd2c1"
+  },
+  {
+    "path": "art/l1-scale-offzero.jpg",
+    "size": 104273,
+    "sha256": "0df5a3a7edc978c73f407d4082550138368bc8b9eed893795be10a31f9787f76"
+  },
+  {
+    "path": "art/l1-scale-parts.jpg",
+    "size": 103418,
+    "sha256": "643898a0821d05391e62c3b5d5b866e94d8ade48d62b84ce5156129eeab8cc25"
+  },
+  {
+    "path": "art/l1-scale-read.jpg",
+    "size": 112240,
+    "sha256": "e800ceb46cb2e2f9a370b96935d07074c7e430689dcedb73dbc3a8f80b9e269d"
+  },
+  {
+    "path": "art/l2-compress-big.jpg",
+    "size": 83153,
+    "sha256": "cb3e7da753e356cd7a530b6c1253335d0d274344db2a81468c3e239b310567e6"
+  },
+  {
+    "path": "art/l2-compress-rest.jpg",
+    "size": 86648,
+    "sha256": "20ec6f72a6cdb30065ec138a1daeb801ff76b3b7d24e3fc63bf334457303c2f1"
+  },
+  {
+    "path": "art/l2-compress-small.jpg",
+    "size": 85138,
+    "sha256": "b80779c478d2ec8d2fbd0f849cb6458a3b80327dc39b56e8b90e324e73c288ad"
+  },
+  {
+    "path": "art/l2-factor-diameter.jpg",
+    "size": 110584,
+    "sha256": "b4a6d86cb696d61b7f131a15158ee9ad9b55e6f0bca2449300ebdc1dccf7e04a"
+  },
+  {
+    "path": "art/l2-factor-material.jpg",
+    "size": 111164,
+    "sha256": "cd6c1b4e87386469917b61b8a4ff572b74b83e0b43027741064d917bef2a9ba9"
+  },
+  {
+    "path": "art/l2-factor-wire.jpg",
+    "size": 109616,
+    "sha256": "fb0730c03e5298d84b1b0d67b5f56743139ccaa877682341b4cfccda72f782b4"
+  },
+  {
+    "path": "art/l2-graph-answer.jpg",
+    "size": 123350,
+    "sha256": "3482334d40938d494fd163ac59be075f7ef4279fb74b3a09deb851b7eb54ba0e"
+  },
+  {
+    "path": "art/l2-graph-b12-answer.jpg",
+    "size": 123725,
+    "sha256": "0f36f110b815c60f21d8488486658d8f7eff64aa8f2d71ed5218b46826f8f517"
+  },
+  {
+    "path": "art/l2-graph-b12.jpg",
+    "size": 95414,
+    "sha256": "8dd5d14d43f960ee8dd78d99685b392c7c871b0cb77a00c5a2f671190347e4ab"
+  },
+  {
+    "path": "art/l2-graph-choices.jpg",
+    "size": 139950,
+    "sha256": "762c9573cf04a54f4868a884ebb1f842da03de7ae05a08b5c93e34119a3d4867"
+  },
+  {
+    "path": "art/l2-graph.jpg",
+    "size": 95290,
+    "sha256": "0a82fa4b5079f13b65cde5737f1de19fcacc17eb7f3a3b7a9a5b6a20c45ab9b3"
+  },
+  {
+    "path": "art/l2-measure-10.jpg",
+    "size": 102135,
+    "sha256": "886a32d89a3d4f30bcdd8582833c63e342785d97d3ead5eee331dba797202749"
+  },
+  {
+    "path": "art/l2-measure-20.jpg",
+    "size": 105512,
+    "sha256": "82cf261a55f7a2e6b11a334690a9630ec93c01751fa55db15be0f1649f692d2a"
+  },
+  {
+    "path": "art/l2-measure-30.jpg",
+    "size": 108062,
+    "sha256": "6e05f5fca8ea0d840eab2b3a4d7223b7713b9b52dfa89a57acc837903d79a3ab"
+  },
+  {
+    "path": "art/l2-spring-big.jpg",
+    "size": 105393,
+    "sha256": "e3d061c0f3bce5f993d50bd2836704f20418c828391a1deb0ae05d4a313bcff4"
+  },
+  {
+    "path": "art/l2-spring-pull.jpg",
+    "size": 103491,
+    "sha256": "08494053ca18d1cd7e7aeacdbb17114f6b0355e3d7fa118670f07fa143368ed4"
+  },
+  {
+    "path": "art/l2-spring-rest.jpg",
+    "size": 96048,
+    "sha256": "adc9e8ca65e370a5e1b505c3ec047de998347be9ff58d7c832f65b43aeb96e66"
+  },
+  {
+    "path": "art/l2-spring-small.jpg",
+    "size": 100440,
+    "sha256": "386159acea5ef7e05f8ab156d6dd0b93417eb9f6806f8b2c06b67a6dd9008d9b"
+  },
+  {
+    "path": "art/l2-tool-expander.jpg",
+    "size": 47949,
+    "sha256": "2df773f346d58e42f7f13ac190499faba7c10929c002470825b454b1370c54dc"
+  },
+  {
     "path": "art/l3-apple-tree.jpg",
     "size": 188227,
     "sha256": "fc81c2c3be72519f5a9da06a71f15f78f68c0704bd60054c339c937bc9382f87"
@@ -250,6 +390,81 @@
     "sha256": "92b0808af98ee911f44d2803753b8bbb39bfdb46dae673e7b21a344bdce4ea07"
   },
   {
+    "path": "art/l4-level.jpg",
+    "size": 108405,
+    "sha256": "0d341f98eb4fadc0e680d897320c4cd703a8a09e27311b2e24cdaaca0c2dba8c"
+  },
+  {
+    "path": "art/l4-pans-1.jpg",
+    "size": 58827,
+    "sha256": "e86d92716b90e98093675ec2340adbb38be354777f0f58bec538f8df84921cfd"
+  },
+  {
+    "path": "art/l4-pans-10.jpg",
+    "size": 61386,
+    "sha256": "e62cc1e4f1e66065b2303f8cc69dc5189dd554e223df07332d95921c747fdcd4"
+  },
+  {
+    "path": "art/l4-pans-11.jpg",
+    "size": 63089,
+    "sha256": "b91e8a3873ad66412935df4c02bec1b4fcdb4b052159a39996025d38fd7b6982"
+  },
+  {
+    "path": "art/l4-pans-12.jpg",
+    "size": 61723,
+    "sha256": "dfaa3678e5c6e2ed73918753a49507f042f88b967a16d097291e95fc89c4bf2d"
+  },
+  {
+    "path": "art/l4-pans-13.jpg",
+    "size": 61778,
+    "sha256": "a5ecc32b94459afb029c27ee3de7d653dff5135a5feb59e92b420ed8df71b6d2"
+  },
+  {
+    "path": "art/l4-pans-2.jpg",
+    "size": 61303,
+    "sha256": "431d8307cacf18f02154cdf83eddcab891600b30d64ad88b7aefb85d77ff9f0d"
+  },
+  {
+    "path": "art/l4-pans-3.jpg",
+    "size": 59476,
+    "sha256": "68eb6d9fad57182e581ab5fc57bb7e155d611aecdf6da81b39dacdbe0bd5876b"
+  },
+  {
+    "path": "art/l4-pans-4.jpg",
+    "size": 60836,
+    "sha256": "d217045dec8967dc26a211c7b163282c4ee6889c50df74d1110bbce23f371678"
+  },
+  {
+    "path": "art/l4-pans-5.jpg",
+    "size": 61743,
+    "sha256": "39c6acb7bcfd05670d529447e1fbde8423e4e76d3e28e8346c183d95880bd989"
+  },
+  {
+    "path": "art/l4-pans-6.jpg",
+    "size": 61166,
+    "sha256": "5bde0d0247f1bdca394ad75bb17385ed961549fcb8a05981efdb09dacff9797f"
+  },
+  {
+    "path": "art/l4-pans-7.jpg",
+    "size": 63072,
+    "sha256": "fb731b84f3bc383e183f427a1b5aa3cbdb8a21ef490f7e03c6fadad65d92976e"
+  },
+  {
+    "path": "art/l4-pans-8.jpg",
+    "size": 60874,
+    "sha256": "8b3f547507fb528f27ef9d2efe0e6741a7a48ccbd4e8bd837141a4f7146e1f02"
+  },
+  {
+    "path": "art/l4-pans-9.jpg",
+    "size": 59023,
+    "sha256": "ce205fcafedccfae99bba0f8f211114bb02fc2e3331ec1ab4c64c8dbd380013c"
+  },
+  {
+    "path": "art/l4-pans-empty.jpg",
+    "size": 53489,
+    "sha256": "6ab7a7e6261a9cbfcf6181d9f81d2ba44e3c63363c12ff918ec44ff96788aa74"
+  },
+  {
     "path": "art/lever-2-4-held.jpg",
     "size": 60328,
     "sha256": "378bc184ebbe5c3672dc3fe3d9451bef94ff43239e4c457d4510c2526edc3cd2"
@@ -303,6 +518,11 @@
     "path": "art/urusaem.png",
     "size": 1206458,
     "sha256": "1bf57b2623e9e20e9c5fed40b47e1961c0a1925b0189397da1df68ee3b5c75f7"
+  },
+  {
+    "path": "art3d.js",
+    "size": 4393,
+    "sha256": "a39b1c8b29464ef656ee9d1a1f04a635dd4a1487be458bf9b3f45cf42e4f6e28"
   },
   {
     "path": "assessment-photo.js",
@@ -1231,8 +1451,8 @@
   },
   {
     "path": "content.js",
-    "size": 65644,
-    "sha256": "6b26f9692f908dcb270b3d29b60f5087036e064b9c5b0192615970fa755c898b"
+    "size": 65810,
+    "sha256": "95a7469dd64167c0032c2dfc00109b85d284893450dbe9e7d1ba7cd2ac2f407e"
   },
   {
     "path": "daily-grading.js",
@@ -1271,8 +1491,8 @@
   },
   {
     "path": "graphics.js",
-    "size": 15928,
-    "sha256": "96ace9e0acc8d0bf592d575fb5a9b99cc90b85c1f6c61f281845bf12907c4e4d"
+    "size": 492,
+    "sha256": "146448e3db3355a87056f2447228fabe14c464f9948338660bb9efba3de1d9d8"
   },
   {
     "path": "guide-theme.css",
@@ -1300,24 +1520,29 @@
     "sha256": "0c603ec3583e2779edda83ce9ea05d8cb9238d8aa0ee1949319eb042371a0bf8"
   },
   {
+    "path": "labs12.js",
+    "size": 13445,
+    "sha256": "11d935cb2d1a0fb6c66e0ec46aac2373a8d852167894c2b331bd2478ac4a2415"
+  },
+  {
     "path": "lesson-print-pages.js",
-    "size": 30569,
-    "sha256": "2ebf797c0913db39821dbd0b9cbe86d436e9a3367f404c659ac6fe530428b923"
+    "size": 29613,
+    "sha256": "22357960c3601ce504aa8e2ff7a08fa2892f3da3ebed1c76d6e6077af6d301d5"
   },
   {
     "path": "lesson-print.css",
-    "size": 34111,
-    "sha256": "be741495b0c645b753aeaef1be10b1dec74773696cf90b271f5025b67a32752e"
+    "size": 34995,
+    "sha256": "2a99967ccebb634229632c35243b9e0883a8fe753bc4473e8e4515b46747ea4e"
   },
   {
     "path": "lesson-stage.css",
-    "size": 46348,
-    "sha256": "9d157ac968556d8a3d033b7248720008af9879e3cdee2be342188184aa5fe91d"
+    "size": 47619,
+    "sha256": "9fdbf5077a469a8ffb97ec337f7a387463fb15fa9935b1bc1c6472c66e2106de"
   },
   {
     "path": "lesson-stage.js",
-    "size": 34944,
-    "sha256": "1f6871f77540b05ad3c2026b434268fb946f4886ecc04f5d76644acd1b913dcb"
+    "size": 34927,
+    "sha256": "0e0efd0b0b53fc5d34794630a3a006ca100bfe87e9ab7cc5341678b2ee54dcb4"
   },
   {
     "path": "lesson3d.js",
@@ -1461,13 +1686,13 @@
   },
   {
     "path": "print/student.pdf",
-    "size": 15261388,
-    "sha256": "8f59ca20762699274b8a71488109f77ec58208d6f37fa390877840fc1a79f8e3"
+    "size": 18030782,
+    "sha256": "3668ca73ec9057769bcb151207c27b06f26f5214ee25878f58db699e73be0ff8"
   },
   {
     "path": "print/teacher.pdf",
-    "size": 15611898,
-    "sha256": "440b80a8cd94922436ba5df8317473aa14d881e6174f3612cc58a5e1143a82dd"
+    "size": 18501076,
+    "sha256": "0ab8857d7992c77487ae410d38149258a4bce59bcea4ad505a73af9286be1a6d"
   },
   {
     "path": "qr-map.js",
@@ -1881,8 +2106,8 @@
   },
   {
     "path": "stills3d.js",
-    "size": 14241,
-    "sha256": "27e5d6af3bd484f61520eb4973528ea0228ef5a6e61bb1f1a44c0c1b4ccd22df"
+    "size": 23774,
+    "sha256": "278a69efabee2e3b777147794be6440b322804c2890e44743d630f3a17368a04"
   },
   {
     "path": "student-guide.css",
