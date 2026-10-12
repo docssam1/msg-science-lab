@@ -18,6 +18,7 @@ function pageIndex(){
 }
 function answerText(question){
  if(question.kind==='draw')return question.figure==='pans'?'1~13 g 칸마다 평형이 되는 추 그림 (교재 정답 미인쇄 · 평형 조건으로 도출)':'지구 중심 방향으로 화살표';
+ if(question.kind==='essay')return '서술형 · 교재 근거와 비교해 선생님이 확인';
  if(question.kind==='set')return `${question.accept.join(' · ')} 중 두 가지`;
  if(Array.isArray(question.answer))return question.answer.map(value=>Array.isArray(value)?`(${value.join(', ')})`:value).join(' · ');
  return question.options?question.options[question.answer]:String(question.answer);

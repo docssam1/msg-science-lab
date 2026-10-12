@@ -1,13 +1,13 @@
 [
   {
     "path": "README.md",
-    "size": 7018,
-    "sha256": "629d55c404abb102535d95373ea8bd5826f7a55317805b812f1ea8829e845f5c"
+    "size": 7049,
+    "sha256": "59053900b39162cb72d9fd0ba43ba9dedc677cb391080a16c289951295c7856f"
   },
   {
     "path": "activities.js",
-    "size": 23712,
-    "sha256": "04e9570700748b8fbb5742d1d9b09faeeebf707c4d1a5e56b4db14fae59a01a6"
+    "size": 24095,
+    "sha256": "8a4a3921b827f724983292809bd4e25b426ce4fffbbbd05337d8b453d90367f8"
   },
   {
     "path": "advanced-bank.js",
@@ -16,8 +16,8 @@
   },
   {
     "path": "app.js",
-    "size": 58783,
-    "sha256": "8255ffd172979fc5aea246572ec67a046a3216b9ad07e5f05c3eb76201fdf00e"
+    "size": 58839,
+    "sha256": "deaed9ad22c2dfcb95e1abd799b38463a73ebfb0334b991b2d709e0b24855509"
   },
   {
     "path": "art/FUTURE-IMAGE-PROMPTS.md",
@@ -463,6 +463,76 @@
     "path": "art/l4-pans-empty.jpg",
     "size": 53489,
     "sha256": "6ab7a7e6261a9cbfcf6181d9f81d2ba44e3c63363c12ff918ec44ff96788aa74"
+  },
+  {
+    "path": "art/l5-dt-mobile.jpg",
+    "size": 60524,
+    "sha256": "2cda236c71d02a53f213ee9b421f6bc362fb61ae5998a7d650d87d3cea96f4be"
+  },
+  {
+    "path": "art/l5-dt-springs.jpg",
+    "size": 82516,
+    "sha256": "6e1ae112925dc887be69c4f9485db4d57e8b3f1bf1f8ba25b73178b69ca4d950"
+  },
+  {
+    "path": "art/l5-kitchen-dial0.jpg",
+    "size": 126891,
+    "sha256": "c280a3daea7a75a785a427e066c615418f9624175844221f4df3af0143e4412c"
+  },
+  {
+    "path": "art/l5-kitchen-flat.jpg",
+    "size": 96993,
+    "sha256": "51d5763f295f41420311a9b499163025b24813be916565117f089ad0a9cbd6e1"
+  },
+  {
+    "path": "art/l5-kitchen-open-load.jpg",
+    "size": 137897,
+    "sha256": "e463d66f7aa1f8cf60053f1ab60370efa75a9fbeacd214067a17ec9bfe948613"
+  },
+  {
+    "path": "art/l5-kitchen-open.jpg",
+    "size": 145951,
+    "sha256": "8ccbeb2b1e3cdc2baed14f2fc219323caf01209ab32769c09f26465fb314b746"
+  },
+  {
+    "path": "art/l5-kitchen-read.jpg",
+    "size": 116432,
+    "sha256": "037dadd10c69d6983a49a89f9a63199bfe342ec26ba25f4eb4553d0fbfae26e5"
+  },
+  {
+    "path": "art/l5-kitchen.jpg",
+    "size": 132531,
+    "sha256": "27a762f950dae4097fc9797dff29ccd64d3389a9d651371b4d50dd711da3b422"
+  },
+  {
+    "path": "art/l5-speed-answer.jpg",
+    "size": 98560,
+    "sha256": "039ae59b7353d72bd26ee8d68de6da9bc00daae9d8bccacca54b1ebef7faafde"
+  },
+  {
+    "path": "art/l5-speed.jpg",
+    "size": 85660,
+    "sha256": "f5bee86a8513f4477720065f096eef93800788f2426c6e6a7034072681f37ae0"
+  },
+  {
+    "path": "art/l5-toppan-parts.jpg",
+    "size": 125791,
+    "sha256": "53a381450b3d67662afed2a958abca5f0058bdd7d42b49ad3acee4204c444353"
+  },
+  {
+    "path": "art/l5-toppan-weigh.jpg",
+    "size": 130306,
+    "sha256": "3efbadbc788b4870e75c6b184e4ad29470c2535469c419cba7c4804457eab019"
+  },
+  {
+    "path": "art/l5-toppan-zero.jpg",
+    "size": 113021,
+    "sha256": "53de5702e6a39fa2bc5335da4b57a317038d6a648f45decac54f16a3b95228b0"
+  },
+  {
+    "path": "art/l5-weights-set.jpg",
+    "size": 54073,
+    "sha256": "7f761c09f146a6ffa92333d92b5fa91840f3385760d5c0a040312518e7007a75"
   },
   {
     "path": "art/lever-2-4-held.jpg",
@@ -1451,13 +1521,13 @@
   },
   {
     "path": "content.js",
-    "size": 65810,
-    "sha256": "95a7469dd64167c0032c2dfc00109b85d284893450dbe9e7d1ba7cd2ac2f407e"
+    "size": 78463,
+    "sha256": "36f3a355dd1ff8b49ee7bc937936e6c1ab4bd59ca89b72f65e20cf2df2c83e35"
   },
   {
     "path": "daily-grading.js",
-    "size": 32324,
-    "sha256": "35c35f7449057d8bf9cd2930e96715d06dafa460d953a1511cc8c05f44fa06e1"
+    "size": 33521,
+    "sha256": "81e5a26b4f017c214e9356453f8723ee71c6b2024158849c36f131f203ae6620"
   },
   {
     "path": "editions.js",
@@ -1501,8 +1571,8 @@
   },
   {
     "path": "index.html",
-    "size": 5253,
-    "sha256": "98cb9107bbd6c589be69545527bc521340e88b6b9b497c03341ba7c473f6d5e0"
+    "size": 5337,
+    "sha256": "518e405f807b6347d7ac3249492993c261726b92b51e1362eb100e8b51b4bb71"
   },
   {
     "path": "inquiry-pages.js",
@@ -1526,23 +1596,23 @@
   },
   {
     "path": "lesson-print-pages.js",
-    "size": 29613,
-    "sha256": "22357960c3601ce504aa8e2ff7a08fa2892f3da3ebed1c76d6e6077af6d301d5"
+    "size": 34997,
+    "sha256": "67f1c7942a540aefd710ac54029048fd29ef7970ecbf5b890914cc276de88c07"
   },
   {
     "path": "lesson-print.css",
-    "size": 34995,
-    "sha256": "2a99967ccebb634229632c35243b9e0883a8fe753bc4473e8e4515b46747ea4e"
+    "size": 36105,
+    "sha256": "3a17030c3b2c97d502b9ad16ffa9155ee9c094856ed4ba4bcf0ab2aa5a2b19bc"
   },
   {
     "path": "lesson-stage.css",
-    "size": 47619,
-    "sha256": "9fdbf5077a469a8ffb97ec337f7a387463fb15fa9935b1bc1c6472c66e2106de"
+    "size": 50327,
+    "sha256": "e6153ce93cc45875b112b0eebb6c4c96fab2d37f68cba8f3d15f6eead1d9842e"
   },
   {
     "path": "lesson-stage.js",
-    "size": 34927,
-    "sha256": "0e0efd0b0b53fc5d34794630a3a006ca100bfe87e9ab7cc5341678b2ee54dcb4"
+    "size": 39831,
+    "sha256": "36d02666d627eb7129b3a5c19a54c2ab3a9b5f4fe4b6f9588becbdde5c12982f"
   },
   {
     "path": "lesson3d.js",
@@ -1686,18 +1756,18 @@
   },
   {
     "path": "print/student.pdf",
-    "size": 18030782,
-    "sha256": "3668ca73ec9057769bcb151207c27b06f26f5214ee25878f58db699e73be0ff8"
+    "size": 19588195,
+    "sha256": "d0634e5292f30022cd487c770ce8792e85b2710de699bac72ddac10f5bc96998"
   },
   {
     "path": "print/teacher.pdf",
-    "size": 18501076,
-    "sha256": "0ab8857d7992c77487ae410d38149258a4bce59bcea4ad505a73af9286be1a6d"
+    "size": 20116046,
+    "sha256": "b61b0a08205cc28a14fce334e33f5d317294878e8559ac241df16b5bfb137d5d"
   },
   {
     "path": "qr-map.js",
     "size": 3104,
-    "sha256": "968d625333dffeac405df02902949e585dd4bd9a2bea013b621ef9d2d734c276"
+    "sha256": "64f5f03e6499ce0f8d661aee0e99f516c305180d505c7e21b7d09d9f2ead820e"
   },
   {
     "path": "qr/P1.png",
@@ -1875,6 +1945,46 @@
     "sha256": "cd7e30ccf3b7e383bfe875937aa1561cca875639741b55b0360e9863cbbe8635"
   },
   {
+    "path": "qr/P41.png",
+    "size": 1236,
+    "sha256": "8f9516f8f21f426a05476fee9f613366a6619d4b1f37bed0f62092f994214768"
+  },
+  {
+    "path": "qr/P42.png",
+    "size": 1261,
+    "sha256": "7362e0820ef16c71a9e2dd14b5305a46498fcfe4d6b1fb578e543b9e2c0b3511"
+  },
+  {
+    "path": "qr/P43.png",
+    "size": 1157,
+    "sha256": "05f849d54f989a8798b01d083c78a23e08914955b7ffdec4babc394c89314dcd"
+  },
+  {
+    "path": "qr/P44.png",
+    "size": 1258,
+    "sha256": "2972ddcf9533b48ba238541d64b5acc953f21daa297d8025fd5f5f1321e82b89"
+  },
+  {
+    "path": "qr/P45.png",
+    "size": 1202,
+    "sha256": "c09eb1d8f0e47372f3b53857b9b3f7238d2ab215eb35ce8fa8026f0088055f71"
+  },
+  {
+    "path": "qr/P46.png",
+    "size": 1230,
+    "sha256": "4ee89d3e6e313be70209fc5c57e9f0bfd386bb4a4bc841075b612a1e5567148b"
+  },
+  {
+    "path": "qr/P47.png",
+    "size": 1245,
+    "sha256": "73465b20a19b412d10e72e5a33e80624fef27bcabbfc453114d01946468ff93a"
+  },
+  {
+    "path": "qr/P48.png",
+    "size": 1227,
+    "sha256": "1525bd3874dc478065361b4c718e4f1e12c6924c5fd09f1f206eddfb68dc1e21"
+  },
+  {
     "path": "qr/P5.png",
     "size": 1123,
     "sha256": "9a7da5feb23e2e7bf6403a5be5868bf2d3ac82359002d8fb31077c96b0c2fcc4"
@@ -2011,13 +2121,18 @@
   },
   {
     "path": "remedy-bank.js",
-    "size": 18937,
-    "sha256": "36ce13e32310d5c485a5d97de57a5dad16de2377967fd1dc59cfb7ac5e4b1ff4"
+    "size": 19334,
+    "sha256": "4b76738bd81ff370851b4fc83ef2350a940f2d7da5728c3fe51dada4f4297a53"
   },
   {
     "path": "review.js",
     "size": 11059,
     "sha256": "c7c84143414ef1d663b69f2d0a8e5e0b54b82782dcf49280253f7f74db19ef6d"
+  },
+  {
+    "path": "scales5.js",
+    "size": 45492,
+    "sha256": "638b2bad2255558b5e5994ca089d8ecac94e284b7014b261c75147261a0cd048"
   },
   {
     "path": "self-flow.js",
@@ -2031,8 +2146,8 @@
   },
   {
     "path": "source-lessons.js",
-    "size": 6770,
-    "sha256": "e0fcf7679bea3480e515badf9d6a11deec5b0c63fa3daf17dd02da800672409b"
+    "size": 8316,
+    "sha256": "4fec0ede279cafa8993b78f12bac5aafa6b423ec53b3b97c14927ef6896494a0"
   },
   {
     "path": "source/p10.webp",
@@ -2101,8 +2216,8 @@
   },
   {
     "path": "start.html",
-    "size": 7371,
-    "sha256": "767d226bd012fa0e719c32ef707237fc268098eb87b63989a2566d4f31c78130"
+    "size": 7388,
+    "sha256": "abce67e21a17cb919c76673d18b9297023572a3c5d54e71bad86af8da65aee7e"
   },
   {
     "path": "stills3d.js",
@@ -2116,8 +2231,8 @@
   },
   {
     "path": "student-guide.js",
-    "size": 2996,
-    "sha256": "13cf8b11ea902f7e76748d4e36a2915da734ed3718ca8b398fdb1c6e45d887d5"
+    "size": 3443,
+    "sha256": "f31b97a12390088cd9aa35881db3e48d02b5763612b4460cac70f1be75d6134f"
   },
   {
     "path": "student.html",
@@ -2131,8 +2246,8 @@
   },
   {
     "path": "teacher-lecture.js",
-    "size": 30025,
-    "sha256": "f04f09ee6352f2976202ae6097c52e060aa994284a570f3b551fe58f2341874e"
+    "size": 37868,
+    "sha256": "9499f636a6fce5784a091cc2d4d6678d1bda1ebf3eb826cf95cdf9592032c3d7"
   },
   {
     "path": "teacher-notes.html",
@@ -2141,8 +2256,8 @@
   },
   {
     "path": "teacher-notes.js",
-    "size": 4225,
-    "sha256": "f2c9eb424349debd74a3c170172c73e5f3a472e539a8335f92ad2692cc273cbb"
+    "size": 4323,
+    "sha256": "f8c6681907f7630d6fcb3cc00825ee234f25eec2405bee6b0d8c1cbb074ed5ac"
   },
   {
     "path": "teacher.html",

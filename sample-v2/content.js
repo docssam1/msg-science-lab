@@ -94,17 +94,18 @@ export function questionHTML(q,{print=false}={}){
  const prefix=`<div class="question" data-q="${q.id}"><header><span>${String(q.n).padStart(2,'0')}</span>${inlineOptions?'':`<p>${q.q}</p>`}</header>`;
  const passage=inlineOptions?q.passage.replace(`(${q.options.join(', ')})`,`(${q.options.map((option,i)=>`<label class="inline-test-option"><input type="radio" name="${q.id}" value="${i}" data-answer-field>${option}</label>`).join(', ')})`):q.passage;
  let b=passage?`<div class="given">${passage}</div>`:'';
- if(q.image)b+=`<img class="q-image ${q.kind==='parts'?'parts':''}" src="./art/${q.image}" alt="${q.id==='a1'?'ㄱ·ㄴ·ㄷ·ㄹ을 표시한 원본 용수철저울 그림':'ㄱ·ㄴ·ㄷ의 눈높이를 표시한 원본 그림'}">`;
+ if(q.image)b+=`<img class="q-image ${q.kind==='parts'?'parts':''} ${q.image.endsWith('.jpg')?'still3d':''}" src="./art/${q.image}" alt="${q.alt||(q.id==='a1'?'ㄱ·ㄴ·ㄷ·ㄹ을 표시한 원본 용수철저울 그림':'ㄱ·ㄴ·ㄷ의 눈높이를 표시한 원본 그림')}">`;
  if(q.graphic)b+=art(graphChoices(),'q-graphs');
  if(q.kind==='choice'&&!inlineOptions)b+=`<div class="q-options">${q.options.map((t,i)=>`<label><input type="radio" name="${q.id}" value="${i}" data-answer-field><span>${q.graphic?'':`<i>${'①②③④⑤'[i]}</i>`}${t}</span></label>`).join('')}</div>`;
  if(q.kind==='text')b+=`<label class="short-answer">답 <input name="${q.id}" data-answer-field autocomplete="off" maxlength="40"></label>`;
+ if(q.kind==='essay')b+=`<label class="essay-answer">답 <textarea name="${q.id}" data-answer-field rows="3" maxlength="400" placeholder="교재에 쓴 답을 여기에도 옮겨 써 보세요."></textarea></label>`;
  if(q.kind==='parts')b+=`<div class="parts-answers">${(q.slots||['ㄱ','ㄴ','ㄷ','ㄹ']).map((v,i)=>`<label>${v}<input name="${q.id}-${i}" data-answer-field autocomplete="off" maxlength="20"></label>`).join('')}</div>`;
  if(q.kind==='pair')b+=`<div class="pair-answers">${(q.slots||['㉠','㉡']).map((v,i)=>`<label>${v}<select name="${q.id}-${i}" data-answer-field><option value="">선택</option>${(q.choices||['조금','많이']).map(c=>`<option>${c}</option>`).join('')}</select></label>`).join('')}</div>`;
  if(q.kind==='set')b+=`<div class="parts-answers">${Array.from({length:q.count},(_,i)=>`<label>${'①②③④'[i]}<input name="${q.id}-${i}" data-answer-field autocomplete="off" maxlength="20"></label>`).join('')}</div>`;
  if(q.kind==='draw'&&q.figure==='pans')b+=`<div class="student-graphic">${art(weightsSheet(false),'print-graph pans-graph')}</div><div class="teacher-graphic">${art(weightsSheet(true),'print-graph pans-graph')}</div><p class="draw-note">추를 접시에 그려 넣거나, 양팔저울 체험에서 평형이 되는 조합을 찾아보세요.</p><button class="page-action" data-action="weights">양팔저울 체험 열기</button>`;
  else if(q.kind==='draw'){const items=earth3Items;b+=`<div class="student-graphic">${art(`<img class="still3d" src="./art/l3-earth-daily4.jpg" alt="지구 주변의 물체 세 개 3D 그림">`,'print-graph')}</div><div class="teacher-graphic">${art(`<img class="still3d" src="./art/l3-earth-daily4-arrows.jpg" alt="지구 주변 물체 세 개와 지구 중심을 향한 화살표 3D 그림">`,'print-graph')}</div><p class="draw-note">화살표는 교재에 직접 그리거나, 중력의 방향 체험에서 확인해 보세요.</p><button class="page-action" data-action="gravity">중력의 방향 체험 열기</button>`;}
  if(q.kind==='graph')b+=table(['추의 무게(g)','10','20','30'],[['늘어난 길이(cm)','4','8','12']])+`<div class="student-graphic">${art(graphSVG({step:4,labels:false}),'print-graph')}</div><div class="teacher-graphic">${art(graphSVG({step:4,points:[[10,4],[20,8],[30,12]]}),'print-graph')}</div>`+`<button class="page-action" data-action="assessment-graph">그래프에 점 찍고 제출하기</button>`;
- const answer=UNCONFIRMED.has(q.id)?'공식 해설 대조 필요':q.kind==='draw'?(q.figure==='pans'?'1~13 g를 모두 그림으로 나타내기 (물체 + 왼쪽 추 = 오른쪽 추가 되는 조합)':'세 물체 모두 지구 중심 방향으로 화살표'):Array.isArray(q.answer)?JSON.stringify(q.answer):q.options?q.options[q.answer]:q.answer;
+ const answer=UNCONFIRMED.has(q.id)?'공식 해설 대조 필요':q.kind==='essay'?'서술형 · 교재 근거로 선생님이 확인':q.kind==='draw'?(q.figure==='pans'?'1~13 g를 모두 그림으로 나타내기 (물체 + 왼쪽 추 = 오른쪽 추가 되는 조합)':'세 물체 모두 지구 중심 방향으로 화살표'):Array.isArray(q.answer)?JSON.stringify(q.answer):q.options?q.options[q.answer]:q.answer;
  return prefix+b+`<div class="teacher-answer">정답: ${answer}<p>${UNCONFIRMED.has(q.id)?'공식 해설과 원문을 대조한 뒤 공개합니다.':q.why}</p></div><div class="question-feedback" data-feedback="${q.id}" hidden></div></div>`;
 }
 page('l1-test-a',1,[15],'DAILY TEST · 일일평가','내가 이해한 내용을\n확인해요.','1차시 · 원본 1~3번',q1.slice(0,3).map(q=>questionHTML(q)).join('')+`<button class="page-action" data-grade="1a">1~3번 제출하고 확인</button>`,'assessment','학생용은 답안을 제출하기 전 정답을 표시하지 않습니다. 1번의 네 부품을 각각 확인하며 한 번의 오답으로 오개념을 단정하지 않습니다.',{assessment:true});
@@ -193,12 +194,37 @@ export const q4=[
 {id:'e1',n:1,kind:'draw',figure:'pans',q:'1g, 3g, 9g의 저울추가 각각 1개씩 있습니다. 세 종류를 추를 이용하여 달 수 있는 물체의 무게를 그림을 그려 모두 나타내어 보시오.',concept:'balance',why:'물체와 추를 양팔저울에 올려 평형이 되는 조합으로 확인합니다. 1·3·9 g 추를 한 번씩만 쓰면 1~13 g마다 조합이 하나뿐입니다. (교재 33쪽)'}
 ];
 page('l4-test',4,[33],'DAILY TEST · 일일평가','추 세 개로\n얼마까지 달 수 있을까요?','4차시 · 원본 1번',`<div class="test-grid compact-test">${q4.map(q=>questionHTML(q)).join('')}</div><button class="page-action" data-grade="p40">1번 제출하고 확인</button>`,'assessment','교재에는 정답이 인쇄돼 있지 않아 자동 채점하지 않고 선생님이 확인합니다. 교사용 그림은 평형 조건(물체+왼쪽 추=오른쪽 추)으로 도출한 조합입니다. 1g 칸의 예는 교재에 그려져 있습니다.',{assessment:true,dense:true});
-export const lessonNames={1:'용수철저울의 구조 익히기',2:'추의 무게에 따른 용수철의 길이 변화',3:'중력과 무게, 질량의 비교',4:'수평잡기의 원리'};
-export const questions=[...q1,...q2,...q3,...q4];
+// ── 5차시: 본책 36~40쪽 (CHAPTER 06 앉은뱅이저울의 구조 · CHAPTER 07 윗접시저울의 구조 · Daily Test 01~12) ──
+// 문장은 교재 표기 그대로 옮긴다. 교재 표기 문제·도출한 정답은 교사 메모와 검수 문서에만 남긴다.
+const boxLine=(title,text)=>`<p class="source-line"><b>${title}</b> ${text}</p>`;
+page('l5-kitchen',5,[36],'CHAPTER 06 · 앉은뱅이저울','저울 속에는\n무엇이 있을까요?','용수철저울의 원리 : 앉은뱅이저울의 구조',`${bookLine('※ 앉은뱅이저울은 2009년도 교육과정에서 가정용저울로 표기되어 사용되다가 2015 교육과정에서 앉은뱅이저울로 표기 변경 되었다. 교육과정 변경 시 다시 변경되어질 수 있으므로 양쪽의 표현법을 모두 알아 둘 필요가 있다.')}${bookLine('관찰①_접시를 누르면 바늘의 위치와 저울 안의 용수철 길이가 변한다.')}${bookLine('관찰②_영점 조절 나사를 돌리면 저울의 바늘이 움직인다.')}${boxLine('가정용 저울에 적용된 원리','용수철이 늘어나고 줄어듦에 따라 용수철과 연결된 저울의 바늘이 움직인다.')}`,'kitchen-scale','교재 36쪽 ①을 그대로 읽습니다. 교재의 사진(가정용저울의 겉과 속)은 3D 그림으로 바꿨습니다. 체험에서 겉판을 열고 접시를 눌러 관찰①을, 영점 조절 나사를 돌려 관찰②를 직접 확인하게 합니다.');
+page('l5-kitchen-use',5,[36],'HOW TO USE · 사용방법','가정용 저울은\n어떤 순서로 쓸까요?','가정용 저울의 사용방법',`${bookLine('① 편평한 곳에 위치시킨다.')}${bookLine('② 바늘이 0을 가리키는지 확인한다.')}${bookLine('③ 물체를 올리고, 눈금을 읽어 무게 측정한다.')}`,'kitchen-scale','교재 36쪽 ②의 세 단계를 그대로 씁니다. 1차시 용수철저울의 영점 확인(물체를 달기 전에 0 확인)과 같은 순서임을 연결합니다. 체험의 물체 무게(사과 230 g 등)는 가상의 값입니다.');
+page('l5-toppan',5,[37],'CHAPTER 07 · 윗접시저울','윗접시저울은\n어떻게 생겼을까요?','수평잡기의 원리 : 윗접시저울의 구조',`${bookLine('① 영점 조절 나사 : 바늘이  0 점에 오도록 조정하는 나사이다.')}${bookLine('② 접시 : 물체와 추를 올려놓는 곳이다. (왼쪽 접시)에는 측정하고자 하는 물체를 올려놓고 (오른쪽 접시)에는 분동을 올려놓는다.')}${bookLine('③ 팔받침 : 팔이 크게 움직이는 것을 막아 주는 역할을 한다.')}`,'top-pan','교재 37쪽 ①을 그대로 읽습니다. 그림의 이름표(눈금판·접시·영점조절나사·팔받침) 중 눈금판은 교재에 하는 일이 따로 쓰여 있지 않습니다. 4차시 수평잡기의 원리(받침점에서 같은 거리)와 연결합니다.');
+page('l5-toppan-use',5,[37],'HOW TO USE · 사용하는 방법','분동은\n어떤 순서로 올릴까요?','윗접시저울을 사용하는 방법',`${bookLine('① 바늘이  0 점을 가리키도록 한다. (= 영점조절)')}${bookLine('② 분동은 집게를 사용하여 무거운 것부터 가벼운 것 순으로 올려놓는다.')}${bookLine('③ 분동을 내려놓을 때는 거꾸로 가벼운 것부터 무거운 것 순으로 내려놓는다.')}`,'top-pan-weigh','교재 37쪽 ②를 그대로 씁니다. 체험에서는 영점조절 → 무거운 분동부터 올리기 → 가벼운 분동부터 내리기의 순서를 지켰는지 확인합니다. 물체의 무게(지우개 23 g 등)는 가상의 값입니다.');
+page('l5-brass',5,[38],'WEIGHTS · 분동의 이용','분동은\n어떻게 다룰까요?','분동의 이용',`${bookLine('① 분동은 항상 집게를 사용해서 올려놓고 내림')}${bookLine('② 분동은 항상 양팔저울에서 관찰자기준으로 오른쪽!!')}${bookLine('③ 분동을 올려놓을 때는 항상 무거운 것에서 가벼운 것 순서로')}${bookLine('④ 내려놓을 때는 올려놓을 때와 반대로, 가벼운 것부터 내려놓는다.')}`,'top-pan-weigh','교재 38쪽 ③을 그대로 씁니다. 사진의 분동 세트(100 g·50 g·20 g·10 g·10 g·5 g·2 g·2 g·1 g·500 mg·200 mg·100 mg)는 3D 그림으로 바꿨습니다.');
+page('l5-speed',5,[38],'SPEED QUESTION','수평이 되면\n왜 분동의 합이 물체의 무게일까요?','Speed Question · 윗접시저울의 수평',`${bookLine('윗접시 저울이 수평이 되면 분동의 무게 합이 물체의 무게라고 합니다. 그 이유를 아래의 그림을 이용하여 간단하게 설명해 보세요.')}`,'top-pan-weigh','교재 38쪽 Speed Question을 그대로 씁니다. 교재에는 답이 인쇄돼 있지 않습니다. 교사용 확인 내용은 39쪽 Daily Test 01번의 문장과 30쪽 수평잡기의 원리 문장으로만 구성했습니다.');
+export const q5=[
+{id:'f1',n:1,kind:'choice',q:'다음(          ) 안에 들어갈 알맞은 말을 쓰시오.',passage:'윗접시저울의 양팔에 놓인 접시까지의 팔 길이가 같으므로 수평을 이루었을 때 (분동, 추)의 무게 합은 물체 무게와 같다.',options:['분동','추'],answer:0,concept:'toppan',why:'교재 37쪽: (오른쪽 접시)에는 분동을 올려놓는다. 수평이 되면 분동의 무게 합이 물체의 무게입니다. (교재 38쪽 Speed Question)'},
+{id:'f2',n:2,kind:'choice',q:'다음 아래의 모빌에서 무게가 비슷한 것을 고르시오.',image:'l5-dt-mobile.jpg',alt:'막대 세 개에 ㄱ·ㄴ·ㄷ·ㄹ이 매달린 모빌 3D 그림',options:['㉠, ㉡','㉠, ㉢','㉠, ㉣','㉡, ㉢','㉡, ㉣'],answer:3,concept:'lever',why:'가장 아래 막대는 가운데에 매달려 있어 ㉡과 ㉢이 받침점에서 같은 거리에 있습니다. 놓인 거리가 같고 수평이면 양쪽 무게가 같습니다. (교재 30쪽 수평 잡기의 원리)'},
+{id:'f3',n:3,kind:'choice',q:'윗접시저울이 수평을 이루었을 때 분동 무게의 합이 물체의 무게가 되는 까닭을 가장 바르게 설명한 것을 고르시오.',options:['저울이기 때문에','물체가 가볍기 때문에','접시의 크기가 같기 때문에','양쪽 팔의 길이가 같기 때문에','조절 나사로 수평을 맞추었기 때문에'],answer:3,concept:'toppan',why:'윗접시저울은 양팔에 놓인 접시까지의 팔 길이가 같습니다(교재 39쪽 01번). 놓인 거리가 같으면 수평일 때 양쪽 무게가 같습니다(교재 30쪽).'},
+{id:'f4',n:4,kind:'choice',q:'윗접시저울의 팔 위에 놓인 분동이 측정 중 아래로 굴러 떨어지지 않도록 접시 아래 쪽에 ( 팔받침, 팔걸이 )이(가) 있다.',options:['팔받침','팔걸이'],answer:0,concept:'toppan',why:'교재 37쪽: 팔받침은 팔이 크게 움직이는 것을 막아 주는 역할을 합니다.'},
+{id:'f5',n:5,kind:'essay',q:'다음 그림과 같이 용수철을 잡아당겼을 때  양팔 저울이 수평을 이루었습니다. 다음 그림에서 잘못된 부분을 찾아 쓰시오.',image:'l5-dt-springs.jpg',alt:'받침점 양쪽 2번 자리에 용수철을 매달고, 왼쪽은 추를 달고 오른쪽은 손으로 잡아당긴 3D 그림',concept:'lever',why:'이 문항은 교재에 정답이 인쇄돼 있지 않아 공개하지 않습니다.'},
+{id:'f6',n:6,kind:'choice',q:'다음 중 양팔 저울의 특징으로 옳지 않은 것을 고르시오.',options:['접시가 2개 있다.','추가 1개 필요하다.','팔의 굵기가 일정하다.','팔의 중심에 받침점이 있다.','받침점으로부터 양쪽 접시까지의 거리가 같다.'],answer:1,concept:'toppan',why:'교재 38쪽처럼 분동은 여러 개를 무거운 것부터 차례로 올려놓아 씁니다. 추(분동)가 1개만 필요한 것은 아닙니다.'},
+{id:'f7',n:7,kind:'essay',q:'체중계를 이용하여 클립 1개의 무게를 재려고 올려놓았을 때 무게를 정확히 측정 할 수 없었습니다. 그 이유를 설명하시오.',concept:'toppan',why:'이 문항은 교재에 정답이 인쇄돼 있지 않아 공개하지 않습니다.'},
+{id:'f8',n:8,kind:'choice',q:'용수철저울의 고리에 사용하는 측정 도구는 ( 분동, 추 )이다.',options:['분동','추'],answer:1,concept:'order',why:'분동은 양팔저울에서 씁니다(교재 38쪽 ②). 용수철저울의 고리에는 추를 매답니다(1·2차시).'},
+{id:'f9',n:9,kind:'choice',q:'윗접시 저울에서 측정하고자 사용했던 분동을 저울에서 내려놓고자 합니다. 이 때 내려놓는 분동은 ( 무거운,  가벼운 ) 분동부터 내려놓는다.',options:['무거운','가벼운'],answer:1,concept:'order',why:'교재 37쪽 ③: 분동을 내려놓을 때는 거꾸로 가벼운 것부터 무거운 것 순으로 내려놓는다.'},
+{id:'f10',n:10,kind:'choice',q:'윗접시 저울에서 측정하고자 물체를 왼쪽 접시에 올려 놓은 뒤 오른쪽 접시에 분동을 올려놓을 때  ( 무거운,  가벼운 ) 분동부터 올려놓는다.',options:['무거운','가벼운'],answer:0,concept:'order',why:'교재 37쪽 ②: 분동은 집게를 사용하여 무거운 것부터 가벼운 것 순으로 올려놓는다.'},
+{id:'f11',n:11,kind:'essay',q:'윗접시저울에서 사용에서 분동을 올리고 내리는 순서를 정해서 사용하는 이유가 무엇인지 설명하시오.',concept:'order',why:'이 문항은 교재에 정답이 인쇄돼 있지 않아 공개하지 않습니다.'},
+{id:'f12',n:12,kind:'essay',q:'윗접시 저울을 이용해 무게를 측정하는 과학적 원리에  대해 설명하시오.',basis:'윗접시저울의 양팔에 놓인 접시까지의 팔 길이가 같으므로 수평을 이루었을 때 분동의 무게 합은 물체 무게와 같다. (교재 39쪽 01번)',concept:'toppan',why:'수평 잡기의 원리: 물체의 놓인 거리가 서로 같으면 양쪽에 놓인 물체의 무게는 서로 같다. (교재 30쪽)'}
+];
+page('l5-test-a',5,[39],'DAILY TEST · 일일평가','윗접시저울의\n원리를 확인해요.','5차시 · 원본 1~6번',`<div class="test-grid compact-test">${q5.slice(0,6).map(q=>questionHTML(q)).join('')}</div><button class="page-action" data-grade="p47">1~6번 제출하고 확인</button>`,'assessment','5번은 교재에 정답이 인쇄돼 있지 않아 답을 공개하지 않고 선생님과 함께 확인합니다. 2번은 4차시 수평잡기의 원리로 답을 확인합니다.',{assessment:true,dense:true});
+page('l5-test-b',5,[40],'DAILY TEST · 일일평가','분동을 다루는\n순서를 확인해요.','5차시 · 원본 7~12번',`<div class="test-grid compact-test">${q5.slice(6,12).map(q=>questionHTML(q)).join('')}</div><button class="page-action" data-grade="p48">7~12번 제출하고 확인</button>`,'assessment','7·11번은 교재에 정답이 인쇄돼 있지 않아 답을 공개하지 않습니다. 12번은 서술형이라 자동 채점하지 않고 교재 근거와 비교해 선생님이 확인합니다.',{assessment:true,dense:true});
+export const lessonNames={1:'용수철저울의 구조 익히기',2:'추의 무게에 따른 용수철의 길이 변화',3:'중력과 무게, 질량의 비교',4:'수평잡기의 원리',5:'앉은뱅이저울과 윗접시저울의 구조'};
+export const questions=[...q1,...q2,...q3,...q4,...q5];
 export {history1,history2,history3,coilHistory,future};
 export const gradeGroups={'1a':q1.slice(0,3),'1b':q1.slice(3),'2a':q2.slice(0,4),'2b':q2.slice(4,8)};
 // Daily Test 문항 묶음(인쇄 쪽 번호 기준). 화면·교사 노트·채점이 모두 이 한 표를 쓴다.
-export const assessmentGroupsByPrint={P11:q1,P19:q2.slice(0,6),P20:q2.slice(6,12),P32:q3,P40:q4};
+export const assessmentGroupsByPrint={P11:q1,P19:q2.slice(0,6),P20:q2.slice(6,12),P32:q3,P40:q4,P47:q5.slice(0,6),P48:q5.slice(6,12)};
 pages.forEach((p,i)=>p.layoutIndex=i);
 pages.unshift(...inquiryPages);
 export const narration=Object.fromEntries(pages.map(p=>[p.id,{id:p.id,text:({
@@ -239,5 +265,13 @@ export const narration=Object.fromEntries(pages.map(p=>[p.id,{id:p.id,text:({
 'l4-unequal':'거리가 다른데도 수평이 될 수 있을까요? 왼쪽 상자의 개수와 거리를 바꾸어 직접 만들어 보세요.',
 'l4-wheel':'엔진 없이도 바퀴가 비탈길을 올라갈 수 있을까요? 무게중심이 무엇인지 책에서 찾아봅시다.',
 'l4-ramp':'바퀴는 올라가는데 무게중심은 어떻게 될까요? 실험 순서를 먼저 읽어 봅시다.',
-'l4-test':'일 그램, 삼 그램, 구 그램 추로 달 수 있는 무게를 양팔저울 그림으로 나타내 보세요.'
+'l4-test':'일 그램, 삼 그램, 구 그램 추로 달 수 있는 무게를 양팔저울 그림으로 나타내 보세요.',
+'l5-kitchen':'가정용 저울의 겉판을 열면 무엇이 있을까요? 접시를 눌러 용수철과 바늘이 어떻게 움직이는지 살펴봅시다.',
+'l5-kitchen-use':'가정용 저울은 어떤 순서로 쓸까요? 편평한 곳에 놓고, 바늘이 영을 가리키는지 먼저 확인해 봅시다.',
+'l5-toppan':'윗접시저울의 영점 조절 나사, 접시, 팔받침은 각각 어떤 일을 할까요? 부품을 하나씩 눌러 보세요.',
+'l5-toppan-use':'분동은 어떤 순서로 올리고 내릴까요? 집게로 무거운 분동부터 올려 수평을 찾아봅시다.',
+'l5-brass':'분동은 왜 손으로 만지지 않고 집게로 다룰까요? 분동을 다루는 네 가지 약속을 읽어 봅시다.',
+'l5-speed':'윗접시저울이 수평이 되면 왜 분동의 무게 합이 물체의 무게일까요? 양쪽 팔의 길이를 비교해 보세요.',
+'l5-test-a':'먼저 스스로 답을 쓰고 제출해 보세요. 윗접시저울의 원리와 부품을 떠올리며 답합니다.',
+'l5-test-b':'분동을 올리고 내리는 순서와 그 까닭을 생각하며 답을 써 보세요.'
 })[p.id]||inquiryNarration[p.id]}]));
