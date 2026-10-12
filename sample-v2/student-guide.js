@@ -37,7 +37,10 @@ const activityPrompts={
   'weight-mass':'지구와 달을 바꿔 가며 질량과 무게가 어떻게 달라지는지 살펴보세요.',
   'mass-weight-graph':'교재의 값을 그래프에 직접 찍어 보세요.',
   lever:'상자의 개수와 받침점에서의 칸 수를 바꿔 수평을 만들어 보세요.',
-  weights:'1 g·3 g·9 g 추를 접시에 올려 양팔저울이 수평이 되게 해 보세요.'
+  weights:'1 g·3 g·9 g 추를 접시에 올려 양팔저울이 수평이 되게 해 보세요.',
+  'kitchen-scale':'겉판을 열고 접시를 눌러 용수철과 바늘이 함께 움직이는지 보세요. 사용 방법 ①②③도 순서대로 해 봐요.',
+  'top-pan':'부품을 눌러 이름과 하는 일을 확인하고, 영점조절나사로 바늘을 0점에 맞춰 보세요.',
+  'top-pan-weigh':'물체는 왼쪽, 분동은 오른쪽이에요. 무거운 분동부터 올리고, 내릴 때는 가벼운 것부터 내려 보세요.'
 };
 export function studentActivityPrompt(kind){
   return activityPrompts[kind]||'직접 움직이며 관찰해 보세요. 끝나면 교재로 돌아가요.';

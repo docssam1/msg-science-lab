@@ -404,3 +404,17 @@
 .weights-sheet figcaption{position:absolute;left:4px;top:0;font-weight:800;font-size:12px}
 .weights-sheet .still3d{width:100%;height:auto}
 #print-root .weights-sheet .still3d{max-height:23mm;width:auto}
+/* 5차시 앉은뱅이저울 · 윗접시저울 */
+.book-note{margin:6px 0 8px;padding:8px 12px;font-size:14px;line-height:1.5;color:#33505f;background:#f3f6f4;border-left:4px solid #9cb7b0;border-radius:6px}
+.book-line-print{margin:6px 0 10px;font-size:18px;font-weight:700;line-height:1.55;color:#17394f}
+.formula-box.left-text{text-align:left;font-size:17px;line-height:1.5;max-width:94%}
+.lesson-large-art.short-art{height:230px}
+#print-root .lesson-large-art.short-art{height:52mm}
+.lesson-large-art .still-pair{height:100%;width:100%}
+.lesson-large-art .student-graphic,.lesson-large-art .teacher-graphic{height:100%}
+.lesson-three figure .still3d{max-height:220px}
+.essay-answer{display:grid;gap:4px;margin-top:6px;font-weight:700}
+.essay-answer textarea{width:100%;box-sizing:border-box;min-height:4.2em;padding:6px 8px;border:1px solid #9fb6bd;border-radius:8px;font:inherit;font-weight:500;resize:vertical}
+.q-image.still3d{max-width:100%;height:auto;max-height:230px;margin:6px auto}
+#print-root .q-image.still3d{max-height:48mm}
+#print-root .essay-answer textarea::placeholder{color:transparent}
