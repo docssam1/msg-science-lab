@@ -1591,8 +1591,8 @@
   },
   {
     "path": "content.js",
-    "size": 97873,
-    "sha256": "279413c8b9139e9dac0557a6d92c21eb2a187ca7afc9d4403b7b46b2eccba55a"
+    "size": 97876,
+    "sha256": "f64e2521db1c7378451b8965ddeea37c88fe1f9d557bafe6c7a1762fa8bf796c"
   },
   {
     "path": "daily-grading.js",
@@ -1686,8 +1686,8 @@
   },
   {
     "path": "lesson-stage.js",
-    "size": 43662,
-    "sha256": "0a520c85a08aa1ea65ec51ec1a46127307b99b828e6935028503f594929de9e6"
+    "size": 43665,
+    "sha256": "26ffdb0ddf4e1ddddead7234d1ccfb9d4895aab682f9d3d6cb69428bbbc43e0e"
   },
   {
     "path": "lesson3d.js",
@@ -2251,8 +2251,8 @@
   },
   {
     "path": "scales6.js",
-    "size": 37149,
-    "sha256": "d0bc43481a24480d34e8ebc09d2d848bf7fb73132cd4126da00a9d7120fd7544"
+    "size": 36920,
+    "sha256": "ffe5629cfcb3bca2748ac32c0cbbd96ec2c6281e32b7dd6eb1eb6398942e9166"
   },
   {
     "path": "self-flow.js",
@@ -2366,8 +2366,8 @@
   },
   {
     "path": "teacher-lecture.js",
-    "size": 44129,
-    "sha256": "6686674262b38da56f6b831e07335c8835b86ed07ac8bffcb5b77820457e6d40"
+    "size": 44287,
+    "sha256": "8af8bf6ee6f9724ace6e4ef437cd09b5ccdf9fb2dea82017a861b34dbbd13e11"
   },
   {
     "path": "teacher-notes.html",

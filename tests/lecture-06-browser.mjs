@@ -81,8 +81,9 @@ async function labs(width,height){
  assert.match(await note(tab),/다시 보세요/,'a wrong sort is not accepted');
  for(const [item,way] of Object.entries(expected)){await b.locator(`[data-item="${item}"]`).click();await b.locator(`[data-sort="${way}"]`).click();}
  assert.match(await note(tab),/모든 물체를/);
- await b.locator('[data-ref="left"]').click();await b.locator('[data-item="clips"]').click();await tab.waitForTimeout(900);
- assert(Number(await ds(tab,'diff'))<0,'with the reference (20 g) on the left and the clips (8 g) on the right, the left side goes down');
+ assert.equal(await b.locator('[data-ref]').count(),0,'the reference side is fixed (right), no side picker');
+ await b.locator('[data-item="clips"]').click();await tab.waitForTimeout(900);
+ assert(Number(await ds(tab,'diff'))>0,'reference (20 g) on the right outweighs the clips (8 g) on the left');
  await tab.screenshot({path:join(out,`balance-${width}.png`)});
  await tab.close();
  await context.close();

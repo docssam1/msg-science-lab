@@ -148,7 +148,8 @@ function objectMesh(s,kind,color){
 }
 function mountRuler(kind,host,ctx){
  const saved=ctx.load('ruler-balance',null)||{};
- const st={clayL:saved.clayL??0,clayR:saved.clayR??0,refSide:saved.refSide||'right',ref:'eraser',item:null,sorted:saved.sorted||{}};
+ // 기준물체는 오른쪽, 비교(측정)할 물체는 왼쪽에 놓는다(교재 42쪽 주의 상자, 5차시 “분동은 오른쪽”과 같은 약속 — 사용자 결정 2026-10-13).
+ const st={clayL:saved.clayL??0,clayR:saved.clayR??0,refSide:'right',ref:'eraser',item:null,sorted:saved.sorted||{}};
  const IMBAL=2;   // 처음에 오른쪽 클립 쪽이 2 g만큼 무겁다(가상의 값) → 고무 찰흙으로 맞춘다
  host.innerHTML=`<div class="ruler-activity balance-lab lab5"><h3>자와 클립으로 만든 양팔저울</h3><div class="lab5-tabs"><button type="button" data-tab="level">③ 수평조절</button><button type="button" data-tab="compare">④ 기준물체와 비교</button></div><div class="balance-view"><span class="scene-tag">3D 가상 교구 · 고무 찰흙과 물체를 올려 보세요</span></div><div class="lab5-panel"></div><p class="lab5-note" role="status"></p><p class="lab5-small">물체의 무게는 체험을 위한 가상의 값입니다.</p></div>`;
  const view=host.querySelector('.balance-view'),panel=host.querySelector('.lab5-panel'),note=host.querySelector('.lab5-note');
@@ -157,7 +158,7 @@ function mountRuler(kind,host,ctx){
  const say=x=>{note.textContent=x;ctx.status(x);};
  const objs={};let tab=kind==='make-balance-compare'?'compare':'level';
  const mass=k=>rulerObjects.find(o=>o[0]===k)?.[2]||0;
- function save(){ctx.save('ruler-balance',{clayL:st.clayL,clayR:st.clayR,refSide:st.refSide,sorted:st.sorted});}
+ function save(){ctx.save('ruler-balance',{clayL:st.clayL,clayR:st.clayR,sorted:st.sorted});}
  const level=()=>st.clayL-st.clayR===IMBAL;
  function diff(){let L=st.clayL,R=IMBAL+st.clayR;if(tab==='compare'){const refM=mass(st.ref),itM=st.item?mass(st.item):0;if(st.refSide==='right'){R+=refM;L+=itM;}else{L+=refM;R+=itM;}}return R-L;}
  function show(){for(const o of Object.values(objs))o.visible=false;if(tab!=='compare')return;const put=(k,side)=>{if(!k)return;const meta=rulerObjects.find(o=>o[0]===k);objs[k]??=objectMesh(stage,k,meta[3]);stage.scene.add(objs[k]);objs[k].visible=true;objs[k].userData.side=side;};put(st.ref,st.refSide);put(st.item,st.refSide==='right'?'left':'right');}
@@ -165,17 +166,16 @@ function mountRuler(kind,host,ctx){
  function drawPanel(){
   host.querySelectorAll('[data-tab]').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.tab===tab)));
   if(tab==='level')panel.innerHTML=`<p class="lab5-book">④ 수평조절을 한다. · 수평이 맞지 않는다면?? 고무 찰흙을 붙여 수평이 되게 한다.</p><div class="lab5-row"><b>왼쪽 끝 고무 찰흙</b><button type="button" data-clay="L" data-step="1">붙이기</button><button type="button" data-clay="L" data-step="-1">떼기</button></div><div class="lab5-row"><b>오른쪽 끝 고무 찰흙</b><button type="button" data-clay="R" data-step="1">붙이기</button><button type="button" data-clay="R" data-step="-1">떼기</button></div>`;
-  else panel.innerHTML=`<p class="lab5-book">② 여러 가지 물체 중 무게가 중간쯤 되는 물체를 기준으로 정하여, 양팔 저울의 왼쪽 접시에 올려놓습니다. · 기준물체는 관찰자를 기준으로 해서 오른쪽에 놓는다.</p><div class="lab5-row"><b>기준물체(지우개) 놓을 접시</b><button type="button" data-ref="left" aria-pressed="${st.refSide==='left'}">왼쪽</button><button type="button" data-ref="right" aria-pressed="${st.refSide==='right'}">오른쪽</button></div><div class="lab5-row"><b>비교할 물체</b>${rulerObjects.filter(o=>o[0]!=='eraser').map(([k,n])=>`<button type="button" data-item="${k}" aria-pressed="${st.item===k}" class="${st.sorted[k]?'done':''}">${n}${st.sorted[k]?' ✓':''}</button>`).join('')}</div>${st.item?`<div class="lab5-row"><b>${rulerObjects.find(o=>o[0]===st.item)[1]}은(는) 기준물체보다</b><button type="button" data-sort="light">가볍다</button><button type="button" data-sort="heavy">무겁다</button></div>`:''}<p class="lab5-sum">가벼운 것: ${Object.entries(st.sorted).filter(([,v])=>v==='light').map(([k])=>rulerObjects.find(o=>o[0]===k)[1]).join(', ')||'—'} · 무거운 것: ${Object.entries(st.sorted).filter(([,v])=>v==='heavy').map(([k])=>rulerObjects.find(o=>o[0]===k)[1]).join(', ')||'—'}</p>`;
+  else panel.innerHTML=`<p class="lab5-book">관찰하고자 하는 물체, 즉, 측정하고자 하는 물체를 보고 있는 관찰자 기준으로 해서, 왼쪽에 놓는다. · 기준물체는 관찰자를 기준으로 해서 오른쪽에 놓는다.</p><p class="lab5-sum">기준물체(지우개)는 오른쪽 접시, 비교할 물체는 왼쪽 접시에 올려요.</p><div class="lab5-row"><b>비교할 물체</b>${rulerObjects.filter(o=>o[0]!=='eraser').map(([k,n])=>`<button type="button" data-item="${k}" aria-pressed="${st.item===k}" class="${st.sorted[k]?'done':''}">${n}${st.sorted[k]?' ✓':''}</button>`).join('')}</div>${st.item?`<div class="lab5-row"><b>${rulerObjects.find(o=>o[0]===st.item)[1]}은(는) 기준물체보다</b><button type="button" data-sort="light">가볍다</button><button type="button" data-sort="heavy">무겁다</button></div>`:''}<p class="lab5-sum">가벼운 것: ${Object.entries(st.sorted).filter(([,v])=>v==='light').map(([k])=>rulerObjects.find(o=>o[0]===k)[1]).join(', ')||'—'} · 무거운 것: ${Object.entries(st.sorted).filter(([,v])=>v==='heavy').map(([k])=>rulerObjects.find(o=>o[0]===k)[1]).join(', ')||'—'}</p>`;
   panel.querySelectorAll('[data-clay]').forEach(b=>b.onclick=()=>{const k=b.dataset.clay==='L'?'clayL':'clayR';st[k]=clamp(st[k]+Number(b.dataset.step),0,5);r.setClay('left',st.clayL);r.setClay('right',st.clayR);save();settle();const d=diff();say(d===0?'수평이 되었어요! 이제 기준물체와 비교할 수 있어요.':d>0?'아직 오른쪽으로 기울어요. 가벼운 쪽(왼쪽)에 고무 찰흙을 붙여 보세요.':'왼쪽으로 기울어요. 고무 찰흙을 조금 떼어 보세요.');});
-  panel.querySelectorAll('[data-ref]').forEach(b=>b.onclick=()=>{st.refSide=b.dataset.ref;save();show();drawPanel();settle();say(`기준물체를 ${st.refSide==='left'?'왼쪽':'오른쪽'} 접시에 놓았어요. 비교할 물체는 반대쪽 접시에 올려요.`);});
   panel.querySelectorAll('[data-item]').forEach(b=>b.onclick=()=>{st.item=b.dataset.item;show();drawPanel();settle();say('저울이 어느 쪽으로 기우는지 보고, 기준물체보다 가벼운지 무거운지 골라 보세요.');});
   panel.querySelectorAll('[data-sort]').forEach(b=>b.onclick=()=>{const heavy=mass(st.item)>mass(st.ref);const ok=(b.dataset.sort==='heavy')===heavy;if(ok){st.sorted={...st.sorted,[st.item]:b.dataset.sort};save();drawPanel();settle();const n=Object.keys(st.sorted).length;say(n>=rulerObjects.length-1?'모든 물체를 기준물체보다 가벼운 것과 무거운 것으로 구분했어요!':'맞아요. 다른 물체도 올려 보세요.');}else say('저울이 어느 쪽으로 기울었는지 다시 보세요. 내려간 쪽이 더 무거워요.');});
  }
- host.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{tab=b.dataset.tab;if(tab==='compare'&&!level()){tab='level';drawPanel();show();settle();say('먼저 ③ 고무 찰흙으로 수평을 맞춰요.');return;}st.item=null;show();drawPanel();settle();say(tab==='level'?'자가 수평인지 보고, 기울면 고무 찰흙을 붙여 맞춰요.':'기준물체를 정하고 다른 물체를 하나씩 반대쪽 접시에 올려 보세요.');});
+ host.querySelectorAll('[data-tab]').forEach(b=>b.onclick=()=>{tab=b.dataset.tab;if(tab==='compare'&&!level()){tab='level';drawPanel();show();settle();say('먼저 ③ 고무 찰흙으로 수평을 맞춰요.');return;}st.item=null;show();drawPanel();settle();say(tab==='level'?'자가 수평인지 보고, 기울면 고무 찰흙을 붙여 맞춰요.':'기준물체는 오른쪽 접시에 있어요. 다른 물체를 하나씩 왼쪽 접시에 올려 보세요.');});
  r.setClay('left',st.clayL);r.setClay('right',st.clayR);
  if(tab==='compare'&&!level())tab='level';
  show();drawPanel();settle();motion.set(motion.target,true);
- say(tab==='level'?(level()?'수평이에요. ④ 기준물체와 비교로 넘어가 보세요.':'자가 오른쪽으로 기울어 있어요. 고무 찰흙으로 수평을 맞춰 보세요.'):'기준물체를 정하고 다른 물체를 하나씩 반대쪽 접시에 올려 보세요.');
+ say(tab==='level'?(level()?'수평이에요. ④ 기준물체와 비교로 넘어가 보세요.':'자가 오른쪽으로 기울어 있어요. 고무 찰흙으로 수평을 맞춰 보세요.'):'기준물체는 오른쪽 접시에 있어요. 다른 물체를 하나씩 왼쪽 접시에 올려 보세요.');
  let disposed=false,raf=0,last=performance.now();
  function tick(now){if(disposed)return;const dt=Math.min((now-last)/1000,.06);last=now;motion.update(document.hidden?0:dt);r.pose(motion.value);for(const o of Object.values(objs))if(o.visible)o.position.copy(r.panTop(o.userData.side));canvas.dataset.shown=motion.value.toFixed(2);stage.controls.update();stage.renderer.render(stage.scene,stage.camera);raf=requestAnimationFrame(tick);}
  raf=requestAnimationFrame(tick);
