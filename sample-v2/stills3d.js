@@ -4,6 +4,7 @@ import * as THREE from './vendor/three.module.js';
 import {createStage} from './balance3d.js';
 import {earthTexture,moonTexture,grassTexture,arrow,helixGeometry,boardTexture} from './lesson3d.js';
 import {weightPlans} from './physics.js';
+import {buildPerson} from './figures3d.js';
 
 const UP=new THREE.Vector3(0,1,0);
 const paint=(stage,w,h,draw)=>{const c=document.createElement('canvas');c.width=w;c.height=h;draw(c.getContext('2d'),w,h);return stage.canvasTex(c);};
@@ -51,7 +52,7 @@ const scenes={
   const river=s.mesh(new THREE.BoxGeometry(22,.2,8),water(s));river.position.set(0,-.1,0);
   const concrete=s.phys({color:'#9aa5ad',roughness:.6});s.rbox(9,.45,1.8,.08,concrete,0,5.4,0);s.rbox(.5,5.4,1.4,.06,concrete,-3.6,2.7,0);
   const curve=new THREE.CatmullRomCurve3([[.9,5.2,0],[1.1,4.4,0],[.8,3.6,0],[.9,2.9,0]].map(p=>new THREE.Vector3(...p)));s.mesh(new THREE.TubeGeometry(curve,40,.05,8),s.phys({color:'#d13a35'}));
-  const suit=s.phys({color:'#f28c2e',roughness:.5});cap(s,.26,.7,suit,.9,2.3,0);s.mesh(new THREE.SphereGeometry(.24,24,16),s.phys({color:'#f1c7a1'})).position.set(.9,1.6,0);
+  const jumper=buildPerson(s,{height:1.7,shirt:'#f28c2e',pants:'#2f4f7a',pose:'jump'});jumper.root.rotation.z=Math.PI;jumper.root.position.set(.9,2.95,0);
   const ar=arrow(s,s.scene);ar.position.set(2.3,3.6,0);ar.quaternion.setFromUnitVectors(UP,new THREE.Vector3(0,-1,0));
  }},
  'l3-use-drop':{size:[900,560],stage:{cam:[0,2.4,9],target:[.6,1.7,0],backdrop:'studio'},build(s){

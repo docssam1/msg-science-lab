@@ -499,3 +499,10 @@ body.lesson-stage-mode #workspace .deck-look .stage-visual-tiles.stage-big-tiles
 .lab5-sum{margin:0;font-weight:700}
 .lab5-note{min-height:1.5em;margin:0;font-weight:700;line-height:1.5;color:#1d4f6a}
 .lab5-small{margin:0;font-size:.8em;color:#5a6f78}
+/* ── 6차시 3D 교구(용수철저울·양팔저울 만들기) ── */
+.tube-activity,.ruler-activity{display:grid;gap:clamp(6px,.9vh,14px);padding:clamp(12px,1.2vw,26px);box-sizing:border-box;width:100%;height:100%;overflow:auto;align-content:start;font-size:clamp(14px,1.05vw,22px);color:#173955}
+.tube-activity .balance-view{height:clamp(260px,48vh,640px)}
+/* 6차시: 그림과 보기가 함께 있는 문항은 그림 높이를 줄여 보기가 가려지지 않게 한다. 차시 버튼이 6개라 좁은 화면에서는 쪽수 배지를 숨긴다. */
+.lesson-stage-visual:has(.stage-options) .stage-question-image{max-height:48%;width:auto;margin:0 auto}
+@media(max-width:1700px){.sample-badge{display:none}}
+.lesson-stage-visual:has(.stage-passage) .stage-question-image{max-height:52%;width:auto;margin:0 auto}

@@ -10,6 +10,7 @@ export const ANSWER_KEY = 'dt-2026-09-26';
 // 5차시(f1~f12): 교재 서술(36~38쪽·30쪽)과 39쪽 01번 문장에서 확인되는 선택형만 채점한다. 오개념 처방은 만들지 않았다.
 //   서술형(f5·f7·f11·f12)은 자동 채점하지 않는다. f5·f7·f11은 교재에 근거 문장이 없어 답도 공개하지 않는다.
 // 공식 해설 미확인: 2차시 9~11번, 3차시 9번(공기의 양·밀도는 22~29쪽에 근거가 없고 26쪽 ⑥ 빈칸의 정답도 인쇄돼 있지 않다), 5차시 5·7·11번.
+// 6차시(g1~g20)는 단원 평가이며 해설 PDF(정답과 해설 2~3쪽)에 정답이 인쇄돼 있어 모두 채점한다. 오개념 처방은 만들지 않았다.
 export const UNCONFIRMED = new Set(['b9', 'b10', 'b11', 'c9', 'f5', 'f7', 'f11']);
 
 // 오개념: label = 학생에게 되묻는 말(답을 말하지 않음), fix = 풀고 난 뒤 보여 줄 교정, page = 다시 해 볼 실험 쪽
@@ -26,7 +27,7 @@ export const misconceptions = {
 };
 
 export function lessonRemedyLog(log,lesson){
- if(!Array.isArray(log)||![1,2,3,4,5].includes(lesson))throw new TypeError('차시별 진단 기록을 확인해 주세요.');
+ if(!Array.isArray(log)||![1,2,3,4,5,6].includes(lesson))throw new TypeError('차시별 진단 기록을 확인해 주세요.');
  return log.filter(row=>{
   const concept=row.m||bank.find(item=>item.id===row.item)?.m||probeBank.find(item=>item.id===row.item)?.m;
   if(concept)return (['M01','M02','M03','M04'].includes(concept)?1:2)===lesson;
@@ -35,6 +36,7 @@ export function lessonRemedyLog(log,lesson){
   if(/^c\d+$/.test(row.item))return lesson===3;
   if(/^e\d+$/.test(row.item))return lesson===4;
   if(/^f\d+$/.test(row.item))return lesson===5;
+  if(/^g\d+$/.test(row.item))return lesson===6;
   return false;
  });
 }
