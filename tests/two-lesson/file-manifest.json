@@ -1,13 +1,13 @@
 [
   {
     "path": "README.md",
-    "size": 7049,
-    "sha256": "59053900b39162cb72d9fd0ba43ba9dedc677cb391080a16c289951295c7856f"
+    "size": 7170,
+    "sha256": "631337daf96922cee44e09cc14a708d7b5a11e427bd0b0af86e776396d2ae708"
   },
   {
     "path": "activities.js",
-    "size": 24095,
-    "sha256": "8a4a3921b827f724983292809bd4e25b426ce4fffbbbd05337d8b453d90367f8"
+    "size": 24500,
+    "sha256": "e8792b0fb017ba92e8fc89bcadaf9b49c2fe971eef74dd91b92854b9f710552f"
   },
   {
     "path": "advanced-bank.js",
@@ -16,8 +16,8 @@
   },
   {
     "path": "app.js",
-    "size": 58839,
-    "sha256": "deaed9ad22c2dfcb95e1abd799b38463a73ebfb0334b991b2d709e0b24855509"
+    "size": 59015,
+    "sha256": "98201bafeb64bb2d0524aa78eb58a702477822051154a09d0621893ddee6931c"
   },
   {
     "path": "art/FUTURE-IMAGE-PROMPTS.md",
@@ -351,8 +351,8 @@
   },
   {
     "path": "art/l3-use-bungee.jpg",
-    "size": 44010,
-    "sha256": "83149d4d020e69ec98ae8fbcacab9fbb9a565944c779156502711cdb80219949"
+    "size": 48087,
+    "sha256": "f6671e2dcfde9892c880816927b3781fb6c6d3e6a9cdac7d2842a5d2abaa6b1b"
   },
   {
     "path": "art/l3-use-dam.jpg",
@@ -533,6 +533,76 @@
     "path": "art/l5-weights-set.jpg",
     "size": 54073,
     "sha256": "7f761c09f146a6ffa92333d92b5fa91840f3385760d5c0a040312518e7007a75"
+  },
+  {
+    "path": "art/l6-ruler-balance.jpg",
+    "size": 86948,
+    "sha256": "8452d0ae6a1829e27e52b25b1185c838482ba63c0173fa89f1073957d35bc5e5"
+  },
+  {
+    "path": "art/l6-ruler-clay.jpg",
+    "size": 86992,
+    "sha256": "69de2fcf3770c87761fda32e30f964a62efbe5dfd882b356d947af287492cba4"
+  },
+  {
+    "path": "art/l6-ruler-compare.jpg",
+    "size": 91090,
+    "sha256": "1516d6d4308a06f9010e00d713a24aeb80c1575279fee1ca96ad4d9ba084ff49"
+  },
+  {
+    "path": "art/l6-ruler-tilt.jpg",
+    "size": 83918,
+    "sha256": "e99fd98cb209a1924efaf118392a65d20ea6ee0b28c49c2ed756753a83fd9aa0"
+  },
+  {
+    "path": "art/l6-tube-match.jpg",
+    "size": 88609,
+    "sha256": "77a4fbaa9943b14e2ef168a67e6efab71f4781e260cc53f8967c1e9c1e95ebce"
+  },
+  {
+    "path": "art/l6-tube-scale.jpg",
+    "size": 101651,
+    "sha256": "e7040d908555d2430076f562b69ce4dc07440c1b4ff55606e888cf456ab7e40f"
+  },
+  {
+    "path": "art/l6-tube-zero.jpg",
+    "size": 81974,
+    "sha256": "828def7c604c0227e41e5275bf24e0f8ff7aafef73951e610d583d6b95ec27de"
+  },
+  {
+    "path": "art/l6-u01-scale.jpg",
+    "size": 70998,
+    "sha256": "db917442012d396306e61d8613697626ad72849603e70a89ffca5b7c82091a4e"
+  },
+  {
+    "path": "art/l6-u11-tools.jpg",
+    "size": 39932,
+    "sha256": "544a5f20211f9dd42d9e36c367d9d3fcf54a6463149ef6f0cb401ebcfb121f81"
+  },
+  {
+    "path": "art/l6-u14-objects.jpg",
+    "size": 41155,
+    "sha256": "6877660935e1f5d3c5ea0c8e41f801e1a8f04f85f7d8f5722178a5ece30c658c"
+  },
+  {
+    "path": "art/l6-u15-bars.jpg",
+    "size": 49826,
+    "sha256": "b2f66898c6bfc7118848fa7b8f5c1aea24f883aed3a8a201ec6f22184185903d"
+  },
+  {
+    "path": "art/l6-u16-seesaw.jpg",
+    "size": 62190,
+    "sha256": "dca755e07bbee8e82470c19285e5731aa369664acde384fad3386cffbda40315"
+  },
+  {
+    "path": "art/l6-u18-mobile.jpg",
+    "size": 51850,
+    "sha256": "9e08e57556f96720090b3e0d47d1b60cf9cde7d4427d6fb0ef27b323bf29b656"
+  },
+  {
+    "path": "art/l6-u20-mobile.jpg",
+    "size": 60028,
+    "sha256": "601ea14e8dc2738480e811c2c1dd9ec5145484a7166e1b953a3a8d6611f00f95"
   },
   {
     "path": "art/lever-2-4-held.jpg",
@@ -1521,13 +1591,13 @@
   },
   {
     "path": "content.js",
-    "size": 78463,
-    "sha256": "36f3a355dd1ff8b49ee7bc937936e6c1ab4bd59ca89b72f65e20cf2df2c83e35"
+    "size": 97873,
+    "sha256": "279413c8b9139e9dac0557a6d92c21eb2a187ca7afc9d4403b7b46b2eccba55a"
   },
   {
     "path": "daily-grading.js",
-    "size": 33521,
-    "sha256": "81e5a26b4f017c214e9356453f8723ee71c6b2024158849c36f131f203ae6620"
+    "size": 33526,
+    "sha256": "2accdc6b80f6f5b3bfda45055c525fa13a37f10c421d919dfdad57109aff2d8e"
   },
   {
     "path": "editions.js",
@@ -1543,6 +1613,11 @@
     "path": "everyday-objects.js",
     "size": 7341,
     "sha256": "a22cb6fe06cf0f6f274cad137d7abda1e81de0fa6475b0c311bf4cd1b085978d"
+  },
+  {
+    "path": "figures3d.js",
+    "size": 6561,
+    "sha256": "1a05a6553001107da1069d6247555c8136cefdc5f67b987e21da36a656025a30"
   },
   {
     "path": "fonts/OFL-Pretendard.txt",
@@ -1571,8 +1646,8 @@
   },
   {
     "path": "index.html",
-    "size": 5337,
-    "sha256": "518e405f807b6347d7ac3249492993c261726b92b51e1362eb100e8b51b4bb71"
+    "size": 5423,
+    "sha256": "992a6b4695194c4db7581a0c92922e46e1010dcd9472cad51c48f4b7b10588ab"
   },
   {
     "path": "inquiry-pages.js",
@@ -1596,28 +1671,28 @@
   },
   {
     "path": "lesson-print-pages.js",
-    "size": 34997,
-    "sha256": "67f1c7942a540aefd710ac54029048fd29ef7970ecbf5b890914cc276de88c07"
+    "size": 39937,
+    "sha256": "a689854ee207f1a20d3f701317dd2c1e2ebd237bcecb08eb4e3389767a7dfc68"
   },
   {
     "path": "lesson-print.css",
-    "size": 36105,
-    "sha256": "3a17030c3b2c97d502b9ad16ffa9155ee9c094856ed4ba4bcf0ab2aa5a2b19bc"
+    "size": 37133,
+    "sha256": "3bba243f12e66f617c7c5300e3d8da3d7f6e4eb3736ad320aea1f61ce0e0e741"
   },
   {
     "path": "lesson-stage.css",
-    "size": 50327,
-    "sha256": "e6153ce93cc45875b112b0eebb6c4c96fab2d37f68cba8f3d15f6eead1d9842e"
+    "size": 51154,
+    "sha256": "bc4b32571188ae325ef30734e54872fa39b988fe14c59ab91bf719d09cc776f6"
   },
   {
     "path": "lesson-stage.js",
-    "size": 39831,
-    "sha256": "36d02666d627eb7129b3a5c19a54c2ab3a9b5f4fe4b6f9588becbdde5c12982f"
+    "size": 43662,
+    "sha256": "0a520c85a08aa1ea65ec51ec1a46127307b99b828e6935028503f594929de9e6"
   },
   {
     "path": "lesson3d.js",
-    "size": 21465,
-    "sha256": "934f6d75900bd46f03019eadb3b237818fa0955f1542ccfdbd1961b0f3b3d083"
+    "size": 21089,
+    "sha256": "ed83ead12e03a55c512249b5a957cd6381a41588c3144ea022b12549320c091a"
   },
   {
     "path": "live-book.css",
@@ -1756,18 +1831,18 @@
   },
   {
     "path": "print/student.pdf",
-    "size": 19588195,
-    "sha256": "d0634e5292f30022cd487c770ce8792e85b2710de699bac72ddac10f5bc96998"
+    "size": 20775917,
+    "sha256": "54b463b3cd4400da0611e07998cb64c95a4010e5a37285f919c1405120202ff7"
   },
   {
     "path": "print/teacher.pdf",
-    "size": 20116046,
-    "sha256": "b61b0a08205cc28a14fce334e33f5d317294878e8559ac241df16b5bfb137d5d"
+    "size": 21364031,
+    "sha256": "86f1425d66cde6b652c1ecdb7cba617219e856819168cd12d52cd83219b9ee89"
   },
   {
     "path": "qr-map.js",
     "size": 3104,
-    "sha256": "64f5f03e6499ce0f8d661aee0e99f516c305180d505c7e21b7d09d9f2ead820e"
+    "sha256": "16db25175109585c981a09a3e092dfa336e4d775f8e7ec770bacee3f6050ac6a"
   },
   {
     "path": "qr/P1.png",
@@ -1985,9 +2060,49 @@
     "sha256": "1525bd3874dc478065361b4c718e4f1e12c6924c5fd09f1f206eddfb68dc1e21"
   },
   {
+    "path": "qr/P49.png",
+    "size": 1208,
+    "sha256": "7e1f09ad7773b23b8d8db8afaf014e2c51a6944eb15cda1de4c8b5a029a560e9"
+  },
+  {
     "path": "qr/P5.png",
     "size": 1123,
     "sha256": "9a7da5feb23e2e7bf6403a5be5868bf2d3ac82359002d8fb31077c96b0c2fcc4"
+  },
+  {
+    "path": "qr/P50.png",
+    "size": 1214,
+    "sha256": "bcefda1c2cc9f52d5b35a6220539b2a6cfd3677f9c33a627ad2daab6d2fb14a2"
+  },
+  {
+    "path": "qr/P51.png",
+    "size": 1231,
+    "sha256": "0b2e62d3065f34c2980688900bf74c597f6f04461a3bfb9771e7fa8313ee89f0"
+  },
+  {
+    "path": "qr/P52.png",
+    "size": 1175,
+    "sha256": "0c53bc67a2f22a52c2bb4aee1644ef10aa0bba9f0c9914ff662df33a34112a78"
+  },
+  {
+    "path": "qr/P53.png",
+    "size": 1246,
+    "sha256": "9b0fa07e6d4bf5f91f40dea6b58fed88f1a353bf0a202f7124c2eec647d06676"
+  },
+  {
+    "path": "qr/P54.png",
+    "size": 1201,
+    "sha256": "7da6f7d0f902ffc798e0aaacaf532f592cb38837bd10ad5803d91fe8950c1345"
+  },
+  {
+    "path": "qr/P55.png",
+    "size": 1216,
+    "sha256": "a2e872017e04f7364927c212e0ccb5fe7833c71261aea61215e60dcee78036b9"
+  },
+  {
+    "path": "qr/P56.png",
+    "size": 1234,
+    "sha256": "91952997bbf3a6ead99f099b73fec2e3d61464a253e1f9fa8f5dd005f61d23fb"
   },
   {
     "path": "qr/P6.png",
@@ -2121,8 +2236,8 @@
   },
   {
     "path": "remedy-bank.js",
-    "size": 19334,
-    "sha256": "4b76738bd81ff370851b4fc83ef2350a940f2d7da5728c3fe51dada4f4297a53"
+    "size": 19554,
+    "sha256": "13ecf5798c8c9790b45e4644cc136f2d27898a6c276abf9147945afaf73181a1"
   },
   {
     "path": "review.js",
@@ -2133,6 +2248,11 @@
     "path": "scales5.js",
     "size": 45492,
     "sha256": "638b2bad2255558b5e5994ca089d8ecac94e284b7014b261c75147261a0cd048"
+  },
+  {
+    "path": "scales6.js",
+    "size": 37149,
+    "sha256": "d0bc43481a24480d34e8ebc09d2d848bf7fb73132cd4126da00a9d7120fd7544"
   },
   {
     "path": "self-flow.js",
@@ -2146,8 +2266,8 @@
   },
   {
     "path": "source-lessons.js",
-    "size": 8316,
-    "sha256": "4fec0ede279cafa8993b78f12bac5aafa6b423ec53b3b97c14927ef6896494a0"
+    "size": 9294,
+    "sha256": "c709c41251a1955b7d50f8f5786b76331a34d09c61b28a68e24d78c43cb163eb"
   },
   {
     "path": "source/p10.webp",
@@ -2216,13 +2336,13 @@
   },
   {
     "path": "start.html",
-    "size": 7388,
-    "sha256": "abce67e21a17cb919c76673d18b9297023572a3c5d54e71bad86af8da65aee7e"
+    "size": 7389,
+    "sha256": "eb7a2d776105331827d07afb82010134aa552b01274a620adc0d9207eaeee800"
   },
   {
     "path": "stills3d.js",
-    "size": 23774,
-    "sha256": "278a69efabee2e3b777147794be6440b322804c2890e44743d630f3a17368a04"
+    "size": 23799,
+    "sha256": "0abfd439f69c9e7ee78dd72063d74fcc52f9f1e512a721019520b584d9a2723b"
   },
   {
     "path": "student-guide.css",
@@ -2231,8 +2351,8 @@
   },
   {
     "path": "student-guide.js",
-    "size": 3443,
-    "sha256": "f31b97a12390088cd9aa35881db3e48d02b5763612b4460cac70f1be75d6134f"
+    "size": 3830,
+    "sha256": "f809f06faea337f1f5aa2c5cf430c358534404752219dbfff1cb391326563dca"
   },
   {
     "path": "student.html",
@@ -2246,8 +2366,8 @@
   },
   {
     "path": "teacher-lecture.js",
-    "size": 37868,
-    "sha256": "9499f636a6fce5784a091cc2d4d6678d1bda1ebf3eb826cf95cdf9592032c3d7"
+    "size": 44129,
+    "sha256": "6686674262b38da56f6b831e07335c8835b86ed07ac8bffcb5b77820457e6d40"
   },
   {
     "path": "teacher-notes.html",

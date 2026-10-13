@@ -418,3 +418,18 @@
 .q-image.still3d{max-width:100%;height:auto;max-height:230px;margin:6px auto}
 #print-root .q-image.still3d{max-height:48mm}
 #print-root .essay-answer textarea::placeholder{color:transparent}
+
+/* 6차시 단원 평가 */
+.unit-test-banner span{letter-spacing:.02em}
+.stage-table,.lesson-stage .book-table{border-collapse:collapse;margin:8px auto;font-size:clamp(14px,1.1vw,22px)}
+.stage-table th,.stage-table td{border:1px solid #9fb6bd;padding:4px 12px;text-align:center}
+.stage-table th{background:#0d3557;color:#fff;font-weight:800}
+.q-options.picture-options{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:4px 10px}
+#print-root .q-image.still3d{max-height:36mm}
+#print-root .question .book-table th,#print-root .question .book-table td{padding:1.5px 6px;font-size:9pt;line-height:1.25}
+#print-root .question .book-table{margin:4px 0}
+.q-options.short-options{display:grid;grid-template-columns:repeat(5,minmax(0,auto));justify-content:start;gap:4px 18px}
+#print-root .question .book-table th{white-space:nowrap}
+.q-options.short-options{display:flex;flex-wrap:wrap;gap:4px 16px}
+#print-root .question .book-table{width:100%;table-layout:auto}
+#print-root .question .book-table th{white-space:normal}

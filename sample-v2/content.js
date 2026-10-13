@@ -96,7 +96,8 @@ export function questionHTML(q,{print=false}={}){
  let b=passage?`<div class="given">${passage}</div>`:'';
  if(q.image)b+=`<img class="q-image ${q.kind==='parts'?'parts':''} ${q.image.endsWith('.jpg')?'still3d':''}" src="./art/${q.image}" alt="${q.alt||(q.id==='a1'?'ㄱ·ㄴ·ㄷ·ㄹ을 표시한 원본 용수철저울 그림':'ㄱ·ㄴ·ㄷ의 눈높이를 표시한 원본 그림')}">`;
  if(q.graphic)b+=art(graphChoices(),'q-graphs');
- if(q.kind==='choice'&&!inlineOptions)b+=`<div class="q-options">${q.options.map((t,i)=>`<label><input type="radio" name="${q.id}" value="${i}" data-answer-field><span>${q.graphic?'':`<i>${'①②③④⑤'[i]}</i>`}${t}</span></label>`).join('')}</div>`;
+ if(q.table)b+=table(q.table[0],q.table.slice(1));
+ if(q.kind==='choice'&&!inlineOptions)b+=`<div class="q-options${q.pictureOptions?' picture-options':q.options.every(o=>o.length<=6)?' short-options':''}">${q.options.map((t,i)=>`<label><input type="radio" name="${q.id}" value="${i}" data-answer-field><span>${q.graphic||q.pictureOptions?'':`<i>${'①②③④⑤'[i]}</i>`}${t}</span></label>`).join('')}</div>`;
  if(q.kind==='text')b+=`<label class="short-answer">답 <input name="${q.id}" data-answer-field autocomplete="off" maxlength="40"></label>`;
  if(q.kind==='essay')b+=`<label class="essay-answer">답 <textarea name="${q.id}" data-answer-field rows="3" maxlength="400" placeholder="교재에 쓴 답을 여기에도 옮겨 써 보세요."></textarea></label>`;
  if(q.kind==='parts')b+=`<div class="parts-answers">${(q.slots||['ㄱ','ㄴ','ㄷ','ㄹ']).map((v,i)=>`<label>${v}<input name="${q.id}-${i}" data-answer-field autocomplete="off" maxlength="20"></label>`).join('')}</div>`;
@@ -219,12 +220,47 @@ export const q5=[
 ];
 page('l5-test-a',5,[39],'DAILY TEST · 일일평가','윗접시저울의\n원리를 확인해요.','5차시 · 원본 1~6번',`<div class="test-grid compact-test">${q5.slice(0,6).map(q=>questionHTML(q)).join('')}</div><button class="page-action" data-grade="p47">1~6번 제출하고 확인</button>`,'assessment','5번은 교재에 정답이 인쇄돼 있지 않아 답을 공개하지 않고 선생님과 함께 확인합니다. 2번은 4차시 수평잡기의 원리로 답을 확인합니다.',{assessment:true,dense:true});
 page('l5-test-b',5,[40],'DAILY TEST · 일일평가','분동을 다루는\n순서를 확인해요.','5차시 · 원본 7~12번',`<div class="test-grid compact-test">${q5.slice(6,12).map(q=>questionHTML(q)).join('')}</div><button class="page-action" data-grade="p48">7~12번 제출하고 확인</button>`,'assessment','7·11번은 교재에 정답이 인쇄돼 있지 않아 답을 공개하지 않습니다. 12번은 서술형이라 자동 채점하지 않고 교재 근거와 비교해 선생님이 확인합니다.',{assessment:true,dense:true});
-export const lessonNames={1:'용수철저울의 구조 익히기',2:'추의 무게에 따른 용수철의 길이 변화',3:'중력과 무게, 질량의 비교',4:'수평잡기의 원리',5:'앉은뱅이저울과 윗접시저울의 구조'};
-export const questions=[...q1,...q2,...q3,...q4,...q5];
+// ── 6차시: 본책 41~42쪽 (CHAPTER 08 용수철 저울과 양팔저울 만들기) + 44~47쪽 단원 평가 「1. 무게 재기」 01~20 ──
+// 단원 평가의 정답·해설은 해설 PDF(정답과 해설 2~3쪽, 01 무게재기)에 인쇄돼 있어 자동 채점한다.
+const careLine=text=>`<p class="source-line"><b>주의해주세요!</b> ${text}</p>`;
+page('l6-spring-make',6,[41],'CHAPTER 08 · 용수철저울 만들기','용수철저울을\n직접 만들어 봐요.','용수철저울 : 제작 과정',`${bookLine('① 용수철에 실을 매단다. ② 실의 한쪽 끝에 접시를 매단다. ③ 투명한 유리관에 흰색 테이프를 붙인다.')}${bookLine('④ 투명한 유리관에 용수철을 집어넣는다. ⑤ 용수철의 한 쪽 고리에 나무 막대를 넣어 투명한 유리관에 건다.')}${bookLine('⑥ 접시에 추를 1개씩 올려놓으면서 용수철 끝의 위치에 따라 흰색 테이프 표면에 추의 개수를 표시한다.')}${careLine('용수철의 늘어난 길이를 알 수 있도록 눈금을 표시 할 수 있어야 한다.')}`,'make-spring-scale','교재 41쪽 ①을 그대로 읽습니다. 교재 오른쪽의 이름표 그림(영점 조절 나사·표시자·손잡이·눈금·고리)은 1차시 3D 용수철저울로 보여 줍니다. 체험에서는 추를 하나씩 올리며 흰색 테이프에 추의 개수를 표시합니다.');
+page('l6-spring-check',6,[41],'CHECK · 확인하기','제대로\n만들어졌을까요?','용수철저울이 제대로 만들어졌는지 확인하기',`${bookLine('① 추를 접시에 올려놓지 않았을 때 용수철 끝이‘0’을 가리키는지 확인한다.')}${bookLine('② 추를 올려놓으면서 추의 개수와 눈금의 숫자가 일치하는지 확인한다.')}`,'make-spring-scale','교재 41쪽 ②를 그대로 씁니다. 1차시의 영점 확인, 2차시의 “추의 개수와 늘어난 길이는 비례”와 연결합니다. 체험에서 흔들리는 동안 표시한 눈금은 확인할 때 어긋나므로 “멈춘 뒤 읽기”도 함께 짚습니다.');
+page('l6-balance-make',6,[41],'MAKE · 양팔저울 만들기','자와 클립으로\n양팔저울을 만들어요.','양팔저울 : 제작과정',`${bookLine('① 자에 클립을 붙입니다. ② 스티로폼 접시의 네 귀퉁이에 실을 매답니다. ③ 실을 매단 스티로폼을 클립에  고정시킨다. ④ 수평조절을 한다.')}${careLine('수평이 맞지 않는다면?? 고무 찰흙을 붙여 수평이 되게 한다.')}`,'make-balance','교재 41쪽 ③을 그대로 씁니다. 자의 가운데를 매달아 양쪽 접시까지의 거리가 같다는 점을 4차시 수평잡기의 원리와 연결합니다. 체험의 처음 기울기(오른쪽 2 g)는 가상의 값입니다.');
+page('l6-balance-use',6,[42],'FEATURE · 양팔저울의 특징','기준물체보다\n가벼울까, 무거울까?','양팔저울의 특징',`${bookLine('① 양팔 저울을 사용하면 두 물체의 무게 차이가 작은 경우에도 정확하게 비교할 수 있다.')}${bookLine('② 여러 가지 물체 중 무게가 중간쯤 되는 물체를 기준으로 정하여, 양팔 저울의 왼쪽 접시에 올려놓습니다.')}${careLine('관찰하고자 하는 물체, 즉, 측정하고자 하는 물체를 보고 있는 관찰자 기준으로 해서, 왼쪽에 놓는다.')}${bookLine('③ 다른 물체들을 하나씩 오른쪽 접시에 올려놓아 기준물체보다 가벼운 것과 무거운 것으로 구분하거나, 무게를 측정 할 수 있다')}${careLine('기준물체는 관찰자를 기준으로 해서 오른쪽에 놓는다.')}`,'make-balance-compare','교재 42쪽 ④를 그대로 씁니다. 체험에서는 기준물체(지우개)를 놓을 접시를 고를 수 있고, 다른 물체를 반대쪽 접시에 하나씩 올려 기준물체보다 가벼운 것과 무거운 것으로 나눕니다. 물체의 무게는 가상의 값입니다.');
+const springTable=[['추의 개수(개)','1','2','3','4'],['용수철의 늘어난 길이(㎝)','2','4','6','8']];
+// 정답·해설 출처: 해설 PDF 「정답과 해설」 2~3쪽(01 무게재기). key:'official'로 표시한다.
+export const q6=[
+{id:'g1',n:1,kind:'choice',q:'다음 그림은 용수철저울의 구조를 나타낸 것이다. 용수철저울에 표시된 기호 중에서 영점조절나사를 가리키는 기호를 나타낸 것은?',image:'l6-u01-scale.jpg',alt:'ㄱ·ㄴ·ㄷ·ㄹ을 표시한 용수철저울 3D 그림',options:['㉠','㉡','㉢','㉣','㉠, ㉣'],answer:0,concept:'parts',why:`㉠영점조절나사, ㉡용수철, ㉢표시자, ㉣고리를 가리킵니다. 무게를 측정하기 전 영점조절 나사를 조정하여 표시자를 0에 위치시킨 뒤 무게를 측정합니다.`,key:'official'},
+{id:'g2',n:2,kind:'choice',q:'용수철저울로 물체의 무게를 측정할 때 가장 먼저 해야 할 일은 무엇인지 다음의 보기에서 고르시오.',options:['고리에 물체를 매단다.','용수철의 길이를 잰다.','손으로 어림하여 정확한 무게를 잰다.','물체를 매달고 표시자의 눈금을 읽는다.','표시자의 눈금이 0을 가리키는지 확인한다.'],answer:4,concept:'zero',why:`정확한 무게를 측정하기 위해서는 용수철저울의 표시자가 눈금 0을 가리키고 있는지 확인해야 합니다. 0을 가리키고 있지 않을 때는 영점조절나사를 이용하여 영점조절한 뒤 무게를 측정합니다.`,key:'official'},
+{id:'g3',n:3,kind:'choice',q:'물체의 무게를 손으로 어림하여 측정하게 되면 생길 수 있는 문제점이 무엇인지 다음 보기에서 고르시오.',options:['물체의 무게를 정확하게 측정할 수 있다.','물체의 무게를 정확하게 측정할 수 없다.','물체의 색깔이 변할 수 있다.','물체의 모양이 변할 수 있다.','저울로 측정하는 것보다 손쉽게 무게를 잴 수 있다.'],answer:1,concept:'weight',why:`손으로 어림하면 ‘A가 B에 비해서 무겁다’처럼 기준과 비교해 상대적으로 가볍다, 무겁다를 판단할 수 있는 표현입니다.`,key:'official'},
+{id:'g4',n:4,kind:'choice',q:'다음 중 용수철저울의 사용 방법으로 옳지 않은 것을 고르시오.',options:['측정하는 물체를 고리에 매단다.','눈금을 읽을 때 표시자보다 높은 위치에서 아래로 읽는다.','물체를 매단 뒤 표시자의 흔들림이 멈춘 뒤 눈금을 읽는다.','용수철저울에 표시된 측정 범위를 벗어난 물체의 무게는 측정하지 않는다.','물체를 매달지 않았을 때 용수철저울의 표시자가 가리키는 눈금은 0이어야 한다.'],answer:1,concept:'eye',why:`표시자는 눈높이와 동일한 높이에서 읽어야 정확한 눈금을 읽을 수 있습니다. 위에서 읽거나 아래에서 읽으면 무게측정 값에 오차가 생깁니다.`,key:'official'},
+{id:'g5',n:5,kind:'choice',q:'다음 보기 중 물체의 무게를 측정하는 기구로 적당한 실험도구를 고르시오.',options:['자','비커','용수철저울','온도계','눈금 실린더'],answer:2,concept:'parts',why:`자는 길이를 측정하고, 비커와 눈금실린더는 부피를 측정하는 도구이다. 온도계는 온도를 측정하는 도구이다.`,key:'official'},
+{id:'g6',n:6,kind:'choice',q:'용수철저울의 고리에 준비된 추를 한 개씩 더 매단 경우, 용수철저울의 늘어나는 길이는 (      ) cm씩 늘어납니다. 괄호에 들어갈 알맞은 숫자를 다음의 보기에서 고르시오.',table:springTable,options:['1','2','3','4','5'],answer:1,concept:'graph',why:`문제에서 제시한 표를 이용해 추1개당 늘어나는 길이가 2cm씩인 것을 확인할 수 있습니다.`,key:'official'},
+{id:'g7',n:7,kind:'choice',q:'용수철저울의 고리에 추를 10개 매달면 용수철저울의 길이는 (      ) cm가 늘어나게 됩니다. 위에서 제시한 표를 이용하여 괄호 안에 들어갈 숫자를 고르시오.',table:springTable,options:['10','14','20','22','34'],answer:2,concept:'graph',why:`문제에서 제시한 표를 이용해 추 1개당 2cm씩 늘어난 것을 확인할 수 있습니다. 추 10개를 매달면 2cm x 10 = 20cm가 됩니다.`,key:'official'},
+{id:'g8',n:8,kind:'choice',q:'용수철저울의 고리에 물체를 매달았을 때 용수철이 늘어나게 되는 조건을 다음의 보기에서 고르시오.',options:['물체의 생김새','물체의 무게','물체의 부피','물체의 단단함','물체의 색깔'],answer:1,concept:'extend',why:`용수철저울의 용수철은 매단 물체의 무게에 따라 늘어난 길이가 다릅니다.`,key:'official'},
+{id:'g9',n:9,kind:'choice',q:'물체를 들어 올릴 때 가벼운 물체를 드는 경우보다 무거운 물체를 드는 것이 더 힘이 듭니다. 더 힘이 드는 이유를 올바르게 설명한 사람을 고르시오.',options:['진홍 : 지구가 물체를 지구 중심으로 끌어당기기 때문이야.','경복 : 물체를 끌어당기는 힘의 크기가 일정하기 때문이야.','은희 : 무거운 물체는 지구가 더 세게 끌어당기기 때문이야.','미경 : 물체의 모양이 다르기 때문이야.','영희 : 물체를 들고 있는 사람이 할아버지 이기 때문이야.'],answer:2,concept:'gravity',why:`물체의 무게는 중력의 크기입니다. 물체가 무거우면 중력의 크기도 더 커집니다.`,key:'official'},
+{id:'g10',n:10,kind:'choice',q:'같은 용수철저울 2개를 스탠드에 매단 후, 한 쪽 용수철저울에는 추를 매달았고 늘어난 길이만큼 다른 쪽 용수철저울을 손으로 잡아당겼습니다. 이 때 손에 가장 큰 힘이 드는 경우를 고르시오.',options:['20g 추를 매단 경우','40g 추를 매단 경우','60g 추를 매단 경우','80g 추를 매단 경우','100g 추를 매단 경우'],answer:4,concept:'force',why:`추의 무게가 클수록 늘어난 길이가 크며, 손으로 잡아당겼을때 느끼는 탄성력의 힘도 커집니다.`,key:'official'},
+{id:'g11',n:11,kind:'choice',q:'다음 보기에서 제시된 두 물건에는 공통적으로 사용된 부품 재료가 있습니다. 이 부품 재료라고 생각되는 것을 고르시오.',image:'l6-u11-tools.jpg',alt:'스테이플러와 줄자 3D 그림',options:['용수철','핀셋','실','고무줄','고무'],answer:0,concept:'elastic',why:`스테이플러와 줄자에는 원래의 모양으로 되돌아오기 위해 용수철이 설치되어 있습니다.`,key:'official'},
+{id:'g12',n:12,kind:'choice',q:'다음 보기 중에서 용수철저울에 사용된 재료인 용수철을 이용한 도구가 아닌 것을 고르시오.',options:['침대','옷걸이','트램펄린','펀치','볼펜'],answer:1,concept:'elastic',why:`침대, 펀치, 볼펜, 트램펄린에는 용수철이 사용되어 사용 후 원래의 모양과 위치로 돌아오도록 합니다.`,key:'official'},
+{id:'g13',n:13,kind:'choice',q:'널빤지를 받치고, 물체를 올려놓았을 때  어느 한쪽으로도 기울어지지 않고, 평형을 이룬 상태를 표현한 용어를 고르시오.',options:['균형','멈춤','질량','수평','중력'],answer:3,concept:'lever',why:`양쪽에 물체를 올려놓았을 때 어느 한쪽으로도 기울어지지 않는 상태를 수평이라고 합니다.`,key:'official'},
+{id:'g14',n:14,kind:'choice',q:'다음 보기 중 물체의 가운데를 받쳤을 때 수평이 되지 않는 물체를 고르시오.',image:'l6-u14-objects.jpg',alt:'1번 자, 2번 막대, 3번 야구 방망이, 4번 나무판 3D 그림',pictureOptions:true,options:['①','②','③','④'],answer:2,concept:'lever',why:`물체의 좌우의 질량, 무게, 모양, 크기, 굵기, 길이 등이 모두 같으면 받침대를 가운데에 받쳐 수평을 이룰 수 있습니다. 물체의 좌우 모양이 다르면 무거운 쪽에 받침대를 놓아야 수평이 됩니다.`,key:'official'},
+{id:'g15',n:15,kind:'choice',q:'다음 중 나무 막대에 매달린 물체의 무게가 비슷한 것은 어느 것인지 고르시오.',image:'l6-u15-bars.jpg',alt:'실로 매단 나무 막대 네 개 3D 그림',pictureOptions:true,options:['①','②','③','④'],answer:0,concept:'lever',why:`수평잡기의 원리는 ‘무게x거리=일정’ 하다이므로 무게가 같은 물체는 중심에서 놓인 거리가 같다. 물체의 무게가 다르면 무거운 물체는 중심으로부터 가깝게 가벼운 물체는 중심으로부터 멀리 놓아야 수평이 된다.`,key:'official'},
+{id:'g16',n:16,kind:'choice',q:'몸무게가 다른 두 사람이 시소의 양쪽에 앉아서 수평을 만들었습니다. 이 때 다음의 그림을 참고하여 몸무게가 더 무거운 사람은 누구이고, 올바르게 설명한 이유를 보기를 고르시오.',image:'l6-u16-seesaw.jpg',alt:'시소 양쪽에 ㄱ과 ㄴ이 앉아 수평을 이룬 3D 그림',options:['㉠, 중심으로부터 먼 곳에 앉아있기 때문에','㉡, 중심으로부터 가까운 곳에 앉아있기 때문에','㉠, 몸의 크기가 작아보여서','㉡, 몸의 크기가 커보여서','㉠, 앉아있는 곳에서 손잡이를 더 세게 잡아당기고 있기 때문에'],answer:1,concept:'lever',why:`수평잡기의 원리에서 물체가 무거울수록 중심에서 가깝고, 가벼울수록 중심에서 먼 곳에 위치한다. 물체의 무게가 같으면 중심으로부터 놓인 거리가 같다.`,key:'official'},
+{id:'g17',n:17,kind:'choice',q:'영재는 용수철저울 A와 B를 준비해서 같은 무게의 물체를 매달았습니다. 이 때 A용수철저울과 B용수철저울의 늘어난 길이가 서로 달랐습니다. 용수철저울의 늘어난 길이가 다른 이유로 적당하지 않은 것을 고르시오.',options:['용수철의 굵기가 다르기 때문에','용수철의 재질이 다르기 때문에','용수철저울의 영점조절을 하지 않아서','용수철저울을 측정한 장소(높이)가 다르기 때문에','측정 장소의 습도 때문에'],answer:4,concept:'material',why:`용수철의 굵기와 재질, 영점조절, 측정 장소의 높이(중력의 크기 차이)에 따라 늘어난 길이가 달라질 수 있습니다. (해설을 줄여 옮김)`,key:'official'},
+{id:'g18',n:18,kind:'choice',q:'다음 보기와 같이 나무 막대에 동물 그림 카드를 매달았더니 수평이 되었습니다. 고양이와 쥐의 무게를 비교하여 ○ 안에 들어갈 표시 기호를 올바르게 고르시오.',image:'l6-u18-mobile.jpg',alt:'나무 막대 왼쪽 끝에 쥐, 오른쪽에 고양이가 매달려 수평을 이룬 3D 그림',passage:'쥐 ○ 고양이',options:['=','〈','〉','≠','×'],answer:1,concept:'lever',why:`매단 동물모양에서 쥐가 중심으로부터 먼 곳에 위치하기 때문에 중심에서 가까운 곳에 위치하고 있는 고양이보다 가볍다. 그렇기 때문에 쥐 〈 고양이가 되어야 한다.`,key:'official'},
+{id:'g19',n:19,kind:'choice',q:'다음 (  ) 안에 표시된 단어들을 올바르게 선택한 보기를 고르시오.',passage:'무게가 서로 다른 두 물체를 이용해 수평을 이룰 때, 무게가 ㉠ (무거운, 가벼운) 물체를 무게가 ㉡ (무거운, 가벼운) 물체보다 받침점으로부터 더 먼 곳에 위치시켜야 수평을 이룰 수 있습니다.',options:['㉠무거운 ,㉡무거운','㉠무거운 ,㉡가벼운','㉠가벼운 ,㉡가벼운','㉠가벼운 ,㉡무거운'],answer:3,concept:'lever',why:`무거운 물체보다 가벼운 물체의 놓인 위치가 중심에서 더 먼 곳에 놓입니다.`,key:'official'},
+{id:'g20',n:20,kind:'choice',q:' 다음 아래 그림과 같이 수평을 이룬 모빌에서 무게가 가장 무거운 것은 어느 것인지 기호를 쓰시오',image:'l6-u20-mobile.jpg',alt:'A 공, B 정육면체, C 별, D 웃는 얼굴이 매달려 수평을 이룬 모빌 3D 그림',options:['A','B','C','D','B와 C'],answer:3,concept:'lever',why:`B+C=A이고 B+C+A=D이기 때문에 물체의 무게는 D가 가장 무겁습니다.`,key:'official'}
+];
+page('l6-unit-a',6,[44],'UNIT TEST · 단원 평가','무게 재기\n단원 평가 (1)','단원 평가 01~06',`<div class="test-grid compact-test">${q6.slice(0,6).map(q=>questionHTML(q)).join('')}</div><button class="page-action" data-grade="p53">1~6번 제출하고 확인</button>`,'assessment','단원 평가의 정답·해설은 해설 PDF(정답과 해설 2~3쪽)에 인쇄돼 있어 자동 채점합니다. 해설 문장은 해설 PDF를 그대로 옮겼습니다.',{assessment:true,dense:true});
+page('l6-unit-b',6,[45],'UNIT TEST · 단원 평가','무게 재기\n단원 평가 (2)','단원 평가 07~12',`<div class="test-grid compact-test">${q6.slice(6,12).map(q=>questionHTML(q)).join('')}</div><button class="page-action" data-grade="p54">7~12번 제출하고 확인</button>`,'assessment','7번은 44쪽의 표(추 1개당 2 cm)를 함께 봅니다. 정답은 해설 PDF대로입니다.',{assessment:true,dense:true});
+page('l6-unit-c',6,[46],'UNIT TEST · 단원 평가','무게 재기\n단원 평가 (3)','단원 평가 13~17',`<div class="test-grid compact-test">${q6.slice(12,17).map(q=>questionHTML(q)).join('')}</div><button class="page-action" data-grade="p55">13~17번 제출하고 확인</button>`,'assessment','14·15·16번의 그림은 교재 그림을 따른 3D 그림입니다. 정답은 해설 PDF대로입니다.',{assessment:true,dense:true});
+page('l6-unit-d',6,[47],'UNIT TEST · 단원 평가','무게 재기\n단원 평가 (4)','단원 평가 18~20',`<div class="test-grid compact-test">${q6.slice(17,20).map(q=>questionHTML(q)).join('')}</div><button class="page-action" data-grade="p56">18~20번 제출하고 확인</button>`,'assessment','18·20번의 그림은 교재 그림을 따른 3D 그림입니다. 정답은 해설 PDF대로입니다.',{assessment:true,dense:true});
+export const lessonNames={1:'용수철저울의 구조 익히기',2:'추의 무게에 따른 용수철의 길이 변화',3:'중력과 무게, 질량의 비교',4:'수평잡기의 원리',5:'앉은뱅이저울과 윗접시저울의 구조',6:'저울 만들기와 단원 평가'};
+export const questions=[...q1,...q2,...q3,...q4,...q5,...q6];
 export {history1,history2,history3,coilHistory,future};
 export const gradeGroups={'1a':q1.slice(0,3),'1b':q1.slice(3),'2a':q2.slice(0,4),'2b':q2.slice(4,8)};
 // Daily Test 문항 묶음(인쇄 쪽 번호 기준). 화면·교사 노트·채점이 모두 이 한 표를 쓴다.
-export const assessmentGroupsByPrint={P11:q1,P19:q2.slice(0,6),P20:q2.slice(6,12),P32:q3,P40:q4,P47:q5.slice(0,6),P48:q5.slice(6,12)};
+export const assessmentGroupsByPrint={P11:q1,P19:q2.slice(0,6),P20:q2.slice(6,12),P32:q3,P40:q4,P47:q5.slice(0,6),P48:q5.slice(6,12),P53:q6.slice(0,6),P54:q6.slice(6,12),P55:q6.slice(12,17),P56:q6.slice(17,20)};
 pages.forEach((p,i)=>p.layoutIndex=i);
 pages.unshift(...inquiryPages);
 export const narration=Object.fromEntries(pages.map(p=>[p.id,{id:p.id,text:({
@@ -273,5 +309,13 @@ export const narration=Object.fromEntries(pages.map(p=>[p.id,{id:p.id,text:({
 'l5-brass':'분동은 왜 손으로 만지지 않고 집게로 다룰까요? 분동을 다루는 네 가지 약속을 읽어 봅시다.',
 'l5-speed':'윗접시저울이 수평이 되면 왜 분동의 무게 합이 물체의 무게일까요? 양쪽 팔의 길이를 비교해 보세요.',
 'l5-test-a':'먼저 스스로 답을 쓰고 제출해 보세요. 윗접시저울의 원리와 부품을 떠올리며 답합니다.',
-'l5-test-b':'분동을 올리고 내리는 순서와 그 까닭을 생각하며 답을 써 보세요.'
+'l5-test-b':'분동을 올리고 내리는 순서와 그 까닭을 생각하며 답을 써 보세요.',
+'l6-spring-make':'용수철저울을 직접 만들어 볼까요? 추를 하나씩 올리며 용수철 끝에 눈금을 표시해 봅시다.',
+'l6-spring-check':'내가 만든 용수철저울이 제대로 만들어졌을까요? 영을 가리키는지, 추의 개수와 눈금이 맞는지 확인해 봅시다.',
+'l6-balance-make':'자와 클립으로 양팔저울을 만들어 볼까요? 수평이 맞지 않으면 고무 찰흙을 붙여 맞춰 봅시다.',
+'l6-balance-use':'기준물체를 정하고 다른 물체를 하나씩 올려 보세요. 기준물체보다 가벼운지 무거운지 나눌 수 있어요.',
+'l6-unit-a':'무게 재기 단원 평가예요. 용수철저울의 구조와 사용 방법을 떠올리며 답해 보세요.',
+'l6-unit-b':'표를 보고 늘어난 길이를 계산하고, 용수철이 쓰인 물건도 찾아보세요.',
+'l6-unit-c':'수평이 되려면 무게와 거리가 어떻게 되어야 하는지 생각하며 답해 보세요.',
+'l6-unit-d':'모빌과 막대에 매달린 물체의 무게를 비교해 보세요.'
 })[p.id]||inquiryNarration[p.id]}]));

@@ -116,7 +116,7 @@ export const conceptCoach={
 // 오개념의 짧은 이름(화면 표시용)
 export const misconceptionName={parts:'부품 이름과 하는 일',zero:'매달기 전 영점 확인',eye:'눈금 읽는 눈높이',stable:'멈춘 뒤 읽기',extend:'무게와 늘어나는 정도',origin:'늘어난 길이와 전체 길이',elastic:'탄성의 뜻',graph:'무게와 길이의 비례',data:'문제에 주어진 표 쓰기'};
 export const nameOf=code=>misconceptionName[misconceptions[code]?.concept]||code;
-export function itemLabel(id){const m=/^([abcef])(\d+)$/.exec(id);if(m)return `${({a:1,b:2,c:3,e:4,f:5})[m[1]]}차시 ${m[2]}번`;const s=/^s(\d+)$/.exec(id);if(s)return `처방 ${s[1]}`;const d=/^d(\d+)$/.exec(id);return d?`확인 질문 ${d[1]}`:id;}
+export function itemLabel(id){const m=/^([abcefg])(\d+)$/.exec(id);if(m)return `${({a:1,b:2,c:3,e:4,f:5,g:6})[m[1]]}차시 ${m[2]}번`;const s=/^s(\d+)$/.exec(id);if(s)return `처방 ${s[1]}`;const d=/^d(\d+)$/.exec(id);return d?`확인 질문 ${d[1]}`:id;}
 export function relatedLab(q){return q.id==='b12'?'assessment-graph':conceptCoach[q.concept]?.lab||'parts';}
 export function misconceptionFor(q,value){if(LOCKED.has(q.id))return null;return misconceptionOf(q.id,q.kind==='graph'&&Array.isArray(value)?value.slice().sort((a,b)=>a[0]-b[0]):value);}
 

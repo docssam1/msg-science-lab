@@ -4,6 +4,7 @@ import * as THREE from './vendor/three.module.js';
 import {createStage} from './balance3d.js';
 import {SpringMotion,gradePoints} from './physics.js';
 import {roundedBoxGeometry} from './everyday-objects-3d.js';
+import {buildPerson} from './figures3d.js';
 
 const UP=new THREE.Vector3(0,1,0);
 function rng(seed){let s=seed;return ()=>(s=(s*16807)%2147483647)/2147483647;}
@@ -97,7 +98,7 @@ function mountWeigh(kind,host,ctx){
  let place=ctx.load(kind+'-place','earth');const answers=ctx.load(kind+'-answers',{});
  host.innerHTML=`<div class="weight-activity balance-lab"><h3></h3><div class="place-picker"><button data-place="earth">지구</button><button data-place="moon">달</button></div><div class="weight-read"></div><div class="balance-view"><span class="scene-tag">3D 가상 교구 · 돌려 볼 수 있어요</span></div><p class="weight-hint"></p>${mass?'<div class="weight-quiz"><p>달로 가면 <b>질량</b>은 어떻게 될까요?</p><button data-q="mass" data-a="same">그대로예요</button><button data-q="mass" data-a="diff">달라져요</button><p>달로 가면 <b>무게</b>는 어떻게 될까요?</p><button data-q="weight" data-a="same">그대로예요</button><button data-q="weight" data-a="diff">달라져요</button><p class="weight-feedback" role="status"></p></div>':''}</div>`;
  const root=host.firstElementChild,view=root.querySelector('.balance-view');
- const stage=createStage(view,{cam:mass?[2.2,2.6,9.2]:[1.8,3.0,10.4],target:mass?[0,1.55,0]:[0,2.4,0],table:false,backdrop:'sky'});
+ const stage=createStage(view,{cam:mass?[1.9,2.5,7.8]:[1.8,3.0,10.4],target:mass?[0,1.7,0]:[0,2.4,0],table:false,backdrop:'sky'});
  const {scene,canvas}=stage;
  const skyCanvas=backdrop=>{const [c,g]=canvas2d(512,512);if(backdrop==='moon'){const gr=g.createRadialGradient(256,240,10,256,256,420);gr.addColorStop(0,'#1d3550');gr.addColorStop(1,'#060b16');g.fillStyle=gr;g.fillRect(0,0,512,512);const r=rng(9);for(let i=0;i<240;i++){g.fillStyle=`rgba(255,255,255,${.3+r()*.6})`;g.beginPath();g.arc(r()*512,r()*512,r()*1.3+.3,0,Math.PI*2);g.fill();}}else{const gr=g.createLinearGradient(0,0,0,512);gr.addColorStop(0,'#7fb6e6');gr.addColorStop(.62,'#d8ecf7');gr.addColorStop(1,'#eef5f2');g.fillStyle=gr;g.fillRect(0,0,512,512);}return c;};
  const grass=stage.mat({map:grassTexture(stage),roughness:.95}),moonMat=stage.mat({map:moonTexture(stage),roughness:.95});
@@ -119,13 +120,8 @@ function mountWeigh(kind,host,ctx){
  }else{
   const scale=stage.rbox(1.9,.24,1.5,.12,stage.phys({color:'#eef2f3',roughness:.35,clearcoat:.6}),0,.12,0);
   display=stage.mesh(new THREE.PlaneGeometry(.9,.32),stage.mat({map:displayTexture(stage,''),roughness:.4}),scene,{cast:false});display.rotation.x=-Math.PI/2;display.position.set(0,.245,.45);
-  const skin=stage.phys({color:'#f1c7a1',roughness:.6}),shirt=stage.phys({color:'#3a6ea5',roughness:.5}),pants=stage.phys({color:'#2b3a4a',roughness:.6});
-  const cap=(r,l,m,x,y,z,rz=0)=>{const o=stage.mesh(new THREE.CapsuleGeometry(r,l,8,16),m);o.position.set(x,y,z);o.rotation.z=rz;return o;};
-  cap(.16,.9,pants,-.2,.95,-.1);cap(.16,.9,pants,.2,.95,-.1);
-  cap(.36,.85,shirt,0,2.05,-.1);
-  cap(.11,.75,shirt,-.55,2.05,-.1,.18);cap(.11,.75,shirt,.55,2.05,-.1,-.18);
-  stage.mesh(new THREE.SphereGeometry(.32,32,24),skin).position.set(0,2.95,-.1);
-  parts.massTag=stage.label('질량 60 kg',{size:.55});parts.massTag.position.set(0,3.75,0);
+  const person=buildPerson(stage,{height:3.0,shirt:'#3a6ea5',pants:'#2b3a4a',hair:'#3a2a1e'});person.root.position.set(0,.24,-.1);
+  parts.massTag=stage.label('질량 60 kg',{size:.55});parts.massTag.position.set(0,3.6,0);
  }
  function updateSpring(n){
   if(mass)return;

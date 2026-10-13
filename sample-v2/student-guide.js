@@ -40,7 +40,10 @@ const activityPrompts={
   weights:'1 g·3 g·9 g 추를 접시에 올려 양팔저울이 수평이 되게 해 보세요.',
   'kitchen-scale':'겉판을 열고 접시를 눌러 용수철과 바늘이 함께 움직이는지 보세요. 사용 방법 ①②③도 순서대로 해 봐요.',
   'top-pan':'부품을 눌러 이름과 하는 일을 확인하고, 영점조절나사로 바늘을 0점에 맞춰 보세요.',
-  'top-pan-weigh':'물체는 왼쪽, 분동은 오른쪽이에요. 무거운 분동부터 올리고, 내릴 때는 가벼운 것부터 내려 보세요.'
+  'top-pan-weigh':'물체는 왼쪽, 분동은 오른쪽이에요. 무거운 분동부터 올리고, 내릴 때는 가벼운 것부터 내려 보세요.',
+  'make-spring-scale':'추를 하나씩 올리고, 용수철 끝이 멈추면 흰색 테이프에 추의 개수를 표시해 보세요.',
+  'make-balance':'자가 기울면 가벼운 쪽에 고무 찰흙을 붙여 수평을 맞춰 보세요.',
+  'make-balance-compare':'기준물체를 정하고 다른 물체를 하나씩 올려 가벼운 것과 무거운 것으로 나눠 보세요.'
 };
 export function studentActivityPrompt(kind){
   return activityPrompts[kind]||'직접 움직이며 관찰해 보세요. 끝나면 교재로 돌아가요.';
