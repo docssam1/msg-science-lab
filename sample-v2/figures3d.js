@@ -66,9 +66,12 @@ export function buildPerson(stage,{height=1.75,skin='#f2c7a3',shirt='#3a6ea5',pa
   const thumb=add(new THREE.CapsuleGeometry(.013,.035,6,10),M.skin,elbow,-side*.03,-.265,.02);thumb.rotation.z=side*.5;
   arms[side]={shoulder,elbow};
  }
- function setPose(name){
+ // walk: phase(라디안)에 따라 다리·팔을 번갈아 흔든다(얼굴 쪽 +z로 걷는다). point: 왼쪽(+x) 팔을 들어 가리킨다.
+ function setPose(name,phase=0){
   for(const s of [-1,1]){legs[s].hip.rotation.set(0,0,0);legs[s].knee.rotation.set(0,0,0);arms[s].shoulder.rotation.set(0,0,0);arms[s].elbow.rotation.set(0,0,0);}
   hips.position.y=.93;torso.rotation.set(0,0,0);
+  if(name==='walk'){const a=Math.sin(phase);hips.position.y=.93-.012*Math.abs(Math.cos(phase));for(const s of [-1,1]){legs[s].hip.rotation.x=-s*.42*a;legs[s].knee.rotation.x=.08+.5*Math.max(0,s*Math.sin(phase-.9));arms[s].shoulder.rotation.x=s*.38*a;arms[s].shoulder.rotation.z=s*.08;arms[s].elbow.rotation.x=-.32;}torso.rotation.x=.04;return;}
+  if(name==='point'){for(const s of [-1,1]){arms[s].shoulder.rotation.z=s*.12;arms[s].elbow.rotation.x=-.18;legs[s].hip.rotation.z=s*.02;}arms[1].shoulder.rotation.set(-.35,0,2.05);arms[1].elbow.rotation.set(-.15,0,.25);return;}
   if(name==='stand'){for(const s of [-1,1]){arms[s].shoulder.rotation.z=s*.12;arms[s].elbow.rotation.x=-.18;legs[s].hip.rotation.z=s*.02;}}
   if(name==='sit'){hips.position.y=.1;for(const s of [-1,1]){legs[s].hip.rotation.x=-Math.PI/2;legs[s].hip.rotation.y=s*.06;legs[s].knee.rotation.x=Math.PI/2-.08;arms[s].shoulder.rotation.set(-.55,0,s*.08);arms[s].elbow.rotation.x=-.75;}}
   if(name==='jump'){for(const s of [-1,1]){arms[s].shoulder.rotation.z=s*2.3;arms[s].elbow.rotation.x=-.2;legs[s].hip.rotation.z=s*.18;legs[s].knee.rotation.x=.25;}}
