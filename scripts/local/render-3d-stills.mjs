@@ -5,6 +5,7 @@
 // - 4차시: 수평(l4-level), 양팔저울 칸(l4-pans-*) — stills3d.js
 // - 5차시: 앉은뱅이저울·윗접시저울·분동·Daily Test 그림(l5-*) — sample-v2/scales5.js
 // - 6차시: 용수철저울·양팔저울 만들기, 단원 평가 그림(l6-*) — sample-v2/scales6.js
+// - 7차시: 운동과 정지·위치 표현·곰 인형·속력 그래프·속력의 단위(l7-*) — sample-v2/motion7.js
 // 사용: MSG_PLAYWRIGHT_URL=<playwright 모듈 경로> QA_BASE=http://127.0.0.1:4320/sample-v2/ node scripts/local/render-3d-stills.mjs [이름 …]
 // 이름을 주면 그 그림만 다시 그린다.
 import {mkdirSync,writeFileSync} from 'node:fs';
@@ -57,7 +58,8 @@ try{
  const lesson3=await page.evaluate(async()=>{const m=await import('./stills3d.js');return m.stillNames.map(name=>[name,m.stillSize(name)]);});
  const lesson5=await page.evaluate(async()=>{const m=await import('./scales5.js');return m.lesson5StillNames.map(name=>[name,m.lesson5StillSize(name)]);});
  const lesson6=await page.evaluate(async()=>{const m=await import('./scales6.js');return m.lesson6StillNames.map(name=>[name,m.lesson6StillSize(name)]);});
- const jobs=[...Object.entries(lesson4).map(([name,opts])=>({name,opts,size:[1200,520]})),...lesson3.map(([name,size])=>({name,opts:{kind:'lesson3'},size})),...lesson5.map(([name,size])=>({name,opts:{kind:'lesson5'},size})),...lesson6.map(([name,size])=>({name,opts:{kind:'lesson6'},size})),...Object.entries(labStills).map(([name,opts])=>({name,opts:{kind:'lab',...opts},size:[800,900]}))];
+ const lesson7=await page.evaluate(async()=>{const m=await import('./motion7.js');return m.lesson7StillNames.map(name=>[name,m.lesson7StillSize(name)]);});
+ const jobs=[...Object.entries(lesson4).map(([name,opts])=>({name,opts,size:[1200,520]})),...lesson3.map(([name,size])=>({name,opts:{kind:'lesson3'},size})),...lesson5.map(([name,size])=>({name,opts:{kind:'lesson5'},size})),...lesson6.map(([name,size])=>({name,opts:{kind:'lesson6'},size})),...lesson7.map(([name,size])=>({name,opts:{kind:'lesson7'},size})),...Object.entries(labStills).map(([name,opts])=>({name,opts:{kind:'lab',...opts},size:[800,900]}))];
  const only=process.argv.slice(2);
  for(const job of jobs.filter(j=>!only.length||only.includes(j.name))){
   const url=await page.evaluate(async({name,opts,size})=>{
@@ -67,6 +69,7 @@ try{
    else if(opts.kind==='lesson3'){const {renderLesson3Still}=await import('./stills3d.js');still=renderLesson3Still(name,host);}
    else if(opts.kind==='lesson5'){const {renderLesson5Still}=await import('./scales5.js');still=renderLesson5Still(name,host);}
    else if(opts.kind==='lesson6'){const {renderLesson6Still}=await import('./scales6.js');still=renderLesson6Still(name,host);}
+   else if(opts.kind==='lesson7'){const {renderLesson7Still}=await import('./motion7.js');still=renderLesson7Still(name,host);}
    else{const {renderLeverStill,renderRampStill}=await import('./balance3d.js');still=opts.kind==='ramp'?renderRampStill(host,opts):renderLeverStill(host,opts);}
    const data=still.canvas.toDataURL('image/jpeg',.9);still.dispose();host.remove();return data;
   },job);

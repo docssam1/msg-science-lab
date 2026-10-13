@@ -17,7 +17,7 @@ const OFFICIAL=[1,5,2,2,3,2,3,2,3,5,1,2,4,3,1,2,5,2,4,4];
 
 test('sixth lesson has a source-tagged run of show for every scene P49–P56',()=>{
  assert.deepEqual(Object.keys(lessonSixLecture),lessonSix);
- assert.deepEqual(Object.keys(teacherLecture).slice(49),lessonSix);
+ assert.deepEqual(Object.keys(teacherLecture).slice(49,57),lessonSix);
  for(const id of lessonSix){
   const lecture=lessonSixLecture[id],page=pages.find(item=>item.printId===id);
   assert(page&&page.lesson===6&&hasLessonStage(page),`${id} must be a real lesson-6 scene`);

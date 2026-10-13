@@ -433,3 +433,15 @@
 .q-options.short-options{display:flex;flex-wrap:wrap;gap:4px 16px}
 #print-root .question .book-table{width:100%;table-layout:auto}
 #print-root .question .book-table th{white-space:normal}
+/* 7차시: 위아래로 놓는 넓은 3D 그림, 답을 쓰는 줄 */
+.still-stack{display:grid;gap:8px;margin:8px 0}
+.still-stack figure{margin:0;text-align:center}
+.still-stack .still3d{width:auto;max-width:100%;height:auto;max-height:230px;margin:0 auto}
+.still-stack figcaption{font-weight:800;font-size:17px;margin-top:4px}
+.still-wide{display:flex;justify-content:center;margin:8px 0}
+.still-wide .still3d{width:auto;max-width:100%;height:auto;max-height:200px}
+.length-pair section .still3d{width:100%;height:auto;max-height:230px}
+.answer-lines li{line-height:2.1}
+#print-root .still-stack .still3d{max-height:52mm}
+#print-root .still-wide .still3d{max-height:44mm}
+#print-root .length-pair section .still3d{max-height:50mm}

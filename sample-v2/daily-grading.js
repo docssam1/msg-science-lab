@@ -18,10 +18,11 @@ const PART_NAMES=['손잡이','영점조절나사','용수철','표시자','눈�
 const TEXT_VOCAB={a1:PART_NAMES,a3:PART_NAMES,a4:['ㄱ','ㄴ','ㄷ']};
 const blank=v=>!String(v??'').trim();
 
-function gradeText(expected,value,vocab){
+// accept: 같은 답으로 인정하는 다른 표기(7차시 h4~h7). vocab: 문항에 나오는 '확실히 다른 답'(q.vocab으로도 줄 수 있다).
+function gradeText(expected,value,vocab,accept){
  if(blank(value))return 'blank';
  const v=normalize(value);
- if(v===normalize(expected))return 'correct';
+ if(v===normalize(expected)||accept?.some(a=>normalize(a)===v))return 'correct';
  if(vocab?.some(word=>normalize(word)===v))return 'wrong';
  return 'review';
 }
@@ -34,7 +35,7 @@ export function gradeItem(q,value){
   return {status:gradePoints(value,q.answer)?'correct':'wrong'};
  }
  if(q.kind==='parts'){
-  const slots=q.answer.map((answer,i)=>gradeText(answer,value?.[i],TEXT_VOCAB[q.id]));
+  const slots=q.answer.map((answer,i)=>gradeText(answer,value?.[i],TEXT_VOCAB[q.id]||q.vocab,q.accept?.[i]));
   if(slots.includes('blank'))return {status:'blank',slots};
   const status=slots.includes('wrong')?'wrong':slots.every(s=>s==='correct')?'correct':'review';
   return {status,slots,reason:status==='review'?'text':undefined};
@@ -50,7 +51,7 @@ export function gradeItem(q,value){
   return {status,slots,reason:status==='review'?'text':undefined};
  }
  if(q.kind==='text'){
-  const status=gradeText(q.answer,value,TEXT_VOCAB[q.id]);
+  const status=gradeText(q.answer,value,TEXT_VOCAB[q.id]||q.vocab,q.accept);
   return {status,reason:status==='review'?'text':undefined};
  }
  if(q.kind==='pair'){
@@ -111,12 +112,15 @@ export const conceptCoach={
  balance:{name:'양팔저울의 평형',ask:'물체와 같은 쪽 접시의 추를 더하고 반대쪽 접시의 추와 비교해 보았나요?',lab:'weights'},
  lever:{name:'수평잡기의 원리',ask:'받침점에서 양쪽까지의 거리가 같을 때, 수평이 되려면 양쪽 무게가 어떠해야 할까요?',lab:'lever'},
  toppan:{name:'윗접시저울의 구조와 원리',ask:'윗접시저울의 양쪽 팔 길이와 각 부품이 하는 일을 다시 떠올려 볼까요?',lab:'top-pan'},
- order:{name:'분동을 다루는 순서',ask:'분동을 올릴 때와 내릴 때 어떤 순서로 하는지 교재의 약속을 다시 읽어 볼까요?',lab:'top-pan-weigh'}
+ order:{name:'분동을 다루는 순서',ask:'분동을 올릴 때와 내릴 때 어떤 순서로 하는지 교재의 약속을 다시 읽어 볼까요?',lab:'top-pan-weigh'},
+ motion:{name:'정지와 운동',ask:'시간이 흐르는 동안 물체의 위치가 변했는지 다시 비교해 볼까요?',lab:'motion-time'},
+ speed:{name:'속력의 공식',ask:'그래프의 점에서 걸린 시간과 이동거리를 다시 읽어 볼까요?',lab:'speed-graph'},
+ units:{name:'속력의 단위',ask:'단위를 읽는 법과 그 뜻을 교재의 표에서 다시 찾아볼까요?',lab:'speed-units'}
 };
 // 오개념의 짧은 이름(화면 표시용)
 export const misconceptionName={parts:'부품 이름과 하는 일',zero:'매달기 전 영점 확인',eye:'눈금 읽는 눈높이',stable:'멈춘 뒤 읽기',extend:'무게와 늘어나는 정도',origin:'늘어난 길이와 전체 길이',elastic:'탄성의 뜻',graph:'무게와 길이의 비례',data:'문제에 주어진 표 쓰기'};
 export const nameOf=code=>misconceptionName[misconceptions[code]?.concept]||code;
-export function itemLabel(id){const m=/^([abcefg])(\d+)$/.exec(id);if(m)return `${({a:1,b:2,c:3,e:4,f:5,g:6})[m[1]]}차시 ${m[2]}번`;const s=/^s(\d+)$/.exec(id);if(s)return `처방 ${s[1]}`;const d=/^d(\d+)$/.exec(id);return d?`확인 질문 ${d[1]}`:id;}
+export function itemLabel(id){const m=/^([abcefgh])(\d+)$/.exec(id);if(m)return `${({a:1,b:2,c:3,e:4,f:5,g:6,h:7})[m[1]]}차시 ${m[2]}번`;const s=/^s(\d+)$/.exec(id);if(s)return `처방 ${s[1]}`;const d=/^d(\d+)$/.exec(id);return d?`확인 질문 ${d[1]}`:id;}
 export function relatedLab(q){return q.id==='b12'?'assessment-graph':conceptCoach[q.concept]?.lab||'parts';}
 export function misconceptionFor(q,value){if(LOCKED.has(q.id))return null;return misconceptionOf(q.id,q.kind==='graph'&&Array.isArray(value)?value.slice().sort((a,b)=>a[0]-b[0]):value);}
 
