@@ -445,3 +445,7 @@
 #print-root .still-stack .still3d{max-height:52mm}
 #print-root .still-wide .still3d{max-height:44mm}
 #print-root .length-pair section .still3d{max-height:50mm}
+/* 8차시: 하이퍼튜브 기사(긴 글)는 작은 글씨로 한 쪽에, 비교표의 '공식 익히기' 칸은 높게 */
+.article-copy p{margin:0 0 6px;font-size:14.5px;line-height:1.55;text-indent:.5em}
+#print-root .article-copy p{font-size:10pt;line-height:1.45}
+.compare-table td.tall{height:64px}

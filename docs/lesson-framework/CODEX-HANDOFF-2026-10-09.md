@@ -1,8 +1,8 @@
-# Codex(GPT) 인수인계 · MSG 초·과·심 물리 1~7차시(단원 1 + 단원 2 시작)
+# Codex(GPT) 인수인계 · MSG 초·과·심 물리 1~8차시(단원 1 + 단원 2 진행 중)
 
-기준일: **2026-10-09**(2026-10-14 7차시 반영으로 갱신). 이 문서는 다음 작업자(Codex/GPT)가 **가장 먼저 읽는 실행 지시서**다. 과거 인수인계서(`CLAUDE-HANDOFF-2026-10-05.md` 등)의 “다음 작업” 목록은 이 문서가 대체한다. 작업을 시작할 때 `git fetch origin` 후 `origin/main`의 실제 커밋과 Pages 배포 상태를 다시 확인한다.
+기준일: **2026-10-09**(2026-10-17 8차시 반영으로 갱신). 이 문서는 다음 작업자(Codex/GPT)가 **가장 먼저 읽는 실행 지시서**다. 과거 인수인계서(`CLAUDE-HANDOFF-2026-10-05.md` 등)의 “다음 작업” 목록은 이 문서가 대체한다. 작업을 시작할 때 `git fetch origin` 후 `origin/main`의 실제 커밋과 Pages 배포 상태를 다시 확인한다.
 
-> 한 줄 요약: 단원 1 「무게 재기」 전체(1~6차시, 본책 10~47쪽)와 단원 2 「속력과 속도」의 7차시(본책 50~57쪽)까지 67장면이다. **음성 3차시 32개는 만들어졌지만 사용자 승인 전이라 커밋되지 않았고(이전 작업 폴더에 있음), 4~7차시 음성은 만들지 않았다.** 다음은 8차시(본책 58~63쪽).
+> 한 줄 요약: 단원 1 「무게 재기」 전체(1~6차시, 본책 10~47쪽)와 단원 2 「속력과 속도」의 7~8차시(본책 50~63쪽)까지 75장면이다. **음성 3차시 32개는 만들어졌지만 사용자 승인 전이라 커밋되지 않았고(이전 작업 폴더에 있음), 4~8차시 음성은 만들지 않았다.** 다음은 9차시(본책 64~67쪽, CH06 속력 비교하기).
 > 단원 2 차시 나누기(사용자 결정 2026-10-14, “5차시로 나눔 (추천)”): 7차시 50~57쪽 · 8차시 58~63쪽(쉬어가기 + CH05 [심화] + Daily Test) · 9차시 64~67쪽(CH06) · 10차시 68~72쪽(CH07·수학 이야기·CH08) · 11차시 74~78쪽(단원 평가 01~20, 해설 PDF 4~5쪽 정답).
 
 ## 0. 절대 규칙 (어기면 사고)
@@ -18,9 +18,9 @@
 
 ## 1. 현재 상태 (2026-10-13)
 
-- `origin/main` 최신 커밋은 `git log -1 origin/main`으로 확인한다. 7차시는 `work/lecture-07-20261014` PR, 6차시는 PR #23·#24, 5차시는 PR #22, 남은 2D → 3D는 PR #19~#21, 4차시는 PR #16, 안내 음성 도구·런북은 PR #17, 3차시는 PR #15.
+- `origin/main` 최신 커밋은 `git log -1 origin/main`으로 확인한다. 8차시는 `work/lecture-08-20261017` PR, 7차시는 PR #25, 6차시는 PR #23·#24, 5차시는 PR #22, 남은 2D → 3D는 PR #19~#21, 4차시는 PR #16, 안내 음성 도구·런북은 PR #17, 3차시는 PR #15.
 - 공개 사이트: https://docssam1.github.io/msg-science-lab/ (앱은 `/sample-v2/`, 예 `student.html?page=32`, `teacher.html?page=36`). GitHub Pages 워크플로 `Deploy MSG Science Lab to GitHub Pages`가 `main` push마다 배포하며 `node scripts/local/build-sample-manifest.mjs --check`가 실패하면 배포가 멈춘다.
-- 장면은 위치 순서다: P0 표지, **P1~P11 1차시, P12~P20 2차시, P21~P32 3차시, P33~P40 4차시, P41~P48 5차시, P49~P56 6차시, P57~P66 7차시**(총 67장면). 학생 인쇄 67면, 교사 인쇄 133면(표지 + 장면 × 2).
+- 장면은 위치 순서다: P0 표지, **P1~P11 1차시, P12~P20 2차시, P21~P32 3차시, P33~P40 4차시, P41~P48 5차시, P49~P56 6차시, P57~P66 7차시, P67~P74 8차시**(총 75장면). 학생 인쇄 75면, 교사 인쇄 149면(표지 + 장면 × 2).
 
 | 차시 | 본책 쪽 | 장면 | Daily Test | 체험 | 근거 문서 |
 | --- | --- | --- | --- | --- | --- |
@@ -31,13 +31,14 @@
 | 5 | 36~40 | P41~P48 | `f1`~`f12`(P47·P48), **f5·f7·f11 잠금**, f12 서술형(교사 확인), f2는 30쪽 원리로 도출 | `kitchen-scale`·`top-pan`·`top-pan-weigh` (**3D**, `scales5.js`) | `TEACHER-LECTURE-05-QA.md` |
 | 6 | 41~42, 44~47 | P49~P56 | 단원 평가 `g1`~`g20`(P53~P56), **해설 PDF 공식 정답으로 전부 채점** | `make-spring-scale`·`make-balance`·`make-balance-compare` (**3D**, `scales6.js`) | `TEACHER-LECTURE-06-QA.md` |
 | 7 | 50~57 | P57~P66 | `h1`~`h10`(P65·P66), **h1(속력의 기호) 잠금**, h4·h5는 55쪽 (1) 풀이로 도출, h8~h10 서술형 | `motion-time`·`position-map`·`relative-motion`·`speed-graph`·`speed-units` (**3D**, `motion7.js`) | `TEACHER-LECTURE-07-QA.md` |
+| 8 | 58~63 | P67~P74 | `i1`~`i8`(P73·P74), **i2·i3·i4 잠금**, i5~i8은 55쪽 풀이로 도출 | `traffic-signs`·`hypertube`·`routes`·`cycle-trip` (**3D**, `motion8.js`) | `TEACHER-LECTURE-08-QA.md` |
 
 - 4차시 Daily Test(33쪽, 1·3·9 g 추로 1~13 g)는 교재에 **정답이 인쇄돼 있지 않다**. 교사 화면의 조합은 평형 조건(물체 + 왼쪽 추 = 오른쪽 추)으로 **내가 도출**한 것이다(유일해). 교재 정답이라고 쓰지 않는다.
 - 4차시는 33쪽(Daily Test)이 34~35쪽(과학 이야기)보다 앞에 있지만 수업 흐름상 시험을 **마지막(P40)** 에 두었다.
 - 5차시 Daily Test(39~40쪽)도 정답이 인쇄돼 있지 않다. 교재 서술(36~38쪽·30쪽·39쪽 01번 지문)로 확인되는 선택형만 채점하고, 서술형은 새 형식 `kind:'essay'`로 받아 자동 채점하지 않는다(정책표: `TEACHER-LECTURE-05-QA.md`).
 - 6차시 단원 평가(44~47쪽)는 Daily Test가 아니라 단원 평가이며, **해설 PDF 「정답과 해설」 2~3쪽의 정답을 그대로 쓴다**(이 번호만 해설 PDF와 대응한다).
 - 7차시 Daily Test(57쪽)도 정답이 인쇄돼 있지 않다. 50~56쪽 서술·표와 55쪽 (1)의 풀이로 확인되는 답만 채점하고, 같은 답으로 보는 표기는 문항의 `accept`, 확실한 오답 낱말은 `vocab`으로 준다(`daily-grading.js`). 해설 PDF 4~5쪽 「02 속력과 속도」는 **11차시 단원 평가**의 정답이다.
-- 검수 도구 현황(2026-10-14 실행): `npm test` 70/70. 브라우저 테스트는 아래 7차시 PR 설명과 `TEACHER-LECTURE-07-QA.md`에 결과를 적었다. 화면 점검은 268화면(67장면 × 교사/학생 × 2해상도). 통과하지 않는 1개 `ch01-browser.mjs`는 옛 루트 프로토타입(`http://127.0.0.1:4317/student.html`, 2026-09-22 CH01)을 대상으로 해서 이 앱과 무관하다.
+- 검수 도구 현황(2026-10-14 실행): `npm test` 70/70. 브라우저 테스트는 아래 7차시 PR 설명과 `TEACHER-LECTURE-07-QA.md`에 결과를 적었다. 화면 점검은 268화면(67장면 × 교사/학생 × 2해상도). 2026-10-17 8차시 반영 후 `npm test` 75/75, 화면 점검 300화면(75장면). 차시 단추가 8개라 1500px 이하에서는 고른 차시만 이름을 보인다. 통과하지 않는 1개 `ch01-browser.mjs`는 옛 루트 프로토타입(`http://127.0.0.1:4317/student.html`, 2026-09-22 CH01)을 대상으로 해서 이 앱과 무관하다.
 
 ## 2. 저장 위치 (정확히)
 
@@ -62,7 +63,7 @@
 
 1. **이 문서**(`docs/lesson-framework/CODEX-HANDOFF-2026-10-09.md`).
 2. `docs/lesson-framework/README.md` — 설계 원칙. **§7**에 차시별 “교재대로 반영·교사 메모만” 기록과 `[검수 요청 · 미승인]` 항목(17쪽 “반비례”).
-3. 차시별 근거/검수표: `TEACHER-LECTURE-01-QA.md`~`TEACHER-LECTURE-07-QA.md` — 장면↔본책 쪽 대조, Daily Test 정책, 검수 메모, 남은 확인 체크리스트.
+3. 차시별 근거/검수표: `TEACHER-LECTURE-01-QA.md`~`TEACHER-LECTURE-08-QA.md` — 장면↔본책 쪽 대조, Daily Test 정책, 검수 메모, 남은 확인 체크리스트.
 4. `docs/lesson-framework/VOICE-RUNBOOK.md` — 음성 규칙·환경·순서·대기 상태.
 5. G: 참고파일 `MSG_초과심_물리_참고파일_2026-10-05.md` — 정확한 파일명·해시·주의.
 6. `sample-v2/README.md` — 앱 구조·자료·출처.
@@ -70,24 +71,26 @@
 
 ## 4. 코드 지도 (`sample-v2/`)
 
-- `content.js`: 교재 문장(`page(id,lesson,source,…)`), 문항 `q1`~`q7`, `assessmentGroupsByPrint`(평가 묶음 **단일 표**), `narration`, `lessonNames`, `questionHTML`.
+- `content.js`: 교재 문장(`page(id,lesson,source,…)`), 문항 `q1`~`q8`, `assessmentGroupsByPrint`(평가 묶음 **단일 표**), `narration`, `lessonNames`, `questionHTML`.
 - `lesson-print-pages.js`: 학생 인쇄 순서. **`printId`는 위치로 다시 매긴다(`P${index+1}`)** → 새 장면은 항상 **맨 끝**에 추가한다. 중간 삽입 금지.
 - `lesson-stage.js`: 투사·학생 장면(`scenes`), 답 공개, `stageActivity`(문항→체험 연결), `stageGradeLabel`.
-- `teacher-lecture.js`(교사 노트 진행안 `lessonOne/Two/Three/Four/Five/Six/SevenLecture`), `source-lessons.js`(장면별 학생·교사 한 줄), `teacher-notes.js`, `student-guide.js`(체험 안내 문장).
-- `activities.js`(체험 분기; `lever`·`weights`는 `balance3d.js`를 지연 로드), `balance3d.js`(3D 체험·정지 그림 렌더러, 공용 `createStage`), `scales5.js`(5차시 3D 체험·정지 그림; `kitchen-scale`·`top-pan`·`top-pan-weigh`), `scales6.js`(6차시; `make-spring-scale`·`make-balance`·`make-balance-compare`), `motion7.js`(7차시; `motion-time`·`position-map`·`relative-motion`·`speed-graph`·`speed-units`), `figures3d.js`(공용 3D 사람 `buildPerson`; 자세 `stand`·`sit`·`jump`·`walk`·`point`), `graphics.js`(`esc`·`leverAngle`만), `physics.js`.
+- `teacher-lecture.js`(교사 노트 진행안 `lessonOne/Two/Three/Four/Five/Six/Seven/EightLecture`), `source-lessons.js`(장면별 학생·교사 한 줄), `teacher-notes.js`, `student-guide.js`(체험 안내 문장).
+- `activities.js`(체험 분기; `lever`·`weights`는 `balance3d.js`를 지연 로드), `balance3d.js`(3D 체험·정지 그림 렌더러, 공용 `createStage`), `scales5.js`(5차시 3D 체험·정지 그림; `kitchen-scale`·`top-pan`·`top-pan-weigh`), `scales6.js`(6차시; `make-spring-scale`·`make-balance`·`make-balance-compare`), `motion7.js`(7차시; `motion-time`·`position-map`·`relative-motion`·`speed-graph`·`speed-units`, 공용 도우미 `arrow3`·`dimension`·`callout`·`clockFace`·`buildCar` 등을 내보냄), `motion8.js`(8차시; `traffic-signs`·`hypertube`·`routes`·`cycle-trip`), `figures3d.js`(공용 3D 사람 `buildPerson`; 자세 `stand`·`sit`·`jump`·`walk`·`point`·`ride`), `graphics.js`(`esc`·`leverAngle`만), `physics.js`.
 - `daily-grading.js`(채점·첨삭; `set`·`draw`·`essay` 종류, `itemLabel`), `remedy-bank.js`(`UNCONFIRMED`, `ANSWER_KEY`는 `'dt-2026-09-26'`로 **바꾸지 않는다**), `app.js`, `qr-map.js`, `index.html`/`start.html`.
-- 문항 id 규칙: a=1차시, b=2차시, c=3차시, **e=4차시, f=5차시, g=6차시(단원 평가), h=7차시**(d는 확인 질문용이라 비워 둠). 다음 차시는 i를 쓰고 `itemLabel`·`lessonRemedyLog`·테스트를 함께 고친다.
+- 문항 id 규칙: a=1차시, b=2차시, c=3차시, **e=4차시, f=5차시, g=6차시(단원 평가), h=7차시, i=8차시**(d는 확인 질문용이라 비워 둠). 다음 차시는 j를 쓰고 `itemLabel`·`lessonRemedyLog`·테스트를 함께 고친다.
 
 ## 5. 아직 안 끝난 것 (우선순위 순)
 
 1. **3차시 음성 32개 — 사용자 승인 대기**(만들어 둠, 미커밋). 사용자 결정(2026-10-12): “음성은 차후 가능하도록” — 음성이 붙는 코드(`pageVoice`)와 P26·P30 안내 문장은 이미 `main`에 들어갔다. 승인되면 **최신 `main`에서 새 worktree를 만들고 그 작업본의 mp3 32개와 `voice-library.json`만 복사**해 커밋 → `build-sample-manifest.mjs` → `--check` → PR → 병합 → 배포 확인(공개 mp3 해시 비교) → `TEACHER-LECTURE-03-QA.md` 갱신. 옛 작업본의 `app.js`·`source-lessons.js`는 `main`과 같으므로 가져오지 않는다. 어색한 문장은 그 줄만 `--force`로 다시.
-2. **4~7차시 음성 — 사용자가 “나중에”로 보류.** 지금은 만들지 않는다(§0-5). 대사 목록은 `scripts/local/enumerate-guide-lines.mjs --lesson 4`(또는 `5`)로 만든다.
+2. **4~8차시 음성 — 사용자가 “나중에”로 보류.** 2026-10-14 사용자: 퇴근할 때 “음성 진행”으로 4~7차시(지금은 8차시까지)를 한꺼번에 만들고, 3차시 32개와 함께 듣기 페이지로 승인받는다. 지금은 만들지 않는다(§0-5). 대사 목록은 `scripts/local/enumerate-guide-lines.mjs --lesson 4`(또는 `5`)로 만든다.
 3. ~~3D화~~ — **2026-10-12 완료**: 1~4차시 체험·투사·인쇄 그림 전부 3D(PR #19·#20·이번 PR). 안내 문장은 바꾸지 않아 3차시 음성 목록 32줄은 그대로 유효하다. 우주 배경 그림은 인쇄 잉크가 많이 든다(인쇄용 밝은 배경판은 사용자 결정 대기).
 4. 4차시 보완 후보: P39 바퀴 3D 그림(`ramp-wheel*.jpg`)은 카메라·모양을 더 다듬을 여지가 있다 → 사용자 결정 대기.
 5. ~~5차시~~ — **2026-10-12 완료**(본책 36~40쪽, P41~P48, `TEACHER-LECTURE-05-QA.md`).
 6. ~~6차시~~ — **2026-10-13 완료**(본책 41~42쪽 + 단원 평가 44~47쪽, P49~P56, `TEACHER-LECTURE-06-QA.md`). 단원 1이 끝났다.
-7. ~~7차시~~ — **2026-10-14 완료**(본책 50~57쪽, P57~P66, `TEACHER-LECTURE-07-QA.md`). **다음은 8차시(본책 58~63쪽)**: 58쪽 쉬어가기(교통안전표지판), 59~60쪽 하이퍼튜브 읽기, 61~62쪽 CH05 [심화] 속력과 속도, 63쪽 Daily Test 01~08. 시작 전 G: 본책을 직접 읽는다.
-8. 사용자 검수 게이트(미완): 실제 전자칠판·태블릿·교사 시연, 대상 학년(`learner-fit`), 교육 내용 검수(차시별 QA 문서의 메모), 17쪽 “반비례” 표현, Daily Test 2차시 9~11번·3차시 9번의 공식 근거, 4차시 Daily Test 조합의 교재 대조, 5차시 Daily Test 2·4·6·8번 대조와 5·7·11번 근거, 7차시 Daily Test 4·5번(도출)과 1번(속력의 기호) 근거, 실물 프린터 출력.
+7. ~~7차시~~ — **2026-10-14 완료**(본책 50~57쪽, P57~P66, `TEACHER-LECTURE-07-QA.md`). 
+8a. **교재 글자 인식(Apple Vision) — Mac에 요청함, 결과 대기.** 사용자 지시(2026-10-19): “교재는 애플비전 활용하자 … 맥에 네가 전달해”. Drive `코딩관련/MSG-물리-애플비전-OCR-요청-20261019/`에 `REQUEST.md`와 `vision-ocr.swift`를 올렸다(본책 인쇄 64~78쪽, 해설 PDF 5~6쪽). Mac 작업자가 `result/`와 `DONE.md`를 남기면 9차시부터 그 텍스트를 쪽 그림과 대조해 쓴다. 요청서를 올린 것만으로 Mac이 받은 것은 아니다.
+8. ~~8차시~~ — **2026-10-17 완료**(본책 58~63쪽, P67~P74, `TEACHER-LECTURE-08-QA.md`). **다음은 9차시(본책 64~67쪽)**: CH06 속력 비교하기(일정한 시간·일정한 거리로 비교, Speed Question 표 두 개)와 Daily Test 두 쪽. 시작 전 G: 본책을 직접 읽는다.
+9. 사용자 검수 게이트(미완): 실제 전자칠판·태블릿·교사 시연, 대상 학년(`learner-fit`), 교육 내용 검수(차시별 QA 문서의 메모), 17쪽 “반비례” 표현, Daily Test 2차시 9~11번·3차시 9번의 공식 근거, 4차시 Daily Test 조합의 교재 대조, 5차시 Daily Test 2·4·6·8번 대조와 5·7·11번 근거, 7차시 Daily Test 4·5번(도출)과 1번(속력의 기호) 근거, 8차시 Daily Test 5~8번(도출)과 2~4번 근거, 실물 프린터 출력.
 
 ## 6. 새 차시를 만드는 표준 절차 (3·4차시에서 쓴 방식)
 

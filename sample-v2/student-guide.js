@@ -48,7 +48,11 @@ const activityPrompts={
   'position-map':'기준점을 먼저 정하고, 그곳에서 어느 쪽으로 몇 km 떨어져 있는지 말해 보세요.',
   'relative-motion':'〈방법1〉과 〈방법2〉를 각각 움직여 보고, 곰 인형이 어떻게 보이는지 비교해 보세요.',
   'speed-graph':'그래프의 점에서 시간과 이동거리를 읽고, A처럼 빠르기를 구해 보세요.',
-  'speed-units':'단위를 고르고 시계가 한 바퀴 도는 동안 얼마나 움직이는지 보세요. 단위 읽는 법도 연습해요.'
+  'speed-units':'단위를 고르고 시계가 한 바퀴 도는 동안 얼마나 움직이는지 보세요. 단위 읽는 법도 연습해요.',
+  'traffic-signs':'표지판을 눌러 이름을 확인하고, 속력과 관계있는 표지판을 찾아보세요.',
+  'hypertube':'1200km/h로 20분 동안 달리면 몇 km를 갈지 계산해 보세요.',
+  'routes':'경로 ①②③을 따라가며 이동거리를 비교하고, A에서 B로 곧게 이은 화살표도 켜 보세요.',
+  'cycle-trip':'민정이를 따라가며 이동거리와 A에서의 위치를 비교하고, 속력과 속도를 구해 보세요.'
 };
 export function studentActivityPrompt(kind){
   return activityPrompts[kind]||'직접 움직이며 관찰해 보세요. 끝나면 교재로 돌아가요.';

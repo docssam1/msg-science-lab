@@ -516,3 +516,5 @@ body.lesson-stage-mode #workspace .deck-look .stage-visual-tiles.stage-big-tiles
 .stage-visual-tiles.stage-stack-tiles{grid-template-columns:minmax(0,1fr);grid-template-rows:repeat(2,minmax(0,1fr))}
 /* 7차시까지 차시 목록이 길어져 낮은 화면(1366×768)에서는 표지 목록 글자를 줄인다. */
 @media(max-height:820px){.deck-look.stage-cover .stage-cover-outline{font-size:clamp(12px,.95vw,18px);line-height:1.2}}
+/* 8차시부터 차시 단추가 8개라 1500px 이하에서는 고른 차시만 이름을 보이고 나머지는 번호만 보인다(이름은 화면 읽기용으로 남김). */
+@media(max-width:1500px){body .app-header .lesson-bar nav button{padding:0 10px}body .app-header .lesson-bar nav button:not(.selected) span{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}}

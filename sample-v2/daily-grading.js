@@ -115,12 +115,13 @@ export const conceptCoach={
  order:{name:'분동을 다루는 순서',ask:'분동을 올릴 때와 내릴 때 어떤 순서로 하는지 교재의 약속을 다시 읽어 볼까요?',lab:'top-pan-weigh'},
  motion:{name:'정지와 운동',ask:'시간이 흐르는 동안 물체의 위치가 변했는지 다시 비교해 볼까요?',lab:'motion-time'},
  speed:{name:'속력의 공식',ask:'그래프의 점에서 걸린 시간과 이동거리를 다시 읽어 볼까요?',lab:'speed-graph'},
- units:{name:'속력의 단위',ask:'단위를 읽는 법과 그 뜻을 교재의 표에서 다시 찾아볼까요?',lab:'speed-units'}
+ units:{name:'속력의 단위',ask:'단위를 읽는 법과 그 뜻을 교재의 표에서 다시 찾아볼까요?',lab:'speed-units'},
+ velocity:{name:'속력과 속도의 차이',ask:'속도는 빠르기를 무엇과 함께 나타내는지 교재 61쪽에서 다시 찾아볼까요?',lab:'routes'}
 };
 // 오개념의 짧은 이름(화면 표시용)
 export const misconceptionName={parts:'부품 이름과 하는 일',zero:'매달기 전 영점 확인',eye:'눈금 읽는 눈높이',stable:'멈춘 뒤 읽기',extend:'무게와 늘어나는 정도',origin:'늘어난 길이와 전체 길이',elastic:'탄성의 뜻',graph:'무게와 길이의 비례',data:'문제에 주어진 표 쓰기'};
 export const nameOf=code=>misconceptionName[misconceptions[code]?.concept]||code;
-export function itemLabel(id){const m=/^([abcefgh])(\d+)$/.exec(id);if(m)return `${({a:1,b:2,c:3,e:4,f:5,g:6,h:7})[m[1]]}차시 ${m[2]}번`;const s=/^s(\d+)$/.exec(id);if(s)return `처방 ${s[1]}`;const d=/^d(\d+)$/.exec(id);return d?`확인 질문 ${d[1]}`:id;}
+export function itemLabel(id){const m=/^([abcefghi])(\d+)$/.exec(id);if(m)return `${({a:1,b:2,c:3,e:4,f:5,g:6,h:7,i:8})[m[1]]}차시 ${m[2]}번`;const s=/^s(\d+)$/.exec(id);if(s)return `처방 ${s[1]}`;const d=/^d(\d+)$/.exec(id);return d?`확인 질문 ${d[1]}`:id;}
 export function relatedLab(q){return q.id==='b12'?'assessment-graph':conceptCoach[q.concept]?.lab||'parts';}
 export function misconceptionFor(q,value){if(LOCKED.has(q.id))return null;return misconceptionOf(q.id,q.kind==='graph'&&Array.isArray(value)?value.slice().sort((a,b)=>a[0]-b[0]):value);}
 

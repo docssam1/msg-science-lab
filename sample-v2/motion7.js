@@ -5,22 +5,22 @@ import {createStage} from './balance3d.js';
 import {buildPerson} from './figures3d.js';
 import {normalize} from './physics.js';
 
-const FONT='"Pretendard Variable","Pretendard","Segoe UI",Roboto,"Noto Sans KR","Malgun Gothic","Apple SD Gothic Neo",sans-serif';
+export const FONT='"Pretendard Variable","Pretendard","Segoe UI",Roboto,"Noto Sans KR","Malgun Gothic","Apple SD Gothic Neo",sans-serif';
 const UP=new THREE.Vector3(0,1,0);
-const paint=(s,w,h,draw)=>{const c=document.createElement('canvas');c.width=w;c.height=h;draw(c.getContext('2d'),w,h);return s.canvasTex(c);};
-const fail=view=>{view.innerHTML='<div class="scene-error"><h3>3D 교구를 열지 못했습니다.</h3><p>이 브라우저의 WebGL 지원을 확인해 주세요. 교재의 그림과 본문은 계속 읽을 수 있습니다.</p></div>';};
-function placeRod(o,a,b){const d=b.clone().sub(a);o.position.copy(a).addScaledVector(d,.5);o.scale.set(1,Math.max(d.length(),.001),1);o.quaternion.setFromUnitVectors(UP,d.normalize());}
-function rod(s,a,b,r,m,parent=s.scene){const o=s.mesh(new THREE.CylinderGeometry(r,r,1,12),m,parent);placeRod(o,a,b);return o;}
-function callout(s,text,at,to,size=.46){const red=s.phys({color:'#d13a35',roughness:.4});const a=new THREE.Vector3(...at),b=new THREE.Vector3(...to);rod(s,a,b,.025,red);s.mesh(new THREE.SphereGeometry(.07,16,12),red).position.copy(b);const l=s.label(text,{size});l.position.copy(a);return l;}
+export const paint=(s,w,h,draw)=>{const c=document.createElement('canvas');c.width=w;c.height=h;draw(c.getContext('2d'),w,h);return s.canvasTex(c);};
+export const fail=view=>{view.innerHTML='<div class="scene-error"><h3>3D 교구를 열지 못했습니다.</h3><p>이 브라우저의 WebGL 지원을 확인해 주세요. 교재의 그림과 본문은 계속 읽을 수 있습니다.</p></div>';};
+export function placeRod(o,a,b){const d=b.clone().sub(a);o.position.copy(a).addScaledVector(d,.5);o.scale.set(1,Math.max(d.length(),.001),1);o.quaternion.setFromUnitVectors(UP,d.normalize());}
+export function rod(s,a,b,r,m,parent=s.scene){const o=s.mesh(new THREE.CylinderGeometry(r,r,1,12),m,parent);placeRod(o,a,b);return o;}
+export function callout(s,text,at,to,size=.46){const red=s.phys({color:'#d13a35',roughness:.4});const a=new THREE.Vector3(...at),b=new THREE.Vector3(...to);rod(s,a,b,.025,red);s.mesh(new THREE.SphereGeometry(.07,16,12),red).position.copy(b);const l=s.label(text,{size});l.position.copy(a);return l;}
 // 화살표(a → b). set(a,b)로 다시 놓는다.
-function arrow3(s,{color='#d13a35',r=.06,parent=s.scene}={}){
+export function arrow3(s,{color='#d13a35',r=.06,parent=s.scene}={}){
  const m=s.phys({color,roughness:.35,clearcoat:.5});const g=new THREE.Group();parent.add(g);
  const shaft=s.mesh(new THREE.CylinderGeometry(r,r,1,16),m,g),head=s.mesh(new THREE.ConeGeometry(r*2.8,r*6,24),m,g);
  function set(a,b){const d=b.clone().sub(a),dir=d.clone().normalize(),hl=Math.min(r*6,d.length()*.5);placeRod(shaft,a,b.clone().addScaledVector(dir,-hl));head.position.copy(b).addScaledVector(dir,-hl/2);head.quaternion.setFromUnitVectors(UP,dir);}
  return {group:g,set};
 }
 // 거리 표시(양쪽 화살표 + 가운데 이름표)
-function dimension(s,xa,xb,text,{y=.3,z=1.25,color='#d13a35',size=.46}={}){
+export function dimension(s,xa,xb,text,{y=.3,z=1.25,color='#d13a35',size=.46}={}){
  const mid=(xa+xb)/2,a=arrow3(s,{color,r:.035}),b=arrow3(s,{color,r:.035});
  a.set(new THREE.Vector3(mid,y,z),new THREE.Vector3(xa+.05,y,z));b.set(new THREE.Vector3(mid,y,z),new THREE.Vector3(xb-.05,y,z));
  const l=s.label(text,{size});l.position.set(mid,y-.48,z+.1);return {a,b,label:l};
@@ -273,7 +273,7 @@ function buildSpeedBoard(s,{x=0,y=4.3,z=-1.3,w=6.2,h=4.65}={}){
  function show(upto){dots.forEach((d,i)=>{d.mesh.material=i<upto?dotMat:dim;});line.scale.set(1,1,1);}
  return {PX,PY,dots,line,show};
 }
-function buildCar(s,color='#e2483d'){
+export function buildCar(s,color='#e2483d'){
  const g=new THREE.Group();s.scene.add(g);
  const body=s.phys({color,roughness:.35,clearcoat:.7});s.rbox(1.25,.34,.7,.1,body,0,.36,0,g);
  s.rbox(.68,.3,.62,.1,s.phys({color:'#cfe8f5',roughness:.1,clearcoat:1}),-.08,.66,0,g);
@@ -325,7 +325,7 @@ export const speedUnits=[['m/s','1 m/s','일 미터 퍼 세크','1초당 1m를 �
 // 56쪽 Speed Question 읽기. 교재에는 답이 인쇄돼 있지 않아, 56쪽 표의 읽는 법(미터 퍼 세크 …)으로 읽었는지만 본다.
 export const unitReadings=[{q:'(1) 100 m/s',need:['미터퍼세크'],num:['백','100'],not:['킬로','센티']},{q:'(2) 1000 km/h',need:['킬로미터퍼아워'],num:['천','1000'],not:['센티']},{q:'(3) 5 cm/s',need:['센티미터퍼세크'],num:['오','5'],not:['킬로']}];
 export function checkUnitReading(i,text){const v=normalize(text),r=unitReadings[i];return r.need.every(w=>v.includes(w))&&r.num.some(n=>v.startsWith(normalize(n)))&&!r.not.some(w=>v.includes(w));}
-function clockFace(s){
+export function clockFace(s){
  const g=new THREE.Group();s.scene.add(g);
  const face=s.mesh(new THREE.CylinderGeometry(.95,.95,.12,48),[s.phys({color:'#2f6db5'}),s.mat({map:paint(s,512,512,(c,w,h)=>{c.fillStyle='#ffffff';c.beginPath();c.arc(w/2,h/2,w/2,0,Math.PI*2);c.fill();c.strokeStyle='#1b3446';for(let i=0;i<60;i++){const a=i/60*Math.PI*2,r1=i%5?226:206;c.lineWidth=i%5?4:10;c.beginPath();c.moveTo(w/2+Math.sin(a)*r1,h/2-Math.cos(a)*r1);c.lineTo(w/2+Math.sin(a)*244,h/2-Math.cos(a)*244);c.stroke();}}),roughness:.4}),s.phys({color:'#2f6db5'})],g);
  face.rotation.x=Math.PI/2;
