@@ -2,17 +2,17 @@ import test from 'node:test';
 import assert from 'node:assert/strict';
 import {existsSync} from 'node:fs';
 import {studentPrintPages,studentCover} from '../sample-v2/lesson-print-pages.js';
-import {q1,q2,q3,q4,q5,q6,q7,history1,history2,history3,coilHistory,future} from '../sample-v2/content.js';
+import {q1,q2,q3,q4,q5,q6,q7,q8,history1,history2,history3,coilHistory,future} from '../sample-v2/content.js';
 import {qrForPage} from '../sample-v2/qr-map.js';
 
-test('source-layout print plan has P0 through P66 and preserves all original questions once',()=>{
- assert.equal(studentPrintPages.length,66);
- assert.deepEqual(studentPrintPages.map(p=>p.printId),Array.from({length:66},(_,i)=>`P${i+1}`));
+test('source-layout print plan has P0 through P74 and preserves all original questions once',()=>{
+ assert.equal(studentPrintPages.length,74);
+ assert.deepEqual(studentPrintPages.map(p=>p.printId),Array.from({length:74},(_,i)=>`P${i+1}`));
  assert.match(studentCover(),/data-print-id="P0"/);
- const assessments=studentPrintPages.filter(p=>/^P(11|19|20|32|40|47|48|53|54|55|56|65|66)$/.test(p.printId));
- for(const q of [...q1,...q2,...q3,...q4,...q5,...q6,...q7])assert.equal(assessments.filter(p=>p.body.includes(`data-q="${q.id}"`)).length,1,q.id);
- assert.deepEqual(assessments.map(p=>[...p.body.matchAll(/data-q="([abcefgh]\d+)"/g)].map(m=>m[1])),[
-  q1.map(q=>q.id),q2.slice(0,6).map(q=>q.id),q2.slice(6,12).map(q=>q.id),q3.map(q=>q.id),q4.map(q=>q.id),q5.slice(0,6).map(q=>q.id),q5.slice(6,12).map(q=>q.id),q6.slice(0,6).map(q=>q.id),q6.slice(6,12).map(q=>q.id),q6.slice(12,17).map(q=>q.id),q6.slice(17,20).map(q=>q.id),q7.slice(0,5).map(q=>q.id),q7.slice(5,10).map(q=>q.id)
+ const assessments=studentPrintPages.filter(p=>/^P(11|19|20|32|40|47|48|53|54|55|56|65|66|73|74)$/.test(p.printId));
+ for(const q of [...q1,...q2,...q3,...q4,...q5,...q6,...q7,...q8])assert.equal(assessments.filter(p=>p.body.includes(`data-q="${q.id}"`)).length,1,q.id);
+ assert.deepEqual(assessments.map(p=>[...p.body.matchAll(/data-q="([abcefghi]\d+)"/g)].map(m=>m[1])),[
+  q1.map(q=>q.id),q2.slice(0,6).map(q=>q.id),q2.slice(6,12).map(q=>q.id),q3.map(q=>q.id),q4.map(q=>q.id),q5.slice(0,6).map(q=>q.id),q5.slice(6,12).map(q=>q.id),q6.slice(0,6).map(q=>q.id),q6.slice(6,12).map(q=>q.id),q6.slice(12,17).map(q=>q.id),q6.slice(17,20).map(q=>q.id),q7.slice(0,5).map(q=>q.id),q7.slice(5,10).map(q=>q.id),q8.slice(0,4).map(q=>q.id),q8.slice(4,8).map(q=>q.id)
  ]);
  for(const page of assessments)assert.match(page.body,/source-test-columns/);
 });

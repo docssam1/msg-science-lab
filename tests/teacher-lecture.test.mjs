@@ -46,10 +46,11 @@ const fourthLesson=Array.from({length:8},(_,index)=>`P${index+33}`);
 const fifthLesson=Array.from({length:8},(_,index)=>`P${index+41}`);
 const sixthLesson=Array.from({length:8},(_,index)=>`P${index+49}`);
 const seventhLesson=Array.from({length:10},(_,index)=>`P${index+57}`);
+const eighthLesson=Array.from({length:8},(_,index)=>`P${index+67}`);
 
 test('second lesson has a source-tagged run of show for every projected scene and joins the notes map',()=>{
  assert.deepEqual(Object.keys(lessonTwoLecture),secondLesson);
- assert.deepEqual(Object.keys(teacherLecture),[...firstLesson,...secondLesson,...thirdLesson,...fourthLesson,...fifthLesson,...sixthLesson,...seventhLesson]);
+ assert.deepEqual(Object.keys(teacherLecture),[...firstLesson,...secondLesson,...thirdLesson,...fourthLesson,...fifthLesson,...sixthLesson,...seventhLesson,...eighthLesson]);
  for(const id of secondLesson){
   const lecture=lessonTwoLecture[id];
   const page=pages.find(item=>item.printId===id);

@@ -16,7 +16,7 @@ const MEMO=/검수 메모|고치지 않았습니다|공식 정답이 아닙니�
 
 test('seventh lesson has a source-tagged run of show for every scene P57–P66',()=>{
  assert.deepEqual(Object.keys(lessonSevenLecture),lessonSeven);
- assert.deepEqual(Object.keys(teacherLecture).slice(57),lessonSeven);
+ assert.deepEqual(Object.keys(teacherLecture).slice(57,67),lessonSeven);
  for(const id of lessonSeven){
   const lecture=lessonSevenLecture[id],page=pages.find(item=>item.printId===id);
   assert(page&&page.lesson===7&&hasLessonStage(page),`${id} must be a real lesson-7 scene`);
