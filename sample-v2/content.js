@@ -299,12 +299,34 @@ export const q8=[
 ];
 page('l8-test-a',8,[63],'DAILY TEST · 일일평가','시간의 단위와\n속도를 확인해요.','8차시 · 원본 1~4번',`<div class="test-grid compact-test">${q8.slice(0,4).map(q=>questionHTML(q)).join('')}</div><button class="page-action" data-grade="p73">1~4번 제출하고 확인</button>`,'assessment','2·3·4번은 50~63쪽에 정답의 근거가 없어 답을 공개하지 않습니다. 1번은 56쪽 표의 단위 기호(s · m · h)로 확인한 답입니다.',{assessment:true,dense:true});
 page('l8-test-b',8,[63],'DAILY TEST · 일일평가','이동거리와 시간으로\n속력을 구해요.','8차시 · 원본 5~8번',`<div class="test-grid compact-test">${q8.slice(4,8).map(q=>questionHTML(q)).join('')}</div><button class="page-action" data-grade="p74">5~8번 제출하고 확인</button>`,'assessment','5~8번은 55쪽 (1)처럼 이동거리를 걸린 시간으로 나눠 구한 답입니다(교재에 정답이 인쇄돼 있지 않음). 7번은 두 구간의 거리와 시간을 각각 더해 구합니다.',{assessment:true,dense:true});
-export const lessonNames={1:'용수철저울의 구조 익히기',2:'추의 무게에 따른 용수철의 길이 변화',3:'중력과 무게, 질량의 비교',4:'수평잡기의 원리',5:'앉은뱅이저울과 윗접시저울의 구조',6:'저울 만들기와 단원 평가',7:'운동과 정지, 위치와 속력의 표현',8:'속력과 속도의 차이'};
-export const questions=[...q1,...q2,...q3,...q4,...q5,...q6,...q7,...q8];
+// ── 9차시: 본책 64~67쪽 (CHAPTER 06 속력 비교하기 · Daily Test 01~10) ──
+// 문장은 Apple Vision 글자 인식(Mac, 2026-10-19)을 쪽 그림과 한 줄씩 대조해 교재 표기 그대로 옮겼다. 인식 오류를 바로잡은 곳은 TEACHER-LECTURE-09-QA.md에 적는다.
+const bikeTable=[['놀이 기구','시간 간격','이동한 거리','1초마다 이동한 거리'],['자전거','3초','6m','2m']];
+const animalTable=[['구분','이동한 거리','걸린 시간'],['토끼','8km','60분'],['치타','30m','1초'],['말','12km','10분']];
+page('l9-time',9,[64],'CHAPTER 06 · 속력 비교하기','같은 시간 동안,\n누가 더 멀리 갔을까요?','일정한 시간에 이동하는 물체의 속력 비교',`${bookLine('① 일정한 시간에 이동하는 물체의 속력 비교')}${bookLine('10초 동안 이동한 거리 측정했을 때, 더 멀리 이동한 장난감의 속력이 빠르다')}${bookLine('그러므로 속력 크기를 비교하면  A자동차 〉 B자동차 이다.')}`,'compare-time','교재 64쪽 ①을 그대로 씁니다. 교재의 장난감 자동차 그림(10초 동안 500m · 300m)은 3D 그림으로 바꿨습니다.');
+page('l9-event',9,[64],'SPEED QUESTION','어느 종목이\n가장 빨랐을까요?','Speed Question · 종목별 속력의 크기',`${bookLine('각 종목마다 각각 10초씩 일정한 시간 내에 움직인 이동거리를 측정하였다.')}${table(['종목','앞발 이어 걷기한 사람','한 발로 뛴 사람','뒤로 걷기한 사람'],[['걸린 시간(초)','10초','10초','10초'],['이동 거리(m)','10m','15m','30m'],['속력의 크기 (m/s)','','','']])}${bookLine('가장 빠르게 이동할 수 있었던 종목은?')}`,'compare-time','교재 64쪽 Speed Question을 그대로 씁니다. 표의 속력 칸과 답은 교재에 인쇄돼 있지 않아, 이동 거리 ÷ 10초로 구한 값을 교사 화면에만 둡니다.');
+page('l9-dist',9,[65],'COMPARE · 일정한 거리','같은 거리를,\n누가 더 빨리 갔을까요?','일정한 거리를 이동하는 물체의 속력 비교',`${bookLine('② 일정한 거리를 이동하는 물체의 속력 비교')}${bookLine('500m 이동하는 시간 측정했을 때, 이동시간 적게 걸린 장난감의 속력이 빠르다.')}${bookLine('그러므로 속력의 크기를 비교하면 A자동차 〉 B자동차 이다.')}`,'compare-dist','교재 65쪽 ②를 그대로 씁니다. 교재의 장난감 자동차 그림(500m를 5초 · 20초)은 3D 그림으로 바꿨습니다.');
+page('l9-race',9,[65],'SPEED QUESTION','가장 빨리 달린 사람은\n누구일까요?','Speed Question · 달리기시합',`${bookLine('일정한 거리를 이동한 달리기시합에서 가장 빨리 달린 사람은?')}${table(['모둠','1조','2조','3조','4조','5조'],[['경주자 이름','진홍','영수','순희','지영','주홍'],['걸린 시간(초)','9초','8초','5초','12초','10초'],['이동 거리(m)','50m','50m','50m','50m','50m'],['속력 (m/s)','','','','','']])}${bookLine('가장 빠르게 이동한 사람 순으로 쓰시오.')}`,'compare-dist','교재 65쪽 Speed Question을 그대로 씁니다. 답은 교재에 인쇄돼 있지 않아, 걸린 시간이 짧은 순서와 50m ÷ 걸린 시간으로 구한 값을 교사 화면에만 둡니다.');
+export const q9=[
+{id:'j1',n:1,kind:'choice',q:'속력은 일정한 거리를 움직인 시간이  ( 짧을수록, 길수록 ) 빠르다.',options:['짧을수록','길수록'],answer:0,concept:'compare',why:'교재 65쪽 ②: 500m 이동하는 시간 측정했을 때, 이동시간 적게 걸린 장난감의 속력이 빠르다.'},
+{id:'j2',n:2,kind:'choice',q:'속력은 걸린 시간이 일정할 때 움직인 거리가 ( 가까울수록, 멀수록 ) 빠르다.',options:['가까울수록','멀수록'],answer:1,concept:'compare',why:'교재 64쪽 ①: 10초 동안 이동한 거리 측정했을 때, 더 멀리 이동한 장난감의 속력이 빠르다.'},
+{id:'j3',n:3,kind:'text',q:'1초마다 장난감 강아지가 지나간 자리에 빨대 조각을 놓았을 때, 빨대 조각 사이의 거리가 12cm 라면 장난감 강아지의 속력을 구하시오.',answer:'12cm/s',accept:['12cm/초','12','초속12cm','12센티미터퍼세크'],concept:'speed',why:'1초 동안 12cm를 이동했으므로 12cm ÷ 1초 = 12cm/s입니다(교재 55쪽처럼 이동거리 ÷ 시간).'},
+{id:'j4',n:4,kind:'choice',q:'자전거는 1분 동안에 얼마나 이동할 수 있는지 구하시오.',table:bikeTable,options:['83m','80m','95m','100m','120m'],answer:4,concept:'speed',why:'표에서 자전거는 1초마다 2m를 이동하므로 1분(60초) 동안 2m × 60 = 120m를 이동합니다.'},
+{id:'j5',n:5,kind:'choice',q:'자전거의 속력은 얼마인지 구하시오.',table:bikeTable,options:['1m/초','2m/초','5m/초','7m/초','9m/초'],answer:1,concept:'speed',why:'표에서 3초 동안 6m, 곧 1초마다 2m를 이동하므로 자전거의 속력은 2m/초입니다.'},
+{id:'j6',n:6,kind:'text',q:'자전거가 12m를 이동했다면 일정한 시간 간격마다 놓은 돌멩이는 모두 몇 개인지  구하시오.',table:bikeTable,answer:'',concept:'speed',why:'이 문항은 교재에 정답이 인쇄돼 있지 않아 공개하지 않습니다.'},
+{id:'j7',n:7,kind:'choice',q:'움직이는 물체가 일정한 시간 간격마다  자국을 남기는 경우, 물체의 속력에 대한  설명으로 옳은 것은 어느 것인지 고르시오.',options:['자국 사이의 거리가 멀면 속력이 느리다.','자국 사이의 거리가 가까우면 속력이  빠르다.','자국 사이의 거리는 속력과 상관없다.','자국 사이의 거리가 멀면 속력이 빠르다.','자국의 크기가 클수록 속력이 느리다.'],answer:3,concept:'compare',why:'같은 시간 간격마다 남긴 자국 사이가 멀면 같은 시간에 더 멀리 간 것이므로 속력이 빠릅니다(교재 64쪽 ①).'},
+{id:'j8',n:8,kind:'choice',q:'운동장에 길이가 10m 인 3종 경기장을 만들고 3종 경기를 했을 때 각 선수들의 속력을 구하려면 무엇을 측정해야 하는지 고르시오.',options:['걸린 시간','이동한 거리','움직인 발자국 수','발의 길이','선수의 몸무게'],answer:0,concept:'compare',why:'거리가 10m로 정해져 있으므로 걸린 시간을 재면 속력을 구하고 비교할 수 있습니다(교재 65쪽 ②).'},
+{id:'j9',n:9,kind:'choice',q:'치타는 1시간 동안 이동할 수 있는 거리를 구하시오.',table:animalTable,options:['1800 m','7200 m','12000 m','54000 m','108000 m'],answer:4,concept:'speed',why:'치타는 1초에 30m를 이동하므로 1시간(3600초) 동안 30m × 3600 = 108000m를 이동합니다.'},
+{id:'j10',n:10,kind:'choice',q:'위의 표를 참고하여  말의 속력을 구하시오.',table:animalTable,options:['1.2km/시','12km/시','36km/시','72km/시','108km/시'],answer:3,concept:'speed',why:'말은 10분에 12km를 이동하므로 1시간(60분) 동안 12km × 6 = 72km를 이동합니다. 곧 72km/시입니다.'}
+];
+page('l9-test-a',9,[66],'DAILY TEST · 일일평가','속력을 비교하는\n두 가지 방법을 확인해요.','9차시 · 원본 1~5번',`<div class="test-grid compact-test">${q9.slice(0,5).map(q=>questionHTML(q)).join('')}</div><button class="page-action" data-grade="p79">1~5번 제출하고 확인</button>`,'assessment','교재에 Daily Test 정답이 인쇄돼 있지 않습니다. 1·2번은 64~65쪽 문장으로, 3~5번은 이동거리 ÷ 시간으로 확인한 답입니다.',{assessment:true,dense:true});
+page('l9-test-b',9,[67],'DAILY TEST · 일일평가','표를 보고\n속력을 구해요.','9차시 · 원본 6~10번',`<div class="test-grid compact-test">${q9.slice(5,10).map(q=>questionHTML(q)).join('')}</div><button class="page-action" data-grade="p80">6~10번 제출하고 확인</button>`,'assessment','6번은 처음 자리에 돌멩이를 놓는지가 문장에 없어 답을 공개하지 않습니다. 7·8번은 64~65쪽 문장, 9·10번은 표의 값으로 계산한 답입니다.',{assessment:true,dense:true});
+export const lessonNames={1:'용수철저울의 구조 익히기',2:'추의 무게에 따른 용수철의 길이 변화',3:'중력과 무게, 질량의 비교',4:'수평잡기의 원리',5:'앉은뱅이저울과 윗접시저울의 구조',6:'저울 만들기와 단원 평가',7:'운동과 정지, 위치와 속력의 표현',8:'속력과 속도의 차이',9:'속력 비교하기'};
+export const questions=[...q1,...q2,...q3,...q4,...q5,...q6,...q7,...q8,...q9];
 export {history1,history2,history3,coilHistory,future};
 export const gradeGroups={'1a':q1.slice(0,3),'1b':q1.slice(3),'2a':q2.slice(0,4),'2b':q2.slice(4,8)};
 // Daily Test 문항 묶음(인쇄 쪽 번호 기준). 화면·교사 노트·채점이 모두 이 한 표를 쓴다.
-export const assessmentGroupsByPrint={P11:q1,P19:q2.slice(0,6),P20:q2.slice(6,12),P32:q3,P40:q4,P47:q5.slice(0,6),P48:q5.slice(6,12),P53:q6.slice(0,6),P54:q6.slice(6,12),P55:q6.slice(12,17),P56:q6.slice(17,20),P65:q7.slice(0,5),P66:q7.slice(5,10),P73:q8.slice(0,4),P74:q8.slice(4,8)};
+export const assessmentGroupsByPrint={P11:q1,P19:q2.slice(0,6),P20:q2.slice(6,12),P32:q3,P40:q4,P47:q5.slice(0,6),P48:q5.slice(6,12),P53:q6.slice(0,6),P54:q6.slice(6,12),P55:q6.slice(12,17),P56:q6.slice(17,20),P65:q7.slice(0,5),P66:q7.slice(5,10),P73:q8.slice(0,4),P74:q8.slice(4,8),P79:q9.slice(0,5),P80:q9.slice(5,10)};
 pages.forEach((p,i)=>p.layoutIndex=i);
 pages.unshift(...inquiryPages);
 export const narration=Object.fromEntries(pages.map(p=>[p.id,{id:p.id,text:({
@@ -379,5 +401,11 @@ export const narration=Object.fromEntries(pages.map(p=>[p.id,{id:p.id,text:({
 'l8-vector':'하나의 수치로 나타낼 수 있는 양과, 크기와 방향을 함께 나타내는 양을 나누어 봅시다.',
 'l8-trip':'민정이가 이 지점까지 갔다가 디 지점으로 돌아왔어요. 이동거리와 위치의 변화를 따로 생각해 봅시다.',
 'l8-test-a':'먼저 스스로 답을 쓰고 제출해 보세요. 시간의 단위와 속도의 뜻을 떠올리며 답합니다.',
-'l8-test-b':'이동거리를 걸린 시간으로 나누어 속력을 구해 보세요.'
+'l8-test-b':'이동거리를 걸린 시간으로 나누어 속력을 구해 보세요.',
+'l9-time':'같은 십 초 동안 더 멀리 간 자동차는 어느 쪽일까요? 이동한 거리를 비교해 봅시다.',
+'l9-event':'세 종목 가운데 십 초 동안 가장 멀리 간 종목은 무엇일까요? 속력을 구해 봅시다.',
+'l9-dist':'같은 오백 미터를 더 빨리 간 자동차는 어느 쪽일까요? 걸린 시간을 비교해 봅시다.',
+'l9-race':'같은 오십 미터를 달렸어요. 걸린 시간이 짧은 사람부터 순서대로 써 봅시다.',
+'l9-test-a':'먼저 스스로 답을 쓰고 제출해 보세요. 속력을 비교하는 두 가지 방법을 떠올려요.',
+'l9-test-b':'표의 거리와 시간을 보고 속력을 구해 보세요.'
 })[p.id]||inquiryNarration[p.id]}]));
