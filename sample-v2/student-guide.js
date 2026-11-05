@@ -52,7 +52,10 @@ const activityPrompts={
   'traffic-signs':'표지판을 눌러 이름을 확인하고, 속력과 관계있는 표지판을 찾아보세요.',
   'hypertube':'1200km/h로 20분 동안 달리면 몇 km를 갈지 계산해 보세요.',
   'routes':'경로 ①②③을 따라가며 이동거리를 비교하고, A에서 B로 곧게 이은 화살표도 켜 보세요.',
-  'cycle-trip':'민정이를 따라가며 이동거리와 A에서의 위치를 비교하고, 속력과 속도를 구해 보세요.'
+  'cycle-trip':'민정이를 따라가며 이동거리와 A에서의 위치를 비교하고, 속력과 속도를 구해 보세요.',
+  'compare-time':'같은 시간 동안 누가 더 멀리 가는지 보고, 종목마다 속력의 크기를 구해 보세요.',
+  'compare-dist':'같은 거리를 누가 더 빨리 가는지 보고, 달리기시합의 빠른 순서를 정해 보세요.',
+  'speed-marks':'1초마다 놓은 빨대 사이의 거리로 강아지의 속력을 구해 보세요.'
 };
 export function studentActivityPrompt(kind){
   return activityPrompts[kind]||'직접 움직이며 관찰해 보세요. 끝나면 교재로 돌아가요.';
